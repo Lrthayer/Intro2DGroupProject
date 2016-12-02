@@ -1,0 +1,128 @@
+#
+#   Turning algorithm from some project (using Python 3.3.5)
+#
+
+  
+  
+####################
+# ...other code... #
+####################
+
+
+
+def update(self):
+    
+    #seek to target
+    if self.isSeek == True:
+        self.toTarget()
+
+    #updates movement
+    self.move()
+
+    #updateGraphics
+    self.render()
+    
+  
+  
+####################
+# ...other code... #
+####################
+
+
+    
+def move(self):
+    #   accel
+    #
+    #linear acceleration
+    self.speed += self.accel
+    #angular acceleration (affects both orientation and direction)
+    self.rot += self.dr
+    self.dir += self.dr
+
+    #   speed
+    #
+    #convert to radians
+    theta = self.dir * math.pi / 180
+    theta *= -1
+    #speed vector
+    self.dx = math.cos(theta) * self.speed
+    self.dy = math.sin(theta) * self.speed
+    #update diff in x and y position
+    self.x += self.dx
+    self.y += self.dy
+
+    #   image & rect
+    #
+    #update actual orientation
+    self.rotate(self.rot)
+    #update actual rect
+    self.rect.x = self.x
+    self.rect.y = self.y
+    
+  
+  
+####################
+# ...other code... #
+####################
+
+
+
+def setDir(self, ang):
+    #   sets the accurate angle
+    #   also rotates the orientation
+    #
+    self.dir = ang
+    self.rot = ang
+
+  
+  
+####################
+# ...other code... #
+####################
+
+
+
+def toTarget(self):
+    #find the target, don't seek if none are found
+    if self.find() == True:
+
+        #angle to target where self is the origin
+        diffy = self.target.rect.centery - self.rect.centery
+        diffx = self.target.rect.centerx - self.rect.centerx
+        incline = math.atan2(-diffy, diffx) * 180 / math.pi
+
+        #get turning angle where cc-wise is positive
+        turn = incline - self.dir
+
+        #choose quicker turn direction
+        if turn > 180:
+            turn = 360 - turn
+            turn *= -1
+        elif turn < -180:
+            turn = 360 + turn
+
+        #angle to set self to later
+        ang = self.dir
+
+        #if max turning limit reached
+        if abs(turn) > self.maxRot:
+            #check if turn direction is pos or neg
+            if turn > 0:
+                ang += self.maxRot
+            elif turn < 0:
+                ang -= self.maxRot
+
+        #if max turning limit NOT reached
+        elif abs(turn) < self.maxRot:
+            #no checking needed since 'turn' is already signed appropriately
+            ang += turn
+
+        #turn to target
+        self.setDir(ang)
+
+
+
+####################
+# ...other code... #
+####################
+

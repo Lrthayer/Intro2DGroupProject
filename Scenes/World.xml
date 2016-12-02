@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resource_file type="PackedScene" subresource_count="5" version="2.1" version_name="Godot Engine v2.1.stable.official">
+	<ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" index="0"></ext_resource>
+	<ext_resource path="res://Scenes/Turret.tscn" type="PackedScene" index="2"></ext_resource>
+	<ext_resource path="res://Scenes/Defender.xml" type="PackedScene" index="1"></ext_resource>
+	<resource type="GDScript" path="local://1">
+		<string name="script/source"> "extends Node2D&#000a;&#000a;# class member variables go here, for example:&#000a;# var a = 2&#000a;# var b = &quot;textvar&quot;&#000a;&#000a;func _ready():&#000a;&#0009;GLOBALS.g_current_attacker = &quot;player1&quot;&#000a;&#0009;# Called every time the node is added to the scene.&#000a;&#0009;# Initialization here&#000a;&#0009;pass&#000a;" </string>
+
+	</resource>
+	<main_resource>
+		<dictionary name="_bundled" shared="false">
+			<string> "conn_count" </string>
+			<int> 0 </int>
+			<string> "conns" </string>
+			<int_array  len="0"> 				 </int_array>
+			<string> "editable_instances" </string>
+			<array  len="0" shared="false">
+			</array>
+			<string> "names" </string>
+			<string_array  len="7">
+				<string> "World" </string>
+				<string> "script/script" </string>
+				<string> "Node2D" </string>
+				<string> "Attacker" </string>
+				<string> "transform/pos" </string>
+				<string> "Defender" </string>
+				<string> "Turret" </string>
+			</string_array>
+			<string> "node_count" </string>
+			<int> 4 </int>
+			<string> "node_paths" </string>
+			<array  len="0" shared="false">
+			</array>
+			<string> "nodes" </string>
+			<int_array  len="36"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2147483647, 3, 1, 1, 4, 2, 0, 0, 0, 2147483647, 5, 3, 1, 4, 4, 0, 0, 0, 2147483647, 6, 5, 1, 4, 6, 0 </int_array>
+			<string> "variants" </string>
+			<array  len="7" shared="false">
+				<resource  resource_type="Script" path="local://1">  </resource>
+				<resource  external="0">  </resource>
+				<vector2> 278.874, 90.224 </vector2>
+				<resource  external="1">  </resource>
+				<vector2> 276.824, 170.195 </vector2>
+				<resource  external="2">  </resource>
+				<vector2> 267.229, 539.469 </vector2>
+			</array>
+			<string> "version" </string>
+			<int> 2 </int>
+		</dictionary>
+
+	</main_resource>
+</resource_file>

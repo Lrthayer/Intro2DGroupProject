@@ -1,0 +1,26 @@
+~if p pressed:
+
+	~pause evrything but ctrl,ins,main,textureFrame in worldCtrl
+	~scene -> pause menu
+	~last scene = game
+	~pause menu ->if clicked resume:
+			unpause
+			last_scene = pause
+
+~if q pressed:
+
+	reset all globals
+	scene -> main menu
+
+~pause -> _ready:
+	   if last_scene = game:
+		last_scene = null
+		save()   (the current scene)
+
+~worldControl -> _ready: 
+		if last_scene = pause:
+			last_scene = null
+			load()
+
+
+goBack : only used for leaving ins,ctrl in main menu (last_scene=start) or pause menu (last_scene=pause)

@@ -6,9 +6,8 @@ func _ready():
 	
 
 func _pressed():
-	#change current scene to "instructions.xml"
+	# resume game screen
 	GLOBALS.last_scene = "pause"
-	print("Un-Pausing...")
 	get_tree().change_scene("res://Scenes/WorldInterface.xml")
 
 

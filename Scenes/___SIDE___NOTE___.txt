@@ -2,7 +2,7 @@ The world scene and the shop scene will alternate within:
 	
 	("World" is just a place holder scene for all the levels for now. Later it won't exist, rather, Level01, Level02, etc...)
 
- -> Make 5 different level scenes: LVL1,LVL2,LVL3,LVL4,LVL5, 1 upgrade scene: Shop, and 1 end of game scene: GameOver
+ -> Make 3 different level scenes: LVL1,LVL2,LVL3, 1 upgrade scene: Shop, and 1 end of game scene: GameOver
 
  -> levels will alternate like so:
        LVL1
@@ -10,10 +10,6 @@ The world scene and the shop scene will alternate within:
        LVL2
 	Shop
        LVL3
-	Shop
-       LVL4
-	Shop
-       LVL5
 	GameOver (can be win or lose)
     ....for now
 

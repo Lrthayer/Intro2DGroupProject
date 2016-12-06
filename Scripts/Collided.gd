@@ -1,20 +1,26 @@
 extends StaticBody2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
 
-#turret
+
+#Class variables
 var hp = 3
 
-func collided():
+#Turret is colliding with another object
+func collided(dmg = 0):
 	
-	hp -= 1
+	hp -= dmg
+	GLOBALS.g_current_score += 10
+	
+	#set health
+	get_node("Hp").set_value(hp)
 	
 	#destroy object when health is zero
-	if (hp == 0):
-		get_node(".").queue_free()
-	
+	if (hp <= 0):
+		GLOBALS.g_current_score += 10
+		GLOBALS.enemy_counter -= 1
+		get_parent().queue_free()
+
+#Starts when loaded up on scene
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here

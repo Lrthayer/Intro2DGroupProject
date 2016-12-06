@@ -4,46 +4,80 @@ extends Node2D
 var firePressed = false
 var laserObject = preload("res://Scenes/Laser.tscn")
 var laserCount = 0
-var fireButton
+var laserOffset = 0
+var bullet_speed
+var damage = GLOBALS.g_offense_dmg
+var fireButton=0
+var fireRate=0
+var fireRateTimer = 0
 
+#starts when loaded up in scene
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
+	
+	#current attacter is player1
+	if (GLOBALS.g_current_attacker == "player1"):
+		GLOBALS.g_current_attacker = "player2"
+	else:
+		GLOBALS.g_current_attacker = "player1"
+		
+	#current attacker is player1
+	if (GLOBALS.g_current_attacker == "player1"):
+		bullet_speed = GLOBALS.g_player1_spd
+		damage = GLOBALS.g_player1_dmg
+		fireRate = GLOBALS.g_player1_rate
+	else:
+		bullet_speed = GLOBALS.g_player2_spd
+		damage = GLOBALS.g_player2_dmg
+		fireRate = GLOBALS.g_player2_rate	
+	
+	#set the fire rate
+	if (fireRate == 1):
+		fireRateTimer = 1
+	elif (fireRate == 2):
+		fireRateTimer = .5
+	else:
+		fireRateTimer = 0
 	set_process(true)
 
+#calls every frame
 func _process(delta):
 	
-		#user pressed spacebar
+	fireRateTimer -= delta
+	
+	#Determine what button should be pressed for firing laser
 	if (GLOBALS.g_current_attacker == "player1"):
 		fireButton = Input.is_action_pressed("space_fire")
 	else:
-		fireButton = Input.is_action_pressed("0_fire")
+		fireButton = Input.is_action_pressed("right_fire")
 	
-	if fireButton and !firePressed:
+	#Player is shooting laser
+	if fireButton and !firePressed and fireRateTimer <= 0:
 		
 		laserCount += 1
 		
 		#create a copy of the laser object
 		var laserInstance = laserObject.instance()
-		
+	
+		#set the fire rate
+		if (fireRate == 1):
+			fireRateTimer = 1
+		elif (fireRate == 2):
+			fireRateTimer = .5
+		else:
+			fireRateTimer = 0
 		
 		#give the copy a name 
 		laserInstance.set_name("Laser" + str(laserCount))
 		
-		
-		
 		#add a child
 		add_child(laserInstance)
-	
-	
+		
+		#set owner 
 		laserInstance.set_owner(self)
-		
-		
 		
 		#set the position of the laser copy
 		laserInstance.set_global_pos(get_node("KinematicBody2D/ShipSprite").get_global_pos() + Vector2(0,24))
 	
 		
-		
-	#Check to see if user pressed the spacebar	
-	firePressed = Input.is_action_pressed("space_fire") || Input.is_action_pressed("0_fire") 
+	#Check to see if user pressed the spacebar or Numpad 0
+	firePressed = Input.is_action_pressed("space_fire") || Input.is_action_pressed("right_fire") 

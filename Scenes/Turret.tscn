@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://Scripts/Turret.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Collided.gd" type="Script" id=2]
 [ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=3]
+[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=4]
+[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -38,6 +40,30 @@ transform/scale = Vector2( 2.06324, 3.63881 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="Hp" type="TextureProgress" parent="StaticBody2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -48.0
+margin/top = 41.0
+margin/right = 48.0
+margin/bottom = 49.0
+range/min = 0.0
+range/max = 3.0
+range/step = 1.0
+range/page = 0.0
+range/value = 3.0
+range/exp_edit = false
+range/rounded = false
+texture/under = ExtResource( 4 )
+texture/over = null
+texture/progress = ExtResource( 5 )
+radial_fill/initial_angle = 1.0
+radial_fill/fill_degrees = 360.0
+radial_fill/center_offset = Vector2( 0, 0 )
 
 [node name="Position2D" type="Position2D" parent="."]
 

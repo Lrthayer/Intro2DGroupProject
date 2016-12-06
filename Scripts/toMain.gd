@@ -7,7 +7,6 @@ func _ready():
 
 
 func _pressed():
-	print(" >> Going Back to Main Menu >> ")
 	
 	GLOBALS.last_scene = "initial"
 	

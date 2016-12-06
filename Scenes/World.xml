@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="5" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" index="0"></ext_resource>
-	<ext_resource path="res://Scenes/Turret.tscn" type="PackedScene" index="2"></ext_resource>
+<resource_file type="PackedScene" subresource_count="6" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<ext_resource path="res://Scenes/Defender.xml" type="PackedScene" index="1"></ext_resource>
-	<resource type="GDScript" path="local://1">
-		<string name="script/source"> "extends Node2D&#000a;&#000a;# class member variables go here, for example:&#000a;# var a = 2&#000a;# var b = &quot;textvar&quot;&#000a;&#000a;func _ready():&#000a;&#0009;GLOBALS.g_current_attacker = &quot;player1&quot;&#000a;&#0009;# Called every time the node is added to the scene.&#000a;&#0009;# Initialization here&#000a;&#0009;pass&#000a;" </string>
-
-	</resource>
+	<ext_resource path="res://Scenes/Turret.tscn" type="PackedScene" index="2"></ext_resource>
+	<ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" index="0"></ext_resource>
+	<ext_resource path="res://Scenes/Base1.xml" type="PackedScene" index="4"></ext_resource>
+	<ext_resource path="res://Raw Graphics/Structures/earth.png" type="Texture" index="3"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>
@@ -17,31 +15,49 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="7">
+			<string_array  len="15">
 				<string> "World" </string>
-				<string> "script/script" </string>
+				<string> "transform/pos" </string>
 				<string> "Node2D" </string>
 				<string> "Attacker" </string>
-				<string> "transform/pos" </string>
 				<string> "Defender" </string>
 				<string> "Turret" </string>
+				<string> "transform/scale" </string>
+				<string> "z/z" </string>
+				<string> "Turret 3" </string>
+				<string> "Turret 4" </string>
+				<string> "Turret 2" </string>
+				<string> "earth" </string>
+				<string> "texture" </string>
+				<string> "Sprite" </string>
+				<string> "Base1" </string>
 			</string_array>
 			<string> "node_count" </string>
-			<int> 4 </int>
+			<int> 9 </int>
 			<string> "node_paths" </string>
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="36"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2147483647, 3, 1, 1, 4, 2, 0, 0, 0, 2147483647, 5, 3, 1, 4, 4, 0, 0, 0, 2147483647, 6, 5, 1, 4, 6, 0 </int_array>
+			<int_array  len="101"> 				-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 2147483647, 3, 1, 1, 1, 2, 0, 0, 0, 2147483647, 4, 3, 1, 1, 4, 0, 0, 0, 2147483647, 5, 5, 3, 1, 6, 6, 7, 7, 8, 0, 0, 0, 2147483647, 8, 5, 3, 1, 9, 6, 7, 7, 8, 0, 0, 0, 2147483647, 9, 5, 3, 1, 10, 6, 7, 7, 8, 0, 0, 0, 2147483647, 10, 5, 3, 1, 11, 6, 7, 7, 8, 0, 0, 0, 13, 11, -1, 3, 1, 12, 6, 13, 12, 14, 0, 0, 0, 2147483647, 14, 15, 1, 1, 16, 0 </int_array>
 			<string> "variants" </string>
-			<array  len="7" shared="false">
-				<resource  resource_type="Script" path="local://1">  </resource>
+			<array  len="17" shared="false">
+				<vector2> 0.814514, 1.62903 </vector2>
 				<resource  external="0">  </resource>
 				<vector2> 278.874, 90.224 </vector2>
 				<resource  external="1">  </resource>
 				<vector2> 276.824, 170.195 </vector2>
 				<resource  external="2">  </resource>
-				<vector2> 267.229, 539.469 </vector2>
+				<vector2> 499.026, 540.403 </vector2>
+				<vector2> 0.75, 0.75 </vector2>
+				<int> 1 </int>
+				<vector2> 341.275, 515.775 </vector2>
+				<vector2> 423.448, 516.856 </vector2>
+				<vector2> 278.519, 538.345 </vector2>
+				<vector2> 398.835, 586.883 </vector2>
+				<vector2> 1.995, 0.75 </vector2>
+				<resource  external="3">  </resource>
+				<resource  external="4">  </resource>
+				<vector2> 390.185, 527.371 </vector2>
 			</array>
 			<string> "version" </string>
 			<int> 2 </int>

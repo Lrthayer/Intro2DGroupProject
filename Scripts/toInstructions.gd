@@ -11,9 +11,9 @@ func _pressed():
 	print(" >> going to instructions >> ")
 	
 	if GLOBALS.last_scene == "game":
-	    GLOBALS.last_scene = "pause"
+		GLOBALS.last_scene = "pause"
 	if GLOBALS.last_scene == "initial":
-	    GLOBALS.last_scene = "start"
+		GLOBALS.last_scene = "start"
 	
 	get_tree().change_scene("res://Scenes/Instructions.xml")
 

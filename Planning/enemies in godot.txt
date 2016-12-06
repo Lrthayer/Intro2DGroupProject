@@ -1,0 +1,12 @@
+FOR EACH g_enemy IN g_enemyList:
+
+	if elapsed time > 1:
+
+		create enemy instance
+		( enemies will automatically move in the same pattern across the screen:
+			=====>
+		             /\          |
+		             |          \/
+			<===== 
+		 )
+		( enemies will periodically shoot bullets upwards - rate is global )

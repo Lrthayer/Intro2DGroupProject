@@ -4,16 +4,22 @@ A cooperative, space invader style game where you are the invader, attempting to
 
 ### Old Phases
  * Design document is done in it's base form, elevator pitch was given and we we're given a greenlight.
+ * Added basic functionality, enemies, upgrade system.
+ * Created UI and hud
+ * 3 Levels and upgrade system completed
+ * Presented first stable version of project on 12/08/2016 - feedback was positive and energetic
 
 ---
 
 ### Current Phase
 
- * adding basic functionality, enemies, upgrade system.
- * create inital UI and hud
+ * Add high score system
+ * Add more levels
  
 --
  
 ### Next Phase
 
- * get a level completed and upgrades in a working form.
+ * Add survival mode
+ * Add a mode where player is the enemy
+ * Port to IUPUI CS Club arcade machine

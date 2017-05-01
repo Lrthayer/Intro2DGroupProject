@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "var laserObject = preload(\"res://Scenes/Turret.tscn\")\n\n#create a copy of the laser object\n\n\n#add a child\n#get_parent().add_child(laserInstance)\n\n\n#starts when loaded up in scene\nfunc _ready():\n\tvar laserInstance\n\tset_process(true)\n\tvar attacker = get_node(\"Attacker\")\n\tprint(attacker.get_child_count())\n\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpass\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_viewport().get_mouse_pos()\n\tif  Input.is_action_pressed(\"left_click\"):\n\t\tvar laserInstance = laserObject.instance()\n\t\t#give the copy a name \n\t\tlaserInstance.set_name(\"tur\")\n\t\tlaserInstance.set_global_pos(mosLoc)\n\t\t#add a child\n\t\tadd_child(laserInstance)\n\t\t#set owner \n\n\t\t#laserInstance.set_owner(self)\n\t\t"
+
+[node name="Node2D" type="Node2D"]
+
+script/script = SubResource( 1 )
+
+[node name="Attacker" parent="." instance=ExtResource( 1 )]
+
+transform/pos = Vector2( 571.5, 115.5 )
+transform/scale = Vector2( 1.29688, 1.29688 )
+
+

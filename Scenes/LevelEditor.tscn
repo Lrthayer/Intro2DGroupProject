@@ -1,0 +1,123 @@
+[gd_scene load_steps=8 format=1]
+
+[ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
+[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=3]
+[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=4]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")\nvar base = preload(\"res://Scenes/Base1.tscn\")\nvar base2 = preload(\"res://Scenes/Base2.tscn\")\nvar base3 = preload(\"res://Scenes/Base3.tscn\")\nvar ground = preload(\"res://Scenes/Turret.tscn\")\nvar stun = preload(\"res://Scenes/Mover.tscn\")\n\n#create a copy of the laser object\n\n\n#add a child\n#get_parent().add_child(laserInstance)\nvar currentObject\n\n#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n\tvar attacker = get_node(\"Attacker\")\n\tcurrentObject = turrent.instance()\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_global_mouse_pos()\n\tvar posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);\n\tget_child(1).set_global_pos(posOffset)\n\tif  Input.is_action_pressed(\"left_click\"):\n\t\tvar objectInstance = currentObject\n\t\tobjectInstance.set_global_pos(mosLoc)\n\t\tadd_child(objectInstance)\n\nfunc _on_Button_pressed(type):\n\tprint(type)\n\tif type == \"Base\":\n\t\tcurrentObject = base.instance()\n\telif type == \"Base2\":\n\t\tcurrentObject = base2.instance()\n\telif type == \"Base3\":\n\t\tcurrentObject = base3.instance()"
+
+[sub_resource type="GDScript" id=2]
+
+script/source = ""
+
+[sub_resource type="GDScript" id=3]
+
+script/source = "#starts when loaded up in scene\nvar it = 0\n\nfunc _ready():\n\tset_process(true)\n#called every frame\nfunc _process(delta):\n\tpass"
+
+[node name="Node2D" type="Node2D"]
+
+z/relative = false
+script/script = SubResource( 1 )
+
+[node name="Attacker" parent="." instance=ExtResource( 1 )]
+
+transform/pos = Vector2( 112.5, -132.5 )
+transform/scale = Vector2( 1.29688, 1.29688 )
+
+[node name="Panel" type="Panel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="Button" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -606.0
+margin/top = 193.0
+margin/right = -293.0
+margin/bottom = 327.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Base 1"
+icon = ExtResource( 2 )
+flat = false
+script/script = SubResource( 2 )
+
+[node name="Button1" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -275.0
+margin/top = 193.0
+margin/right = 118.0
+margin/bottom = 327.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Base 2"
+icon = ExtResource( 3 )
+flat = false
+script/script = SubResource( 2 )
+
+[node name="Button2" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 138.0
+margin/top = 194.0
+margin/right = 595.0
+margin/bottom = 328.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Base 3"
+icon = ExtResource( 4 )
+flat = false
+script/script = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+script/script = SubResource( 3 )
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed" binds= [ "Base1" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
+
+[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed" binds= [ "Base3" ]]
+
+

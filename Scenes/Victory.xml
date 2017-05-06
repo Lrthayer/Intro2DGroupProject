@@ -2,8 +2,8 @@
 <resource_file type="PackedScene" subresource_count="6" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" index="0"></ext_resource>
 	<ext_resource path="res://Scripts/toGame.gd" type="Script" index="2"></ext_resource>
-	<ext_resource path="res://Scripts/Pause.gd" type="Script" index="1"></ext_resource>
 	<ext_resource path="res://Scripts/toMain.gd" type="Script" index="3"></ext_resource>
+	<ext_resource path="res://Scripts/Pause.gd" type="Script" index="1"></ext_resource>
 	<ext_resource path="res://Graphics/UI/title3.tex" type="Texture" index="4"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">

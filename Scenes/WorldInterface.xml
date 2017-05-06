@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resource_file type="PackedScene" subresource_count="7" version="2.1" version_name="Godot Engine v2.1.stable.official">
-	<ext_resource path="res://Graphics/UI/ui_bg2_night.tex" type="Texture" index="0"></ext_resource>
 	<ext_resource path="res://InvaderMusic.ogg" type="AudioStream" index="3"></ext_resource>
 	<ext_resource path="res://Scripts/worldControl.gd" type="Script" index="1"></ext_resource>
+	<ext_resource path="res://Graphics/UI/ui_bg2_night.tex" type="Texture" index="0"></ext_resource>
 	<ext_resource path="res://Scenes/World.xml" type="PackedScene" index="2"></ext_resource>
 	<resource type="GDScript" path="local://1">
 		<string name="script/source"> "&#000a;extends Label&#000a;&#000a;# member variables here, example:&#000a;# var a=2&#000a;# var b=&quot;textvar&quot;&#000a;&#000a;func _ready():&#000a;&#0009;set_process(true)&#000a;&#0009;# Called every time the node is added to the scene.&#000a;&#0009;# Initialization here&#000a;&#0009;pass&#000a;&#000a;func _process(delta):&#000a;&#0009;self.set_text(&quot;Score: &quot; + str(GLOBALS.g_current_score))&#000a;&#000a;" </string>

@@ -7,7 +7,7 @@
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")\nvar base = preload(\"res://Scenes/Base1.tscn\")\nvar base2 = preload(\"res://Scenes/Base2.tscn\")\nvar base3 = preload(\"res://Scenes/Base3.tscn\")\nvar ground = preload(\"res://Scenes/Turret.tscn\")\nvar stun = preload(\"res://Scenes/Mover.tscn\")\n\n#create a copy of the laser object\n\n\n#add a child\n#get_parent().add_child(laserInstance)\nvar currentObject\n\n#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n\tvar attacker = get_node(\"Attacker\")\n\tcurrentObject = turrent.instance()\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_global_mouse_pos()\n\tvar posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);\n\tget_child(1).set_global_pos(posOffset)\n\tif  Input.is_action_pressed(\"left_click\"):\n\t\tvar objectInstance = currentObject\n\t\tobjectInstance.set_global_pos(mosLoc)\n\t\tadd_child(objectInstance)\n\nfunc _on_Button_pressed(type):\n\tprint(type)\n\tif type == \"Base\":\n\t\tcurrentObject = base.instance()\n\telif type == \"Base2\":\n\t\tcurrentObject = base2.instance()\n\telif type == \"Base3\":\n\t\tcurrentObject = base3.instance()"
+script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")\nvar base = preload(\"res://Scenes/Base1.tscn\")\nvar base2 = preload(\"res://Scenes/Base2.tscn\")\nvar base3 = preload(\"res://Scenes/Base3.tscn\")\nvar ground = preload(\"res://Scenes/Turret.tscn\")\nvar stun = preload(\"res://Scenes/Mover.tscn\")\n\n#create a copy of the laser object\n\n\n#add a child\n#get_parent().add_child(laserInstance)\nvar currentObject\nvar objectIndex = 0\nvar overButton = false\n\n#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n\tvar attacker = get_node(\"Attacker\")\n\tcurrentObject = \"turrent\"\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_global_mouse_pos()\n\tvar posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);\n\tget_child(1).set_global_pos(posOffset)\n\tif  Input.is_action_pressed(\"left_click\") && !overButton:\n\t\tvar objectInstance = turrent.instance()\n\t\tif currentObject == \"Base\":\n\t\t\tprint(\"wut\")\n\t\t\tobjectInstance = base.instance()\n\t\telif currentObject == \"Base2\":\n\t\t\tobjectInstance = base2.instance()\n\t\telif currentObject == \"Base3\":\n\t\t\tobjectInstance = base3.instance()\n\t\tobjectInstance.set_global_pos(mosLoc)\n\t\t#give the copy a name \n\t\tobjectInstance.set_name(\"object\" + str(objectIndex))\n\t\tadd_child(objectInstance)\n\t\tobjectInstance.set_owner(self.get_parent())\n\t\tobjectIndex += 1\n\t\t\nfunc _on_Button_button_down(type):\n\tprint(type)\n\tif type == \"Base\":\n\t\tcurrentObject = \"Base\"\n\telif type == \"Base2\":\n\t\tcurrentObject = \"Base2\"\n\telif type == \"Base3\":\n\t\tcurrentObject = \"Base3\"\n\nfunc _on_Button_mouse_enter():\n\toverButton = true\n\n\nfunc _on_Button_mouse_exit():\n\toverButton = false\n"
 
 [sub_resource type="GDScript" id=2]
 
@@ -24,7 +24,7 @@ script/script = SubResource( 1 )
 
 [node name="Attacker" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( 112.5, -132.5 )
+transform/pos = Vector2( 7.5, -730.5 )
 transform/scale = Vector2( 1.29688, 1.29688 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -34,9 +34,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 40.0
+margin/top = -842.0
+margin/right = 53.0
+margin/bottom = -812.0
 
 [node name="Button" type="Button" parent="."]
 
@@ -44,10 +44,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -606.0
-margin/top = 193.0
-margin/right = -293.0
-margin/bottom = 327.0
+margin/left = -474.0
+margin/top = -518.0
+margin/right = -161.0
+margin/bottom = -384.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -62,10 +62,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -275.0
-margin/top = 193.0
-margin/right = 118.0
-margin/bottom = 327.0
+margin/left = -139.0
+margin/top = -515.0
+margin/right = 254.0
+margin/bottom = -381.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -80,10 +80,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 138.0
-margin/top = 194.0
-margin/right = 595.0
-margin/bottom = 328.0
+margin/left = 34.0
+margin/top = -672.0
+margin/right = 491.0
+margin/bottom = -538.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -94,6 +94,7 @@ script/script = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+transform/pos = Vector2( 45, -809 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -112,9 +113,29 @@ drag_margin/right = 0.2
 drag_margin/bottom = 0.2
 script/script = SubResource( 3 )
 
+[connection signal="button_down" from="Button" to="." method="_on_Button_button_down" binds= [ "Base" ]]
+
+[connection signal="mouse_enter" from="Button" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Button" to="." method="_on_Button_mouse_exit"]
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed" binds= [ "Base1" ]]
 
+[connection signal="button_down" from="Button1" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
+
+[connection signal="mouse_enter" from="Button1" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Button1" to="." method="_on_Button_mouse_exit"]
+
 [connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="button_down" from="Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
+
+[connection signal="mouse_enter" from="Button2" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Button2" to="." method="_on_Button_mouse_exit"]
 
 [connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
 

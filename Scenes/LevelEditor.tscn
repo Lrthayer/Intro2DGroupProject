@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
 [ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=3]
 [ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=4]
+[ext_resource path="res://Mover.tex" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 
@@ -45,6 +46,8 @@ func _process(delta):
 				objectInstance = base2.instance()
 			elif currentObject == \"Base3\":
 				objectInstance = base3.instance()
+			elif currentObject == \"Mover\":
+				objectInstance = stun.instance()
 			objectInstance.set_global_pos(mosLoc)
 			#give the copy a name 
 			objectInstance.set_name(\"object\" + str(objectIndex))
@@ -62,6 +65,8 @@ func _on_Button_button_down(type):
 		currentObject = \"Base2\"
 	elif type == \"Base3\":
 		currentObject = \"Base3\"
+	elif type == \"Mover\":
+		currentObject = \"Mover\"
 
 func _on_Button_mouse_enter():
 	overButton = true
@@ -69,11 +74,25 @@ func _on_Button_mouse_enter():
 
 func _on_Button_mouse_exit():
 	overButton = false
+
+
+func _on_Button_pressed():
+	pass # replace with function body
 "
 
 [sub_resource type="GDScript" id=2]
 
-script/source = ""
+script/source = "func _ready():
+	set_process(true)
+	
+
+#called every frame
+func _process(delta):
+	var currentPos = self.get_pos()
+	if Input.is_action_pressed(\"left\"):
+		self.set_pos(Vector2(currentPos.x + 2, currentPos.y))
+	elif Input.is_action_pressed(\"right\"):
+		self.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
 
 [sub_resource type="GDScript" id=3]
 
@@ -113,10 +132,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -474.0
-margin/top = -518.0
-margin/right = -161.0
-margin/bottom = -384.0
+margin/left = -452.0
+margin/top = -652.0
+margin/right = -139.0
+margin/bottom = -518.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -131,10 +150,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -139.0
-margin/top = -515.0
-margin/right = 254.0
-margin/bottom = -381.0
+margin/left = -127.0
+margin/top = -654.0
+margin/right = 266.0
+margin/bottom = -520.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -149,15 +168,33 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 34.0
-margin/top = -672.0
-margin/right = 491.0
-margin/bottom = -538.0
+margin/left = 279.0
+margin/top = -653.0
+margin/right = 736.0
+margin/bottom = -519.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 3"
 icon = ExtResource( 4 )
+flat = false
+script/script = SubResource( 2 )
+
+[node name="Button3" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 746.0
+margin/top = -617.0
+margin/right = 862.0
+margin/bottom = -553.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Mover"
+icon = ExtResource( 5 )
 flat = false
 script/script = SubResource( 2 )
 
@@ -209,5 +246,11 @@ script/script = SubResource( 3 )
 [connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
 
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed" binds= [ "Base3" ]]
+
+[connection signal="button_down" from="Button3" to="." method="_on_Button_button_down" binds= [ "Mover" ]]
+
+[connection signal="mouse_enter" from="Button3" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Button3" to="." method="_on_Button_mouse_exit"]
 
 

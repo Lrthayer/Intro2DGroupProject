@@ -20,6 +20,8 @@ var base_is_dead = false
 # Side boundaries
 var g_right_boundary = 50
 var g_left_boundary = 750
+var g_top_boundary = 0
+var g_bottom_boundary = 800
 
 # Current level
 var g_current_level = -1
@@ -75,6 +77,8 @@ func reset():
 	base_is_dead = false
 	g_right_boundary = 50
 	g_left_boundary = 750
+	g_top_boundary = 0
+	g_bottom_boundary = 800
 	g_current_level = -1
 	g_current_score = 0
 	g_defense_spd = 3

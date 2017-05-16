@@ -8,102 +8,15 @@
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")
-var base = preload(\"res://Scenes/Base1.tscn\")
-var base2 = preload(\"res://Scenes/Base2.tscn\")
-var base3 = preload(\"res://Scenes/Base3.tscn\")
-var ground = preload(\"res://Scenes/Turret.tscn\")
-var stun = preload(\"res://Scenes/Mover.tscn\")
-
-#create a copy of the laser object
-
-
-#add a child
-#get_parent().add_child(laserInstance)
-var currentObject
-var objectIndex = 0
-var overButton = false
-var pressed = false
-
-#starts when loaded up in scene
-func _ready():
-	set_process(true)
-	var attacker = get_node(\"Attacker\")
-	currentObject = \"turrent\"
-
-#called every frame
-func _process(delta):
-	var mosLoc = get_global_mouse_pos()
-	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);
-	get_child(1).set_global_pos(posOffset)
-	if  Input.is_action_pressed(\"left_click\"):
-		if !overButton && !pressed:
-			var objectInstance = turrent.instance()
-			if currentObject == \"Base\":
-				print(\"wut\")
-				objectInstance = base.instance()
-			elif currentObject == \"Base2\":
-				objectInstance = base2.instance()
-			elif currentObject == \"Base3\":
-				objectInstance = base3.instance()
-			elif currentObject == \"Mover\":
-				objectInstance = stun.instance()
-			objectInstance.set_global_pos(mosLoc)
-			#give the copy a name 
-			objectInstance.set_name(\"object\" + str(objectIndex))
-			add_child(objectInstance)
-			objectInstance.set_owner(self.get_parent())
-			objectIndex += 1
-			pressed = true
-	else:
-		pressed = false
-func _on_Button_button_down(type):
-	print(type)
-	if type == \"Base\":
-		currentObject = \"Base\"
-	elif type == \"Base2\":
-		currentObject = \"Base2\"
-	elif type == \"Base3\":
-		currentObject = \"Base3\"
-	elif type == \"Mover\":
-		currentObject = \"Mover\"
-
-func _on_Button_mouse_enter():
-	overButton = true
-
-
-func _on_Button_mouse_exit():
-	overButton = false
-
-
-func _on_Button_pressed():
-	pass # replace with function body
-"
+script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")\nvar base = preload(\"res://Scenes/Base1.tscn\")\nvar base2 = preload(\"res://Scenes/Base2.tscn\")\nvar base3 = preload(\"res://Scenes/Base3.tscn\")\nvar ground = preload(\"res://Scenes/Turret.tscn\")\nvar stun = preload(\"res://Scenes/Mover.tscn\")\n\n#create a copy of the laser object\n\n\n#add a child\n#get_parent().add_child(laserInstance)\nvar currentObject\nvar objectIndex = 0\nvar overButton = false\nvar pressed = false\n\n#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n\tvar attacker = get_node(\"Attacker\")\n\tcurrentObject = \"turrent\"\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_global_mouse_pos()\n\tvar posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);\n\tget_child(1).set_global_pos(posOffset)\n\tif  Input.is_action_pressed(\"left_click\"):\n\t\tif !overButton && !pressed:\n\t\t\tvar objectInstance = turrent.instance()\n\t\t\tif currentObject == \"Base\":\n\t\t\t\tprint(\"wut\")\n\t\t\t\tobjectInstance = base.instance()\n\t\t\telif currentObject == \"Base2\":\n\t\t\t\tobjectInstance = base2.instance()\n\t\t\telif currentObject == \"Base3\":\n\t\t\t\tobjectInstance = base3.instance()\n\t\t\telif currentObject == \"Mover\":\n\t\t\t\tobjectInstance = stun.instance()\n\t\t\tobjectInstance.set_global_pos(mosLoc)\n\t\t\t#give the copy a name \n\t\t\tobjectInstance.set_name(\"object\" + str(objectIndex))\n\t\t\tadd_child(objectInstance)\n\t\t\tobjectInstance.set_owner(self.get_parent())\n\t\t\tobjectIndex += 1\n\t\t\tpressed = true\n\telse:\n\t\tpressed = false\nfunc _on_Button_button_down(type):\n\tprint(type)\n\tif type == \"Base\":\n\t\tcurrentObject = \"Base\"\n\telif type == \"Base2\":\n\t\tcurrentObject = \"Base2\"\n\telif type == \"Base3\":\n\t\tcurrentObject = \"Base3\"\n\telif type == \"Mover\":\n\t\tcurrentObject = \"Mover\"\n\nfunc _on_Button_mouse_enter():\n\toverButton = true\n\n\nfunc _on_Button_mouse_exit():\n\toverButton = false\n\n\nfunc _on_Button_pressed():\n\tpass # replace with function body\n"
 
 [sub_resource type="GDScript" id=2]
 
-script/source = "func _ready():
-	set_process(true)
-	
-
-#called every frame
-func _process(delta):
-	var currentPos = self.get_pos()
-	if Input.is_action_pressed(\"left\"):
-		self.set_pos(Vector2(currentPos.x + 2, currentPos.y))
-	elif Input.is_action_pressed(\"right\"):
-		self.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
+script/source = "func _ready():\n\tset_process(true)\n\t\n\n#called every frame\nfunc _process(delta):\n\tvar currentPos = self.get_pos()\n\tif Input.is_action_pressed(\"left\"):\n\t\tself.set_pos(Vector2(currentPos.x + 2, currentPos.y))\n\telif Input.is_action_pressed(\"right\"):\n\t\tself.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
 
 [sub_resource type="GDScript" id=3]
 
-script/source = "#starts when loaded up in scene
-var it = 0
-
-func _ready():
-	set_process(true)
-#called every frame
-func _process(delta):
-	pass"
+script/source = "#starts when loaded up in scene\nvar it = 0\n\nfunc _ready():\n\tset_process(true)\n#called every frame\nfunc _process(delta):\n\tpass"
 
 [node name="Node2D" type="Node2D"]
 
@@ -243,9 +156,9 @@ script/script = SubResource( 3 )
 
 [connection signal="mouse_exit" from="Button2" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
-
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed" binds= [ "Base3" ]]
+
+[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
 
 [connection signal="button_down" from="Button3" to="." method="_on_Button_button_down" binds= [ "Mover" ]]
 

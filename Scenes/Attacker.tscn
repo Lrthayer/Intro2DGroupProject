@@ -20,11 +20,19 @@ extents = Vector2( 12.4719, 10 )
 
 [sub_resource type="GDScript" id=3]
 
-script/source = "extends Sprite\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\tpass\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\t\nfunc getPos():\n\treturn get_pos()\n"
+script/source = "extends Sprite
+
+func _ready():
+	self.hide()
+
+"
 
 [sub_resource type="GDScript" id=4]
 
-script/source = "extends Sprite\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc getPos():\n\treturn get_pos()\n"
+script/source = "extends Sprite
+
+func _ready():
+	self.hide()"
 
 [node name="Attacker" type="Node2D"]
 
@@ -33,7 +41,6 @@ script/script = ExtResource( 1 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 
-editor/display_folded = true
 transform/rot = 180.0
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -117,6 +124,22 @@ script/script = SubResource( 3 )
 [node name="rightBoundary" type="Sprite" parent="."]
 
 transform/pos = Vector2( 550.5, -11 )
+transform/scale = Vector2( -1.24999, -231 )
+texture = ExtResource( 7 )
+script/script = SubResource( 4 )
+
+[node name="topBoundary" type="Sprite" parent="."]
+
+transform/pos = Vector2( 310.971, -139.809 )
+transform/rot = 90.0
+transform/scale = Vector2( -1.24999, -231 )
+texture = ExtResource( 7 )
+script/script = SubResource( 4 )
+
+[node name="bottomBoundary" type="Sprite" parent="."]
+
+transform/pos = Vector2( 361.769, 249.549 )
+transform/rot = 90.0
 transform/scale = Vector2( -1.24999, -231 )
 texture = ExtResource( 7 )
 script/script = SubResource( 4 )

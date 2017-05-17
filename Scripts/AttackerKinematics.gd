@@ -9,8 +9,10 @@ var current_speed = Vector2(0,0)
 var player_speed
 var left_boundary
 var right_boundary
-var top_boundary = GLOBALS.g_top_boundary
-var down_boundary = GLOBALS.g_bottom_boundary
+var top_boundary
+var bottom_boundary
+#var top_boundary = GLOBALS.g_top_boundary
+#var down_boundary = GLOBALS.g_bottom_boundary
 var hp = GLOBALS.g_offense_hp
 var shipPositionY
 var isStunned = false
@@ -23,15 +25,22 @@ func movement(speedX, speedY):
 	current_speed.x = speedX
 	current_speed.y = speedY
 	print(get_pos())
-	print(right_boundary)
+	print(top_boundary)
+	print(bottom_boundary)
 	#check right side boundary for Attacker
-	if get_pos().x > right_boundary:
-		set_pos(Vector2(right_boundary,self.get_pos().y))
+	if get_global_pos().x > right_boundary:
+		set_global_pos(Vector2(right_boundary,self.get_global_pos().y))
 
 	#check left side boundary for Attacker
 	if get_global_pos().x < left_boundary:
-		set_global_pos(Vector2(left_boundary,self.get_pos().y))
-	#move the Attacker
+		set_global_pos(Vector2(left_boundary,self.get_global_pos().y))
+	
+	if get_global_pos().y > bottom_boundary:
+		set_global_pos(Vector2(self.get_global_pos().x, bottom_boundary))
+		
+	if get_global_pos().y < top_boundary:
+		set_global_pos(Vector2(self.get_global_pos().x, top_boundary))
+		#move the Attacker
 	move(current_speed)
 
 #Starts when scene is loaded 
@@ -41,8 +50,10 @@ func _ready():
 	shipPositionY = get_global_pos().y
 	set_fixed_process(true)
 	print(get_parent().get_child(2).get_pos())
-	right_boundary = get_parent().get_child(2).get_pos().x
-	left_boundary = get_parent().get_child(1).get_pos().x
+	right_boundary = get_parent().get_child(2).get_global_pos().x - 36
+	left_boundary = get_parent().get_child(1).get_global_pos().x + 36
+	top_boundary = get_parent().get_child(3).get_global_pos().y + 30
+	bottom_boundary = get_parent().get_child(4).get_global_pos().y - 30
 	print(right_boundary)
 	print(left_boundary)
 	

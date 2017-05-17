@@ -15,12 +15,11 @@ var shipPositionY
 var isStunned = false
 var stunTimer = 60
 var defendingScoreLimit = 0
+var attacker
+var diff
 
 #Gives movement to Defender
 func movement(speedX, speedY):
-	
-	print(get_global_pos())
-	print(left_boundary)
 	
 	#checks right boundary for Defender
 	if get_global_pos().x < right_boundary:
@@ -49,9 +48,15 @@ func _ready():
 	left_boundary = get_parent().get_child(2).get_global_pos().x - 42
 	top_boundary = get_parent().get_child(1).get_global_pos().y + 42
 	bottom_boundary = get_parent().get_child(4).get_global_pos().y - 42
+	
+	attacker = self.get_parent().get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
 	set_fixed_process(true)
 
 func _fixed_process(delta):
+	
+	#rotate to protect bomber
+	#diff = attacker.get_global_pos() - self.get_global_pos()
+	#self.set_rot(atan2(-diff.y,diff.x) - 3.14/2)
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):

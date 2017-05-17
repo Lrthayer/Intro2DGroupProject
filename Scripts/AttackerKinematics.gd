@@ -24,9 +24,6 @@ func movement(speedX, speedY):
 	
 	current_speed.x = speedX
 	current_speed.y = speedY
-	print(get_pos())
-	print(top_boundary)
-	print(bottom_boundary)
 	#check right side boundary for Attacker
 	if get_global_pos().x > right_boundary:
 		set_global_pos(Vector2(right_boundary,self.get_global_pos().y))
@@ -49,13 +46,10 @@ func _ready():
 	get_node("hp_bar").set_max(hp)
 	shipPositionY = get_global_pos().y
 	set_fixed_process(true)
-	print(get_parent().get_child(2).get_pos())
 	right_boundary = get_parent().get_child(2).get_global_pos().x - 36
 	left_boundary = get_parent().get_child(1).get_global_pos().x + 36
 	top_boundary = get_parent().get_child(3).get_global_pos().y + 30
 	bottom_boundary = get_parent().get_child(4).get_global_pos().y - 30
-	print(right_boundary)
-	print(left_boundary)
 	
 	if (GLOBALS.g_current_attacker == "player1"):
 		player_speed = GLOBALS.g_player1_spd

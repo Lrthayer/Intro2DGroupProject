@@ -20,13 +20,15 @@ var diff
 
 #Gives movement to Defender
 func movement(speedX, speedY):
-	
+	print (get_global_pos())
+	print(right_boundary)
+	print(left_boundary)
 	#checks right boundary for Defender
-	if get_global_pos().x < right_boundary:
+	if get_global_pos().x > right_boundary:
 		set_global_pos(Vector2(right_boundary, get_global_pos().y))
 	
 	#checks left boundary for Defender
-	if get_global_pos().x > left_boundary:
+	if get_global_pos().x < left_boundary:
 		set_global_pos(Vector2(left_boundary,get_global_pos().y))
 	
 	if get_global_pos().y > bottom_boundary:
@@ -44,10 +46,10 @@ func movement(speedX, speedY):
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	right_boundary = get_parent().get_child(3).get_global_pos().x + 42
-	left_boundary = get_parent().get_child(2).get_global_pos().x - 42
-	top_boundary = get_parent().get_child(1).get_global_pos().y + 42
-	bottom_boundary = get_parent().get_child(4).get_global_pos().y - 42
+	right_boundary = get_parent().get_child(2).get_global_pos().x + 42
+	left_boundary = get_parent().get_child(1).get_global_pos().x - 42
+	top_boundary = get_parent().get_child(4).get_child(0).get_global_pos().y + 42
+	bottom_boundary = get_parent().get_child(3).get_global_pos().y - 42
 	
 	attacker = self.get_parent().get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
 	set_fixed_process(true)

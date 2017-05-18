@@ -3,9 +3,9 @@
 	<ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" index="0"></ext_resource>
 	<ext_resource path="res://Graphics/UI/title.tex" type="Texture" index="5"></ext_resource>
 	<ext_resource path="res://Scripts/toGame.gd" type="Script" index="1"></ext_resource>
+	<ext_resource path="res://Scripts/toExit.gd" type="Script" index="4"></ext_resource>
 	<ext_resource path="res://Scripts/toInstructions.gd" type="Script" index="2"></ext_resource>
 	<ext_resource path="res://Scripts/toControls.gd" type="Script" index="3"></ext_resource>
-	<ext_resource path="res://Scripts/toExit.gd" type="Script" index="4"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>

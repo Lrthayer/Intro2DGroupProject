@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/AttackerKinematics.gd" type="Script" id=2]
@@ -20,19 +20,28 @@ extents = Vector2( 12.4719, 10 )
 
 [sub_resource type="GDScript" id=3]
 
-script/source = "extends Sprite
-
-func _ready():
-	self.hide()
-
-"
+script/source = "extends Sprite\n\nfunc _ready():\n\tself.hide()\n\n"
 
 [sub_resource type="GDScript" id=4]
 
-script/source = "extends Sprite
+script/source = "extends Sprite\n\nvar parent\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tset_process(true)\n\t\nfunc _process(delta):\n\tif get_parent().get_child(3).clicked:\n\t\tself.set_global_pos(get_global_mouse_pos())\n\n"
 
-func _ready():
-	self.hide()"
+[sub_resource type="RectangleShape2D" id=5]
+
+custom_solver_bias = 0.0
+extents = Vector2( 2.52843, 10 )
+
+[sub_resource type="GDScript" id=8]
+
+script/source = "extends Area2D\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nvar clicked = false\nvar toggled = 0\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpass\n\n\nfunc _input_event( viewport, event, shape_idx ):\n\tif event.type == InputEvent.MOUSE_BUTTON:\n\t\tif event.button_index == BUTTON_LEFT:\n\t\t\tif event.pressed && toggled < 1:\n\t\t\t\tif clicked:\n\t\t\t\t\tclicked = false\n\t\t\t\t\tprint(\"false\")\n\t\t\t\telse:\n\t\t\t\t\tclicked = true\n\t\t\t\t\tprint(\"true\")\n\t\t\t\ttoggled += 1\n\telse:\n\t\ttoggled = 0"
+
+[sub_resource type="GDScript" id=7]
+
+script/source = "extends Sprite\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tset_process(true)\n\tprint(get_parent())\n\t\nfunc _process(delta):\n\tif get_parent().clicked:\n\t\tself.set_global_pos(get_global_mouse_pos())\n\n"
+
+[sub_resource type="GDScript" id=9]
+
+script/source = "extends Sprite\n\nvar parent\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tset_process(true)\n\t\nfunc _process(delta):\n\tif get_parent().get_child(3).clicked:\n\t\tself.set_global_pos(get_global_mouse_pos())\n\n"
 
 [node name="Attacker" type="Node2D"]
 
@@ -128,13 +137,33 @@ transform/scale = Vector2( -1.24999, -231 )
 texture = ExtResource( 7 )
 script/script = SubResource( 4 )
 
-[node name="topBoundary" type="Sprite" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
 
-transform/pos = Vector2( 310.971, -139.809 )
-transform/rot = 90.0
-transform/scale = Vector2( -1.24999, -231 )
+transform/pos = Vector2( 310.971, -139.5 )
+transform/rot = -90.0
+transform/scale = Vector2( 1.60938, 231 )
+input/pickable = true
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Matrix32( 0.721263, 0, 0, 1, 0.423554, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 8 )
+
+[node name="topBoundary" type="Sprite" parent="Area2D"]
+
 texture = ExtResource( 7 )
-script/script = SubResource( 4 )
+script/script = SubResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+transform/pos = Vector2( 0.423554, 0 )
+transform/scale = Vector2( 0.721263, 1 )
+shape = SubResource( 5 )
+trigger = false
+_update_shape_index = 0
 
 [node name="bottomBoundary" type="Sprite" parent="."]
 
@@ -142,6 +171,8 @@ transform/pos = Vector2( 361.769, 249.549 )
 transform/rot = 90.0
 transform/scale = Vector2( -1.24999, -231 )
 texture = ExtResource( 7 )
-script/script = SubResource( 4 )
+script/script = SubResource( 9 )
+
+[connection signal="input_event" from="Area2D" to="Area2D" method="_input_event"]
 
 

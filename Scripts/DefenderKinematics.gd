@@ -46,10 +46,6 @@ func movement(speedX, speedY):
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	right_boundary = get_parent().get_child(2).get_global_pos().x + 42
-	left_boundary = get_parent().get_child(1).get_global_pos().x - 42
-	top_boundary = get_parent().get_child(4).get_child(0).get_global_pos().y + 42
-	bottom_boundary = get_parent().get_child(3).get_global_pos().y - 42
 	
 	attacker = self.get_parent().get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
 	set_fixed_process(true)
@@ -59,6 +55,10 @@ func _fixed_process(delta):
 	#rotate to protect bomber
 	#diff = attacker.get_global_pos() - self.get_global_pos()
 	#self.set_rot(atan2(-diff.y,diff.x) - 3.14/2)
+	right_boundary = get_parent().get_child(3).get_child(0).get_global_pos().x - 42
+	left_boundary = get_parent().get_child(4).get_child(0).get_global_pos().x + 42
+	top_boundary = get_parent().get_child(1).get_child(0).get_global_pos().y + 42
+	bottom_boundary = get_parent().get_child(2).get_child(0).get_global_pos().y - 42
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):

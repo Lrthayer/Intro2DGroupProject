@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
@@ -111,25 +111,6 @@ func _process(delta):
 		self.set_pos(Vector2(currentPos.x + 2, currentPos.y))
 	elif Input.is_action_pressed(\"right\"):
 		self.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
-
-[sub_resource type="GDScript" id=3]
-
-script/source = "#starts when loaded up in scene
-func _ready():
-	set_process(true)
-#called every frame
-func _process(delta):
-	if Input.is_action_pressed(\"CameraUp\"):
-		move(0,-10)
-	if Input.is_action_pressed(\"CameraDown\"):
-		move(0,10)
-	if Input.is_action_pressed(\"CameraLeft\"):
-		move(-10,0)
-	if Input.is_action_pressed(\"CameraRight\"):
-		move(10,0)
-	
-func move(x, y):
-	self.set_global_pos(Vector2(self.get_global_pos().x + x,self.get_global_pos().y + y))"
 
 [sub_resource type="GDScript" id=4]
 
@@ -253,6 +234,56 @@ func stunned():
 
 "
 
+[sub_resource type="GDScript" id=3]
+
+script/source = "#starts when loaded up in scene
+func _ready():
+	set_process(true)
+#called every frame
+func _process(delta):
+	if Input.is_action_pressed(\"CameraUp\"):
+		move(0,-10)
+	if Input.is_action_pressed(\"CameraDown\"):
+		move(0,10)
+	if Input.is_action_pressed(\"CameraLeft\"):
+		move(-10,0)
+	if Input.is_action_pressed(\"CameraRight\"):
+		move(10,0)
+		
+	#check if camera has moved passed scroll current limit
+	if get_child(0).get_max() < get_global_pos().x:
+		get_child(0).set_max(get_global_pos().x)
+	if get_child(1).get_max() < get_global_pos().y:
+		get_child(0).set_max(get_global_pos().y)
+	
+func move(x, y):
+	self.set_global_pos(Vector2(self.get_global_pos().x + x,self.get_global_pos().y + y))
+
+func _on_HScrollBar_value_changed( value ):
+	self.set_global_pos(Vector2(value,self.get_global_pos().y))
+
+
+
+func _on_VScrollBar_value_changed( value ):
+	self.set_global_pos(Vector2(self.get_global_pos().x, value + 100))
+"
+
+[sub_resource type="GDScript" id=5]
+
+script/source = "extends HScrollBar
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	pass#set_global_pos(get_parent().get_child(7).get_global_pos())"
+
 [node name="Node2D" type="Node2D"]
 
 z/relative = false
@@ -346,6 +377,32 @@ icon = ExtResource( 5 )
 flat = false
 script/script = SubResource( 2 )
 
+[node name="Defender" parent="." instance=ExtResource( 6 )]
+
+editor/display_folded = true
+transform/pos = Vector2( -2490.72, 407.252 )
+script/script = ExtResource( 7 )
+
+[node name="KinematicBody2D" parent="Defender"]
+
+script/script = SubResource( 4 )
+
+[node name="Area2D" parent="Defender"]
+
+editor/display_folded = true
+
+[node name="Area2D 2" parent="Defender"]
+
+editor/display_folded = true
+
+[node name="Area2D3" parent="Defender"]
+
+editor/display_folded = true
+
+[node name="Area2D4" parent="Defender"]
+
+editor/display_folded = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 transform/pos = Vector2( 45, -809 )
@@ -357,24 +414,54 @@ limit/left = -10000000
 limit/top = -10000000
 limit/right = 10000000
 limit/bottom = 10000000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
+drag_margin/h_enabled = false
+drag_margin/v_enabled = false
 smoothing/enable = false
 smoothing/speed = 5.0
-drag_margin/left = 0.2
-drag_margin/top = 0.2
-drag_margin/right = 0.2
-drag_margin/bottom = 0.2
+drag_margin/left = 0.0
+drag_margin/top = 0.0
+drag_margin/right = 0.0
+drag_margin/bottom = 0.0
 script/script = SubResource( 3 )
 
-[node name="Defender" parent="." instance=ExtResource( 6 )]
+[node name="HScrollBar" type="HScrollBar" parent="Camera2D"]
 
-transform/pos = Vector2( -2490.72, 407.252 )
-script/script = ExtResource( 7 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -511.0
+margin/top = 282.0
+margin/right = 504.0
+margin/bottom = 298.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+custom_step = -1.0
+script/script = SubResource( 5 )
 
-[node name="KinematicBody2D" parent="Defender"]
+[node name="VScrollBar" type="VScrollBar" parent="Camera2D"]
 
-script/script = SubResource( 4 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = -511.0
+margin/top = -294.0
+margin/right = -499.0
+margin/bottom = 282.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+custom_step = -1.0
 
 [connection signal="button_down" from="Button" to="." method="_on_Button_button_down" binds= [ "Base" ]]
 
@@ -390,9 +477,9 @@ script/script = SubResource( 4 )
 
 [connection signal="mouse_exit" from="Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -400,9 +487,9 @@ script/script = SubResource( 4 )
 
 [connection signal="mouse_exit" from="Button2" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
-
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed" binds= [ "Base3" ]]
+
+[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
 
 [connection signal="button_down" from="Button3" to="." method="_on_Button_button_down" binds= [ "Mover" ]]
 
@@ -425,6 +512,10 @@ script/script = SubResource( 4 )
 [connection signal="mouse_enter" from="Defender/Area2D4" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="Defender/Area2D4" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="value_changed" from="Camera2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
+
+[connection signal="value_changed" from="Camera2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
 
 [editable path="Defender"]

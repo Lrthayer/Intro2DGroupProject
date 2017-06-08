@@ -12,7 +12,7 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "names" </string>
-			<string_array  len="26">
+			<string_array  len="27">
 				<string> "TextureFrame" </string>
 				<string> "process/pause_mode" </string>
 				<string> "focus/ignore_mouse" </string>
@@ -24,6 +24,7 @@
 				<string> "margin/right" </string>
 				<string> "margin/bottom" </string>
 				<string> "texture" </string>
+				<string> "expand" </string>
 				<string> "stretch_mode" </string>
 				<string> "Button" </string>
 				<string> "toggle_mode" </string>
@@ -46,13 +47,13 @@
 			<array  len="0" shared="false">
 			</array>
 			<string> "nodes" </string>
-			<int_array  len="134"> 				-1, -1, 0, 0, -1, 11, 1, 0, 2, 1, 3, 1, 4, 0, 5, 0, 6, 2, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 0, 0, 0, 12, 12, -1, 14, 2, 7, 3, 1, 4, 0, 5, 0, 6, 8, 7, 8, 8, 9, 9, 10, 13, 7, 14, 0, 15, 11, 16, 12, 17, 7, 18, 13, 0, 0, 0, 19, 19, -1, 14, 20, 14, 2, 1, 3, 1, 4, 0, 5, 6, 6, 15, 7, 8, 8, 16, 9, 17, 21, 18, 16, 19, 22, 20, 23, 6, 24, 21, 0, 0, 0, 19, 25, -1, 14, 20, 14, 2, 1, 3, 1, 4, 0, 5, 6, 6, 22, 7, 23, 8, 24, 9, 25, 21, 18, 16, 26, 22, 20, 23, 6, 24, 21, 0 </int_array>
+			<int_array  len="136"> 				-1, -1, 0, 0, -1, 12, 1, 0, 2, 1, 3, 1, 4, 0, 5, 0, 6, 2, 7, 2, 8, 3, 9, 4, 10, 5, 11, 1, 12, 6, 0, 0, 0, 13, 13, -1, 14, 2, 7, 3, 1, 4, 0, 5, 0, 6, 8, 7, 8, 8, 9, 9, 10, 14, 7, 15, 0, 16, 11, 17, 12, 18, 7, 19, 13, 0, 0, 0, 20, 20, -1, 14, 21, 14, 2, 1, 3, 1, 4, 0, 5, 6, 6, 15, 7, 8, 8, 16, 9, 17, 22, 18, 17, 19, 23, 20, 24, 6, 25, 21, 0, 0, 0, 20, 26, -1, 14, 21, 14, 2, 1, 3, 1, 4, 0, 5, 6, 6, 22, 7, 23, 8, 24, 9, 25, 22, 18, 17, 26, 23, 20, 24, 6, 25, 21, 0 </int_array>
 			<string> "variants" </string>
 			<array  len="27" shared="false">
 				<int> 2 </int>
 				<bool> True </bool>
 				<real> 0 </real>
-				<real> 800 </real>
+				<real> 1025 </real>
 				<real> 600 </real>
 				<resource  external="0">  </resource>
 				<int> 0 </int>
@@ -72,7 +73,7 @@
 				<int> -1 </int>
 				<real> 25 </real>
 				<real> 89 </real>
-				<real> 282 </real>
+				<real> 316 </real>
 				<real> 239 </real>
 				<string> "Player1&#000a;A - To move left&#000a;D - To move right&#000a;space bar - to shoot laser when Bomber&#000a;&#000a;Player2&#000a;Left arrow - To move left&#000a;Right arrow - To move right&#000a;NUMPAD 0 key - to shoot laser when Bomber" </string>
 			</array>

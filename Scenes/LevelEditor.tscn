@@ -127,9 +127,9 @@ script/script = SubResource( 3 )
 
 [connection signal="mouse_exit" from="Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -137,8 +137,8 @@ script/script = SubResource( 3 )
 
 [connection signal="mouse_exit" from="Button2" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
-
 [connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed" binds= [ "Base3" ]]
+
+[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
 
 

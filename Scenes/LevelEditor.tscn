@@ -112,7 +112,7 @@ func _process(delta):
 	elif Input.is_action_pressed(\"right\"):
 		self.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 
 script/source = "extends KinematicBody2D
 
@@ -234,7 +234,7 @@ func stunned():
 
 "
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=4]
 
 script/source = "#starts when loaded up in scene
 func _ready():
@@ -291,7 +291,7 @@ script/script = SubResource( 1 )
 
 [node name="Attacker" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( -5996.45, -1585.93 )
+transform/pos = Vector2( -1986.49, -1747.45 )
 transform/scale = Vector2( 1.29688, 1.29688 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -379,23 +379,18 @@ script/script = SubResource( 2 )
 
 [node name="Defender" parent="." instance=ExtResource( 6 )]
 
-editor/display_folded = true
-transform/pos = Vector2( -2490.72, 407.252 )
+transform/pos = Vector2( -1149.39, -688.288 )
 script/script = ExtResource( 7 )
 
 [node name="KinematicBody2D" parent="Defender"]
 
-script/script = SubResource( 4 )
+script/script = SubResource( 3 )
 
 [node name="Area2D" parent="Defender"]
 
 editor/display_folded = true
 
 [node name="Area2D 2" parent="Defender"]
-
-editor/display_folded = true
-
-[node name="Area2D3" parent="Defender"]
 
 editor/display_folded = true
 
@@ -422,7 +417,7 @@ drag_margin/left = 0.0
 drag_margin/top = 0.0
 drag_margin/right = 0.0
 drag_margin/bottom = 0.0
-script/script = SubResource( 3 )
+script/script = SubResource( 4 )
 
 [node name="HScrollBar" type="HScrollBar" parent="Camera2D"]
 

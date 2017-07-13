@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Mover.tex" type="Texture" id=5]
 [ext_resource path="res://Scenes/Defender.xml" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Defender.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/MoverLevelEditor.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 
@@ -15,10 +16,7 @@ var base = preload(\"res://Scenes/Base1.tscn\")
 var base2 = preload(\"res://Scenes/Base2.tscn\")
 var base3 = preload(\"res://Scenes/Base3.tscn\")
 var ground = preload(\"res://Scenes/Turret.tscn\")
-var stun = preload(\"res://Scenes/Mover.tscn\")
-
-#create a copy of the laser object
-
+var stun = preload(\"res://Scenes/MoverLevelEditor.tscn\")
 
 #add a child
 #get_parent().add_child(laserInstance)
@@ -291,7 +289,7 @@ script/script = SubResource( 1 )
 
 [node name="Attacker" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( -1986.49, -1747.45 )
+transform/pos = Vector2( -2173.55, -1769.16 )
 transform/scale = Vector2( 1.29688, 1.29688 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -386,10 +384,6 @@ script/script = ExtResource( 7 )
 
 script/script = SubResource( 3 )
 
-[node name="Area2D" parent="Defender"]
-
-editor/display_folded = true
-
 [node name="Area2D 2" parent="Defender"]
 
 editor/display_folded = true
@@ -400,6 +394,7 @@ editor/display_folded = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 45, -809 )
 anchor_mode = 1
 rotating = false
@@ -458,6 +453,24 @@ range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
 
+[node name="Mover" parent="." instance=ExtResource( 8 )]
+
+transform/pos = Vector2( 292.014, -894.364 )
+
+[connection signal="input_event" from="Attacker/Area2D1" to="." method="_on_Area2D_input_event"]
+
+[connection signal="mouse_enter" from="Attacker/Area2D1" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Attacker/Area2D1" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="Attacker/Area2D2" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Attacker/Area2D2" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="Attacker/Area2D3" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Attacker/Area2D3" to="." method="_on_Area2D_mouse_exit"]
+
 [connection signal="button_down" from="Button" to="." method="_on_Button_button_down" binds= [ "Base" ]]
 
 [connection signal="mouse_enter" from="Button" to="." method="_on_Button_mouse_enter"]
@@ -512,5 +525,15 @@ custom_step = -1.0
 
 [connection signal="value_changed" from="Camera2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
+[connection signal="mouse_enter" from="Mover/Area2D" to="." method="_on_Area2D_mouse_enter"]
 
+[connection signal="mouse_exit" from="Mover/Area2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="Mover/Area2D 2" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Mover/Area2D 2" to="." method="_on_Area2D_mouse_exit"]
+
+
+[editable path="Attacker"]
 [editable path="Defender"]
+[editable path="Mover"]

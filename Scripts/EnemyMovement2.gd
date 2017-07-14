@@ -38,6 +38,9 @@ func _ready():
 	
 func _fixed_process(delta):
 	
+	right_boundary = get_parent().get_child(1).get_child(0).get_global_pos().x - 27
+	left_boundary = get_parent().get_child(2).get_child(0).get_global_pos().x + 27
+	
 	#mover decides to moves right
 	if(get_global_pos().x < left_boundary):
 		goright = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=1]
 [ext_resource path="res://Mover.tex" type="Texture" id=2]
@@ -6,7 +6,7 @@
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=4]
 [ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=5]
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends Node2D
 
@@ -68,12 +68,12 @@ func fire():
 	#set the position of the laser copy
 	laserInstance.set_global_pos(get_node(\"KinematicBody2D/Position2D\").get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
@@ -141,21 +141,82 @@ func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())
 "
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
+[sub_resource type="GDScript" id=8]
+
+script/source = "extends Area2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+var clicked = false
+var toggled = 0
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+
+func _input_event( viewport, event, shape_idx ):
+	if event.type == InputEvent.MOUSE_BUTTON:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed && toggled < 1:
+				if clicked:
+					clicked = false
+					print(\"false\")
+				else:
+					clicked = true
+					print(\"true\")
+				toggled += 1
+	else:
+		toggled = 0"
+
+[sub_resource type="GDScript" id=9]
+
+script/source = "extends Sprite
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	if get_parent().clicked:
+		self.set_global_pos(get_global_mouse_pos())
+"
+
+[sub_resource type="GDScript" id=10]
+
+script/source = "extends CollisionShape2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
+
 [node name="Mover" type="Node2D"]
 
 transform/pos = Vector2( -1.08072, 0 )
-script/script = SubResource( 7 )
+script/script = SubResource( 1 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 
 transform/pos = Vector2( -41.234, -10.8389 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 2.39548, 0, 0, 0.740502, 0.0149451, 7.50499 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -172,7 +233,7 @@ texture = ExtResource( 2 )
 
 transform/pos = Vector2( 0.0149451, 7.50499 )
 transform/scale = Vector2( 2.39548, 0.740502 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -208,7 +269,7 @@ radial_fill/center_offset = Vector2( 0, 0 )
 transform/pos = Vector2( 207.428, -1270.71 )
 transform/scale = Vector2( 1.12062, 175.693 )
 input/pickable = true
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -4.83211, -0.0256834 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -228,7 +289,7 @@ script/script = SubResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 
 transform/pos = Vector2( -4.83211, -0.0256834 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 script/script = SubResource( 6 )
@@ -237,13 +298,14 @@ script/script = SubResource( 6 )
 
 transform/pos = Vector2( -74.6635, 8.0769 )
 input/pickable = true
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 1.79192, 0, 0, 153.926, -270.41, -801.739 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+script/script = SubResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="Area2D 2"]
 
@@ -251,13 +313,15 @@ transform/pos = Vector2( -267.469, 374.457 )
 transform/rot = 180.0
 transform/scale = Vector2( 4, 685.63 )
 texture = ExtResource( 5 )
+script/script = SubResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D 2"]
 
 transform/pos = Vector2( -270.41, -801.739 )
 transform/scale = Vector2( 1.79192, 153.926 )
-shape = SubResource( 3 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
+script/script = SubResource( 10 )
 
 

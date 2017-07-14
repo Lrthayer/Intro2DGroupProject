@@ -47,6 +47,10 @@ func _process(delta):
 				objectInstance = base3.instance()
 			elif currentObject == \"Mover\":
 				objectInstance = stun.instance()
+				objectInstance.get_child(1).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_child(1).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+				objectInstance.get_child(2).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			objectInstance.set_global_pos(mosLoc)
 			#give the copy a name 
 			objectInstance.set_name(\"object\" + str(objectIndex))

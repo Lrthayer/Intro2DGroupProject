@@ -7,7 +7,66 @@
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "extends Node2D\n\n# class member variables go here\nvar laserObject = preload(\"res://Scenes/enemyLaser.tscn\")\nvar laserCount = 0\nvar laserOffset = 0\nvar theirPos\nvar myPos\nvar target\nvar diff\nvar rotate\nvar timer = 1\nvar rateIncrease = 0\nvar vector = Vector2(0,0)\n\n#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n\ttarget = self.get_parent().get_node(\"Attacker/KinematicBody2D/ShipSprite\")\n\t# Called every time the node is added to the scene.\n\t# Initialization her\n\n#called every frame\nfunc _process(delta):\n\t\n\t#increase rate of fire of the turrent over time\n\trateIncrease += .00001\n\ttheirPos = target.get_global_pos()\n\tmyPos = self.get_global_pos()\n\tdiff = theirPos - myPos\n\trotate = atan2(-diff.y,diff.x) - 3.14/2\n\tself.set_rot(rotate)\n\tvector = (theirPos - myPos).normalized()\n\ttimer = timer - (delta + rateIncrease)\n\t\n\t#enough time has passed\n\tif (timer <= 0):\n\t\tfire()\n\t\ttimer = 5\n\n#turret shoots laser\nfunc fire():\n\t\n\tlaserCount += 1\n\t\n\t#create a copy of the laser object\n\tvar laserInstance = laserObject.instance()\n\t\n\t#give the copy a name \n\tlaserInstance.set_name(\"Laser\" + str(laserCount))\n\t\t\n\t#add a child\n\tget_parent().add_child(laserInstance)\n\t\n\tlaserInstance.set_owner(self.get_parent())\n\t\n\tlaserInstance.setDirVector(rotate, vector)\n\t\n\t#set the position of the laser copy\n\tlaserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())"
+script/source = "extends Node2D
+
+# class member variables go here
+var laserObject = preload(\"res://Scenes/enemyLaser.tscn\")
+var laserCount = 0
+var laserOffset = 0
+var theirPos
+var myPos
+var target
+var diff
+var rotate
+var timer = 1
+var rateIncrease = 0
+var vector = Vector2(0,0)
+
+#starts when loaded up in scene
+func _ready():
+	set_process(true)
+	target = self.get_parent().get_node(\"Attacker/KinematicBody2D/ShipSprite\")
+	# Called every time the node is added to the scene.
+	# Initialization her
+
+#called every frame
+func _process(delta):
+	
+	#increase rate of fire of the turrent over time
+	rateIncrease += .00001
+	theirPos = target.get_global_pos()
+	myPos = self.get_global_pos()
+	diff = theirPos - myPos
+	rotate = atan2(-diff.y,diff.x) - 3.14/2
+	self.set_rot(rotate)
+	vector = (theirPos - myPos).normalized()
+	timer = timer - (delta + rateIncrease)
+	
+	#enough time has passed
+	if (timer <= 0):
+		fire()
+		timer = 5
+
+#turret shoots laser
+func fire():
+	
+	laserCount += 1
+	
+	#create a copy of the laser object
+	var laserInstance = laserObject.instance()
+	
+	#give the copy a name 
+	laserInstance.set_name(\"Laser\" + str(laserCount))
+		
+	#add a child
+	get_parent().add_child(laserInstance)
+	
+	laserInstance.set_owner(self.get_parent())
+	
+	laserInstance.setDirVector(rotate, vector)
+	
+	#set the position of the laser copy
+	laserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())"
 
 [sub_resource type="RectangleShape2D" id=2]
 

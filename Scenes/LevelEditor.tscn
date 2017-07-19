@@ -1,13 +1,14 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
 [ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=3]
 [ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=4]
 [ext_resource path="res://Mover.tex" type="Texture" id=5]
-[ext_resource path="res://Scenes/Defender.xml" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Defender.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/MoverLevelEditor.tscn" type="PackedScene" id=8]
+[ext_resource path="res://turret001.tex" type="Texture" id=6]
+[ext_resource path="res://Scenes/Defender.xml" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Defender.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/MoverLevelEditor.tscn" type="PackedScene" id=9]
 
 [sub_resource type="GDScript" id=1]
 
@@ -51,6 +52,8 @@ func _process(delta):
 				objectInstance.get_child(1).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 				objectInstance.get_child(2).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
 				objectInstance.get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+			elif currentObject == \"Turrent\":
+				objectInstance = turrent.instance()
 			objectInstance.set_global_pos(mosLoc)
 			#give the copy a name 
 			objectInstance.set_name(\"object\" + str(objectIndex))
@@ -69,6 +72,8 @@ func _on_Button_button_down(type):
 		currentObject = \"Base3\"
 	elif type == \"Mover\":
 		currentObject = \"Mover\"
+	elif type == \"Turrent\":
+		currentObject = \"Turrent\"
 
 func _on_Button_mouse_enter():
 	overButton = true
@@ -77,19 +82,6 @@ func _on_Button_mouse_enter():
 func _on_Button_mouse_exit():
 	overButton = false
 
-
-func _on_Button_pressed():
-	pass # replace with function body
-
-
-func _on_button_mouse_enter():
-	pass # replace with function body
-
-
-func _on_mouse_enter():
-	pass # replace with function body
-
-
 func _on_Area2D_mouse_enter():
 	overButton = true
 	print(\"should not work\")
@@ -97,8 +89,7 @@ func _on_Area2D_mouse_enter():
 
 func _on_Area2D_mouse_exit():
 	overButton = false
-	print(\"should work\")
-"
+	print(\"should work\")"
 
 [sub_resource type="GDScript" id=2]
 
@@ -288,6 +279,7 @@ func _process(delta):
 
 [node name="Node2D" type="Node2D"]
 
+transform/pos = Vector2( 13, 30 )
 z/relative = false
 script/script = SubResource( 1 )
 
@@ -379,10 +371,28 @@ icon = ExtResource( 5 )
 flat = false
 script/script = SubResource( 2 )
 
-[node name="Defender" parent="." instance=ExtResource( 6 )]
+[node name="Button4" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 879.0
+margin/top = -624.0
+margin/right = 995.0
+margin/bottom = -546.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Turrent"
+icon = ExtResource( 6 )
+flat = false
+script/script = SubResource( 2 )
+
+[node name="Defender" parent="." instance=ExtResource( 7 )]
 
 transform/pos = Vector2( -1149.39, -688.288 )
-script/script = ExtResource( 7 )
+script/script = ExtResource( 8 )
 
 [node name="KinematicBody2D" parent="Defender"]
 
@@ -457,7 +467,7 @@ range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
 
-[node name="Mover" parent="." instance=ExtResource( 8 )]
+[node name="Mover" parent="." instance=ExtResource( 9 )]
 
 transform/pos = Vector2( 292.014, -894.364 )
 
@@ -499,15 +509,17 @@ transform/pos = Vector2( 292.014, -894.364 )
 
 [connection signal="mouse_exit" from="Button2" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed" binds= [ "Base3" ]]
-
-[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed" binds= [ "Base3" ]]
-
 [connection signal="button_down" from="Button3" to="." method="_on_Button_button_down" binds= [ "Mover" ]]
 
 [connection signal="mouse_enter" from="Button3" to="." method="_on_Button_mouse_enter"]
 
 [connection signal="mouse_exit" from="Button3" to="." method="_on_Button_mouse_exit"]
+
+[connection signal="button_down" from="Button4" to="." method="_on_Button_button_down" binds= [ "Turrent" ]]
+
+[connection signal="mouse_enter" from="Button4" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Button4" to="." method="_on_Button_mouse_exit"]
 
 [connection signal="mouse_enter" from="Defender/Area2D" to="." method="_on_Area2D_mouse_enter"]
 

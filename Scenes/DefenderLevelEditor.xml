@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="15" version="2.1" version_name="Godot Engine v2.1.3.stable.official">
-	<ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" index="1"></ext_resource>
-	<ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" index="3"></ext_resource>
-	<ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" index="0"></ext_resource>
+<resource_file type="PackedScene" subresource_count="15" version="2.1" version_name="Godot Engine v2.1.stable.official">
 	<ext_resource path="res://Scripts/check.gd" type="Script" index="2"></ext_resource>
+	<ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" index="1"></ext_resource>
+	<ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" index="0"></ext_resource>
+	<ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" index="3"></ext_resource>
 	<resource type="RectangleShape2D" path="local://4">
 		<real name="custom_solver_bias"> 0 </real>
 		<vector2 name="extents"> 6.98823, 11.2446 </vector2>

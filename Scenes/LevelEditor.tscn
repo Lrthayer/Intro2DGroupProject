@@ -12,27 +12,291 @@
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")\nvar base = preload(\"res://Scenes/Base1.tscn\")\nvar base2 = preload(\"res://Scenes/Base2.tscn\")\nvar base3 = preload(\"res://Scenes/Base3.tscn\")\nvar ground = preload(\"res://Scenes/Turret.tscn\")\nvar stun = preload(\"res://Scenes/MoverLevelEditor.tscn\")\n\n#add a child\n#get_parent().add_child(laserInstance)\nvar currentObject\nvar objectIndex = 0\nvar overButton = false\nvar pressed = false\n\n#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n\tvar attacker = get_node(\"Attacker\")\n\tcurrentObject = \"turrent\"\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_global_mouse_pos()\n\tvar posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);\n\t#get_child(1).set_global_pos(posOffset)\n\tif  Input.is_action_pressed(\"left_click\"):\n\t\tif !overButton && !pressed:\n\t\t\tvar objectInstance = turrent.instance()\n\t\t\tif currentObject == \"Base\":\n\t\t\t\tobjectInstance = base.instance()\n\t\t\telif currentObject == \"Base2\":\n\t\t\t\tobjectInstance = base2.instance()\n\t\t\telif currentObject == \"Base3\":\n\t\t\t\tobjectInstance = base3.instance()\n\t\t\telif currentObject == \"Mover\":\n\t\t\t\tobjectInstance = stun.instance()\n\t\t\t\tobjectInstance.get_child(1).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")\n\t\t\t\tobjectInstance.get_child(1).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")\n\t\t\t\tobjectInstance.get_child(2).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")\n\t\t\t\tobjectInstance.get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")\n\t\t\telif currentObject == \"Turrent\":\n\t\t\t\tobjectInstance = turrent.instance()\n\t\t\tobjectInstance.set_global_pos(mosLoc)\n\t\t\t#give the copy a name \n\t\t\tobjectInstance.set_name(\"object\" + str(objectIndex))\n\t\t\tadd_child(objectInstance)\n\t\t\tobjectInstance.set_owner(self.get_parent())\n\t\t\tobjectIndex += 1\n\t\t\tpressed = true\n\telse:\n\t\tpressed = false\nfunc _on_Button_button_down(type):\n\tif type == \"Base\":\n\t\tcurrentObject = \"Base\"\n\telif type == \"Base2\":\n\t\tcurrentObject = \"Base2\"\n\telif type == \"Base3\":\n\t\tcurrentObject = \"Base3\"\n\telif type == \"Mover\":\n\t\tcurrentObject = \"Mover\"\n\telif type == \"Turrent\":\n\t\tcurrentObject = \"Turrent\"\n\nfunc _on_Button_mouse_enter():\n\toverButton = true\n\n\nfunc _on_Button_mouse_exit():\n\toverButton = false\n\nfunc _on_Area2D_mouse_enter():\n\toverButton = true\n\tprint(\"should not work\")\n\n\nfunc _on_Area2D_mouse_exit():\n\toverButton = false\n\tprint(\"should work\")"
+script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")
+var base = preload(\"res://Scenes/Base1.tscn\")
+var base2 = preload(\"res://Scenes/Base2.tscn\")
+var base3 = preload(\"res://Scenes/Base3.tscn\")
+var ground = preload(\"res://Scenes/Turret.tscn\")
+var stun = preload(\"res://Scenes/MoverLevelEditor.tscn\")
+
+#add a child
+#get_parent().add_child(laserInstance)
+var currentObject
+var objectIndex = 0
+var overButton = false
+var pressed = false
+
+#starts when loaded up in scene
+func _ready():
+	set_process(true)
+	var attacker = get_node(\"Attacker\")
+	currentObject = \"turrent\"
+
+#called every frame
+func _process(delta):
+	var mosLoc = get_global_mouse_pos()
+	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);
+	#get_child(1).set_global_pos(posOffset)
+	if  Input.is_action_pressed(\"left_click\"):
+		if !overButton && !pressed:
+			var objectInstance = turrent.instance()
+			if currentObject == \"Base\":
+				objectInstance = base.instance()
+			elif currentObject == \"Base2\":
+				objectInstance = base2.instance()
+			elif currentObject == \"Base3\":
+				objectInstance = base3.instance()
+			elif currentObject == \"Mover\":
+				objectInstance = stun.instance()
+				objectInstance.get_child(1).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_child(1).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+				objectInstance.get_child(2).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+			elif currentObject == \"Turrent\":
+				objectInstance = turrent.instance()
+			objectInstance.set_global_pos(mosLoc)
+			#give the copy a name 
+			objectInstance.set_name(\"object\" + str(objectIndex))
+			add_child(objectInstance)
+			objectInstance.set_owner(self.get_parent())
+			objectIndex += 1
+			pressed = true
+	else:
+		pressed = false
+func _on_Button_button_down(type):
+	if type == \"Base\":
+		currentObject = \"Base\"
+	elif type == \"Base2\":
+		currentObject = \"Base2\"
+	elif type == \"Base3\":
+		currentObject = \"Base3\"
+	elif type == \"Mover\":
+		currentObject = \"Mover\"
+	elif type == \"Turrent\":
+		currentObject = \"Turrent\"
+
+func _on_Button_mouse_enter():
+	overButton = true
+
+
+func _on_Button_mouse_exit():
+	overButton = false
+
+func _on_Area2D_mouse_enter():
+	overButton = true
+	print(\"should not work\")
+
+
+func _on_Area2D_mouse_exit():
+	overButton = false
+	print(\"should work\")"
 
 [sub_resource type="GDScript" id=2]
 
-script/source = "func _ready():\n\tset_process(true)\n\t\n\n#called every frame\nfunc _process(delta):\n\tvar currentPos = self.get_pos()\n\tif Input.is_action_pressed(\"left\"):\n\t\tself.set_pos(Vector2(currentPos.x + 2, currentPos.y))\n\telif Input.is_action_pressed(\"right\"):\n\t\tself.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
+script/source = "func _ready():
+	set_process(true)
+	
+
+#called every frame
+func _process(delta):
+	var currentPos = self.get_pos()
+	if Input.is_action_pressed(\"left\"):
+		self.set_pos(Vector2(currentPos.x + 2, currentPos.y))
+	elif Input.is_action_pressed(\"right\"):
+		self.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
 
 [sub_resource type="GDScript" id=3]
 
-script/source = "extends KinematicBody2D\n\n# class member variables\nvar btn_right = false\nvar btn_left = false\nvar btn_up = false\nvar btn_down = false\nvar current_speed = Vector2(0,0)\nvar player_speed = GLOBALS.g_defense_spd\nvar left_boundary\nvar right_boundary\nvar top_boundary\nvar bottom_boundary\nvar shipPositionY\nvar isStunned = false\nvar stunTimer = 60\nvar defendingScoreLimit = 0\nvar attacker\nvar diff\n\n#Gives movement to Defender\nfunc movement(speedX, speedY):\n\t\n\t#checks right boundary for Defender\n\tif get_global_pos().x > right_boundary:\n\t\tset_global_pos(Vector2(right_boundary, get_global_pos().y))\n\t\n\t#checks left boundary for Defender\n\tif get_global_pos().x < left_boundary:\n\t\tset_global_pos(Vector2(left_boundary,get_global_pos().y))\n\t\n\tif get_global_pos().y > bottom_boundary:\n\t\tset_global_pos(Vector2(get_global_pos().x, bottom_boundary))\n\t\n\tif get_global_pos().y < top_boundary:\n\t\tset_global_pos(Vector2(get_global_pos().x, top_boundary))\n\n\tcurrent_speed.x = speedX\n\tcurrent_speed.y = speedY\n\t#move the Defender\n\tmove(current_speed)\n\n\t\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\t\n\tattacker = self.get_parent().get_parent().get_node(\"Attacker/KinematicBody2D/ShipSprite\")\n\tset_fixed_process(true)\n\nfunc _fixed_process(delta):\n\t\n\tright_boundary = get_parent().get_child(3).get_child(0).get_global_pos().x - 42\n\tleft_boundary = get_parent().get_child(4).get_child(0).get_global_pos().x + 42\n\ttop_boundary = get_parent().get_child(1).get_child(0).get_global_pos().y + 42\n\tbottom_boundary = get_parent().get_child(2).get_child(0).get_global_pos().y - 42\n\t\n\t#rotate to protect bomber\n\tdiff = attacker.get_global_pos() - self.get_global_pos()\n\tself.set_rot(atan2(-diff.y,diff.x) - 3.14/2)\n\t\n\t#Current Attacker is player1\n\tif (GLOBALS.g_current_attacker == \"player1\"):\n\t\tbtn_right = Input.is_action_pressed(\"Player2_Right\")\n\t\tbtn_left = Input.is_action_pressed(\"Player2_Left\")\n\t\tbtn_up = Input.is_action_pressed(\"Player2_Up\")\n\t\tbtn_down = Input.is_action_pressed(\"Player2_Down\")\n\t\n\telse:\n\t\t#Current Defender is player2\n\t\tbtn_right = Input.is_action_pressed(\"Player1_Right\")\n\t\tbtn_left = Input.is_action_pressed(\"Player1_Left\")\n\t\tbtn_up = Input.is_action_pressed(\"Player1_Up\")\n\t\tbtn_down = Input.is_action_pressed(\"Player1_Down\")\n\t\n\t#Defender is not stunned\n\tif(!isStunned):\n\t\t\n\t\t#Defender moves right\n\t\tif btn_right:\n\t\t\tmovement(player_speed,0)\n\t\t\t\n\t\t#Defender moves left\n\t\tif btn_left:\n\t\t\tmovement(-player_speed,0)\n\t\t\t\n\t\tif btn_down:\n\t\t\tmovement(0,player_speed)\n\t\t\t\n\t\tif btn_up:\n\t\t\tmovement(0, -player_speed)\n\telse:\n\t\tstunTimer-=1\n\t\t\n\t\tif(stunTimer < 0):\n\t\t\tisStunned = false\n\t\t\tstunTimer = 60\n\n#defender is colliding with another object\nfunc collided(dmg=0):\n\t\n\t# defender score has not reached the cap\n\tif defendingScoreLimit < 1500:\n\t\t\n\t\t#defender score goes to the right player\n\t\tif GLOBALS.g_current_attacker == \"player2\":\n\t\t\tGLOBALS.g_player1_defender_score += 100\n\t\t\tdefendingScoreLimit += 100\n\t\telse:\n\t\t\tGLOBALS.g_player2_defender_score += 100\n\t\t\tdefendingScoreLimit += 100\n\t\n\n#Defender is stunned by laser\nfunc stunned():\n\tisStunned = true\n\t\n\n"
+script/source = "extends KinematicBody2D
+
+# class member variables
+var btn_right = false
+var btn_left = false
+var btn_up = false
+var btn_down = false
+var current_speed = Vector2(0,0)
+var player_speed = GLOBALS.g_defense_spd
+var left_boundary
+var right_boundary
+var top_boundary
+var bottom_boundary
+var shipPositionY
+var isStunned = false
+var stunTimer = 60
+var defendingScoreLimit = 0
+var attacker
+var diff
+
+#Gives movement to Defender
+func movement(speedX, speedY):
+	
+	#checks right boundary for Defender
+	if get_global_pos().x > right_boundary:
+		set_global_pos(Vector2(right_boundary, get_global_pos().y))
+	
+	#checks left boundary for Defender
+	if get_global_pos().x < left_boundary:
+		set_global_pos(Vector2(left_boundary,get_global_pos().y))
+	
+	if get_global_pos().y > bottom_boundary:
+		set_global_pos(Vector2(get_global_pos().x, bottom_boundary))
+	
+	if get_global_pos().y < top_boundary:
+		set_global_pos(Vector2(get_global_pos().x, top_boundary))
+
+	current_speed.x = speedX
+	current_speed.y = speedY
+	#move the Defender
+	move(current_speed)
+
+	
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	
+	attacker = self.get_parent().get_parent().get_node(\"Attacker/KinematicBody2D/ShipSprite\")
+	set_fixed_process(true)
+
+func _fixed_process(delta):
+	
+	right_boundary = get_parent().get_child(3).get_child(0).get_global_pos().x - 42
+	left_boundary = get_parent().get_child(4).get_child(0).get_global_pos().x + 42
+	top_boundary = get_parent().get_child(1).get_child(0).get_global_pos().y + 42
+	bottom_boundary = get_parent().get_child(2).get_child(0).get_global_pos().y - 42
+	
+	#rotate to protect bomber
+	diff = attacker.get_global_pos() - self.get_global_pos()
+	self.set_rot(atan2(-diff.y,diff.x) - 3.14/2)
+	
+	#Current Attacker is player1
+	if (GLOBALS.g_current_attacker == \"player1\"):
+		btn_right = Input.is_action_pressed(\"Player2_Right\")
+		btn_left = Input.is_action_pressed(\"Player2_Left\")
+		btn_up = Input.is_action_pressed(\"Player2_Up\")
+		btn_down = Input.is_action_pressed(\"Player2_Down\")
+	
+	else:
+		#Current Defender is player2
+		btn_right = Input.is_action_pressed(\"Player1_Right\")
+		btn_left = Input.is_action_pressed(\"Player1_Left\")
+		btn_up = Input.is_action_pressed(\"Player1_Up\")
+		btn_down = Input.is_action_pressed(\"Player1_Down\")
+	
+	#Defender is not stunned
+	if(!isStunned):
+		
+		#Defender moves right
+		if btn_right:
+			movement(player_speed,0)
+			
+		#Defender moves left
+		if btn_left:
+			movement(-player_speed,0)
+			
+		if btn_down:
+			movement(0,player_speed)
+			
+		if btn_up:
+			movement(0, -player_speed)
+	else:
+		stunTimer-=1
+		
+		if(stunTimer < 0):
+			isStunned = false
+			stunTimer = 60
+
+#defender is colliding with another object
+func collided(dmg=0):
+	
+	# defender score has not reached the cap
+	if defendingScoreLimit < 1500:
+		
+		#defender score goes to the right player
+		if GLOBALS.g_current_attacker == \"player2\":
+			GLOBALS.g_player1_defender_score += 100
+			defendingScoreLimit += 100
+		else:
+			GLOBALS.g_player2_defender_score += 100
+			defendingScoreLimit += 100
+	
+
+#Defender is stunned by laser
+func stunned():
+	isStunned = true
+	
+
+"
 
 [sub_resource type="GDScript" id=4]
 
-script/source = "#starts when loaded up in scene\nfunc _ready():\n\tset_process(true)\n#called every frame\nfunc _process(delta):\n\tif Input.is_action_pressed(\"CameraUp\"):\n\t\tmove(0,-10)\n\tif Input.is_action_pressed(\"CameraDown\"):\n\t\tmove(0,10)\n\tif Input.is_action_pressed(\"CameraLeft\"):\n\t\tmove(-10,0)\n\tif Input.is_action_pressed(\"CameraRight\"):\n\t\tmove(10,0)\n\t\t\n\t#check if camera has moved passed scroll current limit\n\tif get_child(0).get_max() < get_global_pos().x:\n\t\tget_child(0).set_max(get_global_pos().x)\n\tif get_child(1).get_max() < get_global_pos().y:\n\t\tget_child(0).set_max(get_global_pos().y)\n\t\nfunc move(x, y):\n\tself.set_global_pos(Vector2(self.get_global_pos().x + x,self.get_global_pos().y + y))\n\nfunc _on_HScrollBar_value_changed( value ):\n\tself.set_global_pos(Vector2(value,self.get_global_pos().y))\n\n\n\nfunc _on_VScrollBar_value_changed( value ):\n\tself.set_global_pos(Vector2(self.get_global_pos().x, value + 100))\n"
+script/source = "#starts when loaded up in scene
+func _ready():
+	set_process(true)
+#called every frame
+func _process(delta):
+	if Input.is_action_pressed(\"CameraUp\"):
+		move(0,-10)
+	if Input.is_action_pressed(\"CameraDown\"):
+		move(0,10)
+	if Input.is_action_pressed(\"CameraLeft\"):
+		move(-10,0)
+	if Input.is_action_pressed(\"CameraRight\"):
+		move(10,0)
+		
+	#check if camera has moved passed scroll current limit
+	if get_child(0).get_max() < get_global_pos().x:
+		get_child(0).set_max(get_global_pos().x)
+	if get_child(1).get_max() < get_global_pos().y:
+		get_child(0).set_max(get_global_pos().y)
+	if get_child(0).get_min() > get_global_pos().x:
+		get_child(0).set_min(get_global_pos().x)
+	if get_child(1).get_min() > get_global_pos().y:
+		get_child(0).set_min(get_global_pos().y)
+	
+func move(x, y):
+	self.set_global_pos(Vector2(self.get_global_pos().x + x,self.get_global_pos().y + y))
+	#move cursors
+	get_child(0).set_value(self.get_global_pos().x + x)
+	get_child(1).set_value(self.get_global_pos().y + y)
+
+func _on_HScrollBar_value_changed( value ):
+	self.set_global_pos(Vector2(value,self.get_global_pos().y))
+
+func _on_VScrollBar_value_changed( value ):
+	self.set_global_pos(Vector2(self.get_global_pos().x, value))
+"
 
 [sub_resource type="GDScript" id=5]
 
-script/source = "extends HScrollBar\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tset_process(true)\n\t\nfunc _process(delta):\n\tpass#set_global_pos(get_parent().get_child(7).get_global_pos())"
+script/source = "extends HScrollBar
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	pass#set_global_pos(get_parent().get_child(7).get_global_pos())"
 
 [sub_resource type="GDScript" id=6]
 
-script/source = "extends CollisionShape2D\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tset_process(true)\n\t\nfunc _process(delta):\n\tself.set_global_pos(get_parent().get_child(0).get_global_pos())"
+script/source = "extends CollisionShape2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
 
 [node name="Node2D" type="Node2D"]
 
@@ -166,7 +430,6 @@ editor/display_folded = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 45, -809 )
 anchor_mode = 1
 rotating = false
@@ -208,17 +471,18 @@ script/script = SubResource( 5 )
 
 [node name="VScrollBar" type="VScrollBar" parent="Camera2D"]
 
+rect/rotation = 180.0
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 0
 size_flags/vertical = 2
-margin/left = -511.0
-margin/top = -294.0
-margin/right = -499.0
-margin/bottom = 282.0
+margin/left = -494.0
+margin/top = 281.0
+margin/right = -477.0
+margin/bottom = 859.0
 range/min = 0.0
 range/max = 100.0
-range/step = 0.0
+range/step = 1.0
 range/page = 0.0
 range/value = 1.0
 range/exp_edit = false
@@ -244,8 +508,6 @@ script/script = SubResource( 6 )
 [node name="Position2D" parent="Mover/KinematicBody2D"]
 
 visibility/visible = false
-
-[connection signal="input_event" from="Attacker/Area2D" to="Attacker/Area2D" method="_input_event"]
 
 [connection signal="input_event" from="Attacker/Area2D1" to="." method="_on_Area2D_input_event"]
 
@@ -275,9 +537,9 @@ visibility/visible = false
 
 [connection signal="mouse_exit" from="Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
@@ -9,16 +9,22 @@
 [ext_resource path="res://Scenes/Defender.xml" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Defender.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/MoverLevelEditor.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scripts/Collided.gd" type="Script" id=10]
+[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=11]
+[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=12]
+[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=13]
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")
+script/source = "#var turrent = preload(\"res://Scenes/Turret.tscn\")
+var turrent
 var base = preload(\"res://Scenes/Base1.tscn\")
 var base2 = preload(\"res://Scenes/Base2.tscn\")
 var base3 = preload(\"res://Scenes/Base3.tscn\")
 var ground = preload(\"res://Scenes/Turret.tscn\")
 var stun = preload(\"res://Scenes/MoverLevelEditor.tscn\")
-
+var parentArea = Area2D.new()
+var areaCollider = CollisionShape2D.new()
 #add a child
 #get_parent().add_child(laserInstance)
 var currentObject
@@ -29,6 +35,9 @@ var pressed = false
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
+	turrent = self.get_node(\"TurretArea\")
+	print (parentArea.get_parent())
+	print (areaCollider.get_parent())
 	var attacker = get_node(\"Attacker\")
 	currentObject = \"turrent\"
 
@@ -39,7 +48,10 @@ func _process(delta):
 	#get_child(1).set_global_pos(posOffset)
 	if  Input.is_action_pressed(\"left_click\"):
 		if !overButton && !pressed:
-			var objectInstance = turrent.instance()
+			var objectInstance = turrent.duplicate()
+			#we have to manually copy signals over
+			objectInstance.connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+			objectInstance.connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			if currentObject == \"Base\":
 				objectInstance = base.instance()
 			elif currentObject == \"Base2\":
@@ -54,6 +66,8 @@ func _process(delta):
 				objectInstance.get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			elif currentObject == \"Turrent\":
 				objectInstance = turrent.instance()
+			#parentArea.add_child(objectInstance)
+			#parentArea.add_child(areaCollider)
 			objectInstance.set_global_pos(mosLoc)
 			#give the copy a name 
 			objectInstance.set_name(\"object\" + str(objectIndex))
@@ -78,7 +92,6 @@ func _on_Button_button_down(type):
 func _on_Button_mouse_enter():
 	overButton = true
 
-
 func _on_Button_mouse_exit():
 	overButton = false
 
@@ -86,10 +99,10 @@ func _on_Area2D_mouse_enter():
 	overButton = true
 	print(\"should not work\")
 
-
 func _on_Area2D_mouse_exit():
 	overButton = false
-	print(\"should work\")"
+	print(\"should work\")
+"
 
 [sub_resource type="GDScript" id=2]
 
@@ -244,29 +257,65 @@ func _process(delta):
 		move(10,0)
 		
 	#check if camera has moved passed scroll current limit
-	if get_child(0).get_max() < get_global_pos().x:
-		get_child(0).set_max(get_global_pos().x)
-	if get_child(1).get_max() < get_global_pos().y:
-		get_child(0).set_max(get_global_pos().y)
-	if get_child(0).get_min() > get_global_pos().x:
-		get_child(0).set_min(get_global_pos().x)
-	if get_child(1).get_min() > get_global_pos().y:
-		get_child(0).set_min(get_global_pos().y)
+	if get_child(0).get_child(0).get_max() < get_global_pos().x:
+		get_child(0).get_child(0).set_max(get_global_pos().x)
+	if get_child(1).get_child(0).get_max() < get_global_pos().y:
+		get_child(1).get_child(0).set_max(get_global_pos().y)
+	if get_child(0).get_child(0).get_min() > get_global_pos().x:
+		get_child(0).get_child(0).set_min(get_global_pos().x)
+	if get_child(1).get_child(0).get_min() > get_global_pos().y:
+		get_child(1).get_child(0).set_min(get_global_pos().y)
 	
 func move(x, y):
 	self.set_global_pos(Vector2(self.get_global_pos().x + x,self.get_global_pos().y + y))
 	#move cursors
-	get_child(0).set_value(self.get_global_pos().x + x)
-	get_child(1).set_value(self.get_global_pos().y + y)
+	get_child(0).get_child(0).set_value(self.get_global_pos().x + x)
+	get_child(1).get_child(0).set_value(self.get_global_pos().y + y)
 
 func _on_HScrollBar_value_changed( value ):
-	self.set_global_pos(Vector2(value,self.get_global_pos().y))
+	pass#self.set_global_pos(Vector2(value,self.get_global_pos().y))
 
 func _on_VScrollBar_value_changed( value ):
-	self.set_global_pos(Vector2(self.get_global_pos().x, value))
+	pass#self.set_global_pos(Vector2(self.get_global_pos().x, value))
 "
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="RectangleShape2D" id=5]
+
+custom_solver_bias = 0.0
+extents = Vector2( 512.656, 31.6259 )
+
+[sub_resource type="GDScript" id=6]
+
+script/source = "extends Area2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+var clicked = false
+var toggled = 0
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+
+func _input_event( viewport, event, shape_idx ):
+	if event.type == InputEvent.MOUSE_BUTTON:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed && toggled < 1:
+				if clicked:
+					clicked = false
+					print(\"false\")
+				else:
+					clicked = true
+					print(\"true\")
+				toggled += 1
+	else:
+		toggled = 0"
+
+[sub_resource type="GDScript" id=7]
 
 script/source = "extends HScrollBar
 
@@ -282,7 +331,12 @@ func _ready():
 func _process(delta):
 	pass#set_global_pos(get_parent().get_child(7).get_global_pos())"
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="RectangleShape2D" id=8]
+
+custom_solver_bias = 0.0
+extents = Vector2( 13.6842, 518.641 )
+
+[sub_resource type="GDScript" id=9]
 
 script/source = "extends CollisionShape2D
 
@@ -297,6 +351,79 @@ func _ready():
 	
 func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
+
+[sub_resource type="RectangleShape2D" id=10]
+
+custom_solver_bias = 0.0
+extents = Vector2( 22.1984, 35.424 )
+
+[sub_resource type="GDScript" id=11]
+
+script/source = "extends Node2D
+
+# class member variables go here
+var laserObject = preload(\"res://Scenes/enemyLaser.tscn\")
+var laserCount = 0
+var laserOffset = 0
+var theirPos
+var myPos
+var target
+var diff
+var rotate
+var timer = 1
+var rateIncrease = 0
+var vector = Vector2(0,0)
+
+#starts when loaded up in scene
+func _ready():
+	set_process(true)
+	target = self.get_parent().get_parent().get_node(\"Attacker/KinematicBody2D/ShipSprite\")
+	# Called every time the node is added to the scene.
+	# Initialization her
+
+#called every frame
+func _process(delta):
+	
+	#increase rate of fire of the turrent over time
+	rateIncrease += .00001
+	theirPos = target.get_global_pos()
+	myPos = self.get_global_pos()
+	diff = theirPos - myPos
+	rotate = atan2(-diff.y,diff.x) - 3.14/2
+	self.set_rot(rotate)
+	vector = (theirPos - myPos).normalized()
+	timer = timer - (delta + rateIncrease)
+	
+	#enough time has passed
+	if (timer <= 0):
+		fire()
+		timer = 5
+
+#turret shoots laser
+func fire():
+	
+	laserCount += 1
+	
+	#create a copy of the laser object
+	var laserInstance = laserObject.instance()
+	
+	#give the copy a name 
+	laserInstance.set_name(\"Laser\" + str(laserCount))
+		
+	#add a child
+	get_parent().add_child(laserInstance)
+	
+	laserInstance.set_owner(self.get_parent())
+	
+	laserInstance.setDirVector(rotate, vector)
+	
+	#set the position of the laser copy
+	laserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())"
+
+[sub_resource type="RectangleShape2D" id=12]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -413,7 +540,7 @@ script/script = SubResource( 2 )
 [node name="Defender" parent="." instance=ExtResource( 7 )]
 
 editor/display_folded = true
-transform/pos = Vector2( -1149.39, -688.288 )
+transform/pos = Vector2( -1710.08, -599.024 )
 script/script = ExtResource( 8 )
 
 [node name="KinematicBody2D" parent="Defender"]
@@ -430,7 +557,7 @@ editor/display_folded = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-transform/pos = Vector2( 45, -809 )
+transform/pos = Vector2( 31.3008, -781.602 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -449,16 +576,29 @@ drag_margin/right = 0.0
 drag_margin/bottom = 0.0
 script/script = SubResource( 4 )
 
-[node name="HScrollBar" type="HScrollBar" parent="Camera2D"]
+[node name="HBarArea2D" type="Area2D" parent="Camera2D"]
+
+transform/pos = Vector2( -511, 284 )
+input/pickable = true
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Matrix32( 0.994363, 0, 0, 0.585169, 500.343, -2.13093 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 6 )
+
+[node name="HScrollBar" type="HScrollBar" parent="Camera2D/HBarArea2D"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = -511.0
-margin/top = 282.0
-margin/right = 504.0
-margin/bottom = 298.0
+margin/left = 0.0
+margin/top = -3.0
+margin/right = 1015.0
+margin/bottom = 16.0
 range/min = 0.0
 range/max = 100.0
 range/step = 0.0
@@ -467,9 +607,28 @@ range/value = 1.0
 range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
-script/script = SubResource( 5 )
+script/script = SubResource( 7 )
 
-[node name="VScrollBar" type="VScrollBar" parent="Camera2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/HBarArea2D"]
+
+transform/pos = Vector2( 500.343, -2.13093 )
+transform/scale = Vector2( 0.994363, 0.585169 )
+shape = SubResource( 5 )
+trigger = false
+_update_shape_index = 0
+
+[node name="VBarArea2D" type="Area2D" parent="Camera2D"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Matrix32( 0.994363, 0, 0, 0.564895, -502.305, -10.9558 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="VScrollBar" type="VScrollBar" parent="Camera2D/VBarArea2D"]
 
 rect/rotation = 180.0
 focus/ignore_mouse = false
@@ -489,8 +648,17 @@ range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/VBarArea2D"]
+
+transform/pos = Vector2( -502.305, -10.9558 )
+transform/scale = Vector2( 0.994363, 0.564895 )
+shape = SubResource( 8 )
+trigger = false
+_update_shape_index = 0
+
 [node name="Mover" parent="." instance=ExtResource( 9 )]
 
+editor/display_folded = true
 transform/pos = Vector2( 265.519, -909.646 )
 
 [node name="KinematicBody2D" parent="Mover"]
@@ -503,11 +671,87 @@ input/pickable = true
 
 transform/pos = Vector2( -0.106045, 5.97396 )
 transform/scale = Vector2( 3.23953, 1.60646 )
-script/script = SubResource( 6 )
+script/script = SubResource( 9 )
 
 [node name="Position2D" parent="Mover/KinematicBody2D"]
 
 visibility/visible = false
+
+[node name="TurretArea" type="Area2D" parent="."]
+
+transform/pos = Vector2( 214.385, -763.536 )
+input/pickable = true
+shapes/0/shape = SubResource( 10 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Turret" type="Node2D" parent="TurretArea"]
+
+script/script = SubResource( 11 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TurretArea/Turret"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 12 )
+shapes/0/transform = Matrix32( 2.06324, 0, 0, 3.63881, 0.45375, 0.313156 )
+shapes/0/trigger = false
+collision/layers = 8
+collision/mask = 0
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script/script = ExtResource( 10 )
+
+[node name="Sprite" type="Sprite" parent="TurretArea/Turret/StaticBody2D"]
+
+texture = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/Turret/StaticBody2D"]
+
+transform/pos = Vector2( 0.45375, 0.313156 )
+transform/scale = Vector2( 2.06324, 3.63881 )
+shape = SubResource( 12 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Hp" type="TextureProgress" parent="TurretArea/Turret/StaticBody2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -48.0
+margin/top = 41.0
+margin/right = 48.0
+margin/bottom = 49.0
+range/min = 0.0
+range/max = 3.0
+range/step = 1.0
+range/page = 0.0
+range/value = 3.0
+range/exp_edit = false
+range/rounded = false
+texture/under = ExtResource( 12 )
+texture/over = null
+texture/progress = ExtResource( 13 )
+radial_fill/initial_angle = 1.0
+radial_fill/fill_degrees = 360.0
+radial_fill/center_offset = Vector2( 0, 0 )
+
+[node name="Position2D" type="Position2D" parent="TurretArea/Turret"]
+
+transform/pos = Vector2( 1, -41 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea"]
+
+shape = SubResource( 10 )
+trigger = false
+_update_shape_index = 0
 
 [connection signal="input_event" from="Attacker/Area2D1" to="." method="_on_Area2D_input_event"]
 
@@ -537,9 +781,9 @@ visibility/visible = false
 
 [connection signal="mouse_exit" from="Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -575,9 +819,17 @@ visibility/visible = false
 
 [connection signal="mouse_exit" from="Defender/Area2D4" to="." method="_on_Area2D_mouse_exit"]
 
-[connection signal="value_changed" from="Camera2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
+[connection signal="mouse_enter" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="value_changed" from="Camera2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
+[connection signal="mouse_exit" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
+
+[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
 [connection signal="input_event" from="Mover/KinematicBody2D" to="Mover" method="_on_KinematicBody2D_input_event"]
 
@@ -592,6 +844,10 @@ visibility/visible = false
 [connection signal="mouse_enter" from="Mover/Area2D 2" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="Mover/Area2D 2" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="TurretArea" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="TurretArea" to="." method="_on_Area2D_mouse_exit"]
 
 
 [editable path="Attacker"]

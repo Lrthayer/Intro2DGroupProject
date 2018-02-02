@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=1]
+[gd_scene load_steps=49 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
@@ -8,21 +8,28 @@
 [ext_resource path="res://turret001.tex" type="Texture" id=6]
 [ext_resource path="res://Scenes/Defender.xml" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Defender.gd" type="Script" id=8]
-[ext_resource path="res://Scenes/MoverLevelEditor.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Scripts/Collided.gd" type="Script" id=10]
-[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=11]
-[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=12]
-[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=13]
+[ext_resource path="res://Scripts/Collided.gd" type="Script" id=9]
+[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=10]
+[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=11]
+[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=12]
+[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=13]
+[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=14]
+[ext_resource path="res://Scripts/BaseKinematics.gd" type="Script" id=15]
+[ext_resource path="res://Graphics/Structures/base003.tex" type="Texture" id=16]
+[ext_resource path="res://Graphics/Structures/base004.tex" type="Texture" id=17]
 
 [sub_resource type="GDScript" id=1]
 
 script/source = "#var turrent = preload(\"res://Scenes/Turret.tscn\")
 var turrent
-var base = preload(\"res://Scenes/Base1.tscn\")
-var base2 = preload(\"res://Scenes/Base2.tscn\")
+#var base = preload(\"res://Scenes/Base1.tscn\")
+var base
+#var base2 = preload(\"res://Scenes/Base2.tscn\")
+var base2
 var base3 = preload(\"res://Scenes/Base3.tscn\")
 var ground = preload(\"res://Scenes/Turret.tscn\")
-var stun = preload(\"res://Scenes/MoverLevelEditor.tscn\")
+#var stun = preload(\"res://Scenes/MoverLevelEditor.tscn\")
+var stun
 var parentArea = Area2D.new()
 var areaCollider = CollisionShape2D.new()
 #add a child
@@ -36,6 +43,9 @@ var pressed = false
 func _ready():
 	set_process(true)
 	turrent = self.get_node(\"TurretArea\")
+	stun = self.get_node(\"MoverArea\")
+	base = self.get_node(\"Base12D\")
+	base2 = self.get_node(\"Base22D\")
 	print (parentArea.get_parent())
 	print (areaCollider.get_parent())
 	var attacker = get_node(\"Attacker\")
@@ -49,26 +59,38 @@ func _process(delta):
 	if  Input.is_action_pressed(\"left_click\"):
 		if !overButton && !pressed:
 			var objectInstance = turrent.duplicate()
-			#we have to manually copy signals over
+			objectInstance.set_hidden(false)
 			objectInstance.connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
 			objectInstance.connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+			#we have to manually copy signals over
 			if currentObject == \"Base\":
-				objectInstance = base.instance()
+				objectInstance = base.duplicate()
+				objectInstance.set_hidden(false)
+				objectInstance.connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			elif currentObject == \"Base2\":
-				objectInstance = base2.instance()
+				objectInstance = base2.duplicate()
+				objectInstance.set_hidden(false)
+				objectInstance.connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			elif currentObject == \"Base3\":
 				objectInstance = base3.instance()
 			elif currentObject == \"Mover\":
-				objectInstance = stun.instance()
-				objectInstance.get_child(1).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
-				objectInstance.get_child(1).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
-				objectInstance.get_child(2).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
-				objectInstance.get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+				objectInstance = stun.duplicate()
+				objectInstance.set_hidden(false)
+				objectInstance.get_child(0).get_child(1).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_child(0).get_child(1).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+				objectInstance.get_child(0).get_child(2).connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_child(0).get_child(2).connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			elif currentObject == \"Turrent\":
-				objectInstance = turrent.instance()
+				objectInstance = turrent.duplicate()
+				objectInstance.set_hidden(false)
+				objectInstance.connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
 			#parentArea.add_child(objectInstance)
 			#parentArea.add_child(areaCollider)
 			objectInstance.set_global_pos(mosLoc)
+			print(objectInstance)
 			#give the copy a name 
 			objectInstance.set_name(\"object\" + str(objectIndex))
 			add_child(objectInstance)
@@ -89,6 +111,9 @@ func _on_Button_button_down(type):
 	elif type == \"Turrent\":
 		currentObject = \"Turrent\"
 
+func set_hovering(state):
+	overButton = state
+
 func _on_Button_mouse_enter():
 	overButton = true
 
@@ -101,8 +126,7 @@ func _on_Area2D_mouse_enter():
 
 func _on_Area2D_mouse_exit():
 	overButton = false
-	print(\"should work\")
-"
+	print(\"should work\")"
 
 [sub_resource type="GDScript" id=2]
 
@@ -114,9 +138,9 @@ script/source = "func _ready():
 func _process(delta):
 	var currentPos = self.get_pos()
 	if Input.is_action_pressed(\"left\"):
-		self.set_pos(Vector2(currentPos.x + 2, currentPos.y))
+		self.set_pos(Vector2(currentPos.x + 15, currentPos.y))
 	elif Input.is_action_pressed(\"right\"):
-		self.set_pos(Vector2(currentPos.x - 2, currentPos.y))"
+		self.set_pos(Vector2(currentPos.x - 15, currentPos.y))"
 
 [sub_resource type="GDScript" id=3]
 
@@ -336,26 +360,31 @@ func _process(delta):
 custom_solver_bias = 0.0
 extents = Vector2( 13.6842, 518.641 )
 
-[sub_resource type="GDScript" id=9]
-
-script/source = "extends CollisionShape2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
-
 [sub_resource type="RectangleShape2D" id=10]
 
 custom_solver_bias = 0.0
 extents = Vector2( 22.1984, 35.424 )
+
+[sub_resource type="GDScript" id=13]
+
+script/source = "extends Area2D
+var hovering = false
+
+func _ready():
+	set_process(true)
+
+#called every frame
+func _process(delta):
+	if hovering:
+		if  Input.is_action_pressed(\"right_click\"):
+			self.free()
+
+func _on_TurretArea_mouse_enter():
+	hovering = true
+
+func _on_TurretArea_mouse_exit():
+	hovering = false
+"
 
 [sub_resource type="GDScript" id=11]
 
@@ -425,6 +454,337 @@ func fire():
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
+[sub_resource type="RectangleShape2D" id=24]
+
+custom_solver_bias = 0.0
+extents = Vector2( 33.1893, 16.7817 )
+
+[sub_resource type="GDScript" id=25]
+
+script/source = "extends Area2D
+var hovering = false
+
+func _ready():
+	set_process(true)
+
+func _process(delta):
+	if hovering:
+		if  Input.is_action_pressed(\"right_click\"):
+			self.free()
+
+func _on_MoverArea_mouse_enter():
+	hovering = true
+
+func _on_MoverArea_mouse_exit():
+	hovering = false
+"
+
+[sub_resource type="GDScript" id=14]
+
+script/source = "extends Node2D
+
+# class member variables 
+var laserObject = preload(\"res://Scenes/StunLaser.tscn\")
+var laserCount = 0
+var laserOffset = 0
+var theirPos
+var myPos
+var target
+var diff
+var rotate
+var timer = 5
+var rateIncrease = 0
+var vector = Vector2(0,0)
+var toggled = 0
+var clicked = false
+
+#starts when loaded up in scene
+func _ready():
+	set_process(true)
+	target = self.get_parent().get_parent().get_node(\"Attacker/KinematicBody2D/ShipSprite\")
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+#called every frame
+func _process(delta):
+	
+	#increase rate of fire of the turret over time
+	rateIncrease += .00001
+	theirPos = target.get_global_pos()
+	myPos = self.get_global_pos()
+	diff = theirPos - myPos
+	rotate = atan2(-diff.y,diff.x) - 3.14/2
+	vector = (theirPos - myPos).normalized()
+	timer = timer - (delta + rateIncrease)
+	
+	#enough time has passed
+	if (timer <= 0):
+		fire()
+		timer = 5
+
+#Mover shoots stun laser
+func fire():
+	laserCount += 1
+	
+	#create a copy of the laser object
+	var laserInstance = laserObject.instance()
+	
+	#give the copy a name 
+	laserInstance.set_name(\"Laser\" + str(laserCount))
+		
+	#add a child
+	get_parent().add_child(laserInstance)
+	
+	laserInstance.set_owner(self.get_parent())
+	
+	laserInstance.setDirVector(rotate, vector)
+	
+	#set the position of the laser copy
+	laserInstance.set_global_pos(get_node(\"KinematicBody2D/Position2D\").get_global_pos())
+
+
+
+func _on_KinematicBody2D_input_event( viewport, event, shape_idx ):
+	if event.type == InputEvent.MOUSE_BUTTON:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed && toggled < 1:
+				if clicked:
+					clicked = false
+					print(\"false\")
+				else:
+					clicked = true
+					print(\"true\")
+				toggled += 1
+	elif Input.is_action_pressed(\"Player1_Right\"):
+		self.hide()
+	else:
+		toggled = 0
+		
+"
+
+[sub_resource type="RectangleShape2D" id=15]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10.5307, 10 )
+
+[sub_resource type="GDScript" id=9]
+
+script/source = "extends CollisionShape2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
+
+[sub_resource type="RectangleShape2D" id=16]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="GDScript" id=17]
+
+script/source = "extends Area2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+var clicked = false
+var toggled = 0
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+
+func _input_event( viewport, event, shape_idx ):
+	if event.type == InputEvent.MOUSE_BUTTON:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed && toggled < 1:
+				if clicked:
+					clicked = false
+					print(\"false\")
+				else:
+					clicked = true
+					print(\"true\")
+				toggled += 1
+	else:
+		toggled = 0"
+
+[sub_resource type="GDScript" id=18]
+
+script/source = "extends Sprite
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	if get_parent().clicked:
+		self.set_global_pos(get_global_mouse_pos())
+
+"
+
+[sub_resource type="GDScript" id=19]
+
+script/source = "extends CollisionShape2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(get_parent().get_child(0).get_global_pos())
+"
+
+[sub_resource type="RectangleShape2D" id=20]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="GDScript" id=21]
+
+script/source = "extends Area2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+var clicked = false
+var toggled = 0
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+
+func _input_event( viewport, event, shape_idx ):
+	if event.type == InputEvent.MOUSE_BUTTON:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed && toggled < 1:
+				if clicked:
+					clicked = false
+					print(\"false\")
+				else:
+					clicked = true
+					print(\"true\")
+				toggled += 1
+	else:
+		toggled = 0"
+
+[sub_resource type="GDScript" id=22]
+
+script/source = "extends Sprite
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	if get_parent().clicked:
+		self.set_global_pos(get_global_mouse_pos())
+"
+
+[sub_resource type="GDScript" id=23]
+
+script/source = "extends CollisionShape2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
+
+[sub_resource type="RectangleShape2D" id=27]
+
+custom_solver_bias = 0.0
+extents = Vector2( 131.979, 59.8076 )
+
+[sub_resource type="GDScript" id=28]
+
+script/source = "extends Area2D
+
+var hovering = false
+
+func _ready():
+	set_process(true)
+	
+func _process(delta):
+	if hovering:
+		if  Input.is_action_pressed(\"right_click\"):
+			self.get_parent().set_hovering(false)
+			self.free()
+
+
+func _on_Base12D_mouse_enter():
+	hovering = true
+
+
+func _on_Base12D_mouse_exit():
+	hovering = false
+"
+
+[sub_resource type="ConvexPolygonShape2D" id=26]
+
+custom_solver_bias = 0.0
+points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
+
+[sub_resource type="RectangleShape2D" id=29]
+
+custom_solver_bias = 0.0
+extents = Vector2( 164.936, 54.913 )
+
+[sub_resource type="GDScript" id=30]
+
+script/source = "extends Area2D
+
+var hovering = false
+
+func _ready():
+	set_process(true)
+	
+func _process(delta):
+	if hovering:
+		if  Input.is_action_pressed(\"right_click\"):
+			self.free()
+
+
+func _on_Base2D_mouse_enter():
+	hovering = true
+
+
+func _on_Base2D_mouse_exit():
+	hovering = false
+"
+
+[sub_resource type="ConvexPolygonShape2D" id=31]
+
+custom_solver_bias = 0.0
+points = Vector2Array( 7.4, -1.2, 7.4, 5, -7.4, 5, -7.4, -1.2, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
+
 [node name="Node2D" type="Node2D"]
 
 transform/pos = Vector2( 13, 30 )
@@ -433,6 +793,7 @@ script/script = SubResource( 1 )
 
 [node name="Attacker" parent="." instance=ExtResource( 1 )]
 
+editor/display_folded = true
 transform/pos = Vector2( -2173.55, -1769.16 )
 transform/scale = Vector2( 1.29688, 1.29688 )
 
@@ -557,6 +918,7 @@ editor/display_folded = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 31.3008, -781.602 )
 anchor_mode = 1
 rotating = false
@@ -656,30 +1018,10 @@ shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Mover" parent="." instance=ExtResource( 9 )]
-
-editor/display_folded = true
-transform/pos = Vector2( 265.519, -909.646 )
-
-[node name="KinematicBody2D" parent="Mover"]
-
-transform/pos = Vector2( -36.4862, -10.8389 )
-transform/scale = Vector2( 1.14837, 1 )
-input/pickable = true
-
-[node name="CollisionShape2D" parent="Mover/KinematicBody2D"]
-
-transform/pos = Vector2( -0.106045, 5.97396 )
-transform/scale = Vector2( 3.23953, 1.60646 )
-script/script = SubResource( 9 )
-
-[node name="Position2D" parent="Mover/KinematicBody2D"]
-
-visibility/visible = false
-
 [node name="TurretArea" type="Area2D" parent="."]
 
-transform/pos = Vector2( 214.385, -763.536 )
+editor/display_folded = true
+transform/pos = Vector2( 745.477, 3.36835 )
 input/pickable = true
 shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -688,6 +1030,7 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+script/script = SubResource( 13 )
 
 [node name="Turret" type="Node2D" parent="TurretArea"]
 
@@ -705,11 +1048,11 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-script/script = ExtResource( 10 )
+script/script = ExtResource( 9 )
 
 [node name="Sprite" type="Sprite" parent="TurretArea/Turret/StaticBody2D"]
 
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/Turret/StaticBody2D"]
 
@@ -736,9 +1079,9 @@ range/page = 0.0
 range/value = 3.0
 range/exp_edit = false
 range/rounded = false
-texture/under = ExtResource( 12 )
+texture/under = ExtResource( 11 )
 texture/over = null
-texture/progress = ExtResource( 13 )
+texture/progress = ExtResource( 12 )
 radial_fill/initial_angle = 1.0
 radial_fill/fill_degrees = 360.0
 radial_fill/center_offset = Vector2( 0, 0 )
@@ -750,6 +1093,290 @@ transform/pos = Vector2( 1, -41 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea"]
 
 shape = SubResource( 10 )
+trigger = false
+_update_shape_index = 0
+
+[node name="MoverArea" type="Area2D" parent="."]
+
+transform/pos = Vector2( 954.859, -7.71637 )
+input/pickable = true
+shapes/0/shape = SubResource( 24 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -35.0237, -3.25801 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 25 )
+
+[node name="Mover" type="Node2D" parent="MoverArea"]
+
+script/script = SubResource( 14 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover"]
+
+transform/pos = Vector2( -36.4862, -10.8389 )
+transform/scale = Vector2( 1.14837, 1 )
+input/pickable = true
+shapes/0/shape = SubResource( 15 )
+shapes/0/transform = Matrix32( 2.39548, 0, 0, 0.740502, 0.0149451, 7.50499 )
+shapes/0/trigger = false
+collision/layers = 8
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 13 )
+
+[node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D"]
+
+transform/scale = Vector2( 2.38735, 2.99493 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D"]
+
+transform/pos = Vector2( -0.106045, 5.97396 )
+transform/scale = Vector2( 3.23953, 1.60646 )
+shape = SubResource( 15 )
+trigger = false
+_update_shape_index = 0
+script/script = SubResource( 9 )
+
+[node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D"]
+
+visibility/visible = false
+transform/pos = Vector2( 0, -9.90164 )
+
+[node name="HP" type="TextureProgress" parent="MoverArea/Mover/KinematicBody2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -48.0
+margin/top = 20.0
+margin/right = 48.0
+margin/bottom = 28.0
+range/min = 0.0
+range/max = 3.0
+range/step = 1.0
+range/page = 0.0
+range/value = 3.0
+range/exp_edit = false
+range/rounded = false
+texture/under = ExtResource( 11 )
+texture/over = null
+texture/progress = ExtResource( 12 )
+radial_fill/fill_degrees = 360.0
+radial_fill/center_offset = Vector2( 0, 0 )
+
+[node name="Area2D" type="Area2D" parent="MoverArea/Mover"]
+
+transform/pos = Vector2( 207.428, -1270.71 )
+transform/scale = Vector2( 1.12062, 175.693 )
+input/pickable = true
+shapes/0/shape = SubResource( 16 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -4.83211, -0.0256834 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 17 )
+
+[node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D"]
+
+transform/pos = Vector2( -4.93346, 16.6439 )
+transform/rot = 180.0
+transform/scale = Vector2( 4, 18.8495 )
+texture = ExtResource( 14 )
+script/script = SubResource( 18 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D"]
+
+transform/pos = Vector2( -4.83211, -0.0256834 )
+shape = SubResource( 16 )
+trigger = false
+_update_shape_index = 0
+script/script = SubResource( 19 )
+
+[node name="Area2D 2" type="Area2D" parent="MoverArea/Mover"]
+
+transform/pos = Vector2( -74.6635, 8.0769 )
+input/pickable = true
+shapes/0/shape = SubResource( 20 )
+shapes/0/transform = Matrix32( 1.79192, 0, 0, 153.926, -270.41, -801.739 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D 2"]
+
+transform/pos = Vector2( -267.469, 374.457 )
+transform/rot = 180.0
+transform/scale = Vector2( 4, 685.63 )
+texture = ExtResource( 14 )
+script/script = SubResource( 22 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D 2"]
+
+transform/pos = Vector2( -270.41, -801.739 )
+transform/scale = Vector2( 1.79192, 153.926 )
+shape = SubResource( 20 )
+trigger = false
+_update_shape_index = 0
+script/script = SubResource( 23 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea"]
+
+transform/pos = Vector2( -35.0237, -3.25801 )
+shape = SubResource( 24 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Base12D" type="Area2D" parent="."]
+
+editor/display_folded = true
+transform/pos = Vector2( 856.572, -154.501 )
+input/pickable = true
+shapes/0/shape = SubResource( 27 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 28 )
+
+[node name="Base1" type="Node2D" parent="Base12D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Base12D/Base1"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 26 )
+shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -0.73763, 40.6475 )
+shapes/0/trigger = false
+collision/layers = 8
+collision/mask = 0
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script/script = ExtResource( 15 )
+
+[node name="Sprite" type="Sprite" parent="Base12D/Base1/StaticBody2D"]
+
+texture = ExtResource( 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1/StaticBody2D"]
+
+transform/pos = Vector2( -0.73763, 40.6475 )
+transform/scale = Vector2( 22.9014, 4.76138 )
+shape = SubResource( 26 )
+trigger = false
+_update_shape_index = 0
+
+[node name="hp_bar" type="TextureProgress" parent="Base12D/Base1/StaticBody2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -49.0
+margin/top = 55.0
+margin/right = 47.0
+margin/bottom = 63.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 100.0
+range/exp_edit = false
+range/rounded = false
+texture/under = ExtResource( 11 )
+texture/over = null
+texture/progress = ExtResource( 12 )
+radial_fill/initial_angle = 1.0
+radial_fill/fill_degrees = 360.0
+radial_fill/center_offset = Vector2( 0, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D"]
+
+transform/pos = Vector2( -2.44354, 7.33054 )
+shape = SubResource( 27 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Base22D" type="Area2D" parent="."]
+
+editor/display_folded = true
+input/pickable = true
+shapes/0/shape = SubResource( 29 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 30 )
+
+[node name="Base2" type="Node2D" parent="Base22D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Base22D/Base2"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 31 )
+shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -1.64311, 64.4346 )
+shapes/0/trigger = false
+collision/layers = 8
+collision/mask = 0
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script/script = ExtResource( 15 )
+
+[node name="Sprite" type="Sprite" parent="Base22D/Base2/StaticBody2D"]
+
+texture = ExtResource( 17 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2/StaticBody2D"]
+
+transform/pos = Vector2( -1.64311, 64.4346 )
+transform/scale = Vector2( 22.9014, 4.76138 )
+shape = SubResource( 31 )
+trigger = false
+_update_shape_index = 0
+
+[node name="hp_bar" type="TextureProgress" parent="Base22D/Base2/StaticBody2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -49.0
+margin/top = 55.0
+margin/right = 47.0
+margin/bottom = 63.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 100.0
+range/exp_edit = false
+range/rounded = false
+texture/under = ExtResource( 11 )
+texture/over = null
+texture/progress = ExtResource( 12 )
+radial_fill/initial_angle = 1.0
+radial_fill/fill_degrees = 360.0
+radial_fill/center_offset = Vector2( 0, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D"]
+
+transform/pos = Vector2( 1.10809, 4.43213 )
+shape = SubResource( 29 )
 trigger = false
 _update_shape_index = 0
 
@@ -831,25 +1458,54 @@ _update_shape_index = 0
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
-[connection signal="input_event" from="Mover/KinematicBody2D" to="Mover" method="_on_KinematicBody2D_input_event"]
-
-[connection signal="mouse_enter" from="Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_exit"]
-
-[connection signal="mouse_enter" from="Mover/Area2D" to="." method="_on_Area2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Mover/Area2D" to="." method="_on_Area2D_mouse_exit"]
-
-[connection signal="mouse_enter" from="Mover/Area2D 2" to="." method="_on_Area2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Mover/Area2D 2" to="." method="_on_Area2D_mouse_exit"]
-
 [connection signal="mouse_enter" from="TurretArea" to="." method="_on_Area2D_mouse_enter"]
 
+[connection signal="mouse_enter" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_enter"]
+
 [connection signal="mouse_exit" from="TurretArea" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_exit"]
+
+[connection signal="mouse_enter" from="MoverArea" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_enter" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
+
+[connection signal="mouse_exit" from="MoverArea" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_exit"]
+
+[connection signal="input_event" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover" method="_on_KinematicBody2D_input_event"]
+
+[connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover/KinematicBody2D" method="_on_mouse_enter"]
+
+[connection signal="mouse_exit" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="MoverArea/Mover/Area2D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="MoverArea/Mover/Area2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="MoverArea/Mover/Area2D 2" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="MoverArea/Mover/Area2D 2" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_enter" from="Base12D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_enter" from="Base12D" to="Base12D" method="_on_Base12D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Base12D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="Base12D" to="Base12D" method="_on_Base12D_mouse_exit"]
+
+[connection signal="mouse_enter" from="Base22D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_enter" from="Base22D" to="Base22D" method="_on_Base2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Base22D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="Base22D" to="Base22D" method="_on_Base2D_mouse_exit"]
 
 
 [editable path="Attacker"]
 [editable path="Defender"]
-[editable path="Mover"]

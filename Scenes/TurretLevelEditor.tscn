@@ -5,7 +5,7 @@
 [ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=3]
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=4]
 
-[sub_resource type="GDScript" id=11]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends Node2D
 
@@ -68,19 +68,19 @@ func fire():
 	#set the position of the laser copy
 	laserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
 [node name="Turret" type="Node2D"]
 
-script/script = SubResource( 11 )
+script/script = SubResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 input/pickable = false
-shapes/0/shape = SubResource( 12 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 2.06324, 0, 0, 3.63881, 0.45375, 0.313156 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -99,7 +99,7 @@ texture = ExtResource( 2 )
 
 transform/pos = Vector2( 0.45375, 0.313156 )
 transform/scale = Vector2( 2.06324, 3.63881 )
-shape = SubResource( 12 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 

@@ -37,8 +37,8 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
-	if self.get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
+	#if self.get_parent().clicked:
+		#self.set_global_pos(get_global_mouse_pos())
 	
 	right_boundary = get_parent().get_child(1).get_child(0).get_global_pos().x - 27
 	left_boundary = get_parent().get_child(2).get_child(0).get_global_pos().x + 27

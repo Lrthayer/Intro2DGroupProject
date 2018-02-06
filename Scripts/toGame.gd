@@ -10,4 +10,4 @@ func _pressed():
 	
 	
 	GLOBALS.reset()
-	get_tree().change_scene("res://Scenes/WorldInterface.xml")
+	get_tree().change_scene("res://Scenes/LevelEditor.tscn")

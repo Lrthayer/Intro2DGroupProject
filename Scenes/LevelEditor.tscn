@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=1]
+[gd_scene load_steps=58 format=1]
 
 [ext_resource path="res://Scenes/Attacker.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Graphics/Structures/base004.tex" type="Texture" id=17]
 [ext_resource path="res://Scripts/Base.gd" type="Script" id=18]
 [ext_resource path="res://Graphics/Structures/base005.tex" type="Texture" id=19]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=20]
 
 [sub_resource type="GDScript" id=1]
 
@@ -39,6 +40,9 @@ var currentObject
 var objectIndex = 0
 var overButton = false
 var pressed = false
+
+var cursorColor = Color(0,0,0)
+var cursorState = \"\"
 
 #starts when loaded up in scene
 func _ready():
@@ -102,6 +106,17 @@ func _process(delta):
 			pressed = true
 	else:
 		pressed = false
+	
+	#set cursor color
+	if cursorState == \"locked\":
+		cursorColor = Color(255,0,0)
+	elif cursorState == \"hovering\":
+		cursorColor = Color(255,255,255)
+	else:
+		cursorColor = Color(0,0,0)
+	self.get_node(\"Cursor\").set_modulate(cursorColor)
+	
+	
 func _on_Button_button_down(type):
 	if type == \"Base\":
 		currentObject = \"Base\"
@@ -125,11 +140,35 @@ func _on_Button_mouse_exit():
 
 func _on_Area2D_mouse_enter():
 	overButton = true
+	if cursorState != \"locked\":
+		cursorState = \"hovering\"
 	print(\"should not work\")
 
 func _on_Area2D_mouse_exit():
 	overButton = false
-	print(\"should work\")"
+	cursorState = \"\"
+	print(\"should work\")
+
+func _on_Base12D_mouse_enter():
+	pass # replace with function body
+"
+
+[sub_resource type="GDScript" id=35]
+
+script/source = "extends Panel
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	add_style_override(\"panel\", StyleBoxFlat)
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(Vector2(get_global_mouse_pos().x - self.get_size().x/2, get_global_mouse_pos().y - self.get_size().y/2))
+	update()
+"
 
 [sub_resource type="GDScript" id=2]
 
@@ -383,13 +422,21 @@ func _ready():
 #called every frame
 func _process(delta):
 	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_parent().cursorState = \"locked\"
+
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
 					locked = false
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"hovering\"
 					print(\"unlocked\")
 				else:
 					locked = true
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"locked\"
 					print(\"locked\")
 				lockToggle += 1
 		else:
@@ -512,13 +559,21 @@ func _ready():
 
 func _process(delta):
 	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_parent().cursorState = \"locked\"
+		
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
 					locked = false
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"hovering\"
 					print(\"unlocked\")
 				else:
 					locked = true
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"locked\"
 					print(\"locked\")
 				lockToggle += 1
 		else:
@@ -814,13 +869,20 @@ func _ready():
 	
 func _process(delta):
 	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_parent().cursorState = \"locked\"
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
 					locked = false
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"hovering\"
 					print(\"unlocked\")
 				else:
 					locked = true
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"locked\"
 					print(\"locked\")
 				lockToggle += 1
 		else:
@@ -880,17 +942,26 @@ func _ready():
 	
 func _process(delta):
 	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_parent().cursorState = \"locked\"
+
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
 					locked = false
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"hovering\"
 					print(\"unlocked\")
 				else:
 					locked = true
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"locked\"
 					print(\"locked\")
 				lockToggle += 1
 		else:
 			lockToggle = 0
+
 	if (hovering || clicked) && !locked:
 		if  Input.is_action_pressed(\"left_click\"):
 			if toggled < 1:
@@ -946,6 +1017,10 @@ func _ready():
 	
 func _process(delta):
 	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_parent().cursorState = \"locked\"
+		
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
@@ -959,13 +1034,14 @@ func _process(delta):
 			lockToggle = 0
 	if (hovering || clicked) && !locked:
 		if  Input.is_action_pressed(\"left_click\"):
+			print(\"test2\")
 			if toggled < 1:
 				if clicked:
 					clicked = false
-					print(\"false\")
+					print(\"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\")
 				else:
 					clicked = true
-					print(\"true\")
+					print(\"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTue\")
 				toggled += 1
 		else:
 			toggled = 0
@@ -982,18 +1058,38 @@ func _process(delta):
 			self.free()
 
 func _on_Base32D_mouse_enter():
-	hovering = false
+	hovering = true
 	print(\"hoveringBase3\")
 
 
 func _on_Base32D_mouse_exit():
-	hovering = true
+	hovering = false
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=34]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8.8, 0, 8.8, 5, -8.8, 5, -8.8, 0, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
+
+[sub_resource type="CanvasItemMaterial" id=36]
+
+shader/shading_mode = 0
+
+[sub_resource type="GDScript" id=37]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	set_process(true)
+
+func _process(delta):
+	self.set_global_pos(Vector2(get_global_mouse_pos().x - self.get_scale().x/2, get_global_mouse_pos().y - self.get_scale().y/2))
+	self.set_z(10)
+"
 
 [node name="Node2D" type="Node2D"]
 
@@ -1009,14 +1105,15 @@ transform/scale = Vector2( 1.29688, 1.29688 )
 
 [node name="Panel" type="Panel" parent="."]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
+focus/ignore_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
-margin/top = -842.0
-margin/right = 53.0
-margin/bottom = -812.0
+margin/left = -19.0
+margin/top = -844.0
+margin/right = 6.0
+margin/bottom = -824.0
+script/script = SubResource( 35 )
 
 [node name="Button" type="Button" parent="."]
 
@@ -1128,7 +1225,6 @@ editor/display_folded = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 31.3008, -781.602 )
 anchor_mode = 1
 rotating = false
@@ -1191,6 +1287,7 @@ _update_shape_index = 0
 
 [node name="VBarArea2D" type="Area2D" parent="Camera2D"]
 
+transform/pos = Vector2( -0.695892, -0.927856 )
 input/pickable = true
 shapes/0/shape = SubResource( 8 )
 shapes/0/transform = Matrix32( 0.994363, 0, 0, 0.564895, -502.305, -10.9558 )
@@ -1673,6 +1770,14 @@ shape = SubResource( 32 )
 trigger = false
 _update_shape_index = 0
 
+[node name="Cursor" type="Sprite" parent="."]
+
+material/material = SubResource( 36 )
+transform/pos = Vector2( -6.24861, -834.232 )
+transform/scale = Vector2( 0.978113, 0.875502 )
+texture = ExtResource( 20 )
+script/script = SubResource( 37 )
+
 [connection signal="input_event" from="Attacker/Area2D1" to="." method="_on_Area2D_input_event"]
 
 [connection signal="mouse_enter" from="Attacker/Area2D1" to="." method="_on_Area2D_mouse_enter"]
@@ -1701,9 +1806,9 @@ _update_shape_index = 0
 
 [connection signal="mouse_exit" from="Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

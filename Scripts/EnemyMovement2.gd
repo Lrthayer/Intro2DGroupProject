@@ -37,6 +37,11 @@ func _ready():
 	set_fixed_process(true)
 	
 func _fixed_process(delta):
+	#if self.get_parent().clicked:
+		#self.set_global_pos(get_global_mouse_pos())
+	
+	right_boundary = get_parent().get_child(1).get_child(0).get_global_pos().x - 27
+	left_boundary = get_parent().get_child(2).get_child(0).get_global_pos().x + 27
 	
 	#mover decides to moves right
 	if(get_global_pos().x < left_boundary):
@@ -51,10 +56,14 @@ func _fixed_process(delta):
 	
 	#mover goes right
 	if goright:
-		move(Vector2(1,0))
+		if GLOBALS.state != "Editor":
+			move(Vector2(1,0))
 	
 	#mover goes left
 	if goleft:
-		move(Vector2(-1,0))
-		
+		if GLOBALS.state != "Editor":
+			move(Vector2(-1,0))
 	
+
+func _on_mouse_enter():
+	pass # replace with function body

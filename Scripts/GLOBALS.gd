@@ -5,6 +5,8 @@ extends Node
 ### scenes here.
 ###
 
+#level editor stat
+var state = "Editor"
 
 var g_current_attacker = "player2"
 

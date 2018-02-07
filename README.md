@@ -13,13 +13,10 @@ A cooperative, space invader style game where you are the invader, attempting to
 
 ### Current Phase
 
- * Add high score system
- * Add more levels
- 
+ * Add survival mode 
+ * Add level editor
 --
  
 ### Next Phase
 
- * Add survival mode
  * Add a mode where player is the enemy
- * Port to IUPUI CS Club arcade machine

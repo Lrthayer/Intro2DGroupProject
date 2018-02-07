@@ -3,15 +3,12 @@ extends StaticBody2D
 #class variables
 var hp = GLOBALS.g_base_hp
 
+
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
 	#indicate base is alive
 	GLOBALS.base_is_dead = false
-	
-
-func _process(delta):
-	pass
 	
 # Base is colliding with another object
 func collided(dmg=0):

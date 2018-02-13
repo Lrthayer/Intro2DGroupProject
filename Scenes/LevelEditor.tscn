@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=1]
+[gd_scene load_steps=94 format=1]
 
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/AttackerKinematics.gd" type="Script" id=2]
@@ -109,6 +109,10 @@ func _process(delta):
 				objectInstance.set_hidden(false)
 				objectInstance.connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
 				objectInstance.connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+				objectInstance.get_node(\"TurrentMenu\").connect(\"mouse_enter\", self, \"_on_Area2D_mouse_enter\")
+				objectInstance.get_node(\"TurrentMenu\").connect(\"mouse_exit\", self, \"_on_Area2D_mouse_exit\")
+				objectInstance.get_node(\"TurrentMenu\").connect(\"mouse_enter\", self.get_node(\"Cursor\"), \"_on_Hide_mouse_enter\")
+				objectInstance.get_node(\"TurrentMenu\").connect(\"mouse_exit\", self.get_node(\"Cursor\"), \"_on_unHide_mouse_enter\")
 			elif currentObject == \"Attacker\":
 				objectInstance = attacker
 				objectInstance.set_hidden(false)
@@ -916,6 +920,13 @@ var clicked = false
 var locked = false
 var toggled = 0
 var lockToggle = 0
+var menuToggle = 0
+
+var pointValue = 10
+var health = 3
+var damage = 1
+var fireRate = 1
+var fireRateDelta = .0001
 
 func _ready():
 	set_process(true)
@@ -961,6 +972,24 @@ func _process(delta):
 			#fixes spawning a new object while moving this object
 			if !get_parent().overButton:
 				get_parent().overButton = true
+			
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if !self.get_node(\"TurrentMenu/TurrentVBoxContainer\").is_hidden():
+					self.get_node(\"TurrentMenu/TurrentVBoxContainer\").set_hidden(true)
+					self.get_node(\"TurrentMenu/Turrent\").set_hidden(true)
+					self.get_node(\"TurrentMenu\").set_pos(Vector2(30000,30000))
+				else:
+					self.get_node(\"TurrentMenu\").set_pos(Vector2(25,-100))
+					self.get_node(\"TurrentMenu/TurrentVBoxContainer\").set_hidden(false)
+					self.get_node(\"TurrentMenu/TurrentVBoxContainer\").get_node(\"HBoxContainer/SpinBox\").set_value(health)
+					self.get_node(\"TurrentMenu/TurrentVBoxContainer\").get_node(\"HBoxContainer1/SpinBox\").set_value(damage)
+					self.get_node(\"TurrentMenu/TurrentVBoxContainer\").get_node(\"HBoxContainer2/SpinBox\").set_value(fireRate)
+					self.get_node(\"TurrentMenu/TurrentVBoxContainer\").get_node(\"HBoxContainer3/SpinBox\").set_value(fireRateDelta)
+				menuToggle += 1
+		else:
+			menuToggle = 0
 		
 		if  Input.is_action_pressed(\"right_click\") && !locked:
 			self.get_parent().set_hovering(false)
@@ -971,7 +1000,26 @@ func _on_TurretArea_mouse_enter():
 
 func _on_TurretArea_mouse_exit():
 	hovering = false
+
+func _on_health_value_changed( value ):
+	health = value
+
+func _on_damage_value_changed( value ):
+	damage = value
+
+func _on_firerate_value_changed( value ):
+	fireRate = value
+
+func _on_fireratedelta_value_changed( value ):
+	fireRateDelta = value
+
+func _on_height_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
 "
+
+[sub_resource type="CanvasItemMaterial" id=63]
+
+shader/shading_mode = 0
 
 [sub_resource type="GDScript" id=36]
 
@@ -994,13 +1042,12 @@ var vector = Vector2(0,0)
 func _ready():
 	set_process(true)
 	target = self.get_parent().get_parent().get_node(\"AttackerArea/Attacker/KinematicBody2D/ShipSprite\")
-	# Called every time the node is added to the scene.
-	# Initialization her
+	timer = self.get_parent().fireRate
 
 #called every frame
 func _process(delta):
 	
-	if GLOBALS.state != \"Editor\":
+	if GLOBALS.state == \"Editor\":
 		#increase rate of fire of the turrent over time
 		rateIncrease += .00001
 		theirPos = target.get_global_pos()
@@ -1009,12 +1056,12 @@ func _process(delta):
 		rotate = atan2(-diff.y,diff.x) - 3.14/2
 		self.set_rot(rotate)
 		vector = (theirPos - myPos).normalized()
-		timer = timer - (delta + rateIncrease)
+		self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta)
 		
 		#enough time has passed
-		if (timer <= 0):
+		if (self.get_parent().fireRate <= 0):
 			fire()
-			timer = 5
+			self.get_parent().fireRate = timer
 
 #turret shoots laser
 func fire():
@@ -1035,19 +1082,67 @@ func fire():
 	laserInstance.setDirVector(rotate, vector)
 	
 	#set the position of the laser copy
-	laserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())"
+	laserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())
+
+func _on_height_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_width_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))
+"
 
 [sub_resource type="RectangleShape2D" id=37]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
+[sub_resource type="GDScript" id=64]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+
+func _on_ColorPickerButton_color_changed( color ):
+	self.set_modulate(color)
+"
+
 [sub_resource type="RectangleShape2D" id=38]
+
+custom_solver_bias = 0.0
+extents = Vector2( 16.5423, 10 )
+
+[sub_resource type="GDScript" id=65]
+
+script/source = "extends ColorPickerButton
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_color(color)
+"
+
+[sub_resource type="RectangleShape2D" id=39]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="GDScript" id=39]
+[sub_resource type="GDScript" id=40]
 
 script/source = "extends Area2D
 var hovering = false
@@ -1112,7 +1207,7 @@ func _on_MoverArea_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=40]
+[sub_resource type="GDScript" id=41]
 
 script/source = "extends Node2D
 
@@ -1197,12 +1292,12 @@ func _on_KinematicBody2D_input_event( viewport, event, shape_idx ):
 		
 "
 
-[sub_resource type="RectangleShape2D" id=41]
+[sub_resource type="RectangleShape2D" id=42]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=42]
+[sub_resource type="GDScript" id=43]
 
 script/source = "extends CollisionShape2D
 
@@ -1218,12 +1313,12 @@ func _ready():
 func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=43]
+[sub_resource type="RectangleShape2D" id=44]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="GDScript" id=44]
+[sub_resource type="GDScript" id=45]
 
 script/source = "extends Area2D
 
@@ -1254,7 +1349,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=45]
+[sub_resource type="GDScript" id=46]
 
 script/source = "extends Sprite
 
@@ -1269,7 +1364,7 @@ func _process(delta):
 
 "
 
-[sub_resource type="GDScript" id=46]
+[sub_resource type="GDScript" id=47]
 
 script/source = "extends CollisionShape2D
 
@@ -1286,12 +1381,12 @@ func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())
 "
 
-[sub_resource type="RectangleShape2D" id=47]
+[sub_resource type="RectangleShape2D" id=48]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="GDScript" id=48]
+[sub_resource type="GDScript" id=49]
 
 script/source = "extends Area2D
 
@@ -1322,7 +1417,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=49]
+[sub_resource type="GDScript" id=50]
 
 script/source = "extends Sprite
 
@@ -1336,7 +1431,7 @@ func _process(delta):
 		self.set_global_pos(get_global_mouse_pos())
 "
 
-[sub_resource type="GDScript" id=50]
+[sub_resource type="GDScript" id=51]
 
 script/source = "extends CollisionShape2D
 
@@ -1352,12 +1447,12 @@ func _ready():
 func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=51]
+[sub_resource type="RectangleShape2D" id=52]
 
 custom_solver_bias = 0.0
 extents = Vector2( 131.979, 59.8076 )
 
-[sub_resource type="GDScript" id=52]
+[sub_resource type="GDScript" id=53]
 
 script/source = "extends Area2D
 
@@ -1420,17 +1515,17 @@ func _on_Base12D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=53]
+[sub_resource type="ConvexPolygonShape2D" id=54]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="RectangleShape2D" id=54]
+[sub_resource type="RectangleShape2D" id=55]
 
 custom_solver_bias = 0.0
 extents = Vector2( 164.936, 54.913 )
 
-[sub_resource type="GDScript" id=55]
+[sub_resource type="GDScript" id=56]
 
 script/source = "extends Area2D
 
@@ -1495,17 +1590,17 @@ func _on_Base2D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=56]
+[sub_resource type="ConvexPolygonShape2D" id=57]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 7.4, -1.2, 7.4, 5, -7.4, 5, -7.4, -1.2, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="RectangleShape2D" id=57]
+[sub_resource type="RectangleShape2D" id=58]
 
 custom_solver_bias = 0.0
 extents = Vector2( 206.642, 56.996 )
 
-[sub_resource type="GDScript" id=58]
+[sub_resource type="GDScript" id=59]
 
 script/source = "extends Area2D
 
@@ -1569,22 +1664,20 @@ func _on_Base32D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=59]
+[sub_resource type="ConvexPolygonShape2D" id=60]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8.8, 0, 8.8, 5, -8.8, 5, -8.8, 0, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="CanvasItemMaterial" id=60]
+[sub_resource type="CanvasItemMaterial" id=61]
 
 shader/shading_mode = 0
 
-[sub_resource type="GDScript" id=61]
+[sub_resource type="GDScript" id=62]
 
 script/source = "extends Sprite
+
 var followMouse = true
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 
 func _ready():
 	set_process(true)
@@ -1593,6 +1686,12 @@ func _process(delta):
 	if followMouse:
 		self.set_global_pos(Vector2(get_global_mouse_pos().x - self.get_scale().x/2, get_global_mouse_pos().y - self.get_scale().y/2))
 		self.set_z(10)
+
+func _on_Hide_mouse_enter():
+	self.set_hidden(true)
+
+func _on_unHide_mouse_exit():
+	self.set_hidden(false)
 "
 
 [node name="Node2D" type="Node2D"]
@@ -2289,8 +2388,6 @@ script/script = SubResource( 33 )
 
 [node name="TurretArea" type="Area2D" parent="."]
 
-editor/display_folded = true
-visibility/visible = false
 transform/pos = Vector2( 745.477, 3.36835 )
 input/pickable = true
 shapes/0/shape = SubResource( 34 )
@@ -2304,6 +2401,8 @@ script/script = SubResource( 35 )
 
 [node name="Turret" type="Node2D" parent="TurretArea"]
 
+visibility/light_mask = 3
+material/material = SubResource( 63 )
 script/script = SubResource( 36 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="TurretArea/Turret"]
@@ -2323,6 +2422,8 @@ script/script = ExtResource( 19 )
 [node name="Sprite" type="Sprite" parent="TurretArea/Turret/StaticBody2D"]
 
 texture = ExtResource( 20 )
+modulate = Color( 0.859375, 0.0402832, 0.0402832, 1 )
+script/script = SubResource( 64 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/Turret/StaticBody2D"]
 
@@ -2366,32 +2467,401 @@ shape = SubResource( 34 )
 trigger = false
 _update_shape_index = 0
 
+[node name="TurrentMenu" type="Area2D" parent="TurretArea"]
+
+transform/pos = Vector2( 50, -100 )
+input/pickable = true
+shapes/0/shape = SubResource( 38 )
+shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.33229, 182.336, 97.2883 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="TurrentVBoxContainer" type="VBoxContainer" parent="TurretArea/TurrentMenu"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 14.0
+margin/top = 49.0
+margin/right = 190.0
+margin/bottom = 159.0
+alignment = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretArea/TurrentMenu/TurrentVBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="MenuButton" type="MenuButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "HP"
+flat = true
+items = [  ]
+
+[node name="SpinBox" type="SpinBox" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="TurretArea/TurrentMenu/TurrentVBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 176.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="MenuButton" type="MenuButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer1"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Damage"
+flat = true
+items = [  ]
+
+[node name="SpinBox" type="SpinBox" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer1"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TurretArea/TurrentMenu/TurrentVBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 176.0
+margin/bottom = 80.0
+alignment = 0
+
+[node name="MenuButton" type="MenuButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "FireRate"
+flat = true
+items = [  ]
+
+[node name="SpinBox" type="SpinBox" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="TurretArea/TurrentMenu/TurrentVBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 84.0
+margin/right = 176.0
+margin/bottom = 108.0
+alignment = 0
+
+[node name="MenuButton" type="MenuButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer3"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "FireRateDelta"
+flat = true
+items = [  ]
+
+[node name="SpinBox" type="SpinBox" parent="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer3"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.001
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="TurrentVBoxContainer2" type="VBoxContainer" parent="TurretArea/TurrentMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 214.0
+margin/top = 50.0
+margin/right = 346.0
+margin/bottom = 102.0
+alignment = 0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="MenuButton" type="MenuButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2/HBoxContainer4"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 54.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Height"
+flat = true
+items = [  ]
+
+[node name="SpinBox" type="SpinBox" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2/HBoxContainer4"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 58.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 132.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="MenuButton" type="MenuButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2/HBoxContainer5"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 54.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Width"
+flat = true
+items = [  ]
+
+[node name="SpinBox" type="SpinBox" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2/HBoxContainer5"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 58.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="TurretArea/TurrentMenu/TurrentVBoxContainer2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 132.0
+margin/bottom = 76.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = true
+script/script = SubResource( 65 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu"]
+
+transform/pos = Vector2( 182.336, 97.2883 )
+transform/scale = Vector2( 10.3845, 6.33229 )
+shape = SubResource( 38 )
+trigger = false
+_update_shape_index = 0
+
 [node name="MoverArea" type="Area2D" parent="."]
 
 editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 954.859, -7.71637 )
 input/pickable = true
-shapes/0/shape = SubResource( 38 )
+shapes/0/shape = SubResource( 39 )
 shapes/0/transform = Matrix32( 0.998816, 0, 0, 0.830143, -37.7342, -5.36446 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 39 )
+script/script = SubResource( 40 )
 
 [node name="Mover" type="Node2D" parent="MoverArea"]
 
 transform/pos = Vector2( -1.62109, -1.08072 )
-script/script = SubResource( 40 )
+script/script = SubResource( 41 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover"]
 
 transform/pos = Vector2( -36.4862, -10.8389 )
 transform/scale = Vector2( 1.14837, 1 )
 input/pickable = true
-shapes/0/shape = SubResource( 41 )
+shapes/0/shape = SubResource( 42 )
 shapes/0/transform = Matrix32( 2.44655, 0, 0, 1.30976, -0.318719, 6.59567 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -2408,10 +2878,10 @@ texture = ExtResource( 15 )
 
 transform/pos = Vector2( -0.318719, 6.59567 )
 transform/scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 41 )
+shape = SubResource( 42 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 42 )
+script/script = SubResource( 43 )
 
 [node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D"]
 
@@ -2447,14 +2917,14 @@ editor/display_folded = true
 transform/pos = Vector2( 207.428, -1270.71 )
 transform/scale = Vector2( 1.12062, 175.693 )
 input/pickable = true
-shapes/0/shape = SubResource( 43 )
+shapes/0/shape = SubResource( 44 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -4.83211, -0.0256834 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 44 )
+script/script = SubResource( 45 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D"]
 
@@ -2462,29 +2932,29 @@ transform/pos = Vector2( -4.93346, 16.6439 )
 transform/rot = 180.0
 transform/scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 22 )
-script/script = SubResource( 45 )
+script/script = SubResource( 46 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D"]
 
 transform/pos = Vector2( -4.83211, -0.0256834 )
-shape = SubResource( 43 )
+shape = SubResource( 44 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 46 )
+script/script = SubResource( 47 )
 
 [node name="Area2D 2" type="Area2D" parent="MoverArea/Mover"]
 
 editor/display_folded = true
 transform/pos = Vector2( -74.6635, 8.0769 )
 input/pickable = true
-shapes/0/shape = SubResource( 47 )
+shapes/0/shape = SubResource( 48 )
 shapes/0/transform = Matrix32( 1.79192, 0, 0, 153.926, -270.41, -801.739 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 48 )
+script/script = SubResource( 49 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D 2"]
 
@@ -2492,22 +2962,22 @@ transform/pos = Vector2( -267.469, 374.457 )
 transform/rot = 180.0
 transform/scale = Vector2( 4, 685.63 )
 texture = ExtResource( 22 )
-script/script = SubResource( 49 )
+script/script = SubResource( 50 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D 2"]
 
 transform/pos = Vector2( -270.41, -801.739 )
 transform/scale = Vector2( 1.79192, 153.926 )
-shape = SubResource( 47 )
+shape = SubResource( 48 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 50 )
+script/script = SubResource( 51 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea"]
 
 transform/pos = Vector2( -37.7342, -5.36446 )
 transform/scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 38 )
+shape = SubResource( 39 )
 trigger = false
 _update_shape_index = 0
 
@@ -2517,14 +2987,14 @@ editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 856.572, -154.501 )
 input/pickable = true
-shapes/0/shape = SubResource( 51 )
+shapes/0/shape = SubResource( 52 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 52 )
+script/script = SubResource( 53 )
 
 [node name="Base1" type="Node2D" parent="Base12D"]
 
@@ -2533,7 +3003,7 @@ editor/display_folded = true
 [node name="StaticBody2D" type="StaticBody2D" parent="Base12D/Base1"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 53 )
+shapes/0/shape = SubResource( 54 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -0.73763, 40.6475 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -2552,7 +3022,7 @@ texture = ExtResource( 24 )
 
 transform/pos = Vector2( -0.73763, 40.6475 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 53 )
+shape = SubResource( 54 )
 trigger = false
 _update_shape_index = 0
 
@@ -2583,7 +3053,7 @@ radial_fill/center_offset = Vector2( 0, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D"]
 
 transform/pos = Vector2( -2.44354, 7.33054 )
-shape = SubResource( 51 )
+shape = SubResource( 52 )
 trigger = false
 _update_shape_index = 0
 
@@ -2592,21 +3062,21 @@ _update_shape_index = 0
 editor/display_folded = true
 visibility/visible = false
 input/pickable = true
-shapes/0/shape = SubResource( 54 )
+shapes/0/shape = SubResource( 55 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 55 )
+script/script = SubResource( 56 )
 
 [node name="Base2" type="Node2D" parent="Base22D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Base22D/Base2"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 56 )
+shapes/0/shape = SubResource( 57 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -1.64311, 64.4346 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -2625,7 +3095,7 @@ texture = ExtResource( 25 )
 
 transform/pos = Vector2( -1.64311, 64.4346 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 56 )
+shape = SubResource( 57 )
 trigger = false
 _update_shape_index = 0
 
@@ -2656,7 +3126,7 @@ radial_fill/center_offset = Vector2( 0, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D"]
 
 transform/pos = Vector2( 1.10809, 4.43213 )
-shape = SubResource( 54 )
+shape = SubResource( 55 )
 trigger = false
 _update_shape_index = 0
 
@@ -2666,14 +3136,14 @@ editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 856.571, 120.42 )
 input/pickable = true
-shapes/0/shape = SubResource( 57 )
+shapes/0/shape = SubResource( 58 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 58 )
+script/script = SubResource( 59 )
 
 [node name="Base3" type="Node2D" parent="Base32D"]
 
@@ -2682,7 +3152,7 @@ script/script = ExtResource( 26 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Base32D/Base3"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 59 )
+shapes/0/shape = SubResource( 60 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, 1.26239, 42.6475 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -2701,7 +3171,7 @@ texture = ExtResource( 27 )
 
 transform/pos = Vector2( 1.26239, 42.6475 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 59 )
+shape = SubResource( 60 )
 trigger = false
 _update_shape_index = 0
 
@@ -2732,68 +3202,17 @@ radial_fill/center_offset = Vector2( 0, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D"]
 
 transform/pos = Vector2( 0, 5.70152 )
-shape = SubResource( 57 )
+shape = SubResource( 58 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Cursor" type="Sprite" parent="."]
 
-material/material = SubResource( 60 )
+material/material = SubResource( 61 )
 transform/pos = Vector2( -6.24861, -834.232 )
 transform/scale = Vector2( 0.978113, 0.875502 )
 texture = ExtResource( 28 )
-script/script = SubResource( 61 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 110.0
-margin/top = -938.0
-margin/right = 210.0
-margin/bottom = -799.0
-alignment = 0
-
-[node name="MenuButton" type="MenuButton" parent="VBoxContainer"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 100.0
-margin/bottom = 20.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "test"
-flat = true
-items = [  ]
-
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 74.0
-margin/top = -2.0
-margin/right = 174.0
-margin/bottom = 22.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
+script/script = SubResource( 62 )
 
 [connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -2922,6 +3341,28 @@ suffix = ""
 [connection signal="mouse_exit" from="TurretArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_exit" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_exit"]
+
+[connection signal="mouse_enter" from="TurretArea/TurrentMenu" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_enter" from="TurretArea/TurrentMenu" to="Cursor" method="_on_Hide_mouse_enter"]
+
+[connection signal="mouse_exit" from="TurretArea/TurrentMenu" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="TurretArea/TurrentMenu" to="Cursor" method="_on_unHide_mouse_exit"]
+
+[connection signal="value_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer/SpinBox" to="TurretArea" method="_on_health_value_changed"]
+
+[connection signal="value_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer1/SpinBox" to="TurretArea" method="_on_damage_value_changed"]
+
+[connection signal="value_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer2/SpinBox" to="TurretArea" method="_on_firerate_value_changed"]
+
+[connection signal="value_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer/HBoxContainer3/SpinBox" to="TurretArea" method="_on_fireratedelta_value_changed"]
+
+[connection signal="value_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer2/HBoxContainer4/SpinBox" to="TurretArea/Turret" method="_on_height_value_changed"]
+
+[connection signal="value_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer2/HBoxContainer5/SpinBox" to="TurretArea/Turret" method="_on_width_value_changed"]
+
+[connection signal="color_changed" from="TurretArea/TurrentMenu/TurrentVBoxContainer2/ColorPickerButton" to="TurretArea/Turret/StaticBody2D/Sprite" method="_on_ColorPickerButton_color_changed"]
 
 [connection signal="mouse_enter" from="MoverArea" to="." method="_on_Area2D_mouse_enter"]
 

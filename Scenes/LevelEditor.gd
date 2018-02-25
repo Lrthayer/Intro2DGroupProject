@@ -99,10 +99,9 @@ func _process(delta):
 			print(objectInstance)
 			
 			if makeUnique:
-				print("test")
 				#give the copy a name 
 				objectInstance.set_name("object" + str(objectIndex))
-				add_child(objectInstance)
+				self.get_node("Objects").add_child(objectInstance)
 				objectInstance.set_owner(self.get_parent())
 				objectIndex += 1
 

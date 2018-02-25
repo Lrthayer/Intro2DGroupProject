@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=1]
+[gd_scene load_steps=98 format=1]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=2]
@@ -767,7 +767,7 @@ func _ready():
 func _on_PlacingButton_pressed():
 	#when this is pressed set other states off
 	self.get_parent().get_node(\"EditingButton\").set_pressed(false)
-	self.get_parent().get_parent().get_parent().editorState = \"placing\"
+	self.get_parent().get_parent().get_parent().get_parent().editorState = \"placing\"
 "
 
 [sub_resource type="GDScript" id=35]
@@ -787,7 +787,7 @@ func _ready():
 func _on_EditingButton_pressed():
 	#when this is pressed set other states off
 	self.get_parent().get_node(\"PlacingButton\").set_pressed(false)
-	self.get_parent().get_parent().get_parent().editorState = \"editing\"
+	self.get_parent().get_parent().get_parent().get_parent().editorState = \"editing\"
 "
 
 [sub_resource type="RectangleShape2D" id=36]
@@ -1018,14 +1018,7 @@ script/source = "extends ColorPickerButton
 #when user presses button move the color picker to where they clicked
 func _on_ColorPicker_pressed():
 	print(\"test5\")
-	var colorPicker = self.get_picker()
-	colorPicker.set_global_pos(self.get_global_pos())
-"
-
-[sub_resource type="RectangleShape2D" id=43]
-
-custom_solver_bias = 0.0
-extents = Vector2( 16.5423, 10 )
+	self.get_parent().get_parent().get_node(\"ColorPicker\").set_hidden(false)"
 
 [sub_resource type="RectangleShape2D" id=52]
 
@@ -1610,6 +1603,7 @@ script/script = SubResource( 1 )
 
 [node name="AttackerArea" type="Area2D" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( -397.624, 30.5297 )
 input/pickable = true
@@ -2052,7 +2046,6 @@ _update_shape_index = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2282,8 +2275,7 @@ script/script = SubResource( 32 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D"]
 
-editor/display_folded = true
-transform/pos = Vector2( 281.066, -204.177 )
+transform/pos = Vector2( 384.113, -256.255 )
 input/pickable = true
 shapes/0/shape = SubResource( 33 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 2.16141, 0 )
@@ -2295,7 +2287,6 @@ angular_damp = 1.0
 
 [node name="StatesHBox" type="HBoxContainer" parent="Camera2D/StatesArea"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -2434,7 +2425,6 @@ _update_shape_index = 0
 
 [node name="TurrentMenu" type="Area2D" parent="TurretArea"]
 
-editor/display_folded = true
 transform/pos = Vector2( 50, -100 )
 input/pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2444,6 +2434,7 @@ angular_damp = 1.0
 
 [node name="StatsVBox" type="VBoxContainer" parent="TurretArea/TurrentMenu"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2456,6 +2447,7 @@ alignment = 0
 
 [node name="HPHBox" type="HBoxContainer" parent="TurretArea/TurrentMenu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2507,6 +2499,7 @@ suffix = ""
 
 [node name="DamageHBox" type="HBoxContainer" parent="TurretArea/TurrentMenu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2558,6 +2551,7 @@ suffix = ""
 
 [node name="FireRateHBox" type="HBoxContainer" parent="TurretArea/TurrentMenu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2609,6 +2603,7 @@ suffix = ""
 
 [node name="FireRateDeltaHBox" type="HBoxContainer" parent="TurretArea/TurrentMenu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2792,17 +2787,22 @@ color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
 script/script = SubResource( 42 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu/VisualVBox/ColorPicker"]
+[node name="ColorPicker" type="ColorPicker" parent="TurretArea/TurrentMenu"]
 
-transform/pos = Vector2( -31.664, -8.7117 )
-transform/scale = Vector2( 10.3845, 6.33229 )
-shape = SubResource( 43 )
-trigger = false
-_update_shape_index = 0
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 352.0
+margin/top = -75.0
+margin/right = 640.0
+margin/bottom = 366.0
+alignment = 0
 
 [node name="MoverArea" type="Area2D" parent="."]
 
 editor/display_folded = true
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 52 )
 shapes/0/transform = Matrix32( 0.998816, 0, 0, 0.830143, -37.7342, -5.36446 )
@@ -2944,6 +2944,7 @@ _update_shape_index = 0
 
 [node name="Base22D" type="Area2D" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( -0.000244141, 0.000318527 )
 transform/scale = Vector2( 1, 1 )

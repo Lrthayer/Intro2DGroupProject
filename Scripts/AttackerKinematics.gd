@@ -38,7 +38,6 @@ func movement(speedX, speedY):
 	if get_global_pos().y < top_boundary:
 		set_global_pos(Vector2(self.get_global_pos().x, top_boundary))
 		#move the Attacker
-
 	if GLOBALS.state != "Editor":
 		move(current_speed)
 

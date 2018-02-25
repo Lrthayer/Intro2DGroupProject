@@ -7,57 +7,7 @@
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")
-var base = preload(\"res://Scenes/Base1.tscn\")
-var base2 = preload(\"res://Scenes/Base2.tscn\")
-var base3 = preload(\"res://Scenes/Base3.tscn\")
-var ground = preload(\"res://Scenes/Turret.tscn\")
-var stun = preload(\"res://Scenes/Mover.tscn\")
-
-#create a copy of the laser object
-
-
-#add a child
-#get_parent().add_child(laserInstance)
-var objectInstance
-
-#starts when loaded up in scene
-func _ready():
-	#set_process(true)
-	var root = get_node(\"/root\")
-	root.connect(\"size_changed\",self,\"resize\")
-	OS.set_window_fullscreen(true)
-	set_process_input(true)
-	var attacker = get_node(\"Attacker\")
-
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-#called every frame
-func _process(delta):
-	var mosLoc = get_viewport().get_mouse_pos()
-	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);
-	get_child(1).set_global_pos(posOffset)
-	if  Input.is_action_pressed(\"left_click\"):
-		objectInstance = turrent.instance()
-		#give the copy a name 
-		objectInstance.set_name(\"tur\")
-		objectInstance.set_global_pos(mosLoc)
-		#add a child
-		add_child(objectInstance)
-		#set owner 
-
-		#laserInstance.set_owner(self)
-		
-
-func _on_Button_pressed(type):
-	if type == \"Base1\":
-		objectInstance = base
-	elif type == \"Base2\":
-		objectInstance = base2
-	elif type == \"Base3\":
-		objectInstance = base3"
+script/source = "var turrent = preload(\"res://Scenes/Turret.tscn\")\nvar base = preload(\"res://Scenes/Base1.tscn\")\nvar base2 = preload(\"res://Scenes/Base2.tscn\")\nvar base3 = preload(\"res://Scenes/Base3.tscn\")\nvar ground = preload(\"res://Scenes/Turret.tscn\")\nvar stun = preload(\"res://Scenes/Mover.tscn\")\n\n#create a copy of the laser object\n\n\n#add a child\n#get_parent().add_child(laserInstance)\nvar objectInstance\n\n#starts when loaded up in scene\nfunc _ready():\n\t#set_process(true)\n\tvar root = get_node(\"/root\")\n\troot.connect(\"size_changed\",self,\"resize\")\n\tOS.set_window_fullscreen(true)\n\tset_process_input(true)\n\tvar attacker = get_node(\"Attacker\")\n\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpass\n\n#called every frame\nfunc _process(delta):\n\tvar mosLoc = get_viewport().get_mouse_pos()\n\tvar posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);\n\tget_child(1).set_global_pos(posOffset)\n\tif  Input.is_action_pressed(\"left_click\"):\n\t\tobjectInstance = turrent.instance()\n\t\t#give the copy a name \n\t\tobjectInstance.set_name(\"tur\")\n\t\tobjectInstance.set_global_pos(mosLoc)\n\t\t#add a child\n\t\tadd_child(objectInstance)\n\t\t#set owner \n\n\t\t#laserInstance.set_owner(self)\n\t\t\n\nfunc _on_Button_pressed(type):\n\tif type == \"Base1\":\n\t\tobjectInstance = base\n\telif type == \"Base2\":\n\t\tobjectInstance = base2\n\telif type == \"Base3\":\n\t\tobjectInstance = base3"
 
 [sub_resource type="GDScript" id=2]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=1]
+[gd_scene load_steps=99 format=1]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=2]
@@ -1603,7 +1603,6 @@ script/script = SubResource( 1 )
 
 [node name="AttackerArea" type="Area2D" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( -397.624, 30.5297 )
 input/pickable = true
@@ -2046,6 +2045,7 @@ _update_shape_index = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2275,7 +2275,8 @@ script/script = SubResource( 32 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D"]
 
-transform/pos = Vector2( 384.113, -256.255 )
+editor/display_folded = true
+transform/pos = Vector2( 281.066, -204.177 )
 input/pickable = true
 shapes/0/shape = SubResource( 33 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 2.16141, 0 )
@@ -2287,6 +2288,7 @@ angular_damp = 1.0
 
 [node name="StatesHBox" type="HBoxContainer" parent="Camera2D/StatesArea"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -2434,7 +2436,6 @@ angular_damp = 1.0
 
 [node name="StatsVBox" type="VBoxContainer" parent="TurretArea/TurrentMenu"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2798,6 +2799,13 @@ margin/top = -75.0
 margin/right = 640.0
 margin/bottom = 366.0
 alignment = 0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu/VisualVBox/ColorPicker"]
+
+transform/pos = Vector2( -31.664, -8.7117 )
+transform/scale = Vector2( 10.3845, 6.33229 )
+shape = SubResource( 43 )
+trigger = false
+_update_shape_index = 0
 
 [node name="MoverArea" type="Area2D" parent="."]
 
@@ -2944,7 +2952,6 @@ _update_shape_index = 0
 
 [node name="Base22D" type="Area2D" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( -0.000244141, 0.000318527 )
 transform/scale = Vector2( 1, 1 )

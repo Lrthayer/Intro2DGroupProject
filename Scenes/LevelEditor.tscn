@@ -631,14 +631,15 @@ func _ready():
 	
 #called every frame
 func _process(delta):
-	if Input.is_action_pressed(\"CameraUp\"):
-		move(0,-10)
-	if Input.is_action_pressed(\"CameraDown\"):
-		move(0,10)
-	if Input.is_action_pressed(\"CameraLeft\"):
-		move(-10,0)
-	if Input.is_action_pressed(\"CameraRight\"):
-		move(10,0)
+	if !get_parent().isDialogOn:
+		if Input.is_action_pressed(\"CameraUp\"):
+			move(0,-10)
+		if Input.is_action_pressed(\"CameraDown\"):
+			move(0,10)
+		if Input.is_action_pressed(\"CameraLeft\"):
+			move(-10,0)
+		if Input.is_action_pressed(\"CameraRight\"):
+			move(10,0)
 		
 	#check if camera has moved passed scroll current limit
 	if get_child(0).get_child(0).get_max() < get_global_pos().x:
@@ -2052,7 +2053,6 @@ _update_shape_index = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2074,6 +2074,7 @@ script/script = SubResource( 27 )
 
 [node name="HBarArea2D" type="Area2D" parent="Camera2D"]
 
+editor/display_folded = true
 transform/pos = Vector2( -511, 284 )
 input/pickable = true
 shapes/0/shape = SubResource( 28 )
@@ -2295,7 +2296,6 @@ angular_damp = 1.0
 
 [node name="StatesHBox" type="HBoxContainer" parent="Camera2D/StatesArea"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -2350,8 +2350,41 @@ shape = SubResource( 33 )
 trigger = false
 _update_shape_index = 0
 
+[node name="Save_Button" type="Button" parent="Camera2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 422.0
+margin/top = -280.0
+margin/right = 498.0
+margin/bottom = -224.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Save"
+flat = false
+
+[node name="Load_Button" type="Button" parent="Camera2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 421.48
+margin/top = -208.977
+margin/right = 497.48
+margin/bottom = -152.977
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Load"
+flat = false
+
 [node name="TurretArea" type="Area2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 745.477, 3.36835 )
 input/pickable = true
 shapes/0/shape = SubResource( 36 )
@@ -2365,6 +2398,7 @@ script/script = SubResource( 37 )
 
 [node name="Turret" type="Node2D" parent="TurretArea"]
 
+editor/display_folded = true
 visibility/light_mask = 3
 material/material = SubResource( 38 )
 script/script = SubResource( 39 )
@@ -2433,6 +2467,7 @@ _update_shape_index = 0
 
 [node name="TurrentMenu" type="Area2D" parent="TurretArea"]
 
+editor/display_folded = true
 transform/pos = Vector2( 50, -100 )
 input/pickable = true
 shapes/0/shape = SubResource( 42 )
@@ -3090,6 +3125,7 @@ transform/pos = Vector2( 510.309, -292.666 )
 
 [node name="Base12D" type="Area2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 856.572, -154.501 )
 input/pickable = true
 shapes/0/shape = SubResource( 61 )
@@ -3248,13 +3284,13 @@ script/script = SubResource( 68 )
 
 [node name="Objects" type="Node" parent="."]
 
-[connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_enter"]
 
-[connection signal="mouse_exit" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exit"]
+
+[connection signal="mouse_exit" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="input_event" from="AttackerArea/Attacker/Area2D" to="AttackerArea/Attacker/Area2D" method="_input_event"]
 
@@ -3272,13 +3308,13 @@ script/script = SubResource( 68 )
 
 [connection signal="mouse_exit" from="AttackerArea/Attacker/Area2D3" to="." method="_on_Area2D_mouse_exit"]
 
-[connection signal="mouse_enter" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="input_event" from="DefenderArea/Defender/Area2D" to="DefenderArea/Defender/Area2D" method="_input_event"]
 
@@ -3314,9 +3350,9 @@ script/script = SubResource( 68 )
 
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
-
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -3384,21 +3420,33 @@ script/script = SubResource( 68 )
 
 [connection signal="pressed" from="Camera2D/StatesArea/StatesHBox/EditingButton" to="Camera2D/StatesArea/StatesHBox/EditingButton" method="_on_EditingButton_pressed"]
 
-[connection signal="mouse_enter" from="TurretArea" to="." method="_on_Area2D_mouse_enter"]
+[connection signal="mouse_enter" from="Camera2D/Save_Button" to="." method="_on_Save_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Camera2D/Save_Button" to="." method="_on_Save_Button_mouse_exit"]
+
+[connection signal="pressed" from="Camera2D/Save_Button" to="." method="_on_Save_Button_pressed"]
+
+[connection signal="mouse_enter" from="Camera2D/Load_Button" to="." method="_on_Load_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Camera2D/Load_Button" to="." method="_on_Load_Button_mouse_exit"]
+
+[connection signal="pressed" from="Camera2D/Load_Button" to="." method="_on_Load_Button_pressed"]
 
 [connection signal="mouse_enter" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_enter"]
 
-[connection signal="mouse_exit" from="TurretArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="TurretArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_exit"]
 
-[connection signal="mouse_enter" from="TurretArea/TurrentMenu" to="." method="_on_Area2D_mouse_enter"]
+[connection signal="mouse_exit" from="TurretArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_enter" from="TurretArea/TurrentMenu" to="Cursor" method="_on_Hide_mouse_enter"]
 
-[connection signal="mouse_exit" from="TurretArea/TurrentMenu" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="TurretArea/TurrentMenu" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="TurretArea/TurrentMenu" to="Cursor" method="_on_unHide_mouse_exit"]
+
+[connection signal="mouse_exit" from="TurretArea/TurrentMenu" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="value_changed" from="TurretArea/TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="TurretArea" method="_on_health_value_changed"]
 
@@ -3418,19 +3466,19 @@ script/script = SubResource( 68 )
 
 [connection signal="color_changed" from="TurretArea/TurrentMenu/ColorPicker" to="TurretArea/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
-[connection signal="mouse_enter" from="MoverArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
 
-[connection signal="mouse_exit" from="MoverArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="MoverArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_exit"]
 
+[connection signal="mouse_exit" from="MoverArea" to="." method="_on_Area2D_mouse_exit"]
+
 [connection signal="input_event" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover" method="_on_KinematicBody2D_input_event"]
 
-[connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover/KinematicBody2D" method="_on_mouse_enter"]
+
+[connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_exit"]
 

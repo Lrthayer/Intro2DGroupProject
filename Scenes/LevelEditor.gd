@@ -11,6 +11,8 @@ var stun
 var attacker
 var defender
 
+var saveDialog = preload("res://Scenes/SaveDialog.tscn")
+
 #add a child
 #get_parent().add_child(laserInstance)
 var currentObject
@@ -25,6 +27,9 @@ var makeUnique = true
 
 var editorState = "placing"
 
+var isDialogOn = false
+var cameraCoordinates = Vector2(0,0)
+
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
@@ -36,6 +41,7 @@ func _ready():
 	attacker = self.get_node("AttackerArea")
 	defender = self.get_node("DefenderArea")
 	currentObject = "turrent"
+	isDialogOn = false
 
 #called every frame
 func _process(delta):
@@ -43,7 +49,9 @@ func _process(delta):
 	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);
 	#get_child(1).set_global_pos(posOffset)
 	if  Input.is_action_pressed("left_click"):
-		if !overButton && !pressed && editorState == "placing":
+		if !overButton && !pressed && editorState == "placing" && !isDialogOn:
+			print("Hello")
+			print(isDialogOn)
 			var objectInstance = turrent.duplicate()
 			objectInstance.set_hidden(false)
 			objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
@@ -146,6 +154,7 @@ func _on_Button_mouse_enter():
 func _on_Button_mouse_exit():
 	overButton = false
 
+
 func _on_Area2D_mouse_enter():
 	overButton = true
 	if cursorState != "locked":
@@ -163,3 +172,43 @@ func _cusorStopFollowing():
 
 func _startFollowingMouse():
 	self.get_node("Cursor").followMouse = true
+
+
+
+
+func _on_Load_Button_pressed():
+	pass # replace with function body
+
+
+func _on_Save_Button_pressed():
+	isDialogOn = true
+	var dialog = saveDialog.instance()
+	
+	dialog.set_name("saveDialog" + str(objectIndex))
+	add_child(dialog)
+	dialog.set_owner(self.get_parent())
+
+
+	
+	cameraCoordinates = get_node("Camera2D").get_global_pos()
+	get_node("Camera2D").set_global_pos(get_node("saveDialog" + str(objectIndex)).get_global_pos() + Vector2(500,300))
+	objectIndex += 1
+
+func _on_Save_Button_mouse_enter():
+	overButton = true
+	cursorState = "hovering"
+
+
+func _on_Load_Button_mouse_enter():
+	overButton = true
+	cursorState = "hovering"
+
+
+func _on_Save_Button_mouse_exit():
+	overButton = false
+	cursorState = "placing"
+
+
+func _on_Load_Button_mouse_exit():
+	overButton = false
+	cursorState = "placing"

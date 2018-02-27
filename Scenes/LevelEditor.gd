@@ -84,8 +84,9 @@ func _process(delta):
 				objectInstance.get_node("TurrentMenu").connect("mouse_exit", self.get_node("Cursor"), "_on_unHide_mouse_exit")
 				objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_height_value_changed")
 				objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_width_value_changed")
-				objectInstance.get_node("TurrentMenu/VisualVBox/ColorPicker").connect("color_changed", objectInstance.get_node("TurrentMenu/VisualVBox/ColorPicker").get_parent().get_parent().get_parent().get_node("StaticBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
-
+				objectInstance.get_node("TurrentMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/TurrentArea/Turret/StaticBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
+				objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+				objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Attacker":
 				objectInstance = attacker
 				objectInstance.set_hidden(false)

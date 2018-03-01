@@ -25,9 +25,24 @@ var makeUnique = true
 
 var editorState = "placing"
 
+#Laser Object bool
+var laserObjectPool = []
+var laserObjectIndex = 0
+
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
+		#create laserObject pool
+	for i in range(5):
+		laserObjectPool.append(self.get_node("/root/Node2D/TurretArea/TurrentMenu/ProjectileVBox/Laser").duplicate())
+		#give the copy a name 
+		laserInstance.set_name("Laser" + str(laserCount))
+		
+	#add a child
+	get_parent().add_child(laserInstance)
+	
+	laserInstance.set_owner(self.get_parent())
+	
 	turrent = self.get_node("TurretArea")
 	stun = self.get_node("MoverArea")
 	base = self.get_node("Base12D")
@@ -121,6 +136,14 @@ func _process(delta):
 		cursorColor = Color(0,0,0)
 	self.get_node("Cursor").set_modulate(cursorColor)
 	
+func getLaser():
+	#check to see if index is in bounds
+	if laserObjectIndex >= laserObjectPool.size():
+		laserObjectIndex = 0
+	print(laserObjectIndex)
+	laserObjectIndex += 1
+	print (laserObjectPool[laserObjectIndex-1].get_global_pos())
+	return laserObjectPool[laserObjectIndex-1]
 	
 func _on_Button_button_down(type):
 	if type == "Base":
@@ -160,7 +183,6 @@ func _on_Area2D_mouse_exit():
 
 func _cusorStopFollowing():
 	self.get_node("Cursor").followMouse = false
-
 
 func _startFollowingMouse():
 	self.get_node("Cursor").followMouse = true

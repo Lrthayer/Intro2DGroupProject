@@ -2,7 +2,7 @@ extends Node2D
 
 # class member variables 
 var height = 650
-var speed = 3
+var speed = 0
 var dmg = 1
 var otherCollider
 var vector = Vector2(0,0);
@@ -10,17 +10,17 @@ var vector = Vector2(0,0);
 #Checks the collision with other other objects
 func checkCollisions():
 	
-	
 	#Laser is colliding with an object
 	if get_node("KinematicBody2D").is_colliding():
-		#destroy the laser
-		get_node(".").queue_free()
+		#hide the laser
+		self.set_global_pos(Vector2(10000, 10000))
 		
 		#get the other object
 		otherCollider = get_node("KinematicBody2D").get_collider()
 		
-		#Call method from otherCollider to do an event like losing health
-		otherCollider.collided(dmg)
+		if self.get_node("/root/GLOBALS").state != "Editor":
+			#Call method from otherCollider to do an event like losing health
+			otherCollider.collided(dmg)
 		
 		
 
@@ -37,9 +37,9 @@ func _fixed_process(delta):
 	get_node("KinematicBody2D").move(vector * speed)
 	
 	#The laser reached a certain position on screen
-	if get_node("KinematicBody2D").get_global_pos().y < 0:
+	#if get_node("KinematicBody2D").get_global_pos().y < 0:
 		#this deletes the tree structure of Laser. 
-		get_node(".").queue_free()
+		#get_node(".").queue_free()
 	
 		
 	#check collision
@@ -49,4 +49,9 @@ func _fixed_process(delta):
 func setDirVector(rotate, turretVector):
 	self.set_rot(rotate)
 	vector = turretVector
-	
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))

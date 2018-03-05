@@ -7,6 +7,8 @@ var dmg = 1
 var otherCollider
 var vector = Vector2(0,0);
 
+var startPosition
+
 #Checks the collision with other other objects
 func checkCollisions():
 	
@@ -26,8 +28,15 @@ func checkCollisions():
 
 #starts when loaded up in scene
 func _ready():
+	print("I don't know anymore")
+	startPosition = self.get_parent().get_node("Turret/Position2D")
 	# Called every time the node is added to the scene.
 	# Initialization here
+	#print (self.get_parent().get_name())
+	#print (self.get_parent().get_parent().get_name())
+	#print (self.get_parent().get_parent().get_parent().get_name())
+	#print (self.get_parent().get_parent().get_parent().get_node("Turret/Position2D").get_name())
+
 	set_fixed_process(true)
 
 #
@@ -44,6 +53,16 @@ func _fixed_process(delta):
 		
 	#check collision
 	checkCollisions()
+
+func resetPos():
+	#print (self.get_parent().get_name())
+	#print (self.get_parent().get_parent().get_name())
+	#print (startPosition.get_global_pos())
+	#print (self.get_parent().get_parent().get_parent().get_name())
+	#print(self.get_parent().get_parent().get_parent().get_node("Turret/Position2D").get_name())
+	#self.set_global_pos(startPosition.get_global_pos())
+	self.get_node("KinematicBody2D").set_global_pos(startPosition.get_global_pos())
+	#print (speed)
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):

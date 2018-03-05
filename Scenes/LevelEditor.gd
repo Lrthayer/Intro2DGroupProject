@@ -28,20 +28,20 @@ var editorState = "placing"
 #Laser Object bool
 var laserObjectPool = []
 var laserObjectIndex = 0
+var laserObjectPoolAmount = 25
 
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
 		#create laserObject pool
-	for i in range(5):
+	for i in range(laserObjectPoolAmount):
 		laserObjectPool.append(self.get_node("/root/Node2D/TurretArea/TurrentMenu/ProjectileVBox/Laser").duplicate())
 		#give the copy a name 
-		laserInstance.set_name("Laser" + str(laserCount))
+		laserObjectPool[-1].set_name("Laser" + str(i))
 		
-	#add a child
-	get_parent().add_child(laserInstance)
-	
-	laserInstance.set_owner(self.get_parent())
+		#add a child
+		#self.add_child(laserObjectPool[-1])
+		#laserObjectPool[-1].set_owner(self)
 	
 	turrent = self.get_node("TurretArea")
 	stun = self.get_node("MoverArea")
@@ -143,6 +143,7 @@ func getLaser():
 	print(laserObjectIndex)
 	laserObjectIndex += 1
 	print (laserObjectPool[laserObjectIndex-1].get_global_pos())
+	#laserObjectPool[laserObjectIndex-1].set_global_pos(Vector2(0,0))
 	return laserObjectPool[laserObjectIndex-1]
 	
 func _on_Button_button_down(type):

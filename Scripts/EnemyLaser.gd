@@ -16,6 +16,7 @@ func checkCollisions():
 	if get_node("KinematicBody2D").is_colliding():
 		#hide the laser
 		self.set_global_pos(Vector2(10000, 10000))
+		self.get_node("KinematicBody2D").set_global_pos(Vector2(10000, 10000))
 		
 		#get the other object
 		otherCollider = get_node("KinematicBody2D").get_collider()
@@ -28,8 +29,7 @@ func checkCollisions():
 
 #starts when loaded up in scene
 func _ready():
-	print("I don't know anymore")
-	startPosition = self.get_parent().get_node("Turret/Position2D")
+	#startPosition = self.get_parent().get_node("Turret/Position2D")
 	# Called every time the node is added to the scene.
 	# Initialization here
 	#print (self.get_parent().get_name())
@@ -55,14 +55,11 @@ func _fixed_process(delta):
 	checkCollisions()
 
 func resetPos():
-	#print (self.get_parent().get_name())
-	#print (self.get_parent().get_parent().get_name())
-	#print (startPosition.get_global_pos())
-	#print (self.get_parent().get_parent().get_parent().get_name())
-	#print(self.get_parent().get_parent().get_parent().get_node("Turret/Position2D").get_name())
-	#self.set_global_pos(startPosition.get_global_pos())
+	print("test")
+	print(startPosition)
+	print(startPosition.get_global_pos())
+	self.set_global_pos(startPosition.get_global_pos())
 	self.get_node("KinematicBody2D").set_global_pos(startPosition.get_global_pos())
-	#print (speed)
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):

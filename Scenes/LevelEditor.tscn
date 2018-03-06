@@ -955,21 +955,13 @@ func _process(delta):
 func fire():
 	
 	laserCount += 1
-	
 	#create a copy of the laser object
 	var laserInstance = self.get_node(\"/root/Node2D\").getLaser()
-	self.get_parent().add_child(laserInstance)
+	laserInstance.startPosition = self.get_node(\"Position2D\")
 	laserInstance.set_owner(self)
-	print(laserInstance.get_global_pos())
 	laserInstance.speed = laserSpeed#self.get_parent().get_node(\"TurrentMenu/ProjectileVBox/SpinBox\").get_val()
-	
 	laserInstance.setDirVector(rotate, vector)
-	
-	#set the position of the laser copy
-	print(\"pos2d: \")
-	print(get_node(\"Position2D\").get_global_pos())
 	laserInstance.resetPos()
-	#laserInstance.set_global_pos(get_node(\"Position2D\").get_global_pos())
 
 func _on_height_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))
@@ -1050,7 +1042,7 @@ func _ready():
 	self.add_item(\"Both\", 2)
 "
 
-[sub_resource type="RectangleShape2D" id=45]
+[sub_resource type="RectangleShape2D" id=72]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
@@ -3036,7 +3028,7 @@ script/script = ExtResource( 23 )
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 72 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -3047,7 +3039,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 45 )
+shape = SubResource( 72 )
 trigger = false
 _update_shape_index = 0
 
@@ -3595,13 +3587,13 @@ script/script = SubResource( 71 )
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
-
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
+[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -3698,10 +3690,6 @@ script/script = SubResource( 71 )
 [connection signal="value_changed" from="TurretArea/TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="TurretArea/Turret" method="_on_width_value_changed"]
 
 [connection signal="pressed" from="TurretArea/TurrentMenu/VisualVBox/ColorPicker" to="TurretArea/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretArea/TurrentMenu/ProjectileVBox/Laser" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretArea/TurrentMenu/ProjectileVBox/Laser" method="_on_WidthSpinBox_value_changed"]
 
 [connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="TurretArea/Turret" method="_on_SpeedSpinBox_value_changed"]
 

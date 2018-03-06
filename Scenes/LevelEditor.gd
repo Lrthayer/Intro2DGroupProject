@@ -28,7 +28,7 @@ var editorState = "placing"
 #Laser Object bool
 var laserObjectPool = []
 var laserObjectIndex = 0
-var laserObjectPoolAmount = 25
+var laserObjectPoolAmount = 50
 
 #starts when loaded up in scene
 func _ready():
@@ -40,7 +40,7 @@ func _ready():
 		laserObjectPool[-1].set_name("Laser" + str(i))
 		
 		#add a child
-		#self.add_child(laserObjectPool[-1])
+		self.add_child(laserObjectPool[-1])
 		#laserObjectPool[-1].set_owner(self)
 	
 	turrent = self.get_node("TurretArea")

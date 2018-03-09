@@ -768,6 +768,7 @@ func _ready():
 
 func _on_PlacingButton_pressed():
 	#when this is pressed set other states off
+	self.set_pressed(true)
 	self.get_parent().get_node(\"EditingButton\").set_pressed(false)
 	self.get_parent().get_parent().get_parent().get_parent().editorState = \"placing\"
 "
@@ -788,6 +789,7 @@ func _ready():
 
 func _on_EditingButton_pressed():
 	#when this is pressed set other states off
+	self.set_pressed(true)
 	self.get_parent().get_node(\"PlacingButton\").set_pressed(false)
 	self.get_parent().get_parent().get_parent().get_parent().editorState = \"editing\"
 "
@@ -811,7 +813,7 @@ var pointValue = 10
 var health = 3
 var damage = 1
 var fireRate = 1
-var fireRateDelta = .0001
+var fireRateDelta = .001
 
 func _ready():
 	set_process(true)
@@ -861,18 +863,26 @@ func _process(delta):
 		if  Input.is_action_pressed(\"edit\") && !locked:
 			if menuToggle < 1:
 				#if already open, close
-				if !self.get_node(\"TurrentMenu/VisualVBox\").is_hidden():
-					self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
-					self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
+				if !self.get_node(\"TurrentMenu\").is_hidden():
+					self.get_node(\"TurrentMenu\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
 					self.get_node(\"TurrentMenu\").set_pos(Vector2(30000,30000))
+					#set root state to placing
+					self.get_node(\"/root/Node2D\").editorState = \"placing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
 				else:
 					self.get_node(\"TurrentMenu\").set_pos(Vector2(50,-100))
-					self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(false)
-					self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(false)
+					self.get_node(\"TurrentMenu\").set_hidden(false)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(false)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(false)
 					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"HPHBox/HPSpinBox\").set_value(health)
 					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"DamageHBox/DamageSpinBox\").set_value(damage)
 					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateHBox/FireRateSpinBox\").set_value(fireRate)
 					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateDeltaHBox/FireRateDeltaSpinBox\").set_value(fireRateDelta)
+					#set root state to editing
+					self.get_node(\"/root/Node2D\").editorState = \"editing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
 				menuToggle += 1
 		else:
 			menuToggle = 0
@@ -922,6 +932,7 @@ var target
 var diff
 var rotate
 var timer = 1
+var tick = 1
 var rateIncrease = 0
 var laserSpeed = 3
 var vector = Vector2(0,0)
@@ -944,12 +955,14 @@ func _process(delta):
 	rotate = atan2(-diff.y,diff.x) - 3.14/2
 	self.set_rot(rotate)
 	vector = (theirPos - myPos).normalized()
-	self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta)
-	
+	tick = get_parent().fireRate
+	#self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta)
+	tick = tick - (delta + self.get_parent().fireRateDelta)
 	#enough time has passed
-	if (self.get_parent().fireRate <= 0):
+	if (tick <= 0):
 		fire()
-		self.get_parent().fireRate = timer
+		tick = self.get_parent().fireRate
+		self.get_parent().fireRateDelta += self.get_parent().fireRateDelta
 
 #turret shoots laser
 func fire():
@@ -1042,7 +1055,7 @@ func _ready():
 	self.add_item(\"Both\", 2)
 "
 
-[sub_resource type="RectangleShape2D" id=72]
+[sub_resource type="RectangleShape2D" id=45]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
@@ -2078,7 +2091,6 @@ _update_shape_index = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2309,7 +2321,6 @@ script/script = SubResource( 32 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D"]
 
-editor/display_folded = true
 transform/pos = Vector2( 381.74, -250.831 )
 input/pickable = true
 shapes/0/shape = SubResource( 33 )
@@ -2322,7 +2333,6 @@ angular_damp = 1.0
 
 [node name="StatesHBox" type="HBoxContainer" parent="Camera2D/StatesArea"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -2461,6 +2471,7 @@ _update_shape_index = 0
 
 [node name="TurrentMenu" type="Area2D" parent="TurretArea"]
 
+visibility/visible = false
 transform/pos = Vector2( 50, -100 )
 input/pickable = true
 shapes/0/shape = SubResource( 42 )
@@ -2473,7 +2484,6 @@ angular_damp = 1.0
 
 [node name="StatsVBox" type="VBoxContainer" parent="TurretArea/TurrentMenu"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2628,7 +2638,7 @@ margin/right = 176.0
 margin/bottom = 24.0
 range/min = 0.0
 range/max = 100.0
-range/step = 1.0
+range/step = 0.01
 range/page = 0.0
 range/value = 1.0
 range/exp_edit = false
@@ -2873,7 +2883,6 @@ script/script = SubResource( 44 )
 
 [node name="HeightHBox" type="HBoxContainer" parent="TurretArea/TurrentMenu/ProjectileVBox"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2922,7 +2931,6 @@ suffix = ""
 
 [node name="WidthHBox" type="HBoxContainer" parent="TurretArea/TurrentMenu/ProjectileVBox"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2971,7 +2979,6 @@ suffix = ""
 
 [node name="WidthHBox1" type="HBoxContainer" parent="TurretArea/TurrentMenu/ProjectileVBox"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -3028,7 +3035,7 @@ script/script = ExtResource( 23 )
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 72 )
+shapes/0/shape = SubResource( 45 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -3039,7 +3046,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 72 )
+shape = SubResource( 45 )
 trigger = false
 _update_shape_index = 0
 
@@ -3611,9 +3618,9 @@ script/script = SubResource( 71 )
 
 [connection signal="mouse_exit" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

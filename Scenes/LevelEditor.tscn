@@ -813,6 +813,7 @@ var pointValue = 10
 var health = 3
 var damage = 1
 var fireRate = 1
+var fireRateStatic = 1
 var fireRateDelta = .001
 
 func _ready():
@@ -876,10 +877,10 @@ func _process(delta):
 					self.get_node(\"TurrentMenu\").set_hidden(false)
 					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(false)
 					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(false)
-					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"HPHBox/HPSpinBox\").set_value(health)
-					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"DamageHBox/DamageSpinBox\").set_value(damage)
-					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateHBox/FireRateSpinBox\").set_value(fireRate)
-					self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateDeltaHBox/FireRateDeltaSpinBox\").set_value(fireRateDelta)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"HPHBox/HPSpinBox\").set_value(health)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"DamageHBox/DamageSpinBox\").set_value(damage)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateHBox/FireRateSpinBox\").set_value(fireRate)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateDeltaHBox/FireRateDeltaSpinBox\").set_value(fireRateDelta)
 					#set root state to editing
 					self.get_node(\"/root/Node2D\").editorState = \"editing\"
 					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
@@ -905,13 +906,13 @@ func _on_damage_value_changed( value ):
 
 func _on_firerate_value_changed( value ):
 	fireRate = value
+	fireRateStatic = value
 
 func _on_fireratedelta_value_changed( value ):
 	fireRateDelta = value
 
 func _on_height_value_changed( value ):
-	self.set_scale(Vector2(self.get_scale().x, value))
-"
+	self.set_scale(Vector2(self.get_scale().x, value))"
 
 [sub_resource type="CanvasItemMaterial" id=38]
 
@@ -947,22 +948,23 @@ func _ready():
 #called every frame
 func _process(delta):
 	
-	#increase rate of fire of the turrent over time
-	rateIncrease += .00001
 	theirPos = target.get_global_pos()
 	myPos = self.get_global_pos()
 	diff = theirPos - myPos
 	rotate = atan2(-diff.y,diff.x) - 3.14/2
 	self.set_rot(rotate)
 	vector = (theirPos - myPos).normalized()
-	tick = get_parent().fireRate
-	#self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta)
-	tick = tick - (delta + self.get_parent().fireRateDelta)
+	self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta/100)
+	#tick = tick - self.get_parent().fireRateDelta
 	#enough time has passed
-	if (tick <= 0):
+	print(\"firerate\")
+	print(self.get_parent().fireRate)
+	if (self.get_parent().fireRate <= 0):
 		fire()
-		tick = self.get_parent().fireRate
-		self.get_parent().fireRateDelta += self.get_parent().fireRateDelta
+		self.get_parent().fireRate = self.get_parent().fireRateStatic
+		self.get_parent().fireRateDelta += self.get_parent().fireRateDelta/100
+		#print (\"fireRateDelta\")
+		#print(self.get_parent().fireRateDelta)
 
 #turret shoots laser
 func fire():
@@ -2200,9 +2202,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 10.0
-margin/top = 131.0
+margin/top = 133.0
 margin/right = 323.0
-margin/bottom = 265.0
+margin/bottom = 267.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -2689,7 +2691,7 @@ margin/right = 176.0
 margin/bottom = 24.0
 range/min = 0.0
 range/max = 100.0
-range/step = 0.001
+range/step = 1.0
 range/page = 0.0
 range/value = 1.0
 range/exp_edit = false
@@ -3618,9 +3620,9 @@ script/script = SubResource( 71 )
 
 [connection signal="mouse_exit" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

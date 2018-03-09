@@ -112,7 +112,7 @@ func _process(delta):
 				makeUnique = false
 			
 			objectInstance.set_global_pos(mosLoc)
-			print(objectInstance)
+			#print(objectInstance)
 			
 			if makeUnique:
 				#give the copy a name 
@@ -140,9 +140,9 @@ func getLaser():
 	#check to see if index is in bounds
 	if laserObjectIndex >= laserObjectPool.size():
 		laserObjectIndex = 0
-	print(laserObjectIndex)
+	#print(laserObjectIndex)
 	laserObjectIndex += 1
-	print (laserObjectPool[laserObjectIndex-1].get_global_pos())
+	#print (laserObjectPool[laserObjectIndex-1].get_global_pos())
 	#laserObjectPool[laserObjectIndex-1].set_global_pos(Vector2(0,0))
 	return laserObjectPool[laserObjectIndex-1]
 	
@@ -175,12 +175,10 @@ func _on_Area2D_mouse_enter():
 	overButton = true
 	if cursorState != "locked":
 		cursorState = "hovering"
-	print("should not work")
 
 func _on_Area2D_mouse_exit():
 	overButton = false
 	cursorState = ""
-	print("should work")
 
 func _cusorStopFollowing():
 	self.get_node("Cursor").followMouse = false

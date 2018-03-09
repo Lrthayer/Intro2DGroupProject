@@ -55,9 +55,9 @@ func _fixed_process(delta):
 	checkCollisions()
 
 func resetPos():
-	print("test")
-	print(startPosition)
-	print(startPosition.get_global_pos())
+	#print("test")
+	#print(startPosition)
+	#print(startPosition.get_global_pos())
 	self.set_global_pos(startPosition.get_global_pos())
 	self.get_node("KinematicBody2D").set_global_pos(startPosition.get_global_pos())
 

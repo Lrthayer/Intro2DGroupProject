@@ -1,6 +1,10 @@
 extends Node2D
 
 # class member variables 
+var redProj = preload("res://Raw Graphics/Projectiles/bullet_004.png")
+var blueProj = preload("res://Raw Graphics/Projectiles/bullet_008.png")
+var whiteProj = preload("res://Raw Graphics/Projectiles/bullet_white.tex")
+
 var height = 650
 var speed = 0
 var dmg = 1
@@ -63,8 +67,15 @@ func resetPos():
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):
-	self.set_rot(rotate)
+	print(rotate)
+	self.set_rot(rotate + 3.14)
 	vector = turretVector
+
+func setSprite(color):
+	if (color == "blue"):
+		self.get_node("KinematicBody2D/Sprite").set_texture(blueProj)
+	elif (color == "white"):
+		self.get_node("KinematicBody2D/Sprite").set_texture(whiteProj)
 
 func _on_WidthSpinBox_value_changed( value ):
 	self.set_scale(Vector2(value, self.get_scale().y))

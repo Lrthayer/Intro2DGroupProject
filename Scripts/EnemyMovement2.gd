@@ -63,7 +63,9 @@ func _fixed_process(delta):
 	if goleft:
 		if GLOBALS.state != "Editor":
 			move(Vector2(-1,0))
-	
 
-func _on_mouse_enter():
-	pass # replace with function body
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))

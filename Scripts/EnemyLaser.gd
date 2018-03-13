@@ -77,8 +77,8 @@ func setSprite(color):
 	elif (color == "white"):
 		self.get_node("KinematicBody2D/Sprite").set_texture(whiteProj)
 
-func _on_WidthSpinBox_value_changed( value ):
+func _on_ProjWidthSpinBox_value_changed( value ):
 	self.set_scale(Vector2(value, self.get_scale().y))
 
-func _on_HeightSpinBox_value_changed( value ):
+func _on_ProjHeightSpinBox_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))

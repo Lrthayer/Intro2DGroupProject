@@ -56,13 +56,11 @@ func _fixed_process(delta):
 	
 	#mover goes right
 	if goright:
-		if GLOBALS.state != "Editor":
-			move(Vector2(1,0))
+		move(Vector2(self.get_parent().speed,0))
 	
 	#mover goes left
 	if goleft:
-		if GLOBALS.state != "Editor":
-			move(Vector2(-1,0))
+		move(Vector2(-1 * self.get_parent().speed,0))
 
 func _on_HeightSpinBox_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))

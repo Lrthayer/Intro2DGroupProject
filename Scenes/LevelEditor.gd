@@ -88,6 +88,11 @@ func _process(delta):
 				objectInstance.get_child(0).get_child(1).connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 				objectInstance.get_child(0).get_child(2).connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				objectInstance.get_child(0).get_child(2).connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+				objectInstance.get_node("MoverMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("/root/MoverArea/Mover"), "_on_height_value_changed")
+				objectInstance.get_node("MoverMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("/root/MoverArea/Mover"), "_on_width_value_changed")
+				objectInstance.get_node("MoverMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/MoverArea/Mover/KinematicBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
+				objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+				objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Turrent":
 				objectInstance = turrent.duplicate()
 				objectInstance.set_hidden(false)
@@ -110,9 +115,6 @@ func _process(delta):
 				objectInstance = defender
 				objectInstance.set_hidden(false)
 				makeUnique = false
-			
-			objectInstance.set_global_pos(mosLoc)
-			#print(objectInstance)
 			
 			if makeUnique:
 				#give the copy a name 

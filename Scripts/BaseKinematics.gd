@@ -23,3 +23,6 @@ func check_alive():
 		GLOBALS.base_is_dead = true
 		#kill self
 		get_parent().queue_free()
+
+func _on_HPSpinBox_value_changed( value ):
+	hp = value

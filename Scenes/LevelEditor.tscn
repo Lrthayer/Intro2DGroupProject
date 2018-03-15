@@ -8,31 +8,29 @@
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=6]
 [ext_resource path="res://Scripts/check.gd" type="Script" id=7]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_005.png" type="Texture" id=8]
-[ext_resource path="res://Scenes/Defender.gd" type="Script" id=9]
-[ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=10]
-[ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=11]
-[ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" id=12]
-[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=13]
-[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=14]
-[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=15]
-[ext_resource path="res://Mover.tex" type="Texture" id=16]
-[ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=17]
-[ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=18]
-[ext_resource path="res://turret001.tex" type="Texture" id=19]
-[ext_resource path="res://Scripts/Collided.gd" type="Script" id=20]
-[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=21]
-[ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=22]
+[ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=9]
+[ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/Defender.gd" type="Script" id=11]
+[ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=12]
+[ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=13]
+[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=14]
+[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=15]
+[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=16]
+[ext_resource path="res://Mover.tex" type="Texture" id=17]
+[ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=18]
+[ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=19]
+[ext_resource path="res://turret001.tex" type="Texture" id=20]
+[ext_resource path="res://Scripts/Collided.gd" type="Script" id=21]
+[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=22]
 [ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=23]
 [ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=24]
 [ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=25]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=26]
 [ext_resource path="res://Scripts/BaseKinematics.gd" type="Script" id=27]
-[ext_resource path="res://Graphics/Structures/base003.tex" type="Texture" id=28]
-[ext_resource path="res://Graphics/Structures/base004.tex" type="Texture" id=29]
-[ext_resource path="res://Scenes/Base1.tscn" type="PackedScene" id=30]
-[ext_resource path="res://Scripts/Base.gd" type="Script" id=31]
-[ext_resource path="res://Graphics/Structures/base005.tex" type="Texture" id=32]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=33]
+[ext_resource path="res://Graphics/Structures/base004.tex" type="Texture" id=28]
+[ext_resource path="res://Graphics/Structures/base003.tex" type="Texture" id=29]
+[ext_resource path="res://Graphics/Structures/base005.tex" type="Texture" id=30]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=31]
 
 [sub_resource type="GDScript" id=1]
 
@@ -65,6 +63,7 @@ var locked = false
 var toggled = 0
 var lockToggle = 0
 
+var menuToggle = 0
 
 func _ready():
 	set_process(true)
@@ -104,6 +103,28 @@ func _process(delta):
 				toggled += 1
 		else:
 			toggled = 0
+				
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if !self.get_node(\"AttackerMenu\").is_hidden():
+					self.get_node(\"AttackerMenu\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
+					self.get_node(\"AttackerMenu\").set_pos(Vector2(30000,30000))
+					#set root state to placing
+					self.get_node(\"/root/Node2D\").editorState = \"placing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+				else:
+					self.get_node(\"AttackerMenu\").set_pos(Vector2(50,-100))
+					self.get_node(\"AttackerMenu\").set_hidden(false)
+					#set root state to editing
+					self.get_node(\"/root/Node2D\").editorState = \"editing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+				menuToggle += 1
+		else:
+			menuToggle = 0
+				
 				
 		if clicked:
 			self.set_global_pos(get_global_mouse_pos())
@@ -289,6 +310,37 @@ func _ready():
 func _process(delta):
 	if get_parent().clicked:
 		self.set_global_pos(get_global_mouse_pos())"
+
+[sub_resource type="RectangleShape2D" id=42]
+
+custom_solver_bias = 0.0
+extents = Vector2( 24.8514, 10.3006 )
+
+[sub_resource type="GDScript" id=43]
+
+script/source = "extends ColorPickerButton
+
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_color(color)
+
+#when user presses button move the color picker to where they clicked
+func _on_ColorPicker_pressed():
+	if self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").is_hidden():
+		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(false)
+	else:
+		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
+"
+
+[sub_resource type="RectangleShape2D" id=44]
+
+custom_solver_bias = 0.0
+extents = Vector2( 8.23344, 6.1101 )
+
+[sub_resource type="RectangleShape2D" id=45]
+
+custom_solver_bias = 0.0
+extents = Vector2( 149.373, 225.538 )
 
 [sub_resource type="RectangleShape2D" id=15]
 
@@ -997,43 +1049,12 @@ script/source = "extends Sprite
 func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)"
 
-[sub_resource type="RectangleShape2D" id=42]
-
-custom_solver_bias = 0.0
-extents = Vector2( 26.4029, 11.6745 )
-
-[sub_resource type="GDScript" id=43]
-
-script/source = "extends ColorPickerButton
-
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_color(color)
-
-#when user presses button move the color picker to where they clicked
-func _on_ColorPicker_pressed():
-	if self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").is_hidden():
-		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(false)
-	else:
-		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
-"
-
-[sub_resource type="RectangleShape2D" id=45]
-
-custom_solver_bias = 0.0
-extents = Vector2( 8.23344, 6.1101 )
-
 [sub_resource type="RectangleShape2D" id=46]
-
-custom_solver_bias = 0.0
-extents = Vector2( 149.373, 225.538 )
-
-[sub_resource type="RectangleShape2D" id=47]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="GDScript" id=48]
+[sub_resource type="GDScript" id=47]
 
 script/source = "extends Area2D
 var hovering = false
@@ -1126,7 +1147,7 @@ func _on_MoverArea_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=49]
+[sub_resource type="GDScript" id=48]
 
 script/source = "extends Node2D
 
@@ -1164,7 +1185,7 @@ func _process(delta):
 	#increase rate of fire of the turret over time
 	rateIncrease += .00001
 	theirPos = target.get_global_pos()
-	myPos = self.get_global_pos()
+	myPos = self.get_node(\"KinematicBody2D\").get_global_pos()
 	diff = theirPos - myPos
 	rotate = atan2(-diff.y,diff.x) - 3.14/2
 	vector = (theirPos - myPos).normalized()
@@ -1224,12 +1245,12 @@ func _on_SpeedSpinBox_value_changed( value ):
 	speed = value
 "
 
-[sub_resource type="RectangleShape2D" id=50]
+[sub_resource type="RectangleShape2D" id=49]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=51]
+[sub_resource type="GDScript" id=50]
 
 script/source = "extends Sprite
 
@@ -1247,7 +1268,7 @@ func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)
 "
 
-[sub_resource type="GDScript" id=52]
+[sub_resource type="GDScript" id=51]
 
 script/source = "extends CollisionShape2D
 
@@ -1263,12 +1284,12 @@ func _ready():
 func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=53]
+[sub_resource type="RectangleShape2D" id=52]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 11.8219 )
 
-[sub_resource type="GDScript" id=54]
+[sub_resource type="GDScript" id=53]
 
 script/source = "extends Area2D
 
@@ -1299,7 +1320,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=55]
+[sub_resource type="GDScript" id=54]
 
 script/source = "extends Sprite
 
@@ -1314,7 +1335,7 @@ func _process(delta):
 
 "
 
-[sub_resource type="GDScript" id=56]
+[sub_resource type="GDScript" id=55]
 
 script/source = "extends CollisionShape2D
 
@@ -1331,12 +1352,12 @@ func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())
 "
 
-[sub_resource type="RectangleShape2D" id=57]
+[sub_resource type="RectangleShape2D" id=56]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="GDScript" id=58]
+[sub_resource type="GDScript" id=57]
 
 script/source = "extends Area2D
 
@@ -1367,7 +1388,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=59]
+[sub_resource type="GDScript" id=58]
 
 script/source = "extends Sprite
 
@@ -1381,7 +1402,7 @@ func _process(delta):
 		self.set_global_pos(get_global_mouse_pos())
 "
 
-[sub_resource type="GDScript" id=60]
+[sub_resource type="GDScript" id=59]
 
 script/source = "extends CollisionShape2D
 
@@ -1397,12 +1418,12 @@ func _ready():
 func _process(delta):
 	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=61]
+[sub_resource type="RectangleShape2D" id=60]
 
 custom_solver_bias = 0.0
 extents = Vector2( 164.936, 54.913 )
 
-[sub_resource type="GDScript" id=62]
+[sub_resource type="GDScript" id=61]
 
 script/source = "extends Area2D
 
@@ -1411,6 +1432,7 @@ var locked = false
 var clicked = false
 var toggled = 0
 var lockToggle = 0
+var menuToggle = 0
 
 func _ready():
 	set_process(true)
@@ -1449,6 +1471,34 @@ func _process(delta):
 				toggled += 1
 		else:
 			toggled = 0
+			
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if !self.get_node(\"Base2Menu\").is_hidden():
+					self.get_node(\"Base2Menu\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
+					self.get_node(\"Base2Menu\").set_pos(Vector2(30000,30000))
+					#set root state to placing
+					self.get_node(\"/root/Node2D\").editorState = \"placing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+				else:
+					self.get_node(\"Base2Menu\").set_pos(Vector2(160,-100))
+					self.get_node(\"Base2Menu\").set_hidden(false)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(false)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(false)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"HPHBox/HPSpinBox\").set_value(health)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"DamageHBox/DamageSpinBox\").set_value(damage)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateHBox/FireRateSpinBox\").set_value(fireRate)
+					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateDeltaHBox/FireRateDeltaSpinBox\").set_value(fireRateDelta)
+					#set root state to editing
+					self.get_node(\"/root/Node2D\").editorState = \"editing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+				menuToggle += 1
+		else:
+			menuToggle = 0
+			
 			
 		if clicked:
 			self.set_global_pos(get_global_mouse_pos())
@@ -1470,19 +1520,37 @@ func _on_Base2D_mouse_exit():
 [sub_resource type="ConvexPolygonShape2D" id=63]
 
 custom_solver_bias = 0.0
-points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
-
-[sub_resource type="ConvexPolygonShape2D" id=64]
-
-custom_solver_bias = 0.0
 points = Vector2Array( 7.4, -1.2, 7.4, 5, -7.4, 5, -7.4, -1.2, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="RectangleShape2D" id=65]
+[sub_resource type="GDScript" id=72]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_modulate(color)
+"
+
+[sub_resource type="RectangleShape2D" id=64]
 
 custom_solver_bias = 0.0
 extents = Vector2( 131.979, 59.8076 )
 
-[sub_resource type="GDScript" id=66]
+[sub_resource type="GDScript" id=65]
 
 script/source = "extends Area2D
 
@@ -1491,6 +1559,8 @@ var locked = false
 var clicked = false
 var toggled = 0
 var lockToggle = 0
+
+var menuToggle = 0
 
 func _ready():
 	set_process(true)
@@ -1528,6 +1598,27 @@ func _process(delta):
 		else:
 			toggled = 0
 			
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if !self.get_node(\"Base1Menu\").is_hidden():
+					self.get_node(\"Base1Menu\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
+					self.get_node(\"Base1Menu\").set_pos(Vector2(30000,30000))
+					#set root state to placing
+					self.get_node(\"/root/Node2D\").editorState = \"placing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+				else:
+					self.get_node(\"Base1Menu\").set_pos(Vector2(160,-100))
+					self.get_node(\"Base1Menu\").set_hidden(false)
+					#set root state to editing
+					self.get_node(\"/root/Node2D\").editorState = \"editing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+				menuToggle += 1
+		else:
+			menuToggle = 0
+			
 		if clicked:
 			self.set_global_pos(get_global_mouse_pos())
 			#fixes spawning a new object while moving this object
@@ -1545,17 +1636,40 @@ func _on_Base12D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=67]
+[sub_resource type="ConvexPolygonShape2D" id=66]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="RectangleShape2D" id=68]
+[sub_resource type="GDScript" id=73]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_modulate(color)
+"
+
+[sub_resource type="RectangleShape2D" id=67]
 
 custom_solver_bias = 0.0
 extents = Vector2( 206.642, 56.996 )
 
-[sub_resource type="GDScript" id=69]
+[sub_resource type="GDScript" id=68]
 
 script/source = "extends Area2D
 
@@ -1564,6 +1678,8 @@ var locked = false
 var clicked = false
 var toggled = 0
 var lockToggle = 0
+
+var menuToggle = 0
 
 func _ready():
 	set_process(true)
@@ -1587,17 +1703,37 @@ func _process(delta):
 			lockToggle = 0
 	if (hovering || clicked) && !locked:
 		if  Input.is_action_pressed(\"left_click\"):
-			print(\"test2\")
 			if toggled < 1:
 				if clicked:
 					clicked = false
-					print(\"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\")
 				else:
 					clicked = true
-					print(\"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTue\")
 				toggled += 1
 		else:
 			toggled = 0
+			
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if !self.get_node(\"Base3Menu\").is_hidden():
+					self.get_node(\"Base3Menu\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
+					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
+					self.get_node(\"Base3Menu\").set_pos(Vector2(30000,30000))
+					#set root state to placing
+					self.get_node(\"/root/Node2D\").editorState = \"placing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+				else:
+					self.get_node(\"Base3Menu\").set_pos(Vector2(200,-100))
+					self.get_node(\"Base3Menu\").set_hidden(false)
+					#set root state to editing
+					self.get_node(\"/root/Node2D\").editorState = \"editing\"
+					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+				menuToggle += 1
+		else:
+			menuToggle = 0
+			
+			
 			
 		if clicked:
 			self.set_global_pos(get_global_mouse_pos())
@@ -1619,16 +1755,39 @@ func _on_Base32D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=70]
+[sub_resource type="ConvexPolygonShape2D" id=69]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8.8, 0, 8.8, 5, -8.8, 5, -8.8, 0, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="CanvasItemMaterial" id=71]
+[sub_resource type="GDScript" id=74]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+	
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_modulate(color)
+"
+
+[sub_resource type="CanvasItemMaterial" id=70]
 
 shader/shading_mode = 0
 
-[sub_resource type="GDScript" id=72]
+[sub_resource type="GDScript" id=71]
 
 script/source = "extends Sprite
 
@@ -1670,9 +1829,7 @@ script/script = SubResource( 1 )
 
 [node name="AttackerArea" type="Area2D" parent="."]
 
-editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( -397.624, 30.5297 )
+transform/pos = Vector2( -50.7058, -923.596 )
 input/pickable = true
 shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -1797,6 +1954,7 @@ script/script = SubResource( 9 )
 
 [node name="Area2D1" type="Area2D" parent="AttackerArea/Attacker"]
 
+editor/display_folded = true
 transform/pos = Vector2( 310.971, -139.5 )
 transform/rot = -90.0
 transform/scale = Vector2( 1.60938, 231 )
@@ -1829,6 +1987,7 @@ script/script = SubResource( 12 )
 
 [node name="Area2D2" type="Area2D" parent="AttackerArea/Attacker"]
 
+editor/display_folded = true
 transform/pos = Vector2( 310.971, -139.5 )
 transform/rot = -90.0
 transform/scale = Vector2( 1.60938, 231 )
@@ -1862,6 +2021,7 @@ script/script = SubResource( 12 )
 
 [node name="Area2D3" type="Area2D" parent="AttackerArea/Attacker"]
 
+editor/display_folded = true
 transform/pos = Vector2( 310.971, -139.5 )
 transform/rot = -90.0
 transform/scale = Vector2( 1.60938, 231 )
@@ -1899,10 +2059,597 @@ shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
+[node name="AttackerMenu" type="Area2D" parent="AttackerArea"]
+
+transform/pos = Vector2( 29.9434, -91.1017 )
+input/pickable = true
+shapes/0/shape = SubResource( 42 )
+shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 293.19, 110.862 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="StatsVBox" type="VBoxContainer" parent="AttackerArea/AttackerMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 14.0
+margin/top = 49.0
+margin/right = 190.0
+margin/bottom = 159.0
+alignment = 0
+
+[node name="HPHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/StatsVBox"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="HPButton" type="MenuButton" parent="AttackerArea/AttackerMenu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "HP"
+flat = true
+items = [  ]
+
+[node name="HPSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="DamageHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 176.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="DamageButton" type="MenuButton" parent="AttackerArea/AttackerMenu/StatsVBox/DamageHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Damage"
+flat = true
+items = [  ]
+
+[node name="DamageSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/StatsVBox/DamageHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="FireRateHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 176.0
+margin/bottom = 80.0
+alignment = 0
+
+[node name="FireRateButton" type="MenuButton" parent="AttackerArea/AttackerMenu/StatsVBox/FireRateHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "FireRate"
+flat = true
+items = [  ]
+
+[node name="FireRateSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/StatsVBox/FireRateHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="SpeedHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 84.0
+margin/right = 176.0
+margin/bottom = 108.0
+alignment = 0
+
+[node name="SpeedButton" type="MenuButton" parent="AttackerArea/AttackerMenu/StatsVBox/SpeedHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Speed"
+flat = true
+items = [  ]
+
+[node name="SpeedSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/StatsVBox/SpeedHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.1
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="VisualVBox" type="VBoxContainer" parent="AttackerArea/AttackerMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 214.0
+margin/top = 50.0
+margin/right = 346.0
+margin/bottom = 102.0
+alignment = 0
+
+[node name="HeightHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/VisualVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="HeightButton" type="MenuButton" parent="AttackerArea/AttackerMenu/VisualVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 54.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Height"
+flat = true
+items = [  ]
+
+[node name="HeightSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/VisualVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 58.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/VisualVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 132.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="WidthButton" type="MenuButton" parent="AttackerArea/AttackerMenu/VisualVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 54.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Width"
+flat = true
+items = [  ]
+
+[node name="WidthSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/VisualVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 58.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="ColorPicker" type="ColorPickerButton" parent="AttackerArea/AttackerMenu/VisualVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 132.0
+margin/bottom = 76.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = false
+script/script = SubResource( 43 )
+
+[node name="ProjectileVBox" type="VBoxContainer" parent="AttackerArea/AttackerMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 367.0
+margin/top = 53.0
+margin/right = 446.0
+margin/bottom = 93.0
+alignment = 0
+
+[node name="WidthHBox1" type="HBoxContainer" parent="AttackerArea/AttackerMenu/ProjectileVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 153.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="ProjSpeedLabel" type="Label" parent="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 5.0
+margin/right = 72.0
+margin/bottom = 19.0
+text = "Proj. Speed"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProjSpeedSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox1"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 76.0
+margin/top = 0.0
+margin/right = 150.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.1
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox2" type="HBoxContainer" parent="AttackerArea/AttackerMenu/ProjectileVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 153.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="ProjHeightLabel" type="Label" parent="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox2"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 5.0
+margin/right = 75.0
+margin/bottom = 19.0
+text = "Proj. Height"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProjHeightSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 79.0
+margin/top = 0.0
+margin/right = 153.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.1
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox3" type="HBoxContainer" parent="AttackerArea/AttackerMenu/ProjectileVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 153.0
+margin/bottom = 80.0
+alignment = 0
+
+[node name="ProjWidthLabel" type="Label" parent="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 5.0
+margin/right = 71.0
+margin/bottom = 19.0
+text = "Proj. Width"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProjWidthSpinBox" type="SpinBox" parent="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 75.0
+margin/top = 0.0
+margin/right = 149.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.1
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="Laser" type="Node2D" parent="AttackerArea/AttackerMenu/ProjectileVBox"]
+
+transform/pos = Vector2( 176.534, 43.3726 )
+script/script = ExtResource( 9 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser"]
+
+transform/pos = Vector2( -0.129724, 0.0108337 )
+transform/scale = Vector2( 0.0670746, 0.12194 )
+input/pickable = false
+shapes/0/shape = SubResource( 44 )
+shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 16
+collision/margin = 0.08
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser/KinematicBody2D"]
+
+transform/pos = Vector2( 0.571943, -0.705742 )
+transform/scale = Vector2( 2.84768, 5.30343 )
+shape = SubResource( 44 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Sprite" type="Sprite" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser/KinematicBody2D"]
+
+transform/pos = Vector2( 1.93402, -0.0888446 )
+transform/scale = Vector2( 14.9088, 8.20073 )
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/AttackerMenu"]
+
+transform/pos = Vector2( 293.19, 110.862 )
+transform/scale = Vector2( 10.3845, 6.62774 )
+shape = SubResource( 42 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorPickerArea2D" type="Area2D" parent="AttackerArea/AttackerMenu"]
+
+visibility/visible = false
+transform/pos = Vector2( 13.9999, 1.99998 )
+input/pickable = true
+shapes/0/shape = SubResource( 45 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="ColorPicker" type="ColorPicker" parent="AttackerArea/AttackerMenu/ColorPickerArea2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 355.0
+margin/top = -90.0
+margin/right = 643.0
+margin/bottom = 351.0
+alignment = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/AttackerMenu/ColorPickerArea2D"]
+
+transform/pos = Vector2( 501.393, 131.662 )
+shape = SubResource( 45 )
+trigger = false
+_update_shape_index = 0
+
 [node name="DefenderArea" type="Area2D" parent="."]
 
 editor/display_folded = true
-visibility/visible = false
 transform/pos = Vector2( -267.971, 8.95953 )
 input/pickable = true
 shapes/0/shape = SubResource( 15 )
@@ -1916,7 +2663,7 @@ script/script = SubResource( 16 )
 
 [node name="Defender" type="Node2D" parent="DefenderArea"]
 
-script/script = ExtResource( 9 )
+script/script = ExtResource( 11 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender"]
 
@@ -1937,7 +2684,7 @@ script/script = SubResource( 18 )
 transform/pos = Vector2( 0.00219125, -5.74672 )
 transform/rot = -180.0
 transform/scale = Vector2( 0.593804, 0.820415 )
-texture = ExtResource( 10 )
+texture = ExtResource( 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/KinematicBody2D"]
 
@@ -1952,7 +2699,7 @@ _update_shape_index = 0
 transform/pos = Vector2( 0.00219124, 18.8657 )
 transform/rot = -180.0
 transform/scale = Vector2( 0.593804, 0.820415 )
-texture = ExtResource( 11 )
+texture = ExtResource( 13 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="DefenderArea/Defender/KinematicBody2D"]
 
@@ -1996,7 +2743,7 @@ script/script = SubResource( 21 )
 
 transform/pos = Vector2( 6.76331, 39.7284 )
 transform/scale = Vector2( 664.151, 2.01894 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 script/script = SubResource( 22 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D"]
@@ -2027,7 +2774,7 @@ script/script = SubResource( 21 )
 
 transform/pos = Vector2( -8.98331, 537.081 )
 transform/scale = Vector2( 382.091, 2.4953 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 script/script = SubResource( 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D 2"]
@@ -2058,7 +2805,7 @@ script/script = SubResource( 21 )
 transform/pos = Vector2( 243.738, 88.9313 )
 transform/rot = 90.0
 transform/scale = Vector2( 820.855, 1.16151 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 script/script = SubResource( 25 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D3"]
@@ -2091,7 +2838,7 @@ script/script = SubResource( 21 )
 transform/pos = Vector2( -248.329, -16.0772 )
 transform/rot = 90.0
 transform/scale = Vector2( 820.856, 1.16151 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 script/script = SubResource( 26 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D4"]
@@ -2230,7 +2977,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 1"
-icon = ExtResource( 13 )
+icon = ExtResource( 14 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2248,7 +2995,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 2"
-icon = ExtResource( 14 )
+icon = ExtResource( 15 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2266,7 +3013,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 3"
-icon = ExtResource( 15 )
+icon = ExtResource( 16 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2284,7 +3031,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Mover"
-icon = ExtResource( 16 )
+icon = ExtResource( 17 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2302,7 +3049,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Bomber"
-icon = ExtResource( 17 )
+icon = ExtResource( 18 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2320,7 +3067,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Defender"
-icon = ExtResource( 18 )
+icon = ExtResource( 19 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2338,7 +3085,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Turrent"
-icon = ExtResource( 19 )
+icon = ExtResource( 20 )
 flat = false
 script/script = SubResource( 32 )
 
@@ -2413,6 +3160,7 @@ _update_shape_index = 0
 
 [node name="TurretArea" type="Area2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 1083.55, -140.779 )
 input/pickable = true
 shapes/0/shape = SubResource( 36 )
@@ -2442,12 +3190,12 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-script/script = ExtResource( 20 )
+script/script = ExtResource( 21 )
 
 [node name="Sprite" type="Sprite" parent="TurretArea/Turret/StaticBody2D"]
 
 transform/pos = Vector2( 1.10815, 0 )
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
 script/script = SubResource( 41 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/Turret/StaticBody2D"]
@@ -3016,14 +3764,14 @@ suffix = ""
 
 editor/display_folded = true
 transform/pos = Vector2( 176.534, 43.3726 )
-script/script = ExtResource( 22 )
+script/script = ExtResource( 9 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="TurretArea/TurrentMenu/ProjectileVBox/Laser"]
 
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 44 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -3034,7 +3782,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 45 )
+shape = SubResource( 44 )
 trigger = false
 _update_shape_index = 0
 
@@ -3058,7 +3806,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 13.9999, 1.99998 )
 input/pickable = true
-shapes/0/shape = SubResource( 46 )
+shapes/0/shape = SubResource( 45 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -3081,7 +3829,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 46 )
+shape = SubResource( 45 )
 trigger = false
 _update_shape_index = 0
 
@@ -3089,24 +3837,25 @@ _update_shape_index = 0
 
 transform/pos = Vector2( 1253.26, -149.774 )
 input/pickable = true
-shapes/0/shape = SubResource( 47 )
+shapes/0/shape = SubResource( 46 )
 shapes/0/transform = Matrix32( 0.998816, 0, 0, 0.830143, 0, 7.04199 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 48 )
+script/script = SubResource( 47 )
 
 [node name="Mover" type="Node2D" parent="MoverArea"]
 
-script/script = SubResource( 49 )
+editor/display_folded = true
+script/script = SubResource( 48 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover"]
 
 transform/scale = Vector2( 1.14837, 1 )
 input/pickable = true
-shapes/0/shape = SubResource( 50 )
+shapes/0/shape = SubResource( 49 )
 shapes/0/transform = Matrix32( 2.44655, 0, 0, 1.30976, -0.318719, 6.59567 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -3117,17 +3866,17 @@ script/script = ExtResource( 24 )
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D"]
 
 transform/scale = Vector2( 2.38735, 2.99493 )
-texture = ExtResource( 16 )
-script/script = SubResource( 51 )
+texture = ExtResource( 17 )
+script/script = SubResource( 50 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D"]
 
 transform/pos = Vector2( -0.318719, 6.59567 )
 transform/scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 50 )
+shape = SubResource( 49 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 52 )
+script/script = SubResource( 51 )
 
 [node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D"]
 
@@ -3161,14 +3910,14 @@ radial_fill/center_offset = Vector2( 0, 0 )
 transform/pos = Vector2( 207.428, -1270.71 )
 transform/scale = Vector2( 1.12062, 175.693 )
 input/pickable = true
-shapes/0/shape = SubResource( 53 )
+shapes/0/shape = SubResource( 52 )
 shapes/0/transform = Matrix32( 1, 0, 0, 5, -4.83211, -0.0256834 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 54 )
+script/script = SubResource( 53 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D"]
 
@@ -3176,29 +3925,29 @@ transform/pos = Vector2( -4.93346, 16.6439 )
 transform/rot = 180.0
 transform/scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 25 )
-script/script = SubResource( 55 )
+script/script = SubResource( 54 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D"]
 
 transform/pos = Vector2( -4.83211, -0.0256834 )
 transform/scale = Vector2( 1, 5 )
-shape = SubResource( 53 )
+shape = SubResource( 52 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 56 )
+script/script = SubResource( 55 )
 
 [node name="Area2D 2" type="Area2D" parent="MoverArea/Mover"]
 
 transform/pos = Vector2( -74.6635, 8.0769 )
 input/pickable = true
-shapes/0/shape = SubResource( 57 )
+shapes/0/shape = SubResource( 56 )
 shapes/0/transform = Matrix32( 1.79192, 0, 0, 153.926, -270.41, -801.739 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 58 )
+script/script = SubResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D 2"]
 
@@ -3206,22 +3955,22 @@ transform/pos = Vector2( -267.469, 374.457 )
 transform/rot = 180.0
 transform/scale = Vector2( 4, 685.63 )
 texture = ExtResource( 25 )
-script/script = SubResource( 59 )
+script/script = SubResource( 58 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D 2"]
 
 transform/pos = Vector2( -270.41, -801.739 )
 transform/scale = Vector2( 1.79192, 153.926 )
-shape = SubResource( 57 )
+shape = SubResource( 56 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 60 )
+script/script = SubResource( 59 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea"]
 
 transform/pos = Vector2( 0, 7.04199 )
 transform/scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 47 )
+shape = SubResource( 46 )
 trigger = false
 _update_shape_index = 0
 
@@ -3447,7 +4196,7 @@ margin/right = 176.0
 margin/bottom = 24.0
 range/min = 0.0
 range/max = 100.0
-range/step = 1.0
+range/step = 0.001
 range/page = 0.0
 range/value = 1.0
 range/exp_edit = false
@@ -3798,14 +4547,14 @@ suffix = ""
 [node name="Laser" type="Node2D" parent="MoverArea/MoverMenu/ProjectileVBox"]
 
 transform/pos = Vector2( 176.534, 43.3726 )
-script/script = ExtResource( 22 )
+script/script = ExtResource( 9 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/MoverMenu/ProjectileVBox/Laser"]
 
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 44 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -3816,7 +4565,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 45 )
+shape = SubResource( 44 )
 trigger = false
 _update_shape_index = 0
 
@@ -3839,7 +4588,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 13.9999, 1.99998 )
 input/pickable = true
-shapes/0/shape = SubResource( 46 )
+shapes/0/shape = SubResource( 45 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -3862,7 +4611,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 46 )
+shape = SubResource( 45 )
 trigger = false
 _update_shape_index = 0
 
@@ -3881,76 +4630,25 @@ margin/bottom = 18.0
 [node name="Base22D" type="Area2D" parent="."]
 
 editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( -0.000244141, 0.000318527 )
+transform/pos = Vector2( -200.42, 11.6915 )
 input/pickable = true
-shapes/0/shape = SubResource( 61 )
+shapes/0/shape = SubResource( 60 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 62 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Base22D"]
-
-transform/pos = Vector2( 856.572, -154.501 )
-input/pickable = false
-shapes/0/shape = SubResource( 63 )
-shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -0.73763, 40.6475 )
-shapes/0/trigger = false
-collision/layers = 8
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 27 )
-
-[node name="Sprite" type="Sprite" parent="Base22D/StaticBody2D"]
-
-texture = ExtResource( 28 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/StaticBody2D"]
-
-transform/pos = Vector2( -0.73763, 40.6475 )
-transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 63 )
-trigger = false
-_update_shape_index = 0
-
-[node name="hp_bar" type="TextureProgress" parent="Base22D/StaticBody2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -49.0
-margin/top = 55.0
-margin/right = 47.0
-margin/bottom = 63.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 100.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 5 )
-texture/over = null
-texture/progress = ExtResource( 6 )
-radial_fill/initial_angle = 1.0
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
+script/script = SubResource( 61 )
 
 [node name="Base2" type="Node2D" parent="Base22D"]
 
+editor/display_folded = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="Base22D/Base2"]
 
-editor/display_folded = true
 input/pickable = false
-shapes/0/shape = SubResource( 64 )
+shapes/0/shape = SubResource( 63 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -1.64311, 64.4346 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -3963,13 +4661,14 @@ script/script = ExtResource( 27 )
 
 [node name="Sprite" type="Sprite" parent="Base22D/Base2/StaticBody2D"]
 
-texture = ExtResource( 29 )
+texture = ExtResource( 28 )
+script/script = SubResource( 72 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2/StaticBody2D"]
 
 transform/pos = Vector2( -1.64311, 64.4346 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 64 )
+shape = SubResource( 63 )
 trigger = false
 _update_shape_index = 0
 
@@ -4000,32 +4699,264 @@ radial_fill/center_offset = Vector2( 0, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D"]
 
 transform/pos = Vector2( 1.10809, 4.43213 )
-shape = SubResource( 61 )
+shape = SubResource( 60 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Base1" parent="Base22D" instance=ExtResource( 30 )]
+[node name="Base2Menu" type="Area2D" parent="Base22D"]
 
-transform/pos = Vector2( 510.309, -292.666 )
+visibility/visible = false
+transform/pos = Vector2( 162.828, -78.6815 )
+input/pickable = true
+shapes/0/shape = SubResource( 42 )
+shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="StatsVBox" type="VBoxContainer" parent="Base22D/Base2Menu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 14.0
+margin/top = 49.0
+margin/right = 190.0
+margin/bottom = 159.0
+alignment = 0
+
+[node name="HPHBox" type="HBoxContainer" parent="Base22D/Base2Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="HPButton" type="MenuButton" parent="Base22D/Base2Menu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "HP"
+flat = true
+items = [  ]
+
+[node name="HPSpinBox" type="SpinBox" parent="Base22D/Base2Menu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HeightHBox" type="HBoxContainer" parent="Base22D/Base2Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 176.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="HeightButton" type="MenuButton" parent="Base22D/Base2Menu/StatsVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Height"
+flat = true
+items = [  ]
+
+[node name="HeightSpinBox" type="SpinBox" parent="Base22D/Base2Menu/StatsVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox" type="HBoxContainer" parent="Base22D/Base2Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 176.0
+margin/bottom = 80.0
+alignment = 0
+
+[node name="WidthButton" type="MenuButton" parent="Base22D/Base2Menu/StatsVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Width"
+flat = true
+items = [  ]
+
+[node name="WidthSpinBox" type="SpinBox" parent="Base22D/Base2Menu/StatsVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="ColorPicker" type="ColorPickerButton" parent="Base22D/Base2Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 84.0
+margin/right = 176.0
+margin/bottom = 104.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = false
+script/script = SubResource( 43 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2Menu"]
+
+transform/pos = Vector2( 114.702, 98.3136 )
+transform/scale = Vector2( 10.3845, 6.62774 )
+shape = SubResource( 42 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorPickerArea2D" type="Area2D" parent="Base22D/Base2Menu"]
+
+visibility/visible = false
+transform/pos = Vector2( -126.867, 1.99998 )
+input/pickable = true
+shapes/0/shape = SubResource( 45 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="ColorPicker" type="ColorPicker" parent="Base22D/Base2Menu/ColorPickerArea2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 355.0
+margin/top = -90.0
+margin/right = 643.0
+margin/bottom = 351.0
+alignment = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2Menu/ColorPickerArea2D"]
+
+transform/pos = Vector2( 501.393, 131.662 )
+shape = SubResource( 45 )
+trigger = false
+_update_shape_index = 0
 
 [node name="Base12D" type="Area2D" parent="."]
 
 editor/display_folded = true
-transform/pos = Vector2( 856.572, -154.501 )
+transform/pos = Vector2( 665.142, 35.4221 )
 input/pickable = true
-shapes/0/shape = SubResource( 65 )
+shapes/0/shape = SubResource( 64 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 66 )
+script/script = SubResource( 65 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D"]
 
 transform/pos = Vector2( -2.44354, 7.33054 )
-shape = SubResource( 65 )
+shape = SubResource( 64 )
 trigger = false
 _update_shape_index = 0
 
@@ -4036,7 +4967,7 @@ transform/scale = Vector2( 1, 0.999998 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Base12D/Base1"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 67 )
+shapes/0/shape = SubResource( 66 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -0.73761, 40.6475 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -4049,13 +4980,14 @@ script/script = ExtResource( 27 )
 
 [node name="Sprite" type="Sprite" parent="Base12D/Base1/StaticBody2D"]
 
-texture = ExtResource( 28 )
+texture = ExtResource( 29 )
+script/script = SubResource( 73 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1/StaticBody2D"]
 
 transform/pos = Vector2( -0.73761, 40.6475 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 67 )
+shape = SubResource( 66 )
 trigger = false
 _update_shape_index = 0
 
@@ -4083,29 +5015,262 @@ radial_fill/initial_angle = 1.0
 radial_fill/fill_degrees = 360.0
 radial_fill/center_offset = Vector2( 0, 0 )
 
-[node name="Base32D" type="Area2D" parent="."]
+[node name="Base1Menu" type="Area2D" parent="Base12D"]
 
 editor/display_folded = true
 visibility/visible = false
-transform/pos = Vector2( 856.571, 120.42 )
+transform/pos = Vector2( 148.413, -84.7859 )
 input/pickable = true
-shapes/0/shape = SubResource( 68 )
+shapes/0/shape = SubResource( 42 )
+shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="StatsVBox" type="VBoxContainer" parent="Base12D/Base1Menu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 14.0
+margin/top = 49.0
+margin/right = 190.0
+margin/bottom = 159.0
+alignment = 0
+
+[node name="HPHBox" type="HBoxContainer" parent="Base12D/Base1Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="HPButton" type="MenuButton" parent="Base12D/Base1Menu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "HP"
+flat = true
+items = [  ]
+
+[node name="HPSpinBox" type="SpinBox" parent="Base12D/Base1Menu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HeightHBox" type="HBoxContainer" parent="Base12D/Base1Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 176.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="HeightButton" type="MenuButton" parent="Base12D/Base1Menu/StatsVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Height"
+flat = true
+items = [  ]
+
+[node name="HeightSpinBox" type="SpinBox" parent="Base12D/Base1Menu/StatsVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox" type="HBoxContainer" parent="Base12D/Base1Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 176.0
+margin/bottom = 80.0
+alignment = 0
+
+[node name="WidthButton" type="MenuButton" parent="Base12D/Base1Menu/StatsVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Width"
+flat = true
+items = [  ]
+
+[node name="WidthSpinBox" type="SpinBox" parent="Base12D/Base1Menu/StatsVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="ColorPicker" type="ColorPickerButton" parent="Base12D/Base1Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 84.0
+margin/right = 176.0
+margin/bottom = 104.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = false
+script/script = SubResource( 43 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1Menu"]
+
+transform/pos = Vector2( 114.702, 98.3136 )
+transform/scale = Vector2( 10.3845, 6.62774 )
+shape = SubResource( 42 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorPickerArea2D" type="Area2D" parent="Base12D/Base1Menu"]
+
+visibility/visible = false
+transform/pos = Vector2( -131.412, 26.9926 )
+input/pickable = true
+shapes/0/shape = SubResource( 45 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="ColorPicker" type="ColorPicker" parent="Base12D/Base1Menu/ColorPickerArea2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 355.0
+margin/top = -90.0
+margin/right = 643.0
+margin/bottom = 351.0
+alignment = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1Menu/ColorPickerArea2D"]
+
+transform/pos = Vector2( 501.393, 131.662 )
+shape = SubResource( 45 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Base32D" type="Area2D" parent="."]
+
+transform/pos = Vector2( 1979.38, -234.549 )
+input/pickable = true
+shapes/0/shape = SubResource( 67 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 69 )
+script/script = SubResource( 68 )
 
 [node name="Base3" type="Node2D" parent="Base32D"]
-
-script/script = ExtResource( 31 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Base32D/Base3"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 70 )
+shapes/0/shape = SubResource( 69 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, 1.26239, 42.6475 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -4118,13 +5283,14 @@ script/script = ExtResource( 27 )
 
 [node name="Sprite" type="Sprite" parent="Base32D/Base3/StaticBody2D"]
 
-texture = ExtResource( 32 )
+texture = ExtResource( 30 )
+script/script = SubResource( 74 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3/StaticBody2D"]
 
 transform/pos = Vector2( 1.26239, 42.6475 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 70 )
+shape = SubResource( 69 )
 trigger = false
 _update_shape_index = 0
 
@@ -4155,17 +5321,253 @@ radial_fill/center_offset = Vector2( 0, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D"]
 
 transform/pos = Vector2( 0, 5.70152 )
-shape = SubResource( 68 )
+shape = SubResource( 67 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Base3Menu" type="Area2D" parent="Base32D"]
+
+visibility/visible = false
+transform/pos = Vector2( 199.446, -89.1927 )
+input/pickable = true
+shapes/0/shape = SubResource( 42 )
+shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="StatsVBox" type="VBoxContainer" parent="Base32D/Base3Menu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 14.0
+margin/top = 49.0
+margin/right = 190.0
+margin/bottom = 159.0
+alignment = 0
+
+[node name="HPHBox" type="HBoxContainer" parent="Base32D/Base3Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="HPButton" type="MenuButton" parent="Base32D/Base3Menu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "HP"
+flat = true
+items = [  ]
+
+[node name="HPSpinBox" type="SpinBox" parent="Base32D/Base3Menu/StatsVBox/HPHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="HeightHBox" type="HBoxContainer" parent="Base32D/Base3Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 176.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="HeightButton" type="MenuButton" parent="Base32D/Base3Menu/StatsVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Height"
+flat = true
+items = [  ]
+
+[node name="HeightSpinBox" type="SpinBox" parent="Base32D/Base3Menu/StatsVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox" type="HBoxContainer" parent="Base32D/Base3Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 56.0
+margin/right = 176.0
+margin/bottom = 80.0
+alignment = 0
+
+[node name="WidthButton" type="MenuButton" parent="Base32D/Base3Menu/StatsVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 98.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Width"
+flat = true
+items = [  ]
+
+[node name="WidthSpinBox" type="SpinBox" parent="Base32D/Base3Menu/StatsVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 102.0
+margin/top = 0.0
+margin/right = 176.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="ColorPicker" type="ColorPickerButton" parent="Base32D/Base3Menu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 84.0
+margin/right = 176.0
+margin/bottom = 104.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = false
+script/script = SubResource( 43 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3Menu"]
+
+transform/pos = Vector2( 114.702, 98.3136 )
+transform/scale = Vector2( 10.3845, 6.62774 )
+shape = SubResource( 42 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorPickerArea2D" type="Area2D" parent="Base32D/Base3Menu"]
+
+visibility/visible = false
+transform/pos = Vector2( -129.644, 9.36633 )
+input/pickable = true
+shapes/0/shape = SubResource( 45 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="ColorPicker" type="ColorPicker" parent="Base32D/Base3Menu/ColorPickerArea2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 355.0
+margin/top = -90.0
+margin/right = 643.0
+margin/bottom = 351.0
+alignment = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3Menu/ColorPickerArea2D"]
+
+transform/pos = Vector2( 501.393, 131.662 )
+shape = SubResource( 45 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Cursor" type="Sprite" parent="."]
 
-material/material = SubResource( 71 )
+material/material = SubResource( 70 )
 transform/pos = Vector2( -6.24886, -834.233 )
 transform/scale = Vector2( 0.978113, 0.875503 )
-texture = ExtResource( 33 )
-script/script = SubResource( 72 )
+texture = ExtResource( 31 )
+script/script = SubResource( 71 )
 
 [node name="Objects" type="Node" parent="."]
 
@@ -4192,6 +5594,16 @@ script/script = SubResource( 72 )
 [connection signal="mouse_enter" from="AttackerArea/Attacker/Area2D3" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="AttackerArea/Attacker/Area2D3" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/DamageHBox/DamageSpinBox" to="AttackerArea/Attacker" method="_on_DamageSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="AttackerArea/Attacker" method="_on_FireRateSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/SpeedHBox/SpeedSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_SpeedSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/VisualVBox/HeightHBox/HeightSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/VisualVBox/WidthHBox/WidthSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
 
 [connection signal="mouse_enter" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -4255,9 +5667,9 @@ script/script = SubResource( 72 )
 
 [connection signal="mouse_exit" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -4415,6 +5827,18 @@ script/script = SubResource( 72 )
 
 [connection signal="mouse_exit" from="Base22D" to="Base22D" method="_on_Base2D_mouse_exit"]
 
+[connection signal="value_changed" from="Base22D/Base2Menu/StatsVBox/HPHBox/HPSpinBox" to="Base22D/Base2/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base22D/Base2Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base22D/Base2Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="pressed" from="Base22D/Base2Menu/StatsVBox/ColorPicker" to="Base22D/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+
+[connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
 [connection signal="mouse_enter" from="Base12D" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_enter" from="Base12D" to="Base12D" method="_on_Base12D_mouse_enter"]
@@ -4423,6 +5847,18 @@ script/script = SubResource( 72 )
 
 [connection signal="mouse_exit" from="Base12D" to="Base12D" method="_on_Base12D_mouse_exit"]
 
+[connection signal="value_changed" from="Base12D/Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="Base12D/Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base12D/Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base12D/Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="pressed" from="Base12D/Base1Menu/StatsVBox/ColorPicker" to="Base12D/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+
+[connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
 [connection signal="mouse_enter" from="Base32D" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_enter" from="Base32D" to="Base32D" method="_on_Base32D_mouse_enter"]
@@ -4430,5 +5866,17 @@ script/script = SubResource( 72 )
 [connection signal="mouse_exit" from="Base32D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_exit" from="Base32D" to="Base32D" method="_on_Base32D_mouse_exit"]
+
+[connection signal="value_changed" from="Base32D/Base3Menu/StatsVBox/HPHBox/HPSpinBox" to="Base32D/Base3/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base32D/Base3Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base32D/Base3/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base32D/Base3Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base32D/Base3/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="pressed" from="Base32D/Base3Menu/StatsVBox/ColorPicker" to="Base32D/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+
+[connection signal="color_changed" from="Base32D/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base32D/Base3/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base32D/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base32D/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 

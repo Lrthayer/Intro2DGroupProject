@@ -81,3 +81,9 @@ func _process(delta):
 		
 	#Check to see if user pressed the spacebar or Numpad 0
 	firePressed = Input.is_action_pressed("space_fire") || Input.is_action_pressed("right_fire") 
+
+func _on_DamageSpinBox_value_changed( value ):
+	damage = value
+
+func _on_FireRateSpinBox_value_changed( value ):
+	fireRate = value

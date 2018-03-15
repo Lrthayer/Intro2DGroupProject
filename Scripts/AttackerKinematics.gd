@@ -37,9 +37,8 @@ func movement(speedX, speedY):
 		
 	if get_global_pos().y < top_boundary:
 		set_global_pos(Vector2(self.get_global_pos().x, top_boundary))
-		#move the Attacker
-	if GLOBALS.state != "Editor":
-		move(current_speed)
+	#move the Attacker
+	move(current_speed)
 
 #Starts when scene is loaded 
 func _ready():
@@ -118,3 +117,12 @@ func check_alive():
 		get_parent().queue_free()
 		#gameover scene
 		get_tree().change_scene("res://Scenes/GameOver.xml")
+
+func _on_SpeedSpinBox_value_changed( value ):
+	player_speed = value
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))

@@ -116,6 +116,8 @@ func _process(delta):
 				objectInstance.set_hidden(false)
 				makeUnique = false
 			
+			objectInstance.set_global_pos(mosLoc)
+			
 			if makeUnique:
 				#give the copy a name 
 				objectInstance.set_name("object" + str(objectIndex))

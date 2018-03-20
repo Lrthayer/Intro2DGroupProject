@@ -5,11 +5,14 @@ var firePressed = false
 var laserObject = preload("res://Scenes/Laser.tscn")
 var laserCount = 0
 var laserOffset = 0
-var bullet_speed
+var bullet_speed = 1
 var damage = GLOBALS.g_offense_dmg
 var fireButton=0
 var fireRate=0
 var fireRateTimer = 0
+
+var bulletHeight = 1
+var bulletWidth = 1
 
 #starts when loaded up in scene
 func _ready():
@@ -57,7 +60,8 @@ func _process(delta):
 		
 		#create a copy of the laser object
 		var laserInstance = laserObject.instance()
-	
+		laserInstance.set_scale(Vector2(bulletWidth, bulletWidth))
+		laserInstance.speed = bullet_speed
 		#set the fire rate
 		if (fireRate == 1):
 			fireRateTimer = 1
@@ -87,3 +91,12 @@ func _on_DamageSpinBox_value_changed( value ):
 
 func _on_FireRateSpinBox_value_changed( value ):
 	fireRate = value
+
+func _on_ProjSpeedSpinBox_value_changed( value ):
+	bullet_speed = value
+
+func _on_ProjHeightSpinBox_value_changed( value ):
+	bulletHeight = value
+
+func _on_ProjWidthSpinBox_value_changed( value ):
+	bulletWidth = value

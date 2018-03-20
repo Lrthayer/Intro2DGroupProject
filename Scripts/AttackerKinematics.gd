@@ -74,7 +74,6 @@ func _fixed_process(delta):
 		btn_up = Input.is_action_pressed("Player2_Up")
 		btn_down = Input.is_action_pressed("Player2_Down")
 		
-	
 	#Attacker is not stunned
 	if(!isStunned):
 		
@@ -109,7 +108,6 @@ func collided(dmg=0):
 func stunned():
 	isStunned = true
 	
-	
 #Checks Attacker's Status
 func check_alive():
 	if (hp <= 0):
@@ -126,3 +124,6 @@ func _on_HeightSpinBox_value_changed( value ):
 
 func _on_WidthSpinBox_value_changed( value ):
 	self.set_scale(Vector2(value, self.get_scale().y))
+
+func _on_HPSpinBox_value_changed( value ):
+	hp = value

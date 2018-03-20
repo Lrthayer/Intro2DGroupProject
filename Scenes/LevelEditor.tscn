@@ -311,12 +311,12 @@ func _process(delta):
 	if get_parent().clicked:
 		self.set_global_pos(get_global_mouse_pos())"
 
-[sub_resource type="RectangleShape2D" id=42]
+[sub_resource type="RectangleShape2D" id=15]
 
 custom_solver_bias = 0.0
-extents = Vector2( 24.8514, 10.3006 )
+extents = Vector2( 16.9967, 6.85448 )
 
-[sub_resource type="GDScript" id=43]
+[sub_resource type="GDScript" id=16]
 
 script/source = "extends ColorPickerButton
 
@@ -332,22 +332,22 @@ func _on_ColorPicker_pressed():
 		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
 "
 
-[sub_resource type="RectangleShape2D" id=44]
+[sub_resource type="RectangleShape2D" id=17]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=45]
+[sub_resource type="RectangleShape2D" id=18]
 
 custom_solver_bias = 0.0
 extents = Vector2( 149.373, 225.538 )
 
-[sub_resource type="RectangleShape2D" id=15]
+[sub_resource type="RectangleShape2D" id=19]
 
 custom_solver_bias = 0.0
 extents = Vector2( 43.9636, 37.7185 )
 
-[sub_resource type="GDScript" id=16]
+[sub_resource type="GDScript" id=20]
 
 script/source = "extends Area2D
 
@@ -410,12 +410,12 @@ func _on_DefenderArea2D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=21]
 
 custom_solver_bias = 0.0
 extents = Vector2( 6.98823, 11.2446 )
 
-[sub_resource type="GDScript" id=18]
+[sub_resource type="GDScript" id=22]
 
 script/source = "extends KinematicBody2D
 
@@ -537,17 +537,17 @@ func stunned():
 
 "
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=23]
 
 custom_solver_bias = 0.0
 extents = Vector2( 13, 32.1378 )
 
-[sub_resource type="RectangleShape2D" id=20]
+[sub_resource type="RectangleShape2D" id=24]
 
 custom_solver_bias = 0.0
 extents = Vector2( 2179.45, 11.1956 )
 
-[sub_resource type="GDScript" id=21]
+[sub_resource type="GDScript" id=25]
 
 script/source = "extends Area2D
 
@@ -579,84 +579,6 @@ func _input_event( viewport, event, shape_idx ):
 		toggled = 0
 "
 
-[sub_resource type="GDScript" id=22]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-var clickable = false
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-"
-
-[sub_resource type="GDScript" id=23]
-
-script/source = "extends CollisionShape2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	set_process(true)
-	
-func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())
-"
-
-[sub_resource type="GDScript" id=24]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-var clickable = false
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-
-"
-
-[sub_resource type="GDScript" id=25]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-var clickable = false
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-
-"
-
 [sub_resource type="GDScript" id=26]
 
 script/source = "extends Sprite
@@ -678,6 +600,84 @@ func _process(delta):
 "
 
 [sub_resource type="GDScript" id=27]
+
+script/source = "extends CollisionShape2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	set_process(true)
+	
+func _process(delta):
+	self.set_global_pos(get_parent().get_child(0).get_global_pos())
+"
+
+[sub_resource type="GDScript" id=28]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+var clickable = false
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	if get_parent().clicked:
+		self.set_global_pos(get_global_mouse_pos())
+
+
+"
+
+[sub_resource type="GDScript" id=29]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+var clickable = false
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	if get_parent().clicked:
+		self.set_global_pos(get_global_mouse_pos())
+
+
+"
+
+[sub_resource type="GDScript" id=30]
+
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+var clickable = false
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process(true)
+	
+func _process(delta):
+	if get_parent().clicked:
+		self.set_global_pos(get_global_mouse_pos())
+
+"
+
+[sub_resource type="GDScript" id=31]
 
 script/source = "#starts when loaded up in scene
 func _ready():
@@ -729,12 +729,12 @@ func _on_VScrollBar_value_changed( value ):
 	pass#self.set_global_pos(Vector2(self.get_global_pos().x, value))
 "
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=32]
 
 custom_solver_bias = 0.0
 extents = Vector2( 512.656, 31.6259 )
 
-[sub_resource type="GDScript" id=29]
+[sub_resource type="GDScript" id=33]
 
 script/source = "extends Area2D
 
@@ -765,7 +765,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=30]
+[sub_resource type="GDScript" id=34]
 
 script/source = "extends HScrollBar
 
@@ -781,12 +781,12 @@ func _ready():
 func _process(delta):
 	pass#set_global_pos(get_parent().get_child(7).get_global_pos())"
 
-[sub_resource type="RectangleShape2D" id=31]
+[sub_resource type="RectangleShape2D" id=35]
 
 custom_solver_bias = 0.0
 extents = Vector2( 13.6842, 518.641 )
 
-[sub_resource type="GDScript" id=32]
+[sub_resource type="GDScript" id=36]
 
 script/source = "func _ready():
 	set_process(true)
@@ -800,12 +800,12 @@ func _process(delta):
 	elif Input.is_action_pressed(\"right\"):
 		self.set_pos(Vector2(currentPos.x - 15, currentPos.y))"
 
-[sub_resource type="RectangleShape2D" id=33]
+[sub_resource type="RectangleShape2D" id=37]
 
 custom_solver_bias = 0.0
 extents = Vector2( 122.995, 43.7786 )
 
-[sub_resource type="GDScript" id=34]
+[sub_resource type="GDScript" id=38]
 
 script/source = "extends CheckButton
 
@@ -826,7 +826,7 @@ func _on_PlacingButton_pressed():
 	self.get_parent().get_parent().get_parent().get_parent().editorState = \"placing\"
 "
 
-[sub_resource type="GDScript" id=35]
+[sub_resource type="GDScript" id=39]
 
 script/source = "extends CheckButton
 
@@ -847,12 +847,12 @@ func _on_EditingButton_pressed():
 	self.get_parent().get_parent().get_parent().get_parent().editorState = \"editing\"
 "
 
-[sub_resource type="RectangleShape2D" id=36]
+[sub_resource type="RectangleShape2D" id=40]
 
 custom_solver_bias = 0.0
 extents = Vector2( 22.1984, 35.424 )
 
-[sub_resource type="GDScript" id=37]
+[sub_resource type="GDScript" id=41]
 
 script/source = "extends Area2D
 var hovering = false
@@ -958,11 +958,11 @@ func _on_fireratedelta_value_changed( value ):
 func _on_height_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))"
 
-[sub_resource type="CanvasItemMaterial" id=38]
+[sub_resource type="CanvasItemMaterial" id=42]
 
 shader/shading_mode = 0
 
-[sub_resource type="GDScript" id=39]
+[sub_resource type="GDScript" id=43]
 
 script/source = "extends Node2D
 
@@ -1037,12 +1037,12 @@ func _on_ProjWidthSpinBox_value_changed( value ):
 	laserWidth = value
 "
 
-[sub_resource type="RectangleShape2D" id=40]
+[sub_resource type="RectangleShape2D" id=44]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="GDScript" id=41]
+[sub_resource type="GDScript" id=45]
 
 script/source = "extends Sprite
 
@@ -1517,12 +1517,12 @@ func _on_Base2D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=63]
+[sub_resource type="ConvexPolygonShape2D" id=62]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 7.4, -1.2, 7.4, 5, -7.4, 5, -7.4, -1.2, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="GDScript" id=72]
+[sub_resource type="GDScript" id=63]
 
 script/source = "extends Sprite
 
@@ -1641,7 +1641,7 @@ func _on_Base12D_mouse_exit():
 custom_solver_bias = 0.0
 points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="GDScript" id=73]
+[sub_resource type="GDScript" id=67]
 
 script/source = "extends Sprite
 
@@ -1664,12 +1664,12 @@ func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)
 "
 
-[sub_resource type="RectangleShape2D" id=67]
+[sub_resource type="RectangleShape2D" id=68]
 
 custom_solver_bias = 0.0
 extents = Vector2( 206.642, 56.996 )
 
-[sub_resource type="GDScript" id=68]
+[sub_resource type="GDScript" id=69]
 
 script/source = "extends Area2D
 
@@ -1755,12 +1755,12 @@ func _on_Base32D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=69]
+[sub_resource type="ConvexPolygonShape2D" id=70]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 8.8, 0, 8.8, 5, -8.8, 5, -8.8, 0, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="GDScript" id=74]
+[sub_resource type="GDScript" id=71]
 
 script/source = "extends Sprite
 
@@ -1783,11 +1783,11 @@ func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)
 "
 
-[sub_resource type="CanvasItemMaterial" id=70]
+[sub_resource type="CanvasItemMaterial" id=72]
 
 shader/shading_mode = 0
 
-[sub_resource type="GDScript" id=71]
+[sub_resource type="GDScript" id=73]
 
 script/source = "extends Sprite
 
@@ -1842,6 +1842,7 @@ script/script = SubResource( 3 )
 
 [node name="Attacker" type="Node2D" parent="AttackerArea"]
 
+editor/display_folded = true
 transform/scale = Vector2( 1.29688, 1.29688 )
 script/script = ExtResource( 2 )
 
@@ -2061,9 +2062,10 @@ _update_shape_index = 0
 
 [node name="AttackerMenu" type="Area2D" parent="AttackerArea"]
 
+editor/display_folded = true
 transform/pos = Vector2( 29.9434, -91.1017 )
 input/pickable = true
-shapes/0/shape = SubResource( 42 )
+shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 293.19, 110.862 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -2085,7 +2087,6 @@ alignment = 0
 
 [node name="HPHBox" type="HBoxContainer" parent="AttackerArea/AttackerMenu/StatsVBox"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -2418,7 +2419,7 @@ shortcut = null
 flat = false
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script/script = SubResource( 43 )
+script/script = SubResource( 16 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="AttackerArea/AttackerMenu"]
 
@@ -2586,7 +2587,7 @@ script/script = ExtResource( 9 )
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 44 )
+shapes/0/shape = SubResource( 17 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -2597,7 +2598,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 44 )
+shape = SubResource( 17 )
 trigger = false
 _update_shape_index = 0
 
@@ -2611,7 +2612,7 @@ texture = ExtResource( 10 )
 
 transform/pos = Vector2( 293.19, 110.862 )
 transform/scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 42 )
+shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
 
@@ -2620,7 +2621,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 13.9999, 1.99998 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 18 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -2643,26 +2644,26 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/AttackerMenu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 45 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
 [node name="DefenderArea" type="Area2D" parent="."]
 
-editor/display_folded = true
-transform/pos = Vector2( -267.971, 8.95953 )
+transform/pos = Vector2( -72.7057, -1292.8 )
 input/pickable = true
-shapes/0/shape = SubResource( 15 )
+shapes/0/shape = SubResource( 19 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0.814514, 8.14502 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 16 )
+script/script = SubResource( 20 )
 
 [node name="Defender" type="Node2D" parent="DefenderArea"]
 
+editor/display_folded = true
 script/script = ExtResource( 11 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender"]
@@ -2671,13 +2672,13 @@ editor/display_folded = true
 transform/pos = Vector2( -0.00369018, 7.00465 )
 transform/scale = Vector2( 1.68406, 1.2189 )
 input/pickable = false
-shapes/0/shape = SubResource( 17 )
+shapes/0/shape = SubResource( 21 )
 shapes/0/transform = Matrix32( 1.33443, 0, 0, 2.55525, -0.231855, 1.91752 )
 shapes/0/trigger = false
 collision/layers = 24
 collision/mask = 0
 collision/margin = 0.08
-script/script = SubResource( 18 )
+script/script = SubResource( 22 )
 
 [node name="DefenderSprite" type="Sprite" parent="DefenderArea/Defender/KinematicBody2D"]
 
@@ -2690,7 +2691,7 @@ texture = ExtResource( 12 )
 
 transform/pos = Vector2( -0.231855, 1.91752 )
 transform/scale = Vector2( 1.33443, 2.55525 )
-shape = SubResource( 17 )
+shape = SubResource( 21 )
 trigger = false
 _update_shape_index = 0
 
@@ -2706,7 +2707,7 @@ texture = ExtResource( 13 )
 transform/pos = Vector2( 0.182007, 1.82967 )
 transform/scale = Vector2( 0.81418, 0.925585 )
 input/pickable = false
-shapes/0/shape = SubResource( 19 )
+shapes/0/shape = SubResource( 23 )
 shapes/0/transform = Matrix32( 2.45045, 0, 0, 0.604477, -0.288285, 14.5665 )
 shapes/0/trigger = false
 collision/layers = 24
@@ -2721,7 +2722,7 @@ script/script = ExtResource( 7 )
 
 transform/pos = Vector2( -0.288285, 14.5665 )
 transform/scale = Vector2( 2.45045, 0.604477 )
-shape = SubResource( 19 )
+shape = SubResource( 23 )
 trigger = false
 _update_shape_index = 0
 
@@ -2730,30 +2731,30 @@ _update_shape_index = 0
 transform/pos = Vector2( 3.6778, -235.471 )
 transform/scale = Vector2( 1.7382, 0.809096 )
 input/pickable = true
-shapes/0/shape = SubResource( 20 )
+shapes/0/shape = SubResource( 24 )
 shapes/0/transform = Matrix32( 1.38945, 0, 0, 0.826717, -159.806, 40.0853 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 21 )
+script/script = SubResource( 25 )
 
 [node name="topBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D"]
 
 transform/pos = Vector2( 6.76331, 39.7284 )
 transform/scale = Vector2( 664.151, 2.01894 )
 texture = ExtResource( 10 )
-script/script = SubResource( 22 )
+script/script = SubResource( 26 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D"]
 
 transform/pos = Vector2( -159.806, 40.0853 )
 transform/scale = Vector2( 1.38945, 0.826717 )
-shape = SubResource( 20 )
+shape = SubResource( 24 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 23 )
+script/script = SubResource( 27 )
 
 [node name="Area2D 2" type="Area2D" parent="DefenderArea/Defender"]
 
@@ -2761,44 +2762,44 @@ editor/display_folded = true
 transform/pos = Vector2( 3.6778, -235.471 )
 transform/scale = Vector2( 1.7382, 0.809096 )
 input/pickable = true
-shapes/0/shape = SubResource( 20 )
+shapes/0/shape = SubResource( 24 )
 shapes/0/transform = Matrix32( 1.38945, 0, 0, 1, -142.547, 536.791 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 21 )
+script/script = SubResource( 25 )
 
 [node name="bottomBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D 2"]
 
 transform/pos = Vector2( -8.98331, 537.081 )
 transform/scale = Vector2( 382.091, 2.4953 )
 texture = ExtResource( 10 )
-script/script = SubResource( 24 )
+script/script = SubResource( 28 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D 2"]
 
 transform/pos = Vector2( -142.547, 536.791 )
 transform/scale = Vector2( 1.38945, 1 )
-shape = SubResource( 20 )
+shape = SubResource( 24 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 23 )
+script/script = SubResource( 27 )
 
 [node name="Area2D3" type="Area2D" parent="DefenderArea/Defender"]
 
 transform/pos = Vector2( 3.6778, -235.471 )
 transform/scale = Vector2( 1.7382, 0.809096 )
 input/pickable = true
-shapes/0/shape = SubResource( 20 )
+shapes/0/shape = SubResource( 24 )
 shapes/0/transform = Matrix32( -6.07348e-08, -1.38945, 0.377002, -1.64793e-08, 243.518, 302.611 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 21 )
+script/script = SubResource( 25 )
 
 [node name="rightBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D3"]
 
@@ -2806,17 +2807,17 @@ transform/pos = Vector2( 243.738, 88.9313 )
 transform/rot = 90.0
 transform/scale = Vector2( 820.855, 1.16151 )
 texture = ExtResource( 10 )
-script/script = SubResource( 25 )
+script/script = SubResource( 29 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D3"]
 
 transform/pos = Vector2( 243.518, 302.611 )
 transform/rot = 90.0
 transform/scale = Vector2( 1.38945, 0.377002 )
-shape = SubResource( 20 )
+shape = SubResource( 24 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 23 )
+script/script = SubResource( 27 )
 
 [node name="Area2D4" type="Area2D" parent="DefenderArea/Defender"]
 
@@ -2824,14 +2825,14 @@ editor/display_folded = true
 transform/pos = Vector2( 3.6778, -235.471 )
 transform/scale = Vector2( 1.7382, 0.809096 )
 input/pickable = true
-shapes/0/shape = SubResource( 20 )
+shapes/0/shape = SubResource( 24 )
 shapes/0/transform = Matrix32( -6.07348e-08, -1.38945, 0.377002, -1.64793e-08, -248.601, 216.335 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 21 )
+script/script = SubResource( 25 )
 
 [node name="leftBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D4"]
 
@@ -2839,22 +2840,322 @@ transform/pos = Vector2( -248.329, -16.0772 )
 transform/rot = 90.0
 transform/scale = Vector2( 820.856, 1.16151 )
 texture = ExtResource( 10 )
-script/script = SubResource( 26 )
+script/script = SubResource( 30 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D4"]
 
 transform/pos = Vector2( -248.601, 216.335 )
 transform/rot = 90.0
 transform/scale = Vector2( 1.38945, 0.377002 )
-shape = SubResource( 20 )
+shape = SubResource( 24 )
 trigger = false
 _update_shape_index = 0
-script/script = SubResource( 23 )
+script/script = SubResource( 27 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea"]
 
 transform/pos = Vector2( 0.814514, 8.14502 )
+shape = SubResource( 19 )
+trigger = false
+_update_shape_index = 0
+
+[node name="DefenderMenu" type="Area2D" parent="DefenderArea"]
+
+transform/pos = Vector2( 30, -90 )
+input/pickable = true
+shapes/0/shape = SubResource( 15 )
+shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 247.005, 88.1285 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="StatsVBox" type="VBoxContainer" parent="DefenderArea/DefenderMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 14.0
+margin/top = 49.0
+margin/right = 190.0
+margin/bottom = 159.0
+alignment = 0
+
+[node name="FireRateHBox" type="HBoxContainer" parent="DefenderArea/DefenderMenu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 261.0
+margin/bottom = 24.0
+alignment = 0
+
+[node name="FireRateButton" type="MenuButton" parent="DefenderArea/DefenderMenu/StatsVBox/FireRateHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 183.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "FireRate"
+flat = true
+items = [  ]
+
+[node name="FireRateSpinBox" type="SpinBox" parent="DefenderArea/DefenderMenu/StatsVBox/FireRateHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 187.0
+margin/top = 0.0
+margin/right = 261.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="SpeedHBox" type="HBoxContainer" parent="DefenderArea/DefenderMenu/StatsVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 261.0
+margin/bottom = 52.0
+alignment = 0
+
+[node name="SpeedButton" type="MenuButton" parent="DefenderArea/DefenderMenu/StatsVBox/SpeedHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 183.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Speed"
+flat = true
+items = [  ]
+
+[node name="SpeedSpinBox" type="SpinBox" parent="DefenderArea/DefenderMenu/StatsVBox/SpeedHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 187.0
+margin/top = 0.0
+margin/right = 261.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100.0
+range/step = 0.1
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="VisualVBox" type="VBoxContainer" parent="DefenderArea/DefenderMenu"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 278.0
+margin/top = 50.0
+margin/right = 410.0
+margin/bottom = 126.0
+alignment = 0
+
+[node name="ColorPicker" type="ColorPickerButton" parent="DefenderArea/DefenderMenu/VisualVBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = false
+script/script = SubResource( 16 )
+
+[node name="HeightHBox" type="HBoxContainer" parent="DefenderArea/DefenderMenu/VisualVBox"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 24.0
+margin/right = 132.0
+margin/bottom = 48.0
+alignment = 0
+
+[node name="HeightButton" type="MenuButton" parent="DefenderArea/DefenderMenu/VisualVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 54.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Height"
+flat = true
+items = [  ]
+
+[node name="HeightSpinBox" type="SpinBox" parent="DefenderArea/DefenderMenu/VisualVBox/HeightHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 58.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="WidthHBox" type="HBoxContainer" parent="DefenderArea/DefenderMenu/VisualVBox"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 52.0
+margin/right = 132.0
+margin/bottom = 76.0
+alignment = 0
+
+[node name="WidthButton" type="MenuButton" parent="DefenderArea/DefenderMenu/VisualVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 54.0
+margin/bottom = 24.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Width"
+flat = true
+items = [  ]
+
+[node name="WidthSpinBox" type="SpinBox" parent="DefenderArea/DefenderMenu/VisualVBox/WidthHBox"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 58.0
+margin/top = 0.0
+margin/right = 132.0
+margin/bottom = 24.0
+range/min = 0.0
+range/max = 100000.0
+range/step = 0.01
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = false
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/DefenderMenu"]
+
+transform/pos = Vector2( 247.005, 88.1285 )
+transform/scale = Vector2( 10.3845, 6.62774 )
 shape = SubResource( 15 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ColorPickerArea2D" type="Area2D" parent="DefenderArea/DefenderMenu"]
+
+visibility/visible = false
+transform/pos = Vector2( 13.9999, 1.99998 )
+input/pickable = true
+shapes/0/shape = SubResource( 18 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="ColorPicker" type="ColorPicker" parent="DefenderArea/DefenderMenu/ColorPickerArea2D"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 355.0
+margin/top = -90.0
+margin/right = 643.0
+margin/bottom = 351.0
+alignment = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/DefenderMenu/ColorPickerArea2D"]
+
+transform/pos = Vector2( 501.393, 131.662 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
@@ -2878,21 +3179,21 @@ drag_margin/left = 0.0
 drag_margin/top = 0.0
 drag_margin/right = 0.0
 drag_margin/bottom = 0.0
-script/script = SubResource( 27 )
+script/script = SubResource( 31 )
 
 [node name="HBarArea2D" type="Area2D" parent="Camera2D"]
 
 editor/display_folded = true
 transform/pos = Vector2( -511, 284 )
 input/pickable = true
-shapes/0/shape = SubResource( 28 )
+shapes/0/shape = SubResource( 32 )
 shapes/0/transform = Matrix32( 0.994363, 0, 0, 0.585169, 500.343, -2.13093 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 29 )
+script/script = SubResource( 33 )
 
 [node name="HScrollBar" type="HScrollBar" parent="Camera2D/HBarArea2D"]
 
@@ -2912,13 +3213,13 @@ range/value = 1.0
 range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
-script/script = SubResource( 30 )
+script/script = SubResource( 34 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/HBarArea2D"]
 
 transform/pos = Vector2( 500.343, -2.13093 )
 transform/scale = Vector2( 0.994363, 0.585169 )
-shape = SubResource( 28 )
+shape = SubResource( 32 )
 trigger = false
 _update_shape_index = 0
 
@@ -2927,7 +3228,7 @@ _update_shape_index = 0
 editor/display_folded = true
 transform/pos = Vector2( -0.695892, -0.927856 )
 input/pickable = true
-shapes/0/shape = SubResource( 31 )
+shapes/0/shape = SubResource( 35 )
 shapes/0/transform = Matrix32( 0.994363, 0, 0, 0.564895, -502.305, -10.9558 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -2959,7 +3260,7 @@ custom_step = -1.0
 
 transform/pos = Vector2( -502.305, -10.9558 )
 transform/scale = Vector2( 0.994363, 0.564895 )
-shape = SubResource( 31 )
+shape = SubResource( 35 )
 trigger = false
 _update_shape_index = 0
 
@@ -2979,7 +3280,7 @@ shortcut = null
 text = "Base 1"
 icon = ExtResource( 14 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="Button1" type="Button" parent="Camera2D"]
 
@@ -2997,7 +3298,7 @@ shortcut = null
 text = "Base 2"
 icon = ExtResource( 15 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="Button2" type="Button" parent="Camera2D"]
 
@@ -3015,7 +3316,7 @@ shortcut = null
 text = "Base 3"
 icon = ExtResource( 16 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="Button3" type="Button" parent="Camera2D"]
 
@@ -3033,7 +3334,7 @@ shortcut = null
 text = "Mover"
 icon = ExtResource( 17 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="Button5" type="Button" parent="Camera2D"]
 
@@ -3051,7 +3352,7 @@ shortcut = null
 text = "Bomber"
 icon = ExtResource( 18 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="Button6" type="Button" parent="Camera2D"]
 
@@ -3069,7 +3370,7 @@ shortcut = null
 text = "Defender"
 icon = ExtResource( 19 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="Button4" type="Button" parent="Camera2D"]
 
@@ -3087,14 +3388,14 @@ shortcut = null
 text = "Turrent"
 icon = ExtResource( 20 )
 flat = false
-script/script = SubResource( 32 )
+script/script = SubResource( 36 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D"]
 
 editor/display_folded = true
 transform/pos = Vector2( 381.74, -250.831 )
 input/pickable = true
-shapes/0/shape = SubResource( 33 )
+shapes/0/shape = SubResource( 37 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 2.16141, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -3131,7 +3432,7 @@ shortcut = null
 text = "Placing"
 flat = false
 align = 0
-script/script = SubResource( 34 )
+script/script = SubResource( 38 )
 
 [node name="EditingButton" type="CheckButton" parent="Camera2D/StatesArea/StatesHBox"]
 
@@ -3149,12 +3450,12 @@ shortcut = null
 text = "Editing"
 flat = false
 align = 0
-script/script = SubResource( 35 )
+script/script = SubResource( 39 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/StatesArea"]
 
 transform/pos = Vector2( 2.16141, 0 )
-shape = SubResource( 33 )
+shape = SubResource( 37 )
 trigger = false
 _update_shape_index = 0
 
@@ -3163,25 +3464,25 @@ _update_shape_index = 0
 editor/display_folded = true
 transform/pos = Vector2( 1083.55, -140.779 )
 input/pickable = true
-shapes/0/shape = SubResource( 36 )
+shapes/0/shape = SubResource( 40 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 37 )
+script/script = SubResource( 41 )
 
 [node name="Turret" type="Node2D" parent="TurretArea"]
 
 visibility/light_mask = 3
-material/material = SubResource( 38 )
-script/script = SubResource( 39 )
+material/material = SubResource( 42 )
+script/script = SubResource( 43 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="TurretArea/Turret"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 40 )
+shapes/0/shape = SubResource( 44 )
 shapes/0/transform = Matrix32( 2.06324, 0, 0, 3.63881, 0.45375, 0.313156 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -3196,13 +3497,13 @@ script/script = ExtResource( 21 )
 
 transform/pos = Vector2( 1.10815, 0 )
 texture = ExtResource( 22 )
-script/script = SubResource( 41 )
+script/script = SubResource( 45 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/Turret/StaticBody2D"]
 
 transform/pos = Vector2( 0.45375, 0.313156 )
 transform/scale = Vector2( 2.06324, 3.63881 )
-shape = SubResource( 40 )
+shape = SubResource( 44 )
 trigger = false
 _update_shape_index = 0
 
@@ -3236,7 +3537,7 @@ transform/pos = Vector2( 1, -41 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea"]
 
-shape = SubResource( 36 )
+shape = SubResource( 40 )
 trigger = false
 _update_shape_index = 0
 
@@ -3245,7 +3546,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 50, -100 )
 input/pickable = true
-shapes/0/shape = SubResource( 42 )
+shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.33229, 282.027, 111.682 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -3602,7 +3903,7 @@ shortcut = null
 flat = false
 color = Color( 1, 1, 1, 1 )
 edit_alpha = false
-script/script = SubResource( 43 )
+script/script = SubResource( 16 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="TurretArea/TurrentMenu"]
 
@@ -3771,7 +4072,7 @@ script/script = ExtResource( 9 )
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 44 )
+shapes/0/shape = SubResource( 17 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -3782,7 +4083,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 44 )
+shape = SubResource( 17 )
 trigger = false
 _update_shape_index = 0
 
@@ -3797,7 +4098,7 @@ texture = ExtResource( 23 )
 
 transform/pos = Vector2( 282.027, 111.682 )
 transform/scale = Vector2( 10.3845, 6.33229 )
-shape = SubResource( 42 )
+shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
 
@@ -3806,7 +4107,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 13.9999, 1.99998 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 18 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -3829,7 +4130,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 45 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
@@ -3980,7 +4281,7 @@ editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 50, -100 )
 input/pickable = true
-shapes/0/shape = SubResource( 42 )
+shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 284.23, 114.934 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -4386,7 +4687,7 @@ shortcut = null
 flat = false
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script/script = SubResource( 43 )
+script/script = SubResource( 16 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="MoverArea/MoverMenu"]
 
@@ -4554,7 +4855,7 @@ script/script = ExtResource( 9 )
 transform/pos = Vector2( -0.129724, 0.0108337 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
-shapes/0/shape = SubResource( 44 )
+shapes/0/shape = SubResource( 17 )
 shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -4565,7 +4866,7 @@ collision/margin = 0.08
 
 transform/pos = Vector2( 0.571943, -0.705742 )
 transform/scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 44 )
+shape = SubResource( 17 )
 trigger = false
 _update_shape_index = 0
 
@@ -4579,7 +4880,7 @@ texture = ExtResource( 26 )
 
 transform/pos = Vector2( 284.23, 114.934 )
 transform/scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 42 )
+shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
 
@@ -4588,7 +4889,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 13.9999, 1.99998 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 18 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -4611,7 +4912,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 45 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
@@ -4648,7 +4949,7 @@ editor/display_folded = true
 [node name="StaticBody2D" type="StaticBody2D" parent="Base22D/Base2"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 63 )
+shapes/0/shape = SubResource( 62 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -1.64311, 64.4346 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -4662,13 +4963,13 @@ script/script = ExtResource( 27 )
 [node name="Sprite" type="Sprite" parent="Base22D/Base2/StaticBody2D"]
 
 texture = ExtResource( 28 )
-script/script = SubResource( 72 )
+script/script = SubResource( 63 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2/StaticBody2D"]
 
 transform/pos = Vector2( -1.64311, 64.4346 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 63 )
+shape = SubResource( 62 )
 trigger = false
 _update_shape_index = 0
 
@@ -4708,7 +5009,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 162.828, -78.6815 )
 input/pickable = true
-shapes/0/shape = SubResource( 42 )
+shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -4897,13 +5198,13 @@ shortcut = null
 flat = false
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script/script = SubResource( 43 )
+script/script = SubResource( 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2Menu"]
 
 transform/pos = Vector2( 114.702, 98.3136 )
 transform/scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 42 )
+shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
 
@@ -4912,7 +5213,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( -126.867, 1.99998 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 18 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -4935,7 +5236,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2Menu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 45 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
@@ -4981,7 +5282,7 @@ script/script = ExtResource( 27 )
 [node name="Sprite" type="Sprite" parent="Base12D/Base1/StaticBody2D"]
 
 texture = ExtResource( 29 )
-script/script = SubResource( 73 )
+script/script = SubResource( 67 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1/StaticBody2D"]
 
@@ -5021,7 +5322,7 @@ editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 148.413, -84.7859 )
 input/pickable = true
-shapes/0/shape = SubResource( 42 )
+shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -5210,13 +5511,13 @@ shortcut = null
 flat = false
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script/script = SubResource( 43 )
+script/script = SubResource( 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1Menu"]
 
 transform/pos = Vector2( 114.702, 98.3136 )
 transform/scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 42 )
+shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
 
@@ -5225,7 +5526,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( -131.412, 26.9926 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 18 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -5248,7 +5549,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1Menu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 45 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
@@ -5256,21 +5557,21 @@ _update_shape_index = 0
 
 transform/pos = Vector2( 1979.38, -234.549 )
 input/pickable = true
-shapes/0/shape = SubResource( 67 )
+shapes/0/shape = SubResource( 68 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 68 )
+script/script = SubResource( 69 )
 
 [node name="Base3" type="Node2D" parent="Base32D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Base32D/Base3"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 69 )
+shapes/0/shape = SubResource( 70 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, 1.26239, 42.6475 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -5284,13 +5585,13 @@ script/script = ExtResource( 27 )
 [node name="Sprite" type="Sprite" parent="Base32D/Base3/StaticBody2D"]
 
 texture = ExtResource( 30 )
-script/script = SubResource( 74 )
+script/script = SubResource( 71 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3/StaticBody2D"]
 
 transform/pos = Vector2( 1.26239, 42.6475 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 69 )
+shape = SubResource( 70 )
 trigger = false
 _update_shape_index = 0
 
@@ -5321,7 +5622,7 @@ radial_fill/center_offset = Vector2( 0, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D"]
 
 transform/pos = Vector2( 0, 5.70152 )
-shape = SubResource( 67 )
+shape = SubResource( 68 )
 trigger = false
 _update_shape_index = 0
 
@@ -5330,7 +5631,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( 199.446, -89.1927 )
 input/pickable = true
-shapes/0/shape = SubResource( 42 )
+shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -5519,13 +5820,13 @@ shortcut = null
 flat = false
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script/script = SubResource( 43 )
+script/script = SubResource( 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3Menu"]
 
 transform/pos = Vector2( 114.702, 98.3136 )
 transform/scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 42 )
+shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
 
@@ -5534,7 +5835,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( -129.644, 9.36633 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
+shapes/0/shape = SubResource( 18 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -5557,17 +5858,17 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3Menu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 45 )
+shape = SubResource( 18 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Cursor" type="Sprite" parent="."]
 
-material/material = SubResource( 70 )
+material/material = SubResource( 72 )
 transform/pos = Vector2( -6.24886, -834.233 )
 transform/scale = Vector2( 0.978113, 0.875503 )
 texture = ExtResource( 31 )
-script/script = SubResource( 71 )
+script/script = SubResource( 73 )
 
 [node name="Objects" type="Node" parent="."]
 
@@ -5595,6 +5896,8 @@ script/script = SubResource( 71 )
 
 [connection signal="mouse_exit" from="AttackerArea/Attacker/Area2D3" to="." method="_on_Area2D_mouse_exit"]
 
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/HPHBox/HPSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HPSpinBox_value_changed"]
+
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/DamageHBox/DamageSpinBox" to="AttackerArea/Attacker" method="_on_DamageSpinBox_value_changed"]
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="AttackerArea/Attacker" method="_on_FireRateSpinBox_value_changed"]
@@ -5604,6 +5907,12 @@ script/script = SubResource( 71 )
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/VisualVBox/HeightHBox/HeightSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/VisualVBox/WidthHBox/WidthSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="AttackerArea/Attacker" method="_on_ProjSpeedSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="AttackerArea/Attacker" method="_on_ProjHeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="AttackerArea/Attacker" method="_on_ProjWidthSpinBox_value_changed"]
 
 [connection signal="mouse_enter" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -5667,9 +5976,9 @@ script/script = SubResource( 71 )
 
 [connection signal="mouse_exit" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -5815,9 +6124,9 @@ script/script = SubResource( 71 )
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="color_changed" from="MoverArea/MoverMenu/ColorPickerArea2D/ColorPicker" to="MoverArea/Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="MoverArea/MoverMenu/ColorPickerArea2D/ColorPicker" to="MoverArea/MoverMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="MoverArea/MoverMenu/ColorPickerArea2D/ColorPicker" to="MoverArea/Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="mouse_enter" from="Base22D" to="." method="_on_Area2D_mouse_enter"]
 
@@ -5835,9 +6144,9 @@ script/script = SubResource( 71 )
 
 [connection signal="pressed" from="Base22D/Base2Menu/StatsVBox/ColorPicker" to="Base22D/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="mouse_enter" from="Base12D" to="." method="_on_Area2D_mouse_enter"]
 
@@ -5855,9 +6164,9 @@ script/script = SubResource( 71 )
 
 [connection signal="pressed" from="Base12D/Base1Menu/StatsVBox/ColorPicker" to="Base12D/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="mouse_enter" from="Base32D" to="." method="_on_Area2D_mouse_enter"]
 

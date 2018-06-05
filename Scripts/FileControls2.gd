@@ -1,5 +1,6 @@
 extends FileDialog
 
+var turrent = preload("res://Scenes/TurretArea.tscn")
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -16,25 +17,26 @@ func _on_FileDialog_confirmed():
 	#put camera back to where it was
 	get_parent().get_parent().get_node("Camera2D").set_global_pos(get_parent().get_parent().cameraCoordinates)
 	
-	#allow movement from camera
-	get_parent().get_parent().isDialogOn = false
-	
-	var savedict = {
-	filename=get_current_file(),
-	parent=get_parent().get_path(),
-	turrent_pos_x= get_parent().get_parent().get_node("Objects").get_child(0).get_global_pos().x,
-	turrent_pos_y= get_parent().get_parent().get_node("Objects").get_child(0).get_global_pos().y
-	}
-	
-	#this is how i add more to the dictionary
-	savedict["dir"] = get_current_dir()
-	
-
+	#variables
 	var dir = get_current_dir()
 	var file = File.new()
-	file.open(dir + "/" + get_current_file(), file.WRITE)
-	file.store_string(savedict.to_json())
+	var data = {}
+	file.open(dir + "/" + get_current_file(), file.READ)
+	data.parse_json(file.get_line())
 	file.close()
+	
+	print("hello")
+	var object = turrent.instance()
+	var x = float(data['turrent_pos_x'])
+	var y = float(data['turrent_pos_y'])
+	object.set_name("turret" + str(1))
+	get_parent().get_parent().get_node("Objects").add_child(object)
+	object.set_owner(self.get_parent())
+	print(x)
+	print(y)
+	object.set_global_pos(Vector2(x,y))
+	#allow movement from camera
+	get_parent().get_parent().isDialogOn = false
 
 #User decided to hit cancel on dialog box
 func _on_FileDialog_popup_hide():

@@ -21,15 +21,20 @@ func _on_FileDialog_confirmed():
 	
 	var savedict = {
 	filename=get_current_file(),
-	parent=get_parent().get_path(),
-	turrent_pos_x= get_parent().get_parent().get_node("Objects").get_child(0).get_global_pos().x,
-	turrent_pos_y= get_parent().get_parent().get_node("Objects").get_child(0).get_global_pos().y
+	parent=get_parent().get_path()
 	}
+	
+	var index = 0;
+	
+	for i in range(get_parent().get_parent().get_node("Objects").get_child_count()):
+		savedict["turrent_pos_x" + str(index)] = get_parent().get_parent().get_node("Objects").get_child(index).get_global_pos().x
+		savedict["turrent_pos_y" + str(index)] = get_parent().get_parent().get_node("Objects").get_child(index).get_global_pos().y
+		index += 1
 	
 	#this is how i add more to the dictionary
 	savedict["dir"] = get_current_dir()
 	
-
+	
 	var dir = get_current_dir()
 	var file = File.new()
 	file.open(dir + "/" + get_current_file(), file.WRITE)

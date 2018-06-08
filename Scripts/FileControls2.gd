@@ -21,20 +21,32 @@ func _on_FileDialog_confirmed():
 	var dir = get_current_dir()
 	var file = File.new()
 	var data = {}
+	var totalTurrets;
+	var TurretNum = 0;
+	
+	#open json file
 	file.open(dir + "/" + get_current_file(), file.READ)
 	data.parse_json(file.get_line())
 	file.close()
 	
-	print("hello")
-	var object = turrent.instance()
-	var x = float(data['turrent_pos_x'])
-	var y = float(data['turrent_pos_y'])
-	object.set_name("turret" + str(1))
-	get_parent().get_parent().get_node("Objects").add_child(object)
-	object.set_owner(self.get_parent())
-	print(x)
-	print(y)
-	object.set_global_pos(Vector2(x,y))
+	#set up object instances
+	
+	
+	while true:
+		if data.has('turrent_pos_x' + str(TurretNum)):
+			var object = turrent.instance()
+			var x = float(data['turrent_pos_x' + str(TurretNum)])
+			var y = float(data['turrent_pos_y' + str(TurretNum)])
+			object.set_name("turrent" + str(TurretNum))
+			get_parent().get_parent().get_node("Objects").add_child(object)
+			object.set_owner(self.get_parent())
+			object.set_global_pos(Vector2(x,y))
+			TurretNum = TurretNum + 1
+			print("build")
+		else:
+			break
+	
+	
 	#allow movement from camera
 	get_parent().get_parent().isDialogOn = false
 

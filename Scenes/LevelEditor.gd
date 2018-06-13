@@ -11,6 +11,8 @@ var stun
 var attacker
 var defender
 
+var packed_scene = PackedScene.new()
+
 #add a child
 #get_parent().add_child(laserInstance)
 var currentObject
@@ -122,7 +124,7 @@ func _process(delta):
 				#give the copy a name 
 				objectInstance.set_name("object" + str(objectIndex))
 				self.get_node("Objects").add_child(objectInstance)
-				objectInstance.set_owner(self.get_parent())
+				objectInstance.set_owner(objectInstance.get_parent())
 				objectIndex += 1
 
 			#since attacker and defender are the only ones who don't use this reset default value
@@ -189,3 +191,14 @@ func _cusorStopFollowing():
 
 func _startFollowingMouse():
 	self.get_node("Cursor").followMouse = true
+
+
+
+func _on_Save_Button_pressed():
+	packed_scene.pack(get_tree().get_current_scene())
+	ResourceSaver.save("res://myscene.tscn", packed_scene)
+
+func _on_Load_Button_pressed():
+	packed_scene = load("res://myscene.tscn")
+	var my_scene = packed_scene.instance()
+	self.add_child(my_scene)

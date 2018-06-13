@@ -74,8 +74,8 @@ func _fixed_process(delta):
 		btn_up = Input.is_action_pressed("Player2_Up")
 		btn_down = Input.is_action_pressed("Player2_Down")
 		
-	#Attacker is not stunned
-	if(!isStunned):
+	#move only if attacker is not stunned or in level editor
+	if(!isStunned && GLOBALS.g_current_level != "levelEditor"):
 		
 		#Player moves right
 		if btn_right:

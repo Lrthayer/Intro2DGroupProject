@@ -32,6 +32,8 @@ var laserObjectPoolAmount = 50
 
 #starts when loaded up in scene
 func _ready():
+	#tell global instance that we are in a level editor
+	GLOBALS.g_current_level = "levelEditor"
 	set_process(true)
 		#create laserObject pool
 	for i in range(laserObjectPoolAmount):

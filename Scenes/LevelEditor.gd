@@ -12,6 +12,9 @@ var attacker
 var defender
 
 var packed_scene = PackedScene.new()
+var dict = {}
+var data 
+var objectName
 
 #add a child
 #get_parent().add_child(laserInstance)
@@ -34,6 +37,17 @@ var laserObjectPoolAmount = 50
 
 #starts when loaded up in scene
 func _ready():
+	
+	if GLOBALS.changed_scene:
+		#open json file
+		data = {}
+		var file = File.new()
+		file.open("res://meow.json", file.READ)
+		data.parse_json(file.get_line())
+		file.close()
+		pass
+		
+	
 	set_process(true)
 		#create laserObject pool
 	for i in range(laserObjectPoolAmount):
@@ -57,7 +71,7 @@ func _ready():
 #called every frame
 func _process(delta):
 	var mosLoc = get_global_mouse_pos()
-	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20);
+	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20)
 	#get_child(1).set_global_pos(posOffset)
 	if  Input.is_action_pressed("left_click"):
 		if !overButton && !pressed && editorState == "placing":
@@ -123,8 +137,8 @@ func _process(delta):
 			if makeUnique:
 				#give the copy a name 
 				objectInstance.set_name("object" + str(objectIndex))
-				self.get_node("Objects").add_child(objectInstance)
-				objectInstance.set_owner(objectInstance.get_parent())
+				self.get_node("TurretList").add_child(objectInstance)
+				objectInstance.set_owner(self)
 				objectIndex += 1
 
 			#since attacker and defender are the only ones who don't use this reset default value
@@ -196,9 +210,18 @@ func _startFollowingMouse():
 
 func _on_Save_Button_pressed():
 	packed_scene.pack(get_tree().get_current_scene())
+	var objects = {}
+	for i in range(objectIndex):
+		objects["hp"] = str(self.get_node("TurretList/object" + str(i)).get_node("TurrentMenu/StatsVBox/HPHBox/HPSpinBox").get_value())
+		dict["object" + str(i)] = objects
+		objects = {}
+		
+	var file = File.new()
+	file.open("res://meow.json", file.WRITE)
+	file.store_line(dict.to_json())
+	file.close()
 	ResourceSaver.save("res://myscene.tscn", packed_scene)
 
 func _on_Load_Button_pressed():
-	packed_scene = load("res://myscene.tscn")
-	var my_scene = packed_scene.instance()
-	self.add_child(my_scene)
+	GLOBALS.file_name = "myscene"
+	get_tree().change_scene("res://myscene.tscn")

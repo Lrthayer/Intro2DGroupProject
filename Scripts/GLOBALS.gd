@@ -14,6 +14,10 @@ var g_current_attacker = "player2"
 var last_scene = "initial"
 var saved_scene = null
 var saved_subscene = null
+var changed_scene = false
+
+#file editing
+var file_name = ""
 
 # Event tracking
 var enemy_counter = 0

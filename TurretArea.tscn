@@ -337,6 +337,7 @@ angular_damp = 1.0
 
 [node name="StatsVBox" type="VBoxContainer" parent="TurrentMenu"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -565,7 +566,6 @@ alignment = 0
 
 [node name="HeightHBox" type="HBoxContainer" parent="TurrentMenu/VisualVBox"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -687,6 +687,7 @@ script/script = SubResource( 8 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="TurrentMenu"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -747,6 +748,7 @@ suffix = ""
 
 [node name="WidthHBox" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -932,13 +934,13 @@ _update_shape_index = 0
 
 [connection signal="pressed" from="TurrentMenu/VisualVBox/ColorPicker" to="TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_ProjWidthSpinBox_value_changed"]
+
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="Turret" method="_on_SpeedSpinBox_value_changed"]
 

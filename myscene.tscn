@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=1]
+[gd_scene load_steps=78 format=1]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=2]
@@ -21,14 +21,11 @@
 [ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=19]
 [ext_resource path="res://turret001.tex" type="Texture" id=20]
 [ext_resource path="res://TurretArea.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=22]
-[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=23]
-[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=24]
-[ext_resource path="res://Scripts/BaseKinematics.gd" type="Script" id=25]
-[ext_resource path="res://Graphics/Structures/base004.tex" type="Texture" id=26]
-[ext_resource path="res://Graphics/Structures/base003.tex" type="Texture" id=27]
-[ext_resource path="res://Graphics/Structures/base005.tex" type="Texture" id=28]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=29]
+[ext_resource path="res://MoverArea.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=26]
 
 [sub_resource type="GDScript" id=1]
 
@@ -1054,283 +1051,12 @@ func _on_MoverArea_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=44]
-
-script/source = "extends Node2D
-
-# class member variables 
-var laserObject = preload(\"res://Scenes/StunLaser.tscn\")
-var laserCount = 0
-var laserOffset = 0
-var theirPos
-var myPos
-var target
-var diff
-var health = 1
-var damage = 1
-var speed = 1
-var rotate
-var timer = 5
-var fireRate = 5
-var rateIncrease = 0
-var laserSpeed = 1
-var vector = Vector2(0,0)
-var toggled = 0
-var clicked = false
-
-var projectH = 1
-var projectW = 1
-
-#starts when loaded up in scene
-func _ready():
-	set_process(true)
-	target = self.get_parent().get_parent().get_node(\"/root/Node2D/AttackerArea/Attacker/KinematicBody2D\")
-
-#called every frame
-func _process(delta):
-	
-	#increase rate of fire of the turret over time
-	rateIncrease += .00001
-	theirPos = target.get_global_pos()
-	myPos = self.get_node(\"KinematicBody2D\").get_global_pos()
-	diff = theirPos - myPos
-	rotate = atan2(-diff.y,diff.x) - 3.14/2
-	vector = (theirPos - myPos).normalized()
-	timer = timer - (delta + rateIncrease)
-	
-	#enough time has passed
-	if (timer <= 0):
-		fire()
-		timer = fireRate
-
-#Mover shoots stun laser
-func fire():
-	
-	#create a copy of the laser object
-	var laserInstance = self.get_node(\"/root/Node2D\").getLaser()
-	
-	laserInstance.startPosition = self.get_node(\"KinematicBody2D/Position2D\")
-	
-	#give the copy a name 
-	laserInstance.set_name(\"Laser\" + str(laserCount))
-	
-	laserInstance.set_scale(Vector2(projectW, projectH))
-	
-	laserInstance.setSprite(\"blue\")
-	get_parent().add_child(laserInstance)
-	laserInstance.set_owner(self.get_parent())
-	
-	laserInstance.setDirVector(rotate, vector)
-	
-	laserInstance.speed = laserSpeed
-	
-	#set the position of the laser copy to the position2d of the mover
-	laserInstance.resetPos()
-
-func _on_HPSpinBox_value_changed( value ):
-	health = value
-
-func _on_DamageSpinBox_value_changed( value ):
-	damage = value
-
-func _on_FireRateSpinBox_value_changed( value ):
-	fireRate = value
-
-func _on_FireRateDeltaSpinBox_value_changed( value ):
-	rateIncrease = value
-
-func _on_ProjWidthSpinBox_value_changed( value ):
-	projectW = value
-
-func _on_ProjHeightSpinBox_value_changed( value ):
-	projectH = value
-
-func _on_ProjSpeedSpinBox_value_changed( value ):
-	laserSpeed = value
-
-func _on_SpeedSpinBox_value_changed( value ):
-	speed = value
-"
-
-[sub_resource type="RectangleShape2D" id=45]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10.5307, 7.81266 )
-
-[sub_resource type="GDScript" id=46]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_modulate(color)
-"
-
-[sub_resource type="GDScript" id=47]
-
-script/source = "extends CollisionShape2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
-
-[sub_resource type="RectangleShape2D" id=48]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 11.8219 )
-
-[sub_resource type="GDScript" id=49]
-
-script/source = "extends Area2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-var clicked = false
-var toggled = 0
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-
-func _input_event( viewport, event, shape_idx ):
-	if event.type == InputEvent.MOUSE_BUTTON:
-		if event.button_index == BUTTON_LEFT:
-			if event.pressed && toggled < 1:
-				if clicked:
-					clicked = false
-					print(\"false\")
-				else:
-					clicked = true
-					print(\"true\")
-				toggled += 1
-	else:
-		toggled = 0"
-
-[sub_resource type="GDScript" id=50]
-
-script/source = "extends Sprite
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-"
-
-[sub_resource type="GDScript" id=51]
-
-script/source = "extends CollisionShape2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())
-"
-
-[sub_resource type="RectangleShape2D" id=52]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
-[sub_resource type="GDScript" id=53]
-
-script/source = "extends Area2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-var clicked = false
-var toggled = 0
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-
-func _input_event( viewport, event, shape_idx ):
-	if event.type == InputEvent.MOUSE_BUTTON:
-		if event.button_index == BUTTON_LEFT:
-			if event.pressed && toggled < 1:
-				if clicked:
-					clicked = false
-					print(\"false\")
-				else:
-					clicked = true
-					print(\"true\")
-				toggled += 1
-	else:
-		toggled = 0"
-
-[sub_resource type="GDScript" id=54]
-
-script/source = "extends Sprite
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-"
-
-[sub_resource type="GDScript" id=55]
-
-script/source = "extends CollisionShape2D
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_process(true)
-	
-func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
-
-[sub_resource type="RectangleShape2D" id=56]
+[sub_resource type="RectangleShape2D" id=44]
 
 custom_solver_bias = 0.0
 extents = Vector2( 164.936, 54.913 )
 
-[sub_resource type="GDScript" id=57]
+[sub_resource type="GDScript" id=45]
 
 script/source = "extends Area2D
 
@@ -1424,40 +1150,12 @@ func _on_Base2D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=58]
-
-custom_solver_bias = 0.0
-points = Vector2Array( 7.4, -1.2, 7.4, 5, -7.4, 5, -7.4, -1.2, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
-
-[sub_resource type="GDScript" id=59]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-func _on_HeightSpinBox_value_changed( value ):
-	self.set_scale(Vector2(self.get_scale().x, value))
-
-func _on_WidthSpinBox_value_changed( value ):
-	self.set_scale(Vector2(value, self.get_scale().y))
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_modulate(color)
-"
-
-[sub_resource type="RectangleShape2D" id=60]
+[sub_resource type="RectangleShape2D" id=46]
 
 custom_solver_bias = 0.0
 extents = Vector2( 131.979, 59.8076 )
 
-[sub_resource type="GDScript" id=61]
+[sub_resource type="GDScript" id=47]
 
 script/source = "extends Area2D
 
@@ -1543,40 +1241,12 @@ func _on_Base12D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=62]
-
-custom_solver_bias = 0.0
-points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
-
-[sub_resource type="GDScript" id=63]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-func _on_HeightSpinBox_value_changed( value ):
-	self.set_scale(Vector2(self.get_scale().x, value))
-
-func _on_WidthSpinBox_value_changed( value ):
-	self.set_scale(Vector2(value, self.get_scale().y))
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_modulate(color)
-"
-
-[sub_resource type="RectangleShape2D" id=64]
+[sub_resource type="RectangleShape2D" id=48]
 
 custom_solver_bias = 0.0
 extents = Vector2( 206.642, 56.996 )
 
-[sub_resource type="GDScript" id=65]
+[sub_resource type="GDScript" id=49]
 
 script/source = "extends Area2D
 
@@ -1662,39 +1332,11 @@ func _on_Base32D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=66]
-
-custom_solver_bias = 0.0
-points = Vector2Array( 8.8, 0, 8.8, 5, -8.8, 5, -8.8, 0, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
-
-[sub_resource type="GDScript" id=67]
-
-script/source = "extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-func _on_HeightSpinBox_value_changed( value ):
-	self.set_scale(Vector2(self.get_scale().x, value))
-	
-func _on_WidthSpinBox_value_changed( value ):
-	self.set_scale(Vector2(value, self.get_scale().y))
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_modulate(color)
-"
-
-[sub_resource type="CanvasItemMaterial" id=68]
+[sub_resource type="CanvasItemMaterial" id=50]
 
 shader/shading_mode = 0
 
-[sub_resource type="GDScript" id=69]
+[sub_resource type="GDScript" id=51]
 
 script/source = "extends Sprite
 
@@ -1728,10 +1370,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 558.02
-margin/top = -1028.02
-margin/right = 583.02
-margin/bottom = -1008.02
+margin/left = 551.02
+margin/top = -1027.02
+margin/right = 576.02
+margin/bottom = -1007.02
 script/script = SubResource( 1 )
 
 [node name="AttackerArea" type="Area2D" parent="."]
@@ -1984,7 +1626,8 @@ _update_shape_index = 0
 
 [node name="AttackerMenu" type="Area2D" parent="AttackerArea"]
 
-transform/pos = Vector2( 29.9434, -91.1017 )
+visibility/visible = false
+transform/pos = Vector2( 30000, 30000 )
 input/pickable = true
 shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 293.19, 110.862 )
@@ -2505,7 +2148,7 @@ script/script = ExtResource( 9 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser"]
 
-transform/pos = Vector2( -0.1297, 0.0108032 )
+transform/pos = Vector2( -0.128906, 0.0117188 )
 transform/scale = Vector2( 0.0670746, 0.12194 )
 input/pickable = false
 shapes/0/shape = SubResource( 17 )
@@ -3457,7 +3100,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 script/script = SubResource( 41 )
 
-[node name="MoverArea" type="Area2D" parent="."]
+[node name="MoverArea" type="Area2D" parent="." instance=ExtResource( 22 )]
 
 editor/display_folded = true
 transform/pos = Vector2( 1253.26, -149.774 )
@@ -3471,74 +3114,41 @@ linear_damp = 0.1
 angular_damp = 1.0
 script/script = SubResource( 43 )
 
-[node name="Mover" type="Node2D" parent="MoverArea"]
+[node name="Base22D" type="Area2D" parent="." instance=ExtResource( 23 )]
 
 editor/display_folded = true
-script/script = SubResource( 44 )
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover"]
-
-transform/pos = Vector2( -101, 0 )
-transform/scale = Vector2( 1.14837, 1 )
+transform/pos = Vector2( -200.42, 11.6915 )
 input/pickable = true
-shapes/0/shape = SubResource( 45 )
-shapes/0/transform = Matrix32( 2.44655, 0, 0, 1.30976, 0, 0 )
+shapes/0/shape = SubResource( 44 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
 shapes/0/trigger = false
-collision/layers = 8
-collision/mask = 1
-collision/margin = 0.08
-script/script = ExtResource( 22 )
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 45 )
 
-[node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D"]
+[node name="Base12D" type="Area2D" parent="." instance=ExtResource( 24 )]
 
-transform/scale = Vector2( 2.38735, 2.99493 )
-texture = ExtResource( 17 )
-script/script = SubResource( 46 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D"]
-
-transform/scale = Vector2( 2.44655, 1.30976 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 45 )
-trigger = false
-_update_shape_index = 0
+editor/display_folded = true
+transform/pos = Vector2( 665.142, 35.4221 )
+input/pickable = true
+shapes/0/shape = SubResource( 46 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
 script/script = SubResource( 47 )
 
-[node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D"]
+[node name="Base32D" type="Area2D" parent="." instance=ExtResource( 25 )]
 
-transform/pos = Vector2( 0, -9.90164 )
-
-[node name="HP" type="TextureProgress" parent="MoverArea/Mover/KinematicBody2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -48.0
-margin/top = 20.0
-margin/right = 48.0
-margin/bottom = 28.0
-range/min = 0.0
-range/max = 3.0
-range/step = 1.0
-range/page = 0.0
-range/value = 3.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 5 )
-texture/over = null
-texture/progress = ExtResource( 6 )
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="Area2D" type="Area2D" parent="MoverArea/Mover"]
-
-transform/pos = Vector2( 207.428, -1270.71 )
-transform/scale = Vector2( 1.12062, 175.693 )
+editor/display_folded = true
+transform/pos = Vector2( 1979.38, -234.549 )
 input/pickable = true
 shapes/0/shape = SubResource( 48 )
-shapes/0/transform = Matrix32( 1, 0, 0, 5, -4.93347, 16.6439 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -3546,1700 +3156,21 @@ linear_damp = 0.1
 angular_damp = 1.0
 script/script = SubResource( 49 )
 
-[node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D"]
-
-transform/pos = Vector2( -4.93346, 16.6439 )
-transform/rot = 180.0
-transform/scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 23 )
-script/script = SubResource( 50 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D"]
-
-transform/pos = Vector2( -4.93347, 16.6439 )
-transform/scale = Vector2( 1, 5 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 48 )
-trigger = false
-_update_shape_index = 0
-script/script = SubResource( 51 )
-
-[node name="Area2D 2" type="Area2D" parent="MoverArea/Mover"]
-
-transform/pos = Vector2( -74.6635, 8.0769 )
-input/pickable = true
-shapes/0/shape = SubResource( 52 )
-shapes/0/transform = Matrix32( 1.79192, 0, 0, 153.926, -267.469, 374.457 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 53 )
-
-[node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D 2"]
-
-transform/pos = Vector2( -267.469, 374.457 )
-transform/rot = 180.0
-transform/scale = Vector2( 4, 685.63 )
-texture = ExtResource( 23 )
-script/script = SubResource( 54 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D 2"]
-
-transform/pos = Vector2( -267.469, 374.457 )
-transform/scale = Vector2( 1.79192, 153.926 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 52 )
-trigger = false
-_update_shape_index = 0
-script/script = SubResource( 55 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea"]
-
-transform/pos = Vector2( 0, 7.04199 )
-transform/scale = Vector2( 0.998816, 0.830143 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 42 )
-trigger = false
-_update_shape_index = 0
-
-[node name="MoverMenu" type="Area2D" parent="MoverArea"]
-
-editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( 50, -100 )
-input/pickable = true
-shapes/0/shape = SubResource( 15 )
-shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 284.23, 114.934 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="StatsVBox" type="VBoxContainer" parent="MoverArea/MoverMenu"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 14.0
-margin/top = 49.0
-margin/right = 190.0
-margin/bottom = 159.0
-alignment = 0
-
-[node name="HPHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox"]
-
-editor/display_folded = true
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-alignment = 0
-
-[node name="HPButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "HP"
-flat = true
-items = [  ]
-
-[node name="HPSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="DamageHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 28.0
-margin/right = 176.0
-margin/bottom = 52.0
-alignment = 0
-
-[node name="DamageButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/DamageHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Damage"
-flat = true
-items = [  ]
-
-[node name="DamageSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/DamageHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="FireRateHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 56.0
-margin/right = 176.0
-margin/bottom = 80.0
-alignment = 0
-
-[node name="FireRateButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/FireRateHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "FireRate"
-flat = true
-items = [  ]
-
-[node name="FireRateSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/FireRateHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="FireRateDeltaHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 84.0
-margin/right = 176.0
-margin/bottom = 108.0
-alignment = 0
-
-[node name="FireRateDeltaButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/FireRateDeltaHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "FireRateDelta"
-flat = true
-items = [  ]
-
-[node name="FireRateDeltaSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/FireRateDeltaHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 0.001
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="SpeedHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 112.0
-margin/right = 176.0
-margin/bottom = 136.0
-alignment = 0
-
-[node name="SpeedButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/SpeedHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Speed"
-flat = true
-items = [  ]
-
-[node name="SpeedSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/SpeedHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 0.1
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="VisualVBox" type="VBoxContainer" parent="MoverArea/MoverMenu"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 214.0
-margin/top = 50.0
-margin/right = 346.0
-margin/bottom = 102.0
-alignment = 0
-
-[node name="HeightHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/VisualVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 132.0
-margin/bottom = 24.0
-alignment = 0
-
-[node name="HeightButton" type="MenuButton" parent="MoverArea/MoverMenu/VisualVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 54.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Height"
-flat = true
-items = [  ]
-
-[node name="HeightSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/VisualVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 58.0
-margin/top = 0.0
-margin/right = 132.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/VisualVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 28.0
-margin/right = 132.0
-margin/bottom = 52.0
-alignment = 0
-
-[node name="WidthButton" type="MenuButton" parent="MoverArea/MoverMenu/VisualVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 54.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Width"
-flat = true
-items = [  ]
-
-[node name="WidthSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/VisualVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 58.0
-margin/top = 0.0
-margin/right = 132.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="ColorPicker" type="ColorPickerButton" parent="MoverArea/MoverMenu/VisualVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 56.0
-margin/right = 132.0
-margin/bottom = 76.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-color = Color( 0.574219, 0.325241, 0.325241, 1 )
-edit_alpha = false
-script/script = SubResource( 16 )
-
-[node name="ProjectileVBox" type="VBoxContainer" parent="MoverArea/MoverMenu"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 367.0
-margin/top = 53.0
-margin/right = 446.0
-margin/bottom = 93.0
-alignment = 0
-
-[node name="WidthHBox1" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 153.0
-margin/bottom = 24.0
-alignment = 0
-
-[node name="ProjSpeedLabel" type="Label" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 5.0
-margin/right = 72.0
-margin/bottom = 19.0
-text = "Proj. Speed"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjSpeedSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 76.0
-margin/top = 0.0
-margin/right = 150.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 0.1
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox2" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 28.0
-margin/right = 153.0
-margin/bottom = 52.0
-alignment = 0
-
-[node name="ProjHeightLabel" type="Label" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 5.0
-margin/right = 75.0
-margin/bottom = 19.0
-text = "Proj. Height"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjHeightSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 79.0
-margin/top = 0.0
-margin/right = 153.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 0.1
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox3" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 56.0
-margin/right = 153.0
-margin/bottom = 80.0
-alignment = 0
-
-[node name="ProjWidthLabel" type="Label" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 5.0
-margin/right = 71.0
-margin/bottom = 19.0
-text = "Proj. Width"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjWidthSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 75.0
-margin/top = 0.0
-margin/right = 149.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100.0
-range/step = 0.1
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="Laser" type="Node2D" parent="MoverArea/MoverMenu/ProjectileVBox"]
-
-transform/pos = Vector2( 176.534, 43.3726 )
-script/script = ExtResource( 9 )
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/MoverMenu/ProjectileVBox/Laser"]
-
-transform/pos = Vector2( -0.129761, 0.0108337 )
-transform/scale = Vector2( 0.0670746, 0.12194 )
-input/pickable = false
-shapes/0/shape = SubResource( 17 )
-shapes/0/transform = Matrix32( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 16
-collision/margin = 0.08
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D"]
-
-transform/pos = Vector2( 0.571943, -0.705742 )
-transform/scale = Vector2( 2.84768, 5.30343 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 17 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Sprite" type="Sprite" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D"]
-
-transform/pos = Vector2( 1.93402, -0.0888446 )
-transform/scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 24 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu"]
-
-transform/pos = Vector2( 284.23, 114.934 )
-transform/scale = Vector2( 10.3845, 6.62774 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 15 )
-trigger = false
-_update_shape_index = 0
-
-[node name="ColorPickerArea2D" type="Area2D" parent="MoverArea/MoverMenu"]
-
-visibility/visible = false
-transform/pos = Vector2( 13.9999, 1.99998 )
-input/pickable = true
-shapes/0/shape = SubResource( 18 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="ColorPicker" type="ColorPicker" parent="MoverArea/MoverMenu/ColorPickerArea2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 355.0
-margin/top = -90.0
-margin/right = 643.0
-margin/bottom = 351.0
-alignment = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu/ColorPickerArea2D"]
-
-transform/pos = Vector2( 501.393, 131.662 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 18 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Panel" type="Panel" parent="MoverArea"]
-
-visibility/opacity = 0.5
-focus/ignore_mouse = true
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -33.0
-margin/top = -4.0
-margin/right = 32.0
-margin/bottom = 18.0
-
-[node name="Base22D" type="Area2D" parent="."]
-
-editor/display_folded = true
-transform/pos = Vector2( -200.42, 11.6915 )
-input/pickable = true
-shapes/0/shape = SubResource( 56 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 57 )
-
-[node name="Base2" type="Node2D" parent="Base22D"]
-
-editor/display_folded = true
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Base22D/Base2"]
-
-input/pickable = false
-shapes/0/shape = SubResource( 58 )
-shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -1.64311, 64.4346 )
-shapes/0/trigger = false
-collision/layers = 8
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 25 )
-
-[node name="Sprite" type="Sprite" parent="Base22D/Base2/StaticBody2D"]
-
-texture = ExtResource( 26 )
-script/script = SubResource( 59 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2/StaticBody2D"]
-
-transform/pos = Vector2( -1.64311, 64.4346 )
-transform/scale = Vector2( 22.9014, 4.76138 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 58 )
-trigger = false
-_update_shape_index = 0
-
-[node name="hp_bar" type="TextureProgress" parent="Base22D/Base2/StaticBody2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -49.0
-margin/top = 55.0
-margin/right = 47.0
-margin/bottom = 63.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 100.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 5 )
-texture/over = null
-texture/progress = ExtResource( 6 )
-radial_fill/initial_angle = 1.0
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D"]
-
-transform/pos = Vector2( 1.10809, 4.43213 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 56 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Base2Menu" type="Area2D" parent="Base22D"]
-
-visibility/visible = false
-transform/pos = Vector2( 162.828, -78.6815 )
-input/pickable = true
-shapes/0/shape = SubResource( 15 )
-shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="StatsVBox" type="VBoxContainer" parent="Base22D/Base2Menu"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 14.0
-margin/top = 49.0
-margin/right = 190.0
-margin/bottom = 159.0
-alignment = 0
-
-[node name="HPHBox" type="HBoxContainer" parent="Base22D/Base2Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-alignment = 0
-
-[node name="HPButton" type="MenuButton" parent="Base22D/Base2Menu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "HP"
-flat = true
-items = [  ]
-
-[node name="HPSpinBox" type="SpinBox" parent="Base22D/Base2Menu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="HeightHBox" type="HBoxContainer" parent="Base22D/Base2Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 28.0
-margin/right = 176.0
-margin/bottom = 52.0
-alignment = 0
-
-[node name="HeightButton" type="MenuButton" parent="Base22D/Base2Menu/StatsVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Height"
-flat = true
-items = [  ]
-
-[node name="HeightSpinBox" type="SpinBox" parent="Base22D/Base2Menu/StatsVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox" type="HBoxContainer" parent="Base22D/Base2Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 56.0
-margin/right = 176.0
-margin/bottom = 80.0
-alignment = 0
-
-[node name="WidthButton" type="MenuButton" parent="Base22D/Base2Menu/StatsVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Width"
-flat = true
-items = [  ]
-
-[node name="WidthSpinBox" type="SpinBox" parent="Base22D/Base2Menu/StatsVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="ColorPicker" type="ColorPickerButton" parent="Base22D/Base2Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 84.0
-margin/right = 176.0
-margin/bottom = 104.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-color = Color( 0.574219, 0.325241, 0.325241, 1 )
-edit_alpha = false
-script/script = SubResource( 16 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2Menu"]
-
-transform/pos = Vector2( 114.702, 98.3136 )
-transform/scale = Vector2( 10.3845, 6.62774 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 15 )
-trigger = false
-_update_shape_index = 0
-
-[node name="ColorPickerArea2D" type="Area2D" parent="Base22D/Base2Menu"]
-
-visibility/visible = false
-transform/pos = Vector2( -126.867, 1.99998 )
-input/pickable = true
-shapes/0/shape = SubResource( 18 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="ColorPicker" type="ColorPicker" parent="Base22D/Base2Menu/ColorPickerArea2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 355.0
-margin/top = -90.0
-margin/right = 643.0
-margin/bottom = 351.0
-alignment = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base22D/Base2Menu/ColorPickerArea2D"]
-
-transform/pos = Vector2( 501.393, 131.662 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 18 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Base12D" type="Area2D" parent="."]
-
-editor/display_folded = true
-transform/pos = Vector2( 665.142, 35.4221 )
-input/pickable = true
-shapes/0/shape = SubResource( 60 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 61 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D"]
-
-transform/pos = Vector2( -2.44354, 7.33054 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 60 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Base1" type="Node2D" parent="Base12D"]
-
-transform/scale = Vector2( 1, 0.999998 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Base12D/Base1"]
-
-input/pickable = false
-shapes/0/shape = SubResource( 62 )
-shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -0.73761, 40.6475 )
-shapes/0/trigger = false
-collision/layers = 8
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 25 )
-
-[node name="Sprite" type="Sprite" parent="Base12D/Base1/StaticBody2D"]
-
-texture = ExtResource( 27 )
-script/script = SubResource( 63 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1/StaticBody2D"]
-
-transform/pos = Vector2( -0.73761, 40.6475 )
-transform/scale = Vector2( 22.9014, 4.76138 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 62 )
-trigger = false
-_update_shape_index = 0
-
-[node name="hp_bar" type="TextureProgress" parent="Base12D/Base1/StaticBody2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -49.0
-margin/top = 55.0
-margin/right = 47.0
-margin/bottom = 63.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 100.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 5 )
-texture/over = null
-texture/progress = ExtResource( 6 )
-radial_fill/initial_angle = 1.0
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="Base1Menu" type="Area2D" parent="Base12D"]
-
-editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( 148.413, -84.7859 )
-input/pickable = true
-shapes/0/shape = SubResource( 15 )
-shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="StatsVBox" type="VBoxContainer" parent="Base12D/Base1Menu"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 14.0
-margin/top = 49.0
-margin/right = 190.0
-margin/bottom = 159.0
-alignment = 0
-
-[node name="HPHBox" type="HBoxContainer" parent="Base12D/Base1Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-alignment = 0
-
-[node name="HPButton" type="MenuButton" parent="Base12D/Base1Menu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "HP"
-flat = true
-items = [  ]
-
-[node name="HPSpinBox" type="SpinBox" parent="Base12D/Base1Menu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="HeightHBox" type="HBoxContainer" parent="Base12D/Base1Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 28.0
-margin/right = 176.0
-margin/bottom = 52.0
-alignment = 0
-
-[node name="HeightButton" type="MenuButton" parent="Base12D/Base1Menu/StatsVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Height"
-flat = true
-items = [  ]
-
-[node name="HeightSpinBox" type="SpinBox" parent="Base12D/Base1Menu/StatsVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox" type="HBoxContainer" parent="Base12D/Base1Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 56.0
-margin/right = 176.0
-margin/bottom = 80.0
-alignment = 0
-
-[node name="WidthButton" type="MenuButton" parent="Base12D/Base1Menu/StatsVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Width"
-flat = true
-items = [  ]
-
-[node name="WidthSpinBox" type="SpinBox" parent="Base12D/Base1Menu/StatsVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="ColorPicker" type="ColorPickerButton" parent="Base12D/Base1Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 84.0
-margin/right = 176.0
-margin/bottom = 104.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-color = Color( 0.574219, 0.325241, 0.325241, 1 )
-edit_alpha = false
-script/script = SubResource( 16 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1Menu"]
-
-transform/pos = Vector2( 114.702, 98.3136 )
-transform/scale = Vector2( 10.3845, 6.62774 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 15 )
-trigger = false
-_update_shape_index = 0
-
-[node name="ColorPickerArea2D" type="Area2D" parent="Base12D/Base1Menu"]
-
-visibility/visible = false
-transform/pos = Vector2( -131.412, 26.9926 )
-input/pickable = true
-shapes/0/shape = SubResource( 18 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="ColorPicker" type="ColorPicker" parent="Base12D/Base1Menu/ColorPickerArea2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 355.0
-margin/top = -90.0
-margin/right = 643.0
-margin/bottom = 351.0
-alignment = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base12D/Base1Menu/ColorPickerArea2D"]
-
-transform/pos = Vector2( 501.393, 131.662 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 18 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Base32D" type="Area2D" parent="."]
-
-editor/display_folded = true
-transform/pos = Vector2( 1979.38, -234.549 )
-input/pickable = true
-shapes/0/shape = SubResource( 64 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 65 )
-
-[node name="Base3" type="Node2D" parent="Base32D"]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Base32D/Base3"]
-
-input/pickable = false
-shapes/0/shape = SubResource( 66 )
-shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, 1.26239, 42.6475 )
-shapes/0/trigger = false
-collision/layers = 8
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 25 )
-
-[node name="Sprite" type="Sprite" parent="Base32D/Base3/StaticBody2D"]
-
-texture = ExtResource( 28 )
-script/script = SubResource( 67 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3/StaticBody2D"]
-
-transform/pos = Vector2( 1.26239, 42.6475 )
-transform/scale = Vector2( 22.9014, 4.76138 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 66 )
-trigger = false
-_update_shape_index = 0
-
-[node name="hp_bar" type="TextureProgress" parent="Base32D/Base3/StaticBody2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = -49.0
-margin/top = 55.0
-margin/right = 47.0
-margin/bottom = 63.0
-range/min = 0.0
-range/max = 100.0
-range/step = 1.0
-range/page = 0.0
-range/value = 100.0
-range/exp_edit = false
-range/rounded = false
-texture/under = ExtResource( 5 )
-texture/over = null
-texture/progress = ExtResource( 6 )
-radial_fill/initial_angle = 1.0
-radial_fill/fill_degrees = 360.0
-radial_fill/center_offset = Vector2( 0, 0 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D"]
-
-transform/pos = Vector2( 0, 5.70152 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 64 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Base3Menu" type="Area2D" parent="Base32D"]
-
-visibility/visible = false
-transform/pos = Vector2( 199.446, -89.1927 )
-input/pickable = true
-shapes/0/shape = SubResource( 15 )
-shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="StatsVBox" type="VBoxContainer" parent="Base32D/Base3Menu"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 14.0
-margin/top = 49.0
-margin/right = 190.0
-margin/bottom = 159.0
-alignment = 0
-
-[node name="HPHBox" type="HBoxContainer" parent="Base32D/Base3Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-alignment = 0
-
-[node name="HPButton" type="MenuButton" parent="Base32D/Base3Menu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "HP"
-flat = true
-items = [  ]
-
-[node name="HPSpinBox" type="SpinBox" parent="Base32D/Base3Menu/StatsVBox/HPHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="HeightHBox" type="HBoxContainer" parent="Base32D/Base3Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 28.0
-margin/right = 176.0
-margin/bottom = 52.0
-alignment = 0
-
-[node name="HeightButton" type="MenuButton" parent="Base32D/Base3Menu/StatsVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Height"
-flat = true
-items = [  ]
-
-[node name="HeightSpinBox" type="SpinBox" parent="Base32D/Base3Menu/StatsVBox/HeightHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox" type="HBoxContainer" parent="Base32D/Base3Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 56.0
-margin/right = 176.0
-margin/bottom = 80.0
-alignment = 0
-
-[node name="WidthButton" type="MenuButton" parent="Base32D/Base3Menu/StatsVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 98.0
-margin/bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Width"
-flat = true
-items = [  ]
-
-[node name="WidthSpinBox" type="SpinBox" parent="Base32D/Base3Menu/StatsVBox/WidthHBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 102.0
-margin/top = 0.0
-margin/right = 176.0
-margin/bottom = 24.0
-range/min = 0.0
-range/max = 100000.0
-range/step = 0.01
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="ColorPicker" type="ColorPickerButton" parent="Base32D/Base3Menu/StatsVBox"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 84.0
-margin/right = 176.0
-margin/bottom = 104.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-flat = false
-color = Color( 0.574219, 0.325241, 0.325241, 1 )
-edit_alpha = false
-script/script = SubResource( 16 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3Menu"]
-
-transform/pos = Vector2( 114.702, 98.3136 )
-transform/scale = Vector2( 10.3845, 6.62774 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 15 )
-trigger = false
-_update_shape_index = 0
-
-[node name="ColorPickerArea2D" type="Area2D" parent="Base32D/Base3Menu"]
-
-visibility/visible = false
-transform/pos = Vector2( -129.644, 9.36633 )
-input/pickable = true
-shapes/0/shape = SubResource( 18 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="ColorPicker" type="ColorPicker" parent="Base32D/Base3Menu/ColorPickerArea2D"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 355.0
-margin/top = -90.0
-margin/right = 643.0
-margin/bottom = 351.0
-alignment = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base32D/Base3Menu/ColorPickerArea2D"]
-
-transform/pos = Vector2( 501.393, 131.662 )
-z/z = 4095
-z/relative = false
-shape = SubResource( 18 )
-trigger = false
-_update_shape_index = 0
-
 [node name="Cursor" type="Sprite" parent="."]
 
-material/material = SubResource( 68 )
-transform/pos = Vector2( 570.031, -1018.46 )
+material/material = SubResource( 50 )
+transform/pos = Vector2( 563.031, -1017.46 )
 transform/scale = Vector2( 0.978113, 0.875503 )
 z/z = 10
-texture = ExtResource( 29 )
+texture = ExtResource( 26 )
 modulate = Color( 0, 0, 0, 1 )
-script/script = SubResource( 69 )
+script/script = SubResource( 51 )
 
-[node name="TurretList" type="Sprite" parent="."]
+[node name="TurrentList" type="Sprite" parent="."]
 
-[node name="object0" type="Area2D" parent="TurretList" instance=ExtResource( 21 )]
+[node name="Turrent0" type="Area2D" parent="TurrentList" instance=ExtResource( 21 )]
 
-transform/pos = Vector2( -60.39, -1069.9 )
+transform/pos = Vector2( -218.48, -771.023 )
 input/pickable = true
 shapes/0/shape = SubResource( 40 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -5250,9 +3181,9 @@ linear_damp = 0.1
 angular_damp = 1.0
 script/script = SubResource( 41 )
 
-[node name="object1" type="Area2D" parent="TurretList" instance=ExtResource( 21 )]
+[node name="Turrent1" type="Area2D" parent="TurrentList" instance=ExtResource( 21 )]
 
-transform/pos = Vector2( -98.39, -827.905 )
+transform/pos = Vector2( 256.52, -756.023 )
 input/pickable = true
 shapes/0/shape = SubResource( 40 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -5262,6 +3193,8 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 script/script = SubResource( 41 )
+
+[node name="MoverList" type="Sprite" parent="."]
 
 [connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -5347,9 +3280,9 @@ script/script = SubResource( 41 )
 
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
-
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -5371,9 +3304,9 @@ script/script = SubResource( 41 )
 
 [connection signal="mouse_exit" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -5425,182 +3358,84 @@ script/script = SubResource( 41 )
 
 [connection signal="mouse_exit" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_exit"]
 
-[connection signal="mouse_enter" from="MoverArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
-
-[connection signal="mouse_exit" from="MoverArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_exit" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_exit"]
 
-[connection signal="input_event" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover" method="_on_KinematicBody2D_input_event"]
-
-[connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_enter"]
-
-[connection signal="mouse_enter" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover/KinematicBody2D" method="_on_mouse_enter"]
-
-[connection signal="mouse_exit" from="MoverArea/Mover/KinematicBody2D" to="." method="_on_Area2D_mouse_exit"]
-
-[connection signal="mouse_enter" from="MoverArea/Mover/Area2D" to="." method="_on_Area2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="MoverArea/Mover/Area2D" to="." method="_on_Area2D_mouse_exit"]
-
-[connection signal="mouse_enter" from="MoverArea/Mover/Area2D 2" to="." method="_on_Area2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="MoverArea/Mover/Area2D 2" to="." method="_on_Area2D_mouse_exit"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/HPHBox/HPSpinBox" to="MoverArea/Mover" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/DamageHBox/DamageSpinBox" to="MoverArea/Mover" method="_on_DamageSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="MoverArea/Mover" method="_on_FireRateSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="MoverArea/Mover" method="_on_FireRateDeltaSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/SpeedHBox/SpeedSpinBox" to="MoverArea/Mover" method="_on_SpeedSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/VisualVBox/HeightHBox/HeightSpinBox" to="MoverArea/Mover/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/VisualVBox/WidthHBox/WidthSpinBox" to="MoverArea/Mover/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="MoverArea/MoverMenu/VisualVBox/ColorPicker" to="MoverArea/MoverMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
-
-[connection signal="color_changed" from="MoverArea/MoverMenu/ColorPickerArea2D/ColorPicker" to="MoverArea/Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="MoverArea/MoverMenu/ColorPickerArea2D/ColorPicker" to="MoverArea/MoverMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="mouse_enter" from="Base22D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="Base22D" to="Base22D" method="_on_Base2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Base22D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_exit" from="Base22D" to="Base22D" method="_on_Base2D_mouse_exit"]
 
-[connection signal="value_changed" from="Base22D/Base2Menu/StatsVBox/HPHBox/HPSpinBox" to="Base22D/Base2/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base22D/Base2Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base22D/Base2Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="Base22D/Base2Menu/StatsVBox/ColorPicker" to="Base22D/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="Base22D/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base22D/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="mouse_enter" from="Base12D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="Base12D" to="Base12D" method="_on_Base12D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Base12D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_exit" from="Base12D" to="Base12D" method="_on_Base12D_mouse_exit"]
 
-[connection signal="value_changed" from="Base12D/Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="Base12D/Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base12D/Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base12D/Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="Base12D/Base1Menu/StatsVBox/ColorPicker" to="Base12D/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="Base12D/Base1Menu/ColorPickerArea2D/ColorPicker" to="Base12D/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="mouse_enter" from="Base32D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="Base32D" to="Base32D" method="_on_Base32D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Base32D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="mouse_exit" from="Base32D" to="Base32D" method="_on_Base32D_mouse_exit"]
 
-[connection signal="value_changed" from="Base32D/Base3Menu/StatsVBox/HPHBox/HPSpinBox" to="Base32D/Base3/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+[connection signal="mouse_enter" from="TurrentList/Turrent0" to="TurrentList/Turrent0" method="_on_TurretArea_mouse_enter"]
 
-[connection signal="value_changed" from="Base32D/Base3Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base32D/Base3/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+[connection signal="mouse_exit" from="TurrentList/Turrent0" to="TurrentList/Turrent0" method="_on_TurretArea_mouse_exit"]
 
-[connection signal="value_changed" from="Base32D/Base3Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base32D/Base3/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="TurrentList/Turrent0" method="_on_health_value_changed"]
 
-[connection signal="pressed" from="Base32D/Base3Menu/StatsVBox/ColorPicker" to="Base32D/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/StatsVBox/DamageHBox/DamageSpinBox" to="TurrentList/Turrent0" method="_on_damage_value_changed"]
 
-[connection signal="color_changed" from="Base32D/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base32D/Base3/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="TurrentList/Turrent0" method="_on_firerate_value_changed"]
 
-[connection signal="color_changed" from="Base32D/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base32D/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="TurrentList/Turrent0" method="_on_fireratedelta_value_changed"]
 
-[connection signal="mouse_enter" from="TurretList/object0" to="TurretList/object0" method="_on_TurretArea_mouse_enter"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="TurrentList/Turrent0/Turret" method="_on_height_value_changed"]
 
-[connection signal="mouse_exit" from="TurretList/object0" to="TurretList/object0" method="_on_TurretArea_mouse_exit"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="TurrentList/Turrent0/Turret" method="_on_width_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="TurretList/object0" method="_on_health_value_changed"]
+[connection signal="pressed" from="TurrentList/Turrent0/TurrentMenu/VisualVBox/ColorPicker" to="TurrentList/Turrent0/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/StatsVBox/DamageHBox/DamageSpinBox" to="TurretList/object0" method="_on_damage_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentList/Turrent0/Turret" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="TurretList/object0" method="_on_firerate_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="TurretList/object0" method="_on_fireratedelta_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentList/Turrent0/Turret" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="TurretList/object0/Turret" method="_on_height_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="TurretList/object0/Turret" method="_on_width_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent0/TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="TurrentList/Turrent0/Turret" method="_on_SpeedSpinBox_value_changed"]
 
-[connection signal="pressed" from="TurretList/object0/TurrentMenu/VisualVBox/ColorPicker" to="TurretList/object0/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+[connection signal="color_changed" from="TurrentList/Turrent0/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurrentList/Turrent0/Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretList/object0/Turret" method="_on_ProjHeightSpinBox_value_changed"]
+[connection signal="color_changed" from="TurrentList/Turrent0/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurrentList/Turrent0/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretList/object0/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
+[connection signal="mouse_enter" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_enter"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretList/object0/Turret" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="mouse_exit" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_exit"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretList/object0/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="TurrentList/Turrent1" method="_on_health_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object0/TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="TurretList/object0/Turret" method="_on_SpeedSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/StatsVBox/DamageHBox/DamageSpinBox" to="TurrentList/Turrent1" method="_on_damage_value_changed"]
 
-[connection signal="color_changed" from="TurretList/object0/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurretList/object0/Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="TurrentList/Turrent1" method="_on_firerate_value_changed"]
 
-[connection signal="color_changed" from="TurretList/object0/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurretList/object0/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="TurrentList/Turrent1" method="_on_fireratedelta_value_changed"]
 
-[connection signal="mouse_enter" from="TurretList/object1" to="TurretList/object1" method="_on_TurretArea_mouse_enter"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="TurrentList/Turrent1/Turret" method="_on_height_value_changed"]
 
-[connection signal="mouse_exit" from="TurretList/object1" to="TurretList/object1" method="_on_TurretArea_mouse_exit"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="TurrentList/Turrent1/Turret" method="_on_width_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="TurretList/object1" method="_on_health_value_changed"]
+[connection signal="pressed" from="TurrentList/Turrent1/TurrentMenu/VisualVBox/ColorPicker" to="TurrentList/Turrent1/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/StatsVBox/DamageHBox/DamageSpinBox" to="TurretList/object1" method="_on_damage_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentList/Turrent1/Turret" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="TurretList/object1" method="_on_firerate_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="TurretList/object1" method="_on_fireratedelta_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentList/Turrent1/Turret" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="TurretList/object1/Turret" method="_on_height_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="TurretList/object1/Turret" method="_on_width_value_changed"]
+[connection signal="value_changed" from="TurrentList/Turrent1/TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="TurrentList/Turrent1/Turret" method="_on_SpeedSpinBox_value_changed"]
 
-[connection signal="pressed" from="TurretList/object1/TurrentMenu/VisualVBox/ColorPicker" to="TurretList/object1/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+[connection signal="color_changed" from="TurrentList/Turrent1/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurrentList/Turrent1/Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretList/object1/Turret" method="_on_ProjHeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretList/object1/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretList/object1/Turret" method="_on_ProjWidthSpinBox_value_changed"]
-
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretList/object1/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
-
-[connection signal="value_changed" from="TurretList/object1/TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="TurretList/object1/Turret" method="_on_SpeedSpinBox_value_changed"]
-
-[connection signal="color_changed" from="TurretList/object1/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurretList/object1/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="TurretList/object1/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurretList/object1/Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="TurrentList/Turrent1/TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurrentList/Turrent1/TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 

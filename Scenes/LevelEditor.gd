@@ -66,7 +66,7 @@ func _ready():
 	base3 = self.get_node("Base32D")
 	attacker = self.get_node("AttackerArea")
 	defender = self.get_node("DefenderArea")
-	currentObject = "turrent"
+	currentObject = "Turrent"
 
 #called every frame
 func _process(delta):
@@ -132,12 +132,14 @@ func _process(delta):
 				objectInstance.set_hidden(false)
 				makeUnique = false
 			
+			mosLoc.x -= 130
+			mosLoc.y += 20
 			objectInstance.set_global_pos(mosLoc)
 			
 			if makeUnique:
 				#give the copy a name 
-				objectInstance.set_name("object" + str(objectIndex))
-				self.get_node("TurretList").add_child(objectInstance)
+				objectInstance.set_name(currentObject + str(objectIndex))
+				self.get_node(currentObject + "List").add_child(objectInstance)
 				objectInstance.set_owner(self)
 				objectIndex += 1
 
@@ -210,14 +212,105 @@ func _startFollowingMouse():
 
 func _on_Save_Button_pressed():
 	packed_scene.pack(get_tree().get_current_scene())
+	
+	#varibles
 	var objects = {}
-	for i in range(objectIndex):
-		objects["hp"] = str(self.get_node("TurretList/object" + str(i)).get_node("TurrentMenu/StatsVBox/HPHBox/HPSpinBox").get_value())
-		dict["object" + str(i)] = objects
+	var numOfObjects = 0
+	var childName = ""
+	var dir= ""
+	var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
+	"StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
+	"StatsVBox/SpeedHBox/SpeedSpinBox","VisualVBox/HeightHBox/HeightSpinBox",
+	"VisualVBox/WidthHBox/WidthSpinBox","VisualVBox/ColorPicker","ProjectileVBox/HeightHBox/HeightSpinBox",
+	"ProjectileVBox/WidthHBox/WidthSpinBox","ProjectileVBox/WidthHBox1/SpeedSpinBox",
+	"VisualVBox/WidthHBox1/ProjSpeedSpinBox","VisualVBox/WidthHBox2/ProjHeightSpinBox",
+	"VisualVBox/WidthHBox3/ProjWidthSpinBox"]
+	
+
+	#grab the properties of turrets
+	for i in range(get_node("TurrentList").get_child_count()):
+		
+		childName = get_node("TurrentList").get_child(i).get_name()
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[0]
+		
+		objects["hp"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[1]
+		
+		objects["damage"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[2]
+		
+		objects["fire_rate"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[3]
+		
+		objects["fire_rate_delta"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[5]
+		
+		objects["height"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[6]
+		
+		objects["width"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[7]
+		
+		objects["color"] = str(self.get_node(dir).get_color())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[8]
+		
+		objects["proj_height"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[9]
+		
+		objects["proj_width"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
+		
+		objects["proj_speed"] = str(self.get_node(dir).get_value())
+			
+		dict["object" + str(numOfObjects)] = objects
 		objects = {}
+		numOfObjects += 1
+		
+		
+	#grab the properties of movers
+	for j in range(get_node("MoverList").get_child_count()):
+		
+		childName = get_node("MoverList").get_child(j).get_name()
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[0]
+		
+		objects["hp"] = str(self.get_node(dir).get_value())
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[1]
+		
+		objects["damage"] = str(self.get_node(dir).get_value())
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[2]
+		
+		objects["fire_rate"] = str(self.get_node(dir).get_value())
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[3]
+		
+		objects["fire_rate_delta"] = str(self.get_node(dir).get_value())
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[4]
+		
+		objects["speed"] = str(self.get_node(dir).get_value())
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[5]
+		
+		objects["height"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[6]
+		
+		objects["width"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[7]
+		
+		objects["color"] = str(self.get_node(dir).get_color())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+		
+		objects["proj_speed"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+		
+		objects["proj_width"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
+		
+		objects["proj_height"] = str(self.get_node(dir).get_value())
+			
+		dict["object" + str(numOfObjects)] = objects
+		objects = {}
+		numOfObjects += 1
 		
 	var file = File.new()
-	file.open("res://meow.json", file.WRITE)
+	file.open("res://meow4.json", file.WRITE)
 	file.store_line(dict.to_json())
 	file.close()
 	ResourceSaver.save("res://myscene.tscn", packed_scene)

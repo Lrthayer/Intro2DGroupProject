@@ -1242,8 +1242,8 @@ margin/bottom = 18.0
 
 [connection signal="value_changed" from="MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="Mover" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="color_changed" from="MoverMenu/ColorPickerArea2D/ColorPicker" to="Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="MoverMenu/ColorPickerArea2D/ColorPicker" to="MoverMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="MoverMenu/ColorPickerArea2D/ColorPicker" to="Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
 

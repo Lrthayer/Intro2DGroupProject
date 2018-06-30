@@ -15,7 +15,27 @@ var packed_scene = PackedScene.new()
 var dict = {}
 var data 
 var objectName
-
+var childName = ""
+var dir= ""
+	
+var addDirectory = ["StatsVBox/HPHBox/HPSpinBox",
+					"StatsVBox/DamageHBox/DamageSpinBox",
+					"StatsVBox/FireRateHBox/FireRateSpinBox",
+					"StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
+					"StatsVBox/SpeedHBox/SpeedSpinBox",
+					"StatsVBox/HeightHBox/HeightSpinBox",
+					"StatsVBox/WidthHBox/WidthSpinBox",
+					"StatsVBox/ColorPicker",
+					"VisualVBox/HeightHBox/HeightSpinBox",
+					"VisualVBox/WidthHBox/WidthSpinBox",
+					"VisualVBox/ColorPicker",
+					"ProjectileVBox/HeightHBox/HeightSpinBox",
+					"ProjectileVBox/WidthHBox/WidthSpinBox",
+					"ProjectileVBox/WidthHBox1/SpeedSpinBox",
+					"ProjectileVBox/WidthHBox1/ProjSpeedSpinBox",
+					"ProjectileVBox/WidthHBox2/ProjHeightSpinBox",
+					"ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
+	
 #add a child
 #get_parent().add_child(laserInstance)
 var currentObject
@@ -39,14 +59,140 @@ var laserObjectPoolAmount = 50
 func _ready():
 	
 	if GLOBALS.changed_scene:
+		
 		#open json file
 		data = {}
 		var file = File.new()
-		file.open("res://meow.json", file.READ)
+		file.open("res://meow5.json", file.READ)
 		data.parse_json(file.get_line())
-		file.close()
-		pass
 		
+		#grab the properties of turrets
+		for i in range(get_node("TurrentList").get_child_count()):
+			
+			childName = get_node("TurrentList").get_child(i).get_name()
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[0]
+			
+			self.get_node(dir).set_value(float(data[childName]["hp"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[1]
+			
+			self.get_node(dir).set_value(float(data[childName]["damage"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[2]
+			
+			self.get_node(dir).set_value(float(data[childName]["fire_rate"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[3]
+			
+			self.get_node(dir).set_value(float(data[childName]["fire_rate_delta"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[8]
+			
+			self.get_node(dir).set_value(float(data[childName]["height"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[9]
+			
+			self.get_node(dir).set_value(float(data[childName]["width"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
+			
+			#get color values
+			var r = float(data[childName]["colorR"])
+			var g = float(data[childName]["colorG"])
+			var b = float(data[childName]["colorB"])
+			var c = Color(r, g, b)
+			
+			self.get_node(dir).set_color(c)
+			
+			dir = "TurrentList/" +  childName + "/Turret/StaticBody2D/Sprite"
+			self.get_node(dir)._on_ColorPicker_color_changed(c)
+			
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+			
+			self.get_node(dir).set_value(float(data[childName]["proj_height"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+			
+			self.get_node(dir).set_value(float(data[childName]["proj_width"]))
+			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
+			
+			self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
+			
+			
+		#grab the properties of movers
+		for j in range(get_node("MoverList").get_child_count()):
+			
+			childName = get_node("MoverList").get_child(j).get_name()
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[0]
+			
+			self.get_node(dir).set_value(float(data[childName]["hp"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[1]
+			
+			self.get_node(dir).set_value(float(data[childName]["damage"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[2]
+			
+			self.get_node(dir).set_value(float(data[childName]["fire_rate"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[3]
+			
+			self.get_node(dir).set_value(float(data[childName]["fire_rate_delta"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[4]
+			
+			self.get_node(dir).set_value(float(data[childName]["speed"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[8]
+			
+			self.get_node(dir).set_value(float(data[childName]["height"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[9]
+			
+			self.get_node(dir).set_value(float(data[childName]["width"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
+			
+			#get color values
+			var r = float(data[childName]["colorR"])
+			var g = float(data[childName]["colorG"])
+			var b = float(data[childName]["colorB"])
+			var c = Color(r, g, b)
+			
+			self.get_node(dir).set_color(c)
+			
+			dir = "MoverList/" +  childName + "/Mover/KinematicBody2D/Sprite"
+			self.get_node(dir)._on_ColorPicker_color_changed(c)
+			
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[14]
+			
+			self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[16]
+			
+			self.get_node(dir).set_value(float(data[childName]["proj_width"]))
+			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[15]
+			
+			self.get_node(dir).set_value(float(data[childName]["proj_height"]))
+			
+	
+			#grab the properties of base1
+		for k in range(get_node("BaseList").get_child_count()):
+			
+			childName = get_node("BaseList").get_child(k).get_name()
+			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[0]
+			
+			self.get_node(dir).set_value(float(data[childName]["hp"]))
+			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[5]
+			
+			self.get_node(dir).set_value(float(data[childName]["height"]))
+			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[6]
+			
+			self.get_node(dir).set_value(float(data[childName]["width"]))
+			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
+			
+			#get color values
+			var r = float(data[childName]["colorR"])
+			var g = float(data[childName]["colorG"])
+			var b = float(data[childName]["colorB"])
+			var c = Color(r, g, b)
+			
+			self.get_node(dir).set_color(c)
+			
+			dir = "BaseList/" +  childName + "/Base1/StaticBody2D/Sprite"
+			self.get_node(dir)._on_ColorPicker_color_changed(c)
+			
+			
+		#close the file
+		file.close()
+		
+	GLOBALS.changed_scene = false
+	
 	
 	set_process(true)
 		#create laserObject pool
@@ -216,17 +362,7 @@ func _on_Save_Button_pressed():
 	#varibles
 	var objects = {}
 	var numOfObjects = 0
-	var childName = ""
-	var dir= ""
-	var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
-	"StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
-	"StatsVBox/SpeedHBox/SpeedSpinBox","VisualVBox/HeightHBox/HeightSpinBox",
-	"VisualVBox/WidthHBox/WidthSpinBox","VisualVBox/ColorPicker","ProjectileVBox/HeightHBox/HeightSpinBox",
-	"ProjectileVBox/WidthHBox/WidthSpinBox","ProjectileVBox/WidthHBox1/SpeedSpinBox",
-	"VisualVBox/WidthHBox1/ProjSpeedSpinBox","VisualVBox/WidthHBox2/ProjHeightSpinBox",
-	"VisualVBox/WidthHBox3/ProjWidthSpinBox"]
 	
-
 	#grab the properties of turrets
 	for i in range(get_node("TurrentList").get_child_count()):
 		
@@ -243,28 +379,32 @@ func _on_Save_Button_pressed():
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[3]
 		
 		objects["fire_rate_delta"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[5]
-		
-		objects["height"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[6]
-		
-		objects["width"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[7]
-		
-		objects["color"] = str(self.get_node(dir).get_color())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[8]
 		
-		objects["proj_height"] = str(self.get_node(dir).get_value())
+		objects["height"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[9]
 		
-		objects["proj_width"] = str(self.get_node(dir).get_value())
+		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
+		
+		var c = self.get_node(dir).get_color()
+		
+		objects["colorR"] = str(c[0])
+		objects["colorG"] = str(c[1])
+		objects["colorB"] = str(c[2])
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+		
+		objects["proj_height"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+		
+		objects["proj_width"] = str(self.get_node(dir).get_value())
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
 		
 		objects["proj_speed"] = str(self.get_node(dir).get_value())
 			
-		dict["object" + str(numOfObjects)] = objects
+		dict[childName] = objects
 		objects = {}
-		numOfObjects += 1
+		
 		
 		
 	#grab the properties of movers
@@ -286,35 +426,67 @@ func _on_Save_Button_pressed():
 		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[4]
 		
 		objects["speed"] = str(self.get_node(dir).get_value())
-		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[5]
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[8]
 		
 		objects["height"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[6]
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[9]
 		
 		objects["width"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[7]
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
 		
-		objects["color"] = str(self.get_node(dir).get_color())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+		var c = self.get_node(dir).get_color()
+		
+		objects["colorR"] = str(c[0])
+		objects["colorG"] = str(c[1])
+		objects["colorB"] = str(c[2])
+		
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[14]
 		
 		objects["proj_speed"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[16]
 		
 		objects["proj_width"] = str(self.get_node(dir).get_value())
-		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[15]
 		
 		objects["proj_height"] = str(self.get_node(dir).get_value())
 			
-		dict["object" + str(numOfObjects)] = objects
+		dict[childName] = objects
 		objects = {}
-		numOfObjects += 1
 		
+		
+	
+	#grab the properties of Base1
+	for k in range(get_node("BaseList").get_child_count()):
+		
+		childName = get_node("BaseList").get_child(k).get_name()
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[0]
+		
+		objects["hp"] = str(self.get_node(dir).get_value())
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[5]
+		
+		objects["height"] = str(self.get_node(dir).get_value())
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[6]
+		
+		objects["width"] = str(self.get_node(dir).get_value())
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
+		
+		var c = self.get_node(dir).get_color()
+		
+		objects["colorR"] = str(c[0])
+		objects["colorG"] = str(c[1])
+		objects["colorB"] = str(c[2])
+		
+		dict[childName] = objects
+		objects = {}
+		
+	
 	var file = File.new()
-	file.open("res://meow4.json", file.WRITE)
+	file.open("res://meow5.json", file.WRITE)
 	file.store_line(dict.to_json())
 	file.close()
 	ResourceSaver.save("res://myscene.tscn", packed_scene)
 
 func _on_Load_Button_pressed():
 	GLOBALS.file_name = "myscene"
+	GLOBALS.changed_scene = true
 	get_tree().change_scene("res://myscene.tscn")

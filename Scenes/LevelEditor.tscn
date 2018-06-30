@@ -2572,13 +2572,17 @@ script/script = SubResource( 41 )
 
 [node name="MoverList" type="Sprite" parent="."]
 
-[connection signal="mouse_enter" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_enter"]
+[node name="BaseList" type="Sprite" parent="."]
+
+[node name="Base2List" type="Sprite" parent="."]
 
 [connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exit"]
+[connection signal="mouse_enter" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_enter"]
 
 [connection signal="mouse_exit" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exit"]
 
 [connection signal="input_event" from="AttackerArea/Attacker/Area2D" to="AttackerArea/Attacker/Area2D" method="_input_event"]
 
@@ -2656,9 +2660,9 @@ script/script = SubResource( 41 )
 
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
-
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
+
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 

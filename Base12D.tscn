@@ -5,12 +5,12 @@
 [ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=3]
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=4]
 
-[sub_resource type="RectangleShape2D" id=58]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 131.979, 59.8076 )
 
-[sub_resource type="GDScript" id=59]
+[sub_resource type="GDScript" id=2]
 
 script/source = "extends Area2D
 
@@ -96,12 +96,12 @@ func _on_Base12D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ConvexPolygonShape2D" id=60]
+[sub_resource type="ConvexPolygonShape2D" id=3]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
-[sub_resource type="GDScript" id=61]
+[sub_resource type="GDScript" id=4]
 
 script/source = "extends Sprite
 
@@ -124,12 +124,12 @@ func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)
 "
 
-[sub_resource type="RectangleShape2D" id=15]
+[sub_resource type="RectangleShape2D" id=5]
 
 custom_solver_bias = 0.0
 extents = Vector2( 16.9967, 6.85448 )
 
-[sub_resource type="GDScript" id=16]
+[sub_resource type="GDScript" id=6]
 
 script/source = "extends ColorPickerButton
 
@@ -145,29 +145,28 @@ func _on_ColorPicker_pressed():
 		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
 "
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 149.373, 225.538 )
 
 [node name="Base12D" type="Area2D"]
 
-editor/display_folded = true
 transform/pos = Vector2( 665.142, 35.4221 )
 input/pickable = true
-shapes/0/shape = SubResource( 58 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = SubResource( 59 )
+script/script = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 transform/pos = Vector2( -2.44354, 7.33054 )
-shape = SubResource( 58 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -178,7 +177,7 @@ transform/scale = Vector2( 1, 0.999998 )
 [node name="StaticBody2D" type="StaticBody2D" parent="Base1"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 60 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 22.9014, 0, 0, 4.76138, -0.73761, 40.6475 )
 shapes/0/trigger = false
 collision/layers = 8
@@ -192,13 +191,13 @@ script/script = ExtResource( 1 )
 [node name="Sprite" type="Sprite" parent="Base1/StaticBody2D"]
 
 texture = ExtResource( 2 )
-script/script = SubResource( 61 )
+script/script = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base1/StaticBody2D"]
 
 transform/pos = Vector2( -0.73761, 40.6475 )
 transform/scale = Vector2( 22.9014, 4.76138 )
-shape = SubResource( 60 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -228,11 +227,10 @@ radial_fill/center_offset = Vector2( 0, 0 )
 
 [node name="Base1Menu" type="Area2D" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 148.413, -84.7859 )
 input/pickable = true
-shapes/0/shape = SubResource( 15 )
+shapes/0/shape = SubResource( 5 )
 shapes/0/transform = Matrix32( 10.3845, 0, 0, 6.62774, 114.702, 98.3136 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -254,6 +252,7 @@ alignment = 0
 
 [node name="HPHBox" type="HBoxContainer" parent="Base1Menu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -305,6 +304,7 @@ suffix = ""
 
 [node name="HeightHBox" type="HBoxContainer" parent="Base1Menu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -356,6 +356,7 @@ suffix = ""
 
 [node name="WidthHBox" type="HBoxContainer" parent="Base1Menu/StatsVBox"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -421,13 +422,13 @@ shortcut = null
 flat = false
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script/script = SubResource( 16 )
+script/script = SubResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base1Menu"]
 
 transform/pos = Vector2( 114.702, 98.3136 )
 transform/scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 15 )
+shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
@@ -436,7 +437,7 @@ _update_shape_index = 0
 visibility/visible = false
 transform/pos = Vector2( -131.412, 26.9926 )
 input/pickable = true
-shapes/0/shape = SubResource( 18 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 501.393, 131.662 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -459,7 +460,7 @@ alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Base1Menu/ColorPickerArea2D"]
 
 transform/pos = Vector2( 501.393, 131.662 )
-shape = SubResource( 18 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
 

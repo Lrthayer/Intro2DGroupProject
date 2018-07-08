@@ -1370,10 +1370,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 804.02
-margin/top = -1031.02
-margin/right = 829.02
-margin/bottom = -1011.02
+margin/left = 550.02
+margin/top = -1037.02
+margin/right = 575.02
+margin/bottom = -1017.02
 script/script = SubResource( 1 )
 
 [node name="AttackerArea" type="Area2D" parent="."]
@@ -1398,8 +1398,7 @@ script/script = ExtResource( 2 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/Attacker"]
 
-transform/pos = Vector2( 235.18, 0 )
-transform/rot = -180.0
+transform/rot = 180.0
 input/pickable = false
 shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 0.169436, 0, 0, 1.56829, 0.0800667, -4.29828 )
@@ -2240,8 +2239,8 @@ script/script = ExtResource( 11 )
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender"]
 
 editor/display_folded = true
-transform/pos = Vector2( -0.00369018, 7.00465 )
-transform/rot = -137.878
+transform/pos = Vector2( 317.996, 7.00464 )
+transform/rot = -219.211
 transform/scale = Vector2( 1.68406, 1.2189 )
 input/pickable = false
 shapes/0/shape = SubResource( 21 )
@@ -2752,7 +2751,7 @@ _update_shape_index = 0
 [node name="Camera2D" type="Camera2D" parent="."]
 
 editor/display_folded = true
-transform/pos = Vector2( 354.52, -842.023 )
+transform/pos = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
 current = true
@@ -2796,10 +2795,10 @@ margin/top = -3.0
 margin/right = 1015.0
 margin/bottom = 16.0
 range/min = 0.0
-range/max = 486.61
+range/max = 266.61
 range/step = 0.0
 range/page = 0.0
-range/value = 476.61
+range/value = 1.0
 range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
@@ -2843,7 +2842,7 @@ range/min = -859.905
 range/max = 100.0
 range/step = 1.0
 range/page = 0.0
-range/value = -859.905
+range/value = 1.0
 range/exp_edit = false
 range/rounded = false
 custom_step = -1.0
@@ -2897,9 +2896,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 10.0
+margin/left = -695.0
 margin/top = 133.0
-margin/right = 323.0
+margin/right = -382.0
 margin/bottom = 267.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2915,9 +2914,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 329.0
+margin/left = -376.0
 margin/top = 131.0
-margin/right = 722.0
+margin/right = 17.0
 margin/bottom = 265.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2933,9 +2932,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 729.0
+margin/left = 24.0
 margin/top = 131.0
-margin/right = 1186.0
+margin/right = 481.0
 margin/bottom = 265.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2951,9 +2950,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -232.0
+margin/left = -937.0
 margin/top = 131.0
-margin/right = -117.0
+margin/right = -822.0
 margin/bottom = 194.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2969,9 +2968,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -362.0
+margin/left = -1067.0
 margin/top = 131.0
-margin/right = -237.0
+margin/right = -942.0
 margin/bottom = 189.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2987,9 +2986,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -490.0
+margin/left = -1195.0
 margin/top = 131.0
-margin/right = -365.0
+margin/right = -1070.0
 margin/bottom = 193.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -3005,9 +3004,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -111.0
+margin/left = -816.0
 margin/top = 131.0
-margin/right = 4.0
+margin/right = -701.0
 margin/bottom = 209.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -3052,6 +3051,7 @@ margin/top = 0.0
 margin/right = 121.0
 margin/bottom = 70.0
 toggle_mode = true
+is_pressed = true
 enabled_focus_mode = 2
 shortcut = null
 text = "Placing"
@@ -3070,7 +3070,6 @@ margin/top = 0.0
 margin/right = 244.0
 margin/bottom = 70.0
 toggle_mode = true
-is_pressed = true
 enabled_focus_mode = 2
 shortcut = null
 text = "Editing"
@@ -3157,7 +3156,7 @@ script/script = SubResource( 49 )
 [node name="Cursor" type="Sprite" parent="."]
 
 material/material = SubResource( 50 )
-transform/pos = Vector2( 816.031, -1021.46 )
+transform/pos = Vector2( 562.031, -1027.46 )
 transform/scale = Vector2( 0.978113, 0.875503 )
 z/z = 10
 texture = ExtResource( 26 )
@@ -3166,52 +3165,26 @@ script/script = SubResource( 51 )
 
 [node name="TurrentList" type="Sprite" parent="."]
 
-[node name="Turrent1" type="Area2D" parent="TurrentList" instance=ExtResource( 21 )]
-
-transform/pos = Vector2( -230.39, -1035.9 )
-input/pickable = true
-shapes/0/shape = SubResource( 40 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 41 )
-
-[node name="Turrent2" type="Area2D" parent="TurrentList" instance=ExtResource( 21 )]
-
-transform/pos = Vector2( 5.60999, -1036.9 )
-input/pickable = true
-shapes/0/shape = SubResource( 40 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 41 )
-
 [node name="MoverList" type="Sprite" parent="."]
-
-[node name="Mover3" type="Area2D" parent="MoverList" instance=ExtResource( 22 )]
-
-transform/pos = Vector2( 428.52, -764.023 )
-input/pickable = true
-shapes/0/shape = SubResource( 42 )
-shapes/0/transform = Matrix32( 0.998816, 0, 0, 0.830143, 0, 7.04199 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 43 )
 
 [node name="BaseList" type="Sprite" parent="."]
 
-[node name="Base0" type="Area2D" parent="BaseList" instance=ExtResource( 24 )]
+[node name="Base2" type="Area2D" parent="BaseList" instance=ExtResource( 24 )]
 
-transform/pos = Vector2( -147.48, -789.023 )
+transform/pos = Vector2( 220.52, -812.023 )
+input/pickable = true
+shapes/0/shape = SubResource( 46 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 47 )
+
+[node name="Base3" type="Area2D" parent="BaseList" instance=ExtResource( 24 )]
+
+transform/pos = Vector2( 564.61, -1024.9 )
 input/pickable = true
 shapes/0/shape = SubResource( 46 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
@@ -3223,6 +3196,36 @@ angular_damp = 1.0
 script/script = SubResource( 47 )
 
 [node name="Base2List" type="Sprite" parent="."]
+
+[node name="Base21" type="Area2D" parent="Base2List" instance=ExtResource( 23 )]
+
+editor/display_folded = true
+transform/pos = Vector2( -218.48, -998.023 )
+input/pickable = true
+shapes/0/shape = SubResource( 44 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 45 )
+
+[node name="Base3List" type="Sprite" parent="."]
+
+[node name="Base30" type="Area2D" parent="Base3List" instance=ExtResource( 25 )]
+
+editor/display_folded = true
+transform/pos = Vector2( -177.48, -799.023 )
+input/pickable = true
+shapes/0/shape = SubResource( 48 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = SubResource( 49 )
 
 [connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -3308,9 +3311,9 @@ script/script = SubResource( 47 )
 
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
-[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
-
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -3402,20 +3405,68 @@ script/script = SubResource( 47 )
 
 [connection signal="mouse_exit" from="Base32D" to="Base32D" method="_on_Base32D_mouse_exit"]
 
-[connection signal="mouse_enter" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_enter"]
+[connection signal="mouse_enter" from="BaseList/Base2" to="BaseList/Base2" method="_on_Base12D_mouse_enter"]
 
-[connection signal="mouse_exit" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_exit"]
+[connection signal="mouse_exit" from="BaseList/Base2" to="BaseList/Base2" method="_on_Base12D_mouse_exit"]
 
-[connection signal="mouse_enter" from="TurrentList/Turrent2" to="TurrentList/Turrent2" method="_on_TurretArea_mouse_enter"]
+[connection signal="value_changed" from="BaseList/Base2/Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="BaseList/Base2/Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
 
-[connection signal="mouse_exit" from="TurrentList/Turrent2" to="TurrentList/Turrent2" method="_on_TurretArea_mouse_exit"]
+[connection signal="value_changed" from="BaseList/Base2/Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="BaseList/Base2/Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
 
-[connection signal="mouse_enter" from="MoverList/Mover3" to="MoverList/Mover3" method="_on_MoverArea_mouse_enter"]
+[connection signal="value_changed" from="BaseList/Base2/Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="BaseList/Base2/Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
 
-[connection signal="mouse_exit" from="MoverList/Mover3" to="MoverList/Mover3" method="_on_MoverArea_mouse_exit"]
+[connection signal="pressed" from="BaseList/Base2/Base1Menu/StatsVBox/ColorPicker" to="BaseList/Base2/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="mouse_enter" from="BaseList/Base0" to="BaseList/Base0" method="_on_Base12D_mouse_enter"]
+[connection signal="color_changed" from="BaseList/Base2/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base2/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
-[connection signal="mouse_exit" from="BaseList/Base0" to="BaseList/Base0" method="_on_Base12D_mouse_exit"]
+[connection signal="color_changed" from="BaseList/Base2/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base2/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="mouse_enter" from="BaseList/Base3" to="BaseList/Base3" method="_on_Base12D_mouse_enter"]
+
+[connection signal="mouse_exit" from="BaseList/Base3" to="BaseList/Base3" method="_on_Base12D_mouse_exit"]
+
+[connection signal="value_changed" from="BaseList/Base3/Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="BaseList/Base3/Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+
+[connection signal="value_changed" from="BaseList/Base3/Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="BaseList/Base3/Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="BaseList/Base3/Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="BaseList/Base3/Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="pressed" from="BaseList/Base3/Base1Menu/StatsVBox/ColorPicker" to="BaseList/Base3/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+
+[connection signal="color_changed" from="BaseList/Base3/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base3/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="BaseList/Base3/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base3/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="mouse_enter" from="Base2List/Base21" to="Base2List/Base21" method="_on_Base2D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Base2List/Base21" to="Base2List/Base21" method="_on_Base2D_mouse_exit"]
+
+[connection signal="value_changed" from="Base2List/Base21/Base2Menu/StatsVBox/HPHBox/HPSpinBox" to="Base2List/Base21/Base2/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base2List/Base21/Base2Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base2List/Base21/Base2/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base2List/Base21/Base2Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base2List/Base21/Base2/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="pressed" from="Base2List/Base21/Base2Menu/StatsVBox/ColorPicker" to="Base2List/Base21/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+
+[connection signal="color_changed" from="Base2List/Base21/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2List/Base21/Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base2List/Base21/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2List/Base21/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="mouse_enter" from="Base3List/Base30" to="Base3List/Base30" method="_on_Base32D_mouse_enter"]
+
+[connection signal="mouse_exit" from="Base3List/Base30" to="Base3List/Base30" method="_on_Base32D_mouse_exit"]
+
+[connection signal="value_changed" from="Base3List/Base30/Base3Menu/StatsVBox/HPHBox/HPSpinBox" to="Base3List/Base30/Base3/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base3List/Base30/Base3Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base3List/Base30/Base3/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+
+[connection signal="value_changed" from="Base3List/Base30/Base3Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base3List/Base30/Base3/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+
+[connection signal="pressed" from="Base3List/Base30/Base3Menu/StatsVBox/ColorPicker" to="Base3List/Base30/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+
+[connection signal="color_changed" from="Base3List/Base30/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3List/Base30/Base3/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="Base3List/Base30/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3List/Base30/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 

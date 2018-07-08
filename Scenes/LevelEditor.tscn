@@ -2576,13 +2576,15 @@ script/script = SubResource( 41 )
 
 [node name="Base2List" type="Sprite" parent="."]
 
-[connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
+[node name="Base3List" type="Sprite" parent="."]
 
 [connection signal="mouse_enter" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_enter"]
 
-[connection signal="mouse_exit" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exit"]
+
+[connection signal="mouse_exit" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="input_event" from="AttackerArea/Attacker/Area2D" to="AttackerArea/Attacker/Area2D" method="_input_event"]
 
@@ -2618,13 +2620,13 @@ script/script = SubResource( 41 )
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="AttackerArea/Attacker" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="mouse_enter" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
 
-[connection signal="mouse_exit" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
+
+[connection signal="mouse_exit" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="input_event" from="DefenderArea/Defender/Area2D" to="DefenderArea/Defender/Area2D" method="_input_event"]
 
@@ -2656,9 +2658,9 @@ script/script = SubResource( 41 )
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
-
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
@@ -2684,9 +2686,9 @@ script/script = SubResource( 41 )
 
 [connection signal="mouse_exit" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

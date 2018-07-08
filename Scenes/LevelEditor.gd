@@ -161,7 +161,7 @@ func _ready():
 			self.get_node(dir).set_value(float(data[childName]["proj_height"]))
 			
 	
-			#grab the properties of base1
+		#grab the properties of base1
 		for k in range(get_node("BaseList").get_child_count()):
 			
 			childName = get_node("BaseList").get_child(k).get_name()
@@ -187,7 +187,57 @@ func _ready():
 			dir = "BaseList/" +  childName + "/Base1/StaticBody2D/Sprite"
 			self.get_node(dir)._on_ColorPicker_color_changed(c)
 			
+		#grab the properties of base2
+		for l in range(get_node("Base2List").get_child_count()):
 			
+			childName = get_node("Base2List").get_child(l).get_name()
+			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[0]
+			
+			self.get_node(dir).set_value(float(data[childName]["hp"]))
+			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[5]
+			
+			self.get_node(dir).set_value(float(data[childName]["height"]))
+			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[6]
+			
+			self.get_node(dir).set_value(float(data[childName]["width"]))
+			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
+			
+			#get color values
+			var r = float(data[childName]["colorR"])
+			var g = float(data[childName]["colorG"])
+			var b = float(data[childName]["colorB"])
+			var c = Color(r, g, b)
+			
+			self.get_node(dir).set_color(c)
+			
+			dir = "Base2List/" +  childName + "/Base2/StaticBody2D/Sprite"
+			self.get_node(dir)._on_ColorPicker_color_changed(c)
+			
+		#grab the properties of base3
+		for m in range(get_node("Base3List").get_child_count()):
+			
+			childName = get_node("Base3List").get_child(m).get_name()
+			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[0]
+			
+			self.get_node(dir).set_value(float(data[childName]["hp"]))
+			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[5]
+			
+			self.get_node(dir).set_value(float(data[childName]["height"]))
+			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[6]
+			
+			self.get_node(dir).set_value(float(data[childName]["width"]))
+			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
+			
+			#get color values
+			var r = float(data[childName]["colorR"])
+			var g = float(data[childName]["colorG"])
+			var b = float(data[childName]["colorB"])
+			var c = Color(r, g, b)
+			
+			self.get_node(dir).set_color(c)
+			
+			dir = "Base3List/" +  childName + "/Base3/StaticBody2D/Sprite"
+			self.get_node(dir)._on_ColorPicker_color_changed(c)
 		#close the file
 		file.close()
 		
@@ -479,6 +529,54 @@ func _on_Save_Button_pressed():
 		dict[childName] = objects
 		objects = {}
 		
+		
+	#grab the properties of Base2
+	for l in range(get_node("Base2List").get_child_count()):
+		
+		childName = get_node("Base2List").get_child(l).get_name()
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[0]
+		
+		objects["hp"] = str(self.get_node(dir).get_value())
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[5]
+		
+		objects["height"] = str(self.get_node(dir).get_value())
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[6]
+		
+		objects["width"] = str(self.get_node(dir).get_value())
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
+		
+		var c = self.get_node(dir).get_color()
+		
+		objects["colorR"] = str(c[0])
+		objects["colorG"] = str(c[1])
+		objects["colorB"] = str(c[2])
+		
+		dict[childName] = objects
+		objects = {}
+	
+	#grab the properties of Base3
+	for m in range(get_node("Base3List").get_child_count()):
+		
+		childName = get_node("Base3List").get_child(m).get_name()
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[0]
+		
+		objects["hp"] = str(self.get_node(dir).get_value())
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[5]
+		
+		objects["height"] = str(self.get_node(dir).get_value())
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[6]
+		
+		objects["width"] = str(self.get_node(dir).get_value())
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
+		
+		var c = self.get_node(dir).get_color()
+		
+		objects["colorR"] = str(c[0])
+		objects["colorG"] = str(c[1])
+		objects["colorB"] = str(c[2])
+		
+		dict[childName] = objects
+		objects = {}
 	
 	var file = File.new()
 	file.open("res://meow5.json", file.WRITE)

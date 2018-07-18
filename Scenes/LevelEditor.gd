@@ -58,6 +58,11 @@ var laserObjectPoolAmount = 50
 #starts when loaded up in scene
 func _ready():
 	
+	#setup screen capture, for level saving/playlist
+	get_viewport().queue_screen_capture()
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	
 	if GLOBALS.changed_scene:
 		
 		#open json file
@@ -583,6 +588,11 @@ func _on_Save_Button_pressed():
 	file.store_line(dict.to_json())
 	file.close()
 	ResourceSaver.save("res://myscene.tscn", packed_scene)
+	
+	# get screen capture
+	var capture = get_viewport().get_screen_capture()
+	# save to a file
+	capture.save_png("res://screenshot.png")
 
 func _on_Load_Button_pressed():
 	GLOBALS.file_name = "myscene"

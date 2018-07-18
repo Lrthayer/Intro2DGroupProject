@@ -1370,10 +1370,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 550.02
-margin/top = -1037.02
-margin/right = 575.02
-margin/bottom = -1017.02
+margin/left = 531.02
+margin/top = -1029.02
+margin/right = 556.02
+margin/bottom = -1009.02
 script/script = SubResource( 1 )
 
 [node name="AttackerArea" type="Area2D" parent="."]
@@ -2239,8 +2239,8 @@ script/script = ExtResource( 11 )
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender"]
 
 editor/display_folded = true
-transform/pos = Vector2( 317.996, 7.00464 )
-transform/rot = -219.211
+transform/pos = Vector2( -0.00369018, 7.00465 )
+transform/rot = -176.478
 transform/scale = Vector2( 1.68406, 1.2189 )
 input/pickable = false
 shapes/0/shape = SubResource( 21 )
@@ -2750,7 +2750,6 @@ _update_shape_index = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2896,9 +2895,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -695.0
+margin/left = 10.0
 margin/top = 133.0
-margin/right = -382.0
+margin/right = 323.0
 margin/bottom = 267.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2914,9 +2913,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -376.0
+margin/left = 329.0
 margin/top = 131.0
-margin/right = 17.0
+margin/right = 722.0
 margin/bottom = 265.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2932,9 +2931,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 24.0
+margin/left = 729.0
 margin/top = 131.0
-margin/right = 481.0
+margin/right = 1186.0
 margin/bottom = 265.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2950,9 +2949,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -937.0
+margin/left = -232.0
 margin/top = 131.0
-margin/right = -822.0
+margin/right = -117.0
 margin/bottom = 194.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2968,9 +2967,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -1067.0
+margin/left = -362.0
 margin/top = 131.0
-margin/right = -942.0
+margin/right = -237.0
 margin/bottom = 189.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -2986,9 +2985,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -1195.0
+margin/left = -490.0
 margin/top = 131.0
-margin/right = -1070.0
+margin/right = -365.0
 margin/bottom = 193.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -3004,9 +3003,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -816.0
+margin/left = -111.0
 margin/top = 131.0
-margin/right = -701.0
+margin/right = 4.0
 margin/bottom = 209.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -3156,7 +3155,7 @@ script/script = SubResource( 49 )
 [node name="Cursor" type="Sprite" parent="."]
 
 material/material = SubResource( 50 )
-transform/pos = Vector2( 562.031, -1027.46 )
+transform/pos = Vector2( 543.031, -1019.46 )
 transform/scale = Vector2( 0.978113, 0.875503 )
 z/z = 10
 texture = ExtResource( 26 )
@@ -3169,63 +3168,9 @@ script/script = SubResource( 51 )
 
 [node name="BaseList" type="Sprite" parent="."]
 
-[node name="Base2" type="Area2D" parent="BaseList" instance=ExtResource( 24 )]
-
-transform/pos = Vector2( 220.52, -812.023 )
-input/pickable = true
-shapes/0/shape = SubResource( 46 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 47 )
-
-[node name="Base3" type="Area2D" parent="BaseList" instance=ExtResource( 24 )]
-
-transform/pos = Vector2( 564.61, -1024.9 )
-input/pickable = true
-shapes/0/shape = SubResource( 46 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, -2.44354, 7.33054 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 47 )
-
 [node name="Base2List" type="Sprite" parent="."]
 
-[node name="Base21" type="Area2D" parent="Base2List" instance=ExtResource( 23 )]
-
-editor/display_folded = true
-transform/pos = Vector2( -218.48, -998.023 )
-input/pickable = true
-shapes/0/shape = SubResource( 44 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.10809, 4.43213 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 45 )
-
 [node name="Base3List" type="Sprite" parent="."]
-
-[node name="Base30" type="Area2D" parent="Base3List" instance=ExtResource( 25 )]
-
-editor/display_folded = true
-transform/pos = Vector2( -177.48, -799.023 )
-input/pickable = true
-shapes/0/shape = SubResource( 48 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 5.70152 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-script/script = SubResource( 49 )
 
 [connection signal="mouse_enter" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -3307,17 +3252,25 @@ script/script = SubResource( 49 )
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
-[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_enter" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
+[connection signal="mouse_exit" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
+[connection signal="mouse_enter" from="Camera2D/Save_Button" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Camera2D/Save_Button" to="." method="_on_Button_mouse_exit"]
+
 [connection signal="pressed" from="Camera2D/Save_Button" to="." method="_on_Save_Button_pressed"]
+
+[connection signal="mouse_enter" from="Camera2D/Load_Button" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Camera2D/Load_Button" to="." method="_on_Button_mouse_exit"]
 
 [connection signal="pressed" from="Camera2D/Load_Button" to="." method="_on_Load_Button_pressed"]
 
@@ -3404,69 +3357,5 @@ script/script = SubResource( 49 )
 [connection signal="mouse_enter" from="Base32D" to="Base32D" method="_on_Base32D_mouse_enter"]
 
 [connection signal="mouse_exit" from="Base32D" to="Base32D" method="_on_Base32D_mouse_exit"]
-
-[connection signal="mouse_enter" from="BaseList/Base2" to="BaseList/Base2" method="_on_Base12D_mouse_enter"]
-
-[connection signal="mouse_exit" from="BaseList/Base2" to="BaseList/Base2" method="_on_Base12D_mouse_exit"]
-
-[connection signal="value_changed" from="BaseList/Base2/Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="BaseList/Base2/Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="BaseList/Base2/Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="BaseList/Base2/Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="BaseList/Base2/Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="BaseList/Base2/Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="BaseList/Base2/Base1Menu/StatsVBox/ColorPicker" to="BaseList/Base2/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="BaseList/Base2/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base2/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="BaseList/Base2/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base2/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="mouse_enter" from="BaseList/Base3" to="BaseList/Base3" method="_on_Base12D_mouse_enter"]
-
-[connection signal="mouse_exit" from="BaseList/Base3" to="BaseList/Base3" method="_on_Base12D_mouse_exit"]
-
-[connection signal="value_changed" from="BaseList/Base3/Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="BaseList/Base3/Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="BaseList/Base3/Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="BaseList/Base3/Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="BaseList/Base3/Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="BaseList/Base3/Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="BaseList/Base3/Base1Menu/StatsVBox/ColorPicker" to="BaseList/Base3/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="BaseList/Base3/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base3/Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="BaseList/Base3/Base1Menu/ColorPickerArea2D/ColorPicker" to="BaseList/Base3/Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="mouse_enter" from="Base2List/Base21" to="Base2List/Base21" method="_on_Base2D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Base2List/Base21" to="Base2List/Base21" method="_on_Base2D_mouse_exit"]
-
-[connection signal="value_changed" from="Base2List/Base21/Base2Menu/StatsVBox/HPHBox/HPSpinBox" to="Base2List/Base21/Base2/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base2List/Base21/Base2Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base2List/Base21/Base2/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base2List/Base21/Base2Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base2List/Base21/Base2/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="Base2List/Base21/Base2Menu/StatsVBox/ColorPicker" to="Base2List/Base21/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="Base2List/Base21/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2List/Base21/Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="Base2List/Base21/Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2List/Base21/Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
-[connection signal="mouse_enter" from="Base3List/Base30" to="Base3List/Base30" method="_on_Base32D_mouse_enter"]
-
-[connection signal="mouse_exit" from="Base3List/Base30" to="Base3List/Base30" method="_on_Base32D_mouse_exit"]
-
-[connection signal="value_changed" from="Base3List/Base30/Base3Menu/StatsVBox/HPHBox/HPSpinBox" to="Base3List/Base30/Base3/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base3List/Base30/Base3Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base3List/Base30/Base3/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="Base3List/Base30/Base3Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base3List/Base30/Base3/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="pressed" from="Base3List/Base30/Base3Menu/StatsVBox/ColorPicker" to="Base3List/Base30/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="Base3List/Base30/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3List/Base30/Base3/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="Base3List/Base30/Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3List/Base30/Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 

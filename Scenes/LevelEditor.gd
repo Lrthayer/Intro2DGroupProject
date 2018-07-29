@@ -71,6 +71,76 @@ func _ready():
 		file.open("res://meow5.json", file.READ)
 		data.parse_json(file.get_line())
 		
+		#grab the properties of attacker
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["hp"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[1]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["damage"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[2]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["fire_rate"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[4]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["speed"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[8]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["height"]))
+		
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[9]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["width"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[10]
+		
+		#get color values
+		var r = float(data["AttackerArea"]["colorR"])
+		var g = float(data["AttackerArea"]["colorG"])
+		var b = float(data["AttackerArea"]["colorB"])
+		var c = Color(r, g, b)
+		self.get_node(dir).set_color(c)
+		
+		#add the color to sprite
+		dir = "AttackerArea/Attacker/KinematicBody2D/ShipSprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[14]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["proj_speed"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[15]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["proj_height"]))
+		
+		dir = "AttackerArea/AttackerMenu/" + addDirectory[16]
+		self.get_node(dir).set_value(float(data["AttackerArea"]["proj_width"]))
+		
+		#grab the properties of defender
+		dir = "DefenderArea/DefenderMenu/" + addDirectory[2]
+		self.get_node(dir).set_value(float(data["DefenderArea"]["fire_rate"]))
+		
+		dir = "DefenderArea/DefenderMenu/" + addDirectory[4]
+		self.get_node(dir).set_value(float(data["DefenderArea"]["speed"]))
+		
+		dir = "DefenderArea/DefenderMenu/" + addDirectory[8]
+		self.get_node(dir).set_value(float(data["DefenderArea"]["height"]))
+		
+		
+		dir = "DefenderArea/DefenderMenu/" + addDirectory[9]
+		self.get_node(dir).set_value(float(data["DefenderArea"]["width"]))
+		
+		dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
+		
+		#get color values
+		var r = float(data["DefenderArea"]["colorR"])
+		var g = float(data["DefenderArea"]["colorG"])
+		var b = float(data["DefenderArea"]["colorB"])
+		var c = Color(r, g, b)
+		self.get_node(dir).set_color(c)
+		
+		#add the color to sprite 
+		dir = "DefenderArea/Defender/KinematicBody2D/DefenderSprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+		
 		#grab the properties of turrets
 		for i in range(get_node("TurrentList").get_child_count()):
 			
@@ -333,17 +403,21 @@ func _process(delta):
 				objectInstance.set_hidden(false)
 				makeUnique = false
 			
-			mosLoc.x -= 130
-			mosLoc.y += 20
-			objectInstance.set_global_pos(mosLoc)
 			
 			if makeUnique:
+				#change mouse location to center object with cursor 
+				mosLoc.x -= 130
+				mosLoc.y += 20
+				objectInstance.set_global_pos(mosLoc)
+				
 				#give the copy a name 
 				objectInstance.set_name(currentObject + str(objectIndex))
 				self.get_node(currentObject + "List").add_child(objectInstance)
 				objectInstance.set_owner(self)
 				objectIndex += 1
-
+			else:
+				objectInstance.set_global_pos(mosLoc)
+				
 			#since attacker and defender are the only ones who don't use this reset default value
 			makeUnique = true
 			pressed = true

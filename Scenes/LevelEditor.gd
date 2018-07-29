@@ -492,6 +492,67 @@ func _on_Save_Button_pressed():
 	var objects = {}
 	var numOfObjects = 0
 	
+	#grab the properties of attacker
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
+	objects["hp"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[1]
+	objects["damage"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[2]
+	objects["fire_rate"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[4]
+	objects["speed"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[8]
+	objects["height"] = str(self.get_node(dir).get_value())
+	
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[9]
+	objects["width"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[10]
+	var c = self.get_node(dir).get_color()
+	
+	objects["colorR"] = str(c[0])
+	objects["colorG"] = str(c[1])
+	objects["colorB"] = str(c[2])
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[14]
+	objects["proj_speed"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[15]
+	objects["proj_height"] = str(self.get_node(dir).get_value())
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[16]
+	objects["proj_width"] = str(self.get_node(dir).get_value())
+	
+	dict["AttackerArea"] = objects
+	objects = {}
+	
+	#grab the properties of defender
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[2]
+	objects["fire_rate"] = str(self.get_node(dir).get_value())
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[4]
+	objects["speed"] = str(self.get_node(dir).get_value())
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[8]
+	objects["height"] = str(self.get_node(dir).get_value())
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[9]
+	objects["width"] = str(self.get_node(dir).get_value())
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
+	var c = self.get_node(dir).get_color()
+	
+	objects["colorR"] = str(c[0])
+	objects["colorG"] = str(c[1])
+	objects["colorB"] = str(c[2])
+	
+	dict["DefenderArea"] = objects
+	objects = {}
 	#grab the properties of turrets
 	for i in range(get_node("TurrentList").get_child_count()):
 		

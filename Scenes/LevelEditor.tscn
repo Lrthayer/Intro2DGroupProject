@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=1]
+[gd_scene load_steps=71 format=1]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=2]
@@ -13,19 +13,20 @@
 [ext_resource path="res://Scenes/Defender.gd" type="Script" id=11]
 [ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=12]
 [ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=13]
-[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=14]
-[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=15]
-[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=16]
-[ext_resource path="res://Mover.tex" type="Texture" id=17]
-[ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=18]
-[ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=19]
-[ext_resource path="res://turret001.tex" type="Texture" id=20]
-[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=21]
-[ext_resource path="res://MoverArea.tscn" type="PackedScene" id=22]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=26]
+[ext_resource path="res://main.gd" type="Script" id=14]
+[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=15]
+[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=16]
+[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=17]
+[ext_resource path="res://Mover.tex" type="Texture" id=18]
+[ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=19]
+[ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=20]
+[ext_resource path="res://turret001.tex" type="Texture" id=21]
+[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=22]
+[ext_resource path="res://MoverArea.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=27]
 
 [sub_resource type="GDScript" id=1]
 
@@ -1745,6 +1746,7 @@ _update_shape_index = 0
 
 [node name="DefenderArea" type="Area2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( -72.7057, -1292.8 )
 input/pickable = true
 shapes/0/shape = SubResource( 20 )
@@ -2391,6 +2393,40 @@ shortcut = null
 text = "Load"
 flat = false
 
+[node name="playlist" type="Control" parent="Camera2D"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 296.0
+margin/top = -149.0
+margin/right = -296.0
+margin/bottom = 149.0
+script/script = ExtResource( 14 )
+dropdown_path = NodePath("dropdown")
+
+[node name="dropdown" type="OptionButton" parent="Camera2D/playlist"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -33.0
+margin/top = -1.0
+margin/right = 211.0
+margin/bottom = 19.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+clip_text = true
+align = 0
+selected = -1
+items = [  ]
+
 [node name="Button" type="Button" parent="Camera2D"]
 
 focus/ignore_mouse = false
@@ -2405,7 +2441,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 1"
-icon = ExtResource( 14 )
+icon = ExtResource( 15 )
 flat = false
 script/script = SubResource( 38 )
 
@@ -2423,7 +2459,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 2"
-icon = ExtResource( 15 )
+icon = ExtResource( 16 )
 flat = false
 script/script = SubResource( 38 )
 
@@ -2441,7 +2477,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Base 3"
-icon = ExtResource( 16 )
+icon = ExtResource( 17 )
 flat = false
 script/script = SubResource( 38 )
 
@@ -2459,7 +2495,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Mover"
-icon = ExtResource( 17 )
+icon = ExtResource( 18 )
 flat = false
 script/script = SubResource( 38 )
 
@@ -2477,7 +2513,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Bomber"
-icon = ExtResource( 18 )
+icon = ExtResource( 19 )
 flat = false
 script/script = SubResource( 38 )
 
@@ -2495,7 +2531,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Defender"
-icon = ExtResource( 19 )
+icon = ExtResource( 20 )
 flat = false
 script/script = SubResource( 38 )
 
@@ -2513,12 +2549,13 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Turrent"
-icon = ExtResource( 20 )
+icon = ExtResource( 21 )
 flat = false
 script/script = SubResource( 38 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D"]
 
+editor/display_folded = true
 transform/pos = Vector2( 381.74, -250.831 )
 input/pickable = true
 shapes/0/shape = SubResource( 39 )
@@ -2585,22 +2622,22 @@ shape = SubResource( 39 )
 trigger = false
 _update_shape_index = 0
 
-[node name="TurretArea" parent="." instance=ExtResource( 21 )]
+[node name="TurretArea" parent="." instance=ExtResource( 22 )]
 
-[node name="MoverArea" parent="." instance=ExtResource( 22 )]
+[node name="MoverArea" parent="." instance=ExtResource( 23 )]
 
-[node name="Base22D" parent="." instance=ExtResource( 23 )]
+[node name="Base22D" parent="." instance=ExtResource( 24 )]
 
-[node name="Base12D" parent="." instance=ExtResource( 24 )]
+[node name="Base12D" parent="." instance=ExtResource( 25 )]
 
-[node name="Base32D" parent="." instance=ExtResource( 25 )]
+[node name="Base32D" parent="." instance=ExtResource( 26 )]
 
 [node name="Cursor" type="Sprite" parent="."]
 
 material/material = SubResource( 42 )
 transform/pos = Vector2( -6.24886, -834.233 )
 transform/scale = Vector2( 0.978113, 0.875503 )
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 script/script = SubResource( 43 )
 
 [node name="TurrentList" type="Sprite" parent="."]
@@ -2695,9 +2732,9 @@ script/script = SubResource( 43 )
 
 [connection signal="pressed" from="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" to="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 [connection signal="mouse_enter" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
@@ -2726,6 +2763,10 @@ script/script = SubResource( 43 )
 [connection signal="mouse_exit" from="Camera2D/Load_Button" to="." method="_on_Button_mouse_exit"]
 
 [connection signal="pressed" from="Camera2D/Load_Button" to="." method="_on_Load_Button_pressed"]
+
+[connection signal="mouse_enter" from="Camera2D/playlist/dropdown" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exit" from="Camera2D/playlist/dropdown" to="." method="_on_Button_mouse_exit"]
 
 [connection signal="button_down" from="Camera2D/Button" to="." method="_on_Button_button_down" binds= [ "Base" ]]
 

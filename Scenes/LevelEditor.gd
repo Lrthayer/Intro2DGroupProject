@@ -55,6 +55,8 @@ var laserObjectPool = []
 var laserObjectIndex = 0
 var laserObjectPoolAmount = 50
 
+var numberOfSaves = 0
+
 #starts when loaded up in scene
 func _ready():
 	
@@ -595,8 +597,6 @@ func _on_Save_Button_pressed():
 		dict[childName] = objects
 		objects = {}
 		
-		
-		
 	#grab the properties of movers
 	for j in range(get_node("MoverList").get_child_count()):
 		
@@ -642,8 +642,6 @@ func _on_Save_Button_pressed():
 			
 		dict[childName] = objects
 		objects = {}
-		
-		
 	
 	#grab the properties of Base1
 	for k in range(get_node("BaseList").get_child_count()):
@@ -727,7 +725,10 @@ func _on_Save_Button_pressed():
 	# get screen capture
 	var capture = get_viewport().get_screen_capture()
 	# save to a file
-	capture.save_png("res://screenshot.png")
+	capture.save_png("res://screenshot" + str(numberOfSaves) + ".png")
+	#tell playlist to add pic for level
+	self.get_node("Camera2D").get_node("playlist").save_item(capture)
+	numberOfSaves = numberOfSaves + 1
 
 func _on_Load_Button_pressed():
 	GLOBALS.file_name = "myscene"

@@ -7,7 +7,10 @@ path="res://.import/title.png-3def16fc22e5456ee2829c151692cc60.stex"
 [deps]
 
 source_file="res://Graphics/title.png"
+source_md5="ef9d6ce2c11f1ff4c3a9fadb34d88cec"
+
 dest_files=[ "res://.import/title.png-3def16fc22e5456ee2829c151692cc60.stex" ]
+dest_md5="baf293d2bcb7feff476de2f7aeb8a2c5"
 
 [params]
 

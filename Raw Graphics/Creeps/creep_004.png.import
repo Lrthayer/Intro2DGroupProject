@@ -7,7 +7,10 @@ path="res://.import/creep_004.png-98b9921eb4443b651fc0196d422cfe1b.stex"
 [deps]
 
 source_file="res://Raw Graphics/Creeps/creep_004.png"
+source_md5="392464c1ed413adfa7f5dc7792e74584"
+
 dest_files=[ "res://.import/creep_004.png-98b9921eb4443b651fc0196d422cfe1b.stex" ]
+dest_md5="d97fd5cd33864cbf0b02c0b11407fac5"
 
 [params]
 

@@ -7,7 +7,10 @@ path="res://.import/ship_007.png-140c3587a58451ecf21c0f42644bedad.stex"
 [deps]
 
 source_file="res://Graphics/Ships/ship_007.png"
+source_md5="4eff769ca7b8b329c9fb6e4b0efd1215"
+
 dest_files=[ "res://.import/ship_007.png-140c3587a58451ecf21c0f42644bedad.stex" ]
+dest_md5="9602471a9a76798c27947c6f227b3e3b"
 
 [params]
 

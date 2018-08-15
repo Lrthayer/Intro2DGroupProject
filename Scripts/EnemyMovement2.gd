@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+
 # class member variables "
 var right_boundary = 775.818909 
 var left_boundary = 652.818909
@@ -32,16 +33,14 @@ func collided(dmg = 0):
 		
 # starts when loaded up in scene
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_physics_process(true)
 	
 func _fixed_process(delta):
 	#if self.get_parent().clicked:
 		#self.set_global_pos(get_global_mouse_pos())
 	
-	right_boundary = get_parent().get_child(1).get_child(0).get_global_pos().x - 27
-	left_boundary = get_parent().get_child(2).get_child(0).get_global_pos().x + 27
+	right_boundary = get_parent().get_child(1).get_child(0).global_position.x - 27
+	left_boundary = get_parent().get_child(2).get_child(0).global_position.x + 27
 	
 	#mover decides to moves right
 	if(get_global_pos().x < left_boundary):
@@ -52,12 +51,11 @@ func _fixed_process(delta):
 	if(get_global_pos().x > right_boundary):
 		goleft = true
 		goright = false
-		
-	
+
 	#mover goes right
 	if goright:
 		move(Vector2(self.get_parent().speed,0))
-	
+
 	#mover goes left
 	if goleft:
 		move(Vector2(-1 * self.get_parent().speed,0))

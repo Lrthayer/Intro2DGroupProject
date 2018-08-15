@@ -7,7 +7,10 @@ path="res://.import/InvaderMusic.ogg-2c3d5c256e747f3e5535f2fbd3f4b97b.oggstr"
 [deps]
 
 source_file="res://InvaderMusic.ogg"
+source_md5="91f4aa7daa9f359b362c9a586a813c0e"
+
 dest_files=[ "res://.import/InvaderMusic.ogg-2c3d5c256e747f3e5535f2fbd3f4b97b.oggstr" ]
+dest_md5="bd73dd170692c2e00fb8678668bcde81"
 
 [params]
 

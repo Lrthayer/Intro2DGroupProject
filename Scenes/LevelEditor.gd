@@ -18,25 +18,9 @@ var data
 var objectName
 var childName = ""
 var dir= ""
-	
-var addDirectory = ["StatsVBox/HPHBox/HPSpinBox",
-					"StatsVBox/DamageHBox/DamageSpinBox",
-					"StatsVBox/FireRateHBox/FireRateSpinBox",
-					"StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
-					"StatsVBox/SpeedHBox/SpeedSpinBox",
-					"StatsVBox/HeightHBox/HeightSpinBox",
-					"StatsVBox/WidthHBox/WidthSpinBox",
-					"StatsVBox/ColorPicker",
-					"VisualVBox/HeightHBox/HeightSpinBox",
-					"VisualVBox/WidthHBox/WidthSpinBox",
-					"VisualVBox/ColorPicker",
-					"ProjectileVBox/HeightHBox/HeightSpinBox",
-					"ProjectileVBox/WidthHBox/WidthSpinBox",
-					"ProjectileVBox/WidthHBox1/SpeedSpinBox",
-					"ProjectileVBox/WidthHBox1/ProjSpeedSpinBox",
-					"ProjectileVBox/WidthHBox2/ProjHeightSpinBox",
-					"ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
-	
+
+var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox","StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox","StatsVBox/SpeedHBox/SpeedSpinBox","StatsVBox/HeightHBox/HeightSpinBox","StatsVBox/WidthHBox/WidthSpinBox","StatsVBox/ColorPicker","VisualVBox/HeightHBox/HeightSpinBox","VisualVBox/WidthHBox/WidthSpinBox","VisualVBox/ColorPicker","ProjectileVBox/HeightHBox/HeightSpinBox","ProjectileVBox/WidthHBox/WidthSpinBox","ProjectileVBox/WidthHBox1/SpeedSpinBox","ProjectileVBox/WidthHBox1/ProjSpeedSpinBox","ProjectileVBox/WidthHBox2/ProjHeightSpinBox","ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
+
 #add a child
 #get_parent().add_child(laserInstance)
 var currentObject
@@ -321,7 +305,6 @@ func _ready():
 		
 	GLOBALS.changed_scene = false
 	
-	
 	set_process(true)
 		#create laserObject pool
 	for i in range(laserObjectPoolAmount):
@@ -344,7 +327,7 @@ func _ready():
 
 #called every frame
 func _process(delta):
-	var mosLoc = get_global_mouse_pos()
+	var mosLoc = self.get_global_mouse_position()
 	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20)
 	#get_child(1).set_global_pos(posOffset)
 	if  Input.is_action_pressed("left_click"):

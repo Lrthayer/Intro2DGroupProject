@@ -7,7 +7,10 @@ path="res://.import/ui_bar.png-ed0bd5a390648341dded12e86a0a39e6.stex"
 [deps]
 
 source_file="res://Graphics/ui_bar.png"
+source_md5="ca9b3ee918f5481d751051764199d443"
+
 dest_files=[ "res://.import/ui_bar.png-ed0bd5a390648341dded12e86a0a39e6.stex" ]
+dest_md5="0d504f9840bad8b3a8addd074c4485c3"
 
 [params]
 

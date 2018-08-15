@@ -1,5 +1,6 @@
 extends Node2D
 
+
 # class member variables go here, for example:
 var firePressed = false
 var laserObject = preload("res://Scenes/Laser.tscn")
@@ -31,7 +32,7 @@ func _ready():
 	else:
 		bullet_speed = GLOBALS.g_player2_spd
 		damage = GLOBALS.g_player2_dmg
-		fireRate = GLOBALS.g_player2_rate	
+		fireRate = GLOBALS.g_player2_rate
 	
 	#set the fire rate
 	if (fireRate == 1):
@@ -80,7 +81,7 @@ func _process(delta):
 		laserInstance.set_owner(self)
 		
 		#set the position of the laser copy
-		laserInstance.set_global_pos(get_node("KinematicBody2D/ShipSprite").get_global_pos() + Vector2(0,24))
+		laserInstance.set_global_pos(get_node("KinematicBody2D/ShipSprite").global_position + Vector2(0,24))
 	
 		
 	#Check to see if user pressed the spacebar or Numpad 0

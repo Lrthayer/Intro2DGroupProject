@@ -7,7 +7,10 @@ path="res://.import/title6.png-4cf51dd889eba0fe2fab810645eb633d.stex"
 [deps]
 
 source_file="res://Raw Graphics/UI/title6.png"
+source_md5="7d4934a3899178a14c85254cffbdd7d9"
+
 dest_files=[ "res://.import/title6.png-4cf51dd889eba0fe2fab810645eb633d.stex" ]
+dest_md5="222358fab814c101f6f8eb9de7a7da2a"
 
 [params]
 

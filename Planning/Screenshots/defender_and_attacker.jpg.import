@@ -7,7 +7,10 @@ path="res://.import/defender_and_attacker.jpg-1b845f95885082810365c6e0f2742c22.s
 [deps]
 
 source_file="res://Planning/Screenshots/defender_and_attacker.jpg"
+source_md5="28ac289aee4fc012f78ba829269c99e9"
+
 dest_files=[ "res://.import/defender_and_attacker.jpg-1b845f95885082810365c6e0f2742c22.stex" ]
+dest_md5="517fcfd8fbc11f6e9df53613c440e4d9"
 
 [params]
 

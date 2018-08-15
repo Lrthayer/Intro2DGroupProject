@@ -7,7 +7,10 @@ path="res://.import/ship_001.png-1cdf77f966bb7804259576d496d75631.stex"
 [deps]
 
 source_file="res://Raw Graphics/Ships/ship_001.png"
+source_md5="734b4ebfe7a62f176abb541ded0bf72f"
+
 dest_files=[ "res://.import/ship_001.png-1cdf77f966bb7804259576d496d75631.stex" ]
+dest_md5="4e328afeb785621d3c1ab1e6a0b83a33"
 
 [params]
 

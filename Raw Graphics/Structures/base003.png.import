@@ -7,7 +7,10 @@ path="res://.import/base003.png-4eafcbe44071d084e0047b008f5e57e6.stex"
 [deps]
 
 source_file="res://Raw Graphics/Structures/base003.png"
+source_md5="6798ebd5898a9d6e02db5b20fd6147c2"
+
 dest_files=[ "res://.import/base003.png-4eafcbe44071d084e0047b008f5e57e6.stex" ]
+dest_md5="dde4f2492cb4ba6e250807c484e69146"
 
 [params]
 

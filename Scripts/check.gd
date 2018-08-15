@@ -8,9 +8,3 @@ func collided(dmg = 0):
 #Defender is getting stunned
 func stunned():
 	get_parent().stunned()
-	
-	
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass

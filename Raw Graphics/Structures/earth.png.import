@@ -7,7 +7,10 @@ path="res://.import/earth.png-06f0d8ba18e7fc6c31ae7f4cdf6f4d24.stex"
 [deps]
 
 source_file="res://Raw Graphics/Structures/earth.png"
+source_md5="e8243004eae0c4cbdb20caf77ead288b"
+
 dest_files=[ "res://.import/earth.png-06f0d8ba18e7fc6c31ae7f4cdf6f4d24.stex" ]
+dest_md5="e99e2fa6e3e7f00e98446b8231673269"
 
 [params]
 

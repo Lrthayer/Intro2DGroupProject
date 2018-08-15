@@ -7,7 +7,10 @@ path="res://.import/turret001.png-7a5a3dc7cc24e8cbf8ce8510fcf16e46.stex"
 [deps]
 
 source_file="res://Raw Graphics/Turrets/turret001.png"
+source_md5="94364ab0f64d0b2d492272c24d943f44"
+
 dest_files=[ "res://.import/turret001.png-7a5a3dc7cc24e8cbf8ce8510fcf16e46.stex" ]
+dest_md5="f53e8196289e788289e40fc0dcb1eb37"
 
 [params]
 

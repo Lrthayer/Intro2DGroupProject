@@ -7,7 +7,10 @@ path="res://.import/bullet_white.png-cc04d085e5f9e0376d7192492f4e0dca.stex"
 [deps]
 
 source_file="res://Graphics/Projectiles/bullet_white.png"
+source_md5="37c8da6f5a620648b03eb478b63598b2"
+
 dest_files=[ "res://.import/bullet_white.png-cc04d085e5f9e0376d7192492f4e0dca.stex" ]
+dest_md5="0ebd5f8796cc986b211d6e1d09a278fd"
 
 [params]
 

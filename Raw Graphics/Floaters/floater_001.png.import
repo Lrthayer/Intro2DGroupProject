@@ -7,7 +7,10 @@ path="res://.import/floater_001.png-cfab3150f34bf8ab044447be9977c11d.stex"
 [deps]
 
 source_file="res://Raw Graphics/Floaters/floater_001.png"
+source_md5="28bc99bdf4e34149aebd330b220059ec"
+
 dest_files=[ "res://.import/floater_001.png-cfab3150f34bf8ab044447be9977c11d.stex" ]
+dest_md5="c20e9300bdc7404a76d21ed183c55803"
 
 [params]
 

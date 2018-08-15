@@ -51,13 +51,13 @@ func resetPos():
 	#print("test")
 	#print(startPosition)
 	#print(startPosition.get_global_pos())
-	self.set_global_pos(startPosition.get_global_pos())
-	self.get_node("KinematicBody2D").set_global_pos(startPosition.get_global_pos())
+	self.global_position = startPosition.global_position
+	self.get_node("KinematicBody2D").global_position = startPosition.global_position
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):
 	print(rotate)
-	self.set_rot(rotate + 3.14)
+	self.set_rotation(rotate + 3.14)
 	vector = turretVector
 
 func setSprite(color):

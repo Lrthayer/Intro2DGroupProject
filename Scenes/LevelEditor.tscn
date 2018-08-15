@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=2]
@@ -10,23 +10,22 @@
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_005.png" type="Texture" id=8]
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=9]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" id=10]
-[ext_resource path="res://Scenes/Defender.gd" type="Script" id=11]
-[ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=12]
-[ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=13]
-[ext_resource path="res://main.gd" type="Script" id=14]
-[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=15]
-[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=16]
-[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=17]
-[ext_resource path="res://Mover.tex" type="Texture" id=18]
-[ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=19]
-[ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=20]
-[ext_resource path="res://turret001.tex" type="Texture" id=21]
-[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=22]
-[ext_resource path="res://MoverArea.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=26]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=27]
+[ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=11]
+[ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=12]
+[ext_resource path="res://main.gd" type="Script" id=13]
+[ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=14]
+[ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=15]
+[ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=16]
+[ext_resource path="res://Mover.tex" type="Texture" id=17]
+[ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=18]
+[ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=19]
+[ext_resource path="res://turret001.tex" type="Texture" id=20]
+[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=21]
+[ext_resource path="res://MoverArea.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=26]
 
 [sub_resource type="GDScript" id=1]
 
@@ -40,7 +39,7 @@ func _ready():
 	
 func _process(delta):
 	if followMouse:
-		self.set_global_pos(Vector2(get_global_mouse_pos().x - self.get_size().x/2, get_global_mouse_pos().y - self.get_size().y/2))
+		self.rect_global_position = (Vector2(get_global_mouse_position().x - self.get_size().x/2, get_global_mouse_position().y - self.get_size().y/2))
 		update()
 "
 
@@ -118,7 +117,7 @@ func _process(delta):
 				
 				
 		if clicked:
-			self.set_global_pos(get_global_mouse_pos())
+			self.transform(get_global_mouse_position())
 			#fixes spawning a new object while moving this object
 			if !get_parent().overButton:
 				get_parent().overButton = true
@@ -135,15 +134,8 @@ func _on_AttackerArea_mouse_exit():
 
 script/source = "extends Sprite
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	pass
-
 
 func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)
@@ -163,18 +155,12 @@ extents = Vector2( 12.4719, 10 )
 
 script/source = "extends Area2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 
 var clicked = false
 var toggled = 0
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	pass
-
 
 func _input_event( viewport, event, shape_idx ):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -195,14 +181,11 @@ func _input_event( viewport, event, shape_idx ):
 script/source = "extends Sprite
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
-	print(get_parent())
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
+		self.global_position = get_global_mouse_position()
 
 "
 
@@ -215,34 +198,23 @@ extents = Vector2( 10.6611, 10 )
 
 script/source = "extends CollisionShape2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
 	
 func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())"
+	self.global_position = get_parent().get_child(0).global_position"
 
 [sub_resource type="GDScript" id=10]
 
 script/source = "extends Area2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 
 var clicked = false
 var toggled = 0
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	pass
-
 
 func _input_event( viewport, event, shape_idx ):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -271,7 +243,7 @@ func _ready():
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
+		self.global_position = get_global_mouse_position()
 
 "
 
@@ -279,18 +251,12 @@ func _process(delta):
 
 script/source = "extends CollisionShape2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
 	
 func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())
-"
+	self.global_position = get_parent().get_child(0).global_position"
 
 [sub_resource type="GDScript" id=13]
 
@@ -305,7 +271,7 @@ func _ready():
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
+		self.global_position = get_global_mouse_position()
 
 "
 
@@ -318,7 +284,7 @@ func _ready():
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())"
+		self.global_position = get_global_mouse_position()"
 
 [sub_resource type="RectangleShape2D" id=15]
 
@@ -360,12 +326,12 @@ extents = Vector2( 149.373, 225.538 )
 
 script/source = "extends Area2D
 
+
 var hovering = false
 var clicked = false
 var locked = false
 var toggled = 0
 var lockToggle = 0
-
 
 func _ready():
 	set_process(true)
@@ -407,7 +373,7 @@ func _process(delta):
 			toggled = 0
 				
 		if clicked:
-			self.set_global_pos(get_global_mouse_pos())
+			self.global_position = get_global_mouse_position()
 			#fixes spawning a new object while moving this object
 			if !get_parent().overButton:
 				get_parent().overButton = true
@@ -416,8 +382,7 @@ func _on_DefenderArea2D_mouse_enter():
 	hovering = true
 
 func _on_DefenderArea2D_mouse_exit():
-	hovering = false
-"
+	hovering = false"
 
 [sub_resource type="GDScript" id=21]
 
@@ -446,17 +411,17 @@ func movement(speedX, speedY):
 	
 	#checks right boundary for Defender
 	if get_global_pos().x > right_boundary:
-		set_global_pos(Vector2(right_boundary, get_global_pos().y))
+		self.global_position = Vector2(right_boundary, self.global_position.y)
 	
 	#checks left boundary for Defender
-	if get_global_pos().x < left_boundary:
-		set_global_pos(Vector2(left_boundary,get_global_pos().y))
+	if self.global_position.x < left_boundary:
+		self.global_position = Vector2(left_boundary,self.global_position.y)
 	
-	if get_global_pos().y > bottom_boundary:
-		set_global_pos(Vector2(get_global_pos().x, bottom_boundary))
+	if self.global_position.y > bottom_boundary:
+		self.global_position = Vector2(self.global_position.x, bottom_boundary)
 	
-	if get_global_pos().y < top_boundary:
-		set_global_pos(Vector2(get_global_pos().x, top_boundary))
+	if self.global_position.y < top_boundary:
+		self.global_position = Vector2(self.global_position.x, top_boundary)
 
 	current_speed.x = speedX
 	current_speed.y = speedY
@@ -473,14 +438,14 @@ func _ready():
 
 func _physics_process(delta):
 	
-	right_boundary = get_parent().get_child(3).get_child(0).get_global_pos().x - 42
-	left_boundary = get_parent().get_child(4).get_child(0).get_global_pos().x + 42
-	top_boundary = get_parent().get_child(1).get_child(0).get_global_pos().y + 42
-	bottom_boundary = get_parent().get_child(2).get_child(0).get_global_pos().y - 42
+	right_boundary = get_parent().get_child(3).get_child(0).global_position.x - 42
+	left_boundary = get_parent().get_child(4).get_child(0).global_position.x + 42
+	top_boundary = get_parent().get_child(1).get_child(0).global_position.y + 42
+	bottom_boundary = get_parent().get_child(2).get_child(0).global_position.y - 42
 	
 	#rotate to protect bomber
-	diff = attacker.get_global_pos() - self.get_global_pos()
-	self.set_rot(atan2(-diff.y,diff.x) - 3.14/2)
+	diff = attacker.global_position - self.global_position
+	self.rotation = (atan2(-diff.y,diff.x) - 3.14/2)
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == \"player1\"):
@@ -532,28 +497,17 @@ func collided(dmg=0):
 		else:
 			GLOBALS.g_player2_defender_score += 100
 			defendingScoreLimit += 100
-	
 
 #Defender is stunned by laser
 func stunned():
-	isStunned = true
-	
-
-"
+	isStunned = true"
 
 [sub_resource type="GDScript" id=22]
 
 script/source = "extends Sprite
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	pass
-
 
 func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)
@@ -605,19 +559,15 @@ func _input_event( viewport, event, shape_idx ):
 
 script/source = "extends Sprite
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
+
 var clickable = false
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
+		self.global_position = self.get_global_mouse_position()
 
 "
 
@@ -630,79 +580,53 @@ extents = Vector2( 2179.45, 11.1956 )
 
 script/source = "extends CollisionShape2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 
 func _ready():
-	# Called every time the node is added to the scene.
 	set_process(true)
 	
 func _process(delta):
-	self.set_global_pos(get_parent().get_child(0).get_global_pos())
+	self.global_position = get_parent().get_child(0).global_position
 "
 
 [sub_resource type="GDScript" id=29]
 
 script/source = "extends Sprite
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
+
 var clickable = false
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-
-"
+		self.global_position = self.get_global_mouse_position()"
 
 [sub_resource type="GDScript" id=30]
 
 script/source = "extends Sprite
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 var clickable = false
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-
-"
+		self.global_position = self.get_global_mouse_position()"
 
 [sub_resource type="GDScript" id=31]
 
 script/source = "extends Sprite
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
 var clickable = false
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_process(true)
 	
 func _process(delta):
 	if get_parent().clicked:
-		self.set_global_pos(get_global_mouse_pos())
-
-"
+		self.global_position = self.get_global_mouse_position()"
 
 [sub_resource type="RectangleShape2D" id=32]
 
@@ -729,14 +653,14 @@ func _process(delta):
 		move(10,0)
 		
 	#check if camera has moved passed scroll current limit
-	if get_child(0).get_child(0).get_max() < get_global_pos().x:
-		get_child(0).get_child(0).set_max(get_global_pos().x)
-	if get_child(1).get_child(0).get_max() < get_global_pos().y:
-		get_child(1).get_child(0).set_max(get_global_pos().y)
-	if get_child(0).get_child(0).get_min() > get_global_pos().x:
-		get_child(0).get_child(0).set_min(get_global_pos().x)
-	if get_child(1).get_child(0).get_min() > get_global_pos().y:
-		get_child(1).get_child(0).set_min(get_global_pos().y)
+	if get_child(0).get_child(0).get_max() < global_position.x:
+		get_child(0).get_child(0).set_max(global_position.x)
+	if get_child(1).get_child(0).get_max() < global_position.y:
+		get_child(1).get_child(0).set_max(global_position.y)
+	if get_child(0).get_child(0).get_min() > global_position.x:
+		get_child(0).get_child(0).set_min(global_position.x)
+	if get_child(1).get_child(0).get_min() > global_position.y:
+		get_child(1).get_child(0).set_min(global_position.y)
 
 func _input(event):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -746,20 +670,20 @@ func _input(event):
 			setZoom(.1)
 
 func move(x, y):
-	self.set_global_pos(Vector2(self.get_global_pos().x + x,self.get_global_pos().y + y))
+	self.global_position = Vector2(self.global_position.x + x,self.global_position.y + y)
 	#move cursors
-	get_child(0).get_child(0).set_value(self.get_global_pos().x + x)
-	get_child(1).get_child(0).set_value(self.get_global_pos().y + y)
+	get_child(0).get_child(0).set_value(self.global_position.x + x)
+	get_child(1).get_child(0).set_value(self.global_position.y + y)
 
 func setZoom(scale):
 	self.set_scale(Vector2(self.get_scale().x + scale, self.get_scale().y + scale))
 	set_zoom(Vector2(self.get_zoom().x + scale, self.get_zoom().y + scale))
 
 func _on_HScrollBar_value_changed( value ):
-	pass#self.set_global_pos(Vector2(value,self.get_global_pos().y))
+	pass#self.set_global_pos(Vector2(value,self.global_position.y))
 
 func _on_VScrollBar_value_changed( value ):
-	pass#self.set_global_pos(Vector2(self.get_global_pos().x, value))
+	pass#self.set_global_pos(Vector2(self.global_position.x, value))
 "
 
 [sub_resource type="GDScript" id=34]
@@ -823,13 +747,13 @@ extents = Vector2( 13.6842, 518.641 )
 
 script/source = "extends Button
 
+
 func _ready():
 	set_process(true)
-	
 
 #called every frame
 func _process(delta):
-	var currentPos = self.get_pos()
+	var currentPos = self.rect_global_position
 	if Input.is_action_pressed(\"left\"):
 		self.set_pos(Vector2(currentPos.x + 15, currentPos.y))
 	elif Input.is_action_pressed(\"right\"):
@@ -839,43 +763,23 @@ func _process(delta):
 
 script/source = "extends CheckButton
 
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
 
 func _on_PlacingButton_pressed():
 	#when this is pressed set other states off
 	self.set_pressed(true)
 	self.get_parent().get_node(\"EditingButton\").set_pressed(false)
-	self.get_parent().get_parent().get_parent().get_parent().editorState = \"placing\"
-"
+	self.get_parent().get_parent().get_parent().get_parent().editorState = \"placing\""
 
 [sub_resource type="GDScript" id=40]
 
 script/source = "extends CheckButton
-
-# class member variables go here, for example:
-# var a = 2
-# var b = \"textvar\"
-
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
 
 
 func _on_EditingButton_pressed():
 	#when this is pressed set other states off
 	self.set_pressed(true)
 	self.get_parent().get_node(\"PlacingButton\").set_pressed(false)
-	self.get_parent().get_parent().get_parent().get_parent().editorState = \"editing\"
-"
+	self.get_parent().get_parent().get_parent().get_parent().editorState = \"editing\""
 
 [sub_resource type="RectangleShape2D" id=41]
 
@@ -890,6 +794,7 @@ render_priority = 0
 
 script/source = "extends Sprite
 
+
 var followMouse = true
 
 func _ready():
@@ -897,15 +802,14 @@ func _ready():
 
 func _process(delta):
 	if followMouse:
-		self.set_global_pos(Vector2(get_global_mouse_pos().x - self.get_scale().x/2, get_global_mouse_pos().y - self.get_scale().y/2))
-		self.set_z(10)
+		self.global_position = Vector2(get_global_mouse_position().x - self.get_scale().x/2, get_global_mouse_position().y - self.get_scale().y/2)
+		self.z_index = 10
 
 func _on_Hide_mouse_enter():
 	self.set_hidden(true)
 
 func _on_unHide_mouse_exit():
-	self.set_hidden(false)
-"
+	self.set_hidden(false)"
 
 [node name="Node2D" type="Node2D" index="0"]
 
@@ -925,7 +829,6 @@ margin_top = -844.0
 margin_right = 6.0
 margin_bottom = -824.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -981,7 +884,6 @@ margin_right = 72.0
 margin_bottom = 34.0
 rect_scale = Vector2( 0.5, 0.5 )
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1015,13 +917,12 @@ script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/KinematicBody2D/StaticBody2D1" index="0"]
 
-position = Vector2( 7.52608e-006, -0.299716 )
+position = Vector2( 7.52608e-06, -0.299716 )
 scale = Vector2( 2.54709, 3.16364 )
 shape = SubResource( 5 )
 
 [node name="Area2D" type="Area2D" parent="AttackerArea/Attacker" index="1"]
 
-editor/display_folded = true
 position = Vector2( 310.971, -139.5 )
 scale = Vector2( 1.60938, 231 )
 input_pickable = true
@@ -1049,7 +950,6 @@ script = SubResource( 9 )
 
 [node name="Area2D1" type="Area2D" parent="AttackerArea/Attacker" index="2"]
 
-editor/display_folded = true
 position = Vector2( 310.971, -139.5 )
 scale = Vector2( 1.60938, 231 )
 input_pickable = true
@@ -1077,7 +977,6 @@ script = SubResource( 12 )
 
 [node name="Area2D2" type="Area2D" parent="AttackerArea/Attacker" index="3"]
 
-editor/display_folded = true
 position = Vector2( 310.971, -139.5 )
 scale = Vector2( 1.60938, 231 )
 input_pickable = true
@@ -1105,7 +1004,6 @@ script = SubResource( 12 )
 
 [node name="Area2D3" type="Area2D" parent="AttackerArea/Attacker" index="4"]
 
-editor/display_folded = true
 position = Vector2( 310.971, -139.5 )
 scale = Vector2( 1.60938, 231 )
 input_pickable = true
@@ -1157,7 +1055,6 @@ margin_top = 49.0
 margin_right = 190.0
 margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1173,7 +1070,6 @@ anchor_bottom = 0.0
 margin_right = 108.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1189,7 +1085,6 @@ anchor_bottom = 0.0
 margin_right = 30.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -1214,7 +1109,6 @@ margin_left = 34.0
 margin_right = 108.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1240,7 +1134,6 @@ margin_top = 28.0
 margin_right = 142.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1256,7 +1149,6 @@ anchor_bottom = 0.0
 margin_right = 64.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -1281,7 +1173,6 @@ margin_left = 68.0
 margin_right = 142.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1307,7 +1198,6 @@ margin_top = 56.0
 margin_right = 142.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1323,7 +1213,6 @@ anchor_bottom = 0.0
 margin_right = 64.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -1348,7 +1237,6 @@ margin_left = 68.0
 margin_right = 142.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1374,7 +1262,6 @@ margin_top = 84.0
 margin_right = 129.0
 margin_bottom = 108.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1390,7 +1277,6 @@ anchor_bottom = 0.0
 margin_right = 51.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -1415,7 +1301,6 @@ margin_left = 55.0
 margin_right = 129.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1442,7 +1327,6 @@ margin_top = 50.0
 margin_right = 346.0
 margin_bottom = 102.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1458,7 +1342,6 @@ anchor_bottom = 0.0
 margin_right = 132.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1474,7 +1357,6 @@ anchor_bottom = 0.0
 margin_right = 54.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -1499,7 +1381,6 @@ margin_left = 58.0
 margin_right = 132.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1525,7 +1406,6 @@ margin_top = 28.0
 margin_right = 128.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1541,7 +1421,6 @@ anchor_bottom = 0.0
 margin_right = 50.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -1566,7 +1445,6 @@ margin_left = 54.0
 margin_right = 128.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1592,7 +1470,6 @@ margin_top = 56.0
 margin_right = 12.0
 margin_bottom = 76.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -1619,7 +1496,6 @@ margin_top = 53.0
 margin_right = 446.0
 margin_bottom = 93.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1635,7 +1511,6 @@ anchor_bottom = 0.0
 margin_right = 150.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1651,7 +1526,6 @@ anchor_bottom = 0.0
 margin_right = 72.0
 margin_bottom = 14.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1671,7 +1545,6 @@ margin_left = 76.0
 margin_right = 150.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1697,7 +1570,6 @@ margin_top = 28.0
 margin_right = 153.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1713,7 +1585,6 @@ anchor_bottom = 0.0
 margin_right = 75.0
 margin_bottom = 14.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1733,7 +1604,6 @@ margin_left = 79.0
 margin_right = 153.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1759,7 +1629,6 @@ margin_top = 56.0
 margin_right = 149.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1775,7 +1644,6 @@ anchor_bottom = 0.0
 margin_right = 71.0
 margin_bottom = 14.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1795,7 +1663,6 @@ margin_left = 75.0
 margin_right = 149.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1866,7 +1733,6 @@ margin_top = 4.0
 margin_right = 4.0
 margin_bottom = 4.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1896,8 +1762,6 @@ script = SubResource( 20 )
 
 [node name="Defender" type="Node2D" parent="DefenderArea" index="0"]
 
-script = ExtResource( 11 )
-
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender" index="0"]
 
 position = Vector2( -0.00369018, 7.00465 )
@@ -1912,7 +1776,7 @@ script = SubResource( 21 )
 
 position = Vector2( 0.00219125, -5.74672 )
 scale = Vector2( 0.593804, 0.820415 )
-texture = ExtResource( 12 )
+texture = ExtResource( 11 )
 script = SubResource( 22 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/KinematicBody2D" index="1"]
@@ -1925,7 +1789,7 @@ shape = SubResource( 23 )
 
 position = Vector2( 0.00219124, 18.8657 )
 scale = Vector2( 0.593804, 0.820415 )
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="DefenderArea/Defender/KinematicBody2D" index="3"]
 
@@ -1948,7 +1812,6 @@ shape = SubResource( 24 )
 
 [node name="Area2D" type="Area2D" parent="DefenderArea/Defender" index="1"]
 
-editor/display_folded = true
 position = Vector2( 3.6778, -235.471 )
 scale = Vector2( 1.7382, 0.809096 )
 input_pickable = true
@@ -1976,7 +1839,6 @@ script = SubResource( 28 )
 
 [node name="Area2D 2" type="Area2D" parent="DefenderArea/Defender" index="2"]
 
-editor/display_folded = true
 position = Vector2( 3.6778, -235.471 )
 scale = Vector2( 1.7382, 0.809096 )
 input_pickable = true
@@ -2004,7 +1866,6 @@ script = SubResource( 28 )
 
 [node name="Area2D3" type="Area2D" parent="DefenderArea/Defender" index="3"]
 
-editor/display_folded = true
 position = Vector2( 3.6778, -235.471 )
 scale = Vector2( 1.7382, 0.809096 )
 input_pickable = true
@@ -2032,7 +1893,6 @@ script = SubResource( 28 )
 
 [node name="Area2D4" type="Area2D" parent="DefenderArea/Defender" index="4"]
 
-editor/display_folded = true
 position = Vector2( 3.6778, -235.471 )
 scale = Vector2( 1.7382, 0.809096 )
 input_pickable = true
@@ -2085,7 +1945,6 @@ margin_top = 49.0
 margin_right = 190.0
 margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2101,7 +1960,6 @@ anchor_bottom = 0.0
 margin_right = 142.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2117,7 +1975,6 @@ anchor_bottom = 0.0
 margin_right = 64.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -2142,7 +1999,6 @@ margin_left = 68.0
 margin_right = 142.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2168,7 +2024,6 @@ margin_top = 57.0
 margin_right = 129.0
 margin_bottom = 81.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2184,7 +2039,6 @@ anchor_bottom = 0.0
 margin_right = 51.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -2209,7 +2063,6 @@ margin_left = 55.0
 margin_right = 129.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2236,7 +2089,6 @@ margin_top = 50.0
 margin_right = 410.0
 margin_bottom = 126.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2252,7 +2104,6 @@ anchor_bottom = 0.0
 margin_right = 12.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2270,7 +2121,6 @@ script = SubResource( 16 )
 
 [node name="HeightHBox" type="HBoxContainer" parent="DefenderArea/DefenderMenu/VisualVBox" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2279,7 +2129,6 @@ margin_top = 24.0
 margin_right = 132.0
 margin_bottom = 48.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2295,7 +2144,6 @@ anchor_bottom = 0.0
 margin_right = 54.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -2320,7 +2168,6 @@ margin_left = 58.0
 margin_right = 132.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2338,7 +2185,6 @@ suffix = ""
 
 [node name="WidthHBox" type="HBoxContainer" parent="DefenderArea/DefenderMenu/VisualVBox" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2347,7 +2193,6 @@ margin_top = 52.0
 margin_right = 128.0
 margin_bottom = 76.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2363,7 +2208,6 @@ anchor_bottom = 0.0
 margin_right = 50.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -2388,7 +2232,6 @@ margin_left = 54.0
 margin_right = 128.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2433,7 +2276,6 @@ margin_top = 4.0
 margin_right = 4.0
 margin_bottom = 4.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2450,6 +2292,7 @@ shape = SubResource( 19 )
 
 [node name="Camera2D" type="Camera2D" parent="." index="3"]
 
+editor/display_folded = true
 position = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2477,7 +2320,6 @@ script = SubResource( 33 )
 
 [node name="HBarArea2D" type="Area2D" parent="Camera2D" index="0"]
 
-editor/display_folded = true
 position = Vector2( -511, 284 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2498,7 +2340,6 @@ margin_top = -3.0
 margin_right = 1015.0
 margin_bottom = 16.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2521,7 +2362,6 @@ shape = SubResource( 36 )
 
 [node name="VBarArea2D" type="Area2D" parent="Camera2D" index="1"]
 
-editor/display_folded = true
 position = Vector2( -0.695892, -0.927856 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2543,7 +2383,6 @@ margin_right = -477.0
 margin_bottom = 859.0
 rect_rotation = 180.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
@@ -2574,7 +2413,6 @@ margin_top = -202.0
 margin_right = 507.0
 margin_bottom = -154.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2599,7 +2437,6 @@ margin_top = -203.0
 margin_right = 383.0
 margin_bottom = -155.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2624,12 +2461,11 @@ margin_top = -149.0
 margin_right = -296.0
 margin_bottom = 149.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-script = ExtResource( 14 )
+script = ExtResource( 13 )
 dropdown_path = NodePath("dropdown")
 
 [node name="dropdown" type="OptionButton" parent="Camera2D/playlist" index="0"]
@@ -2643,7 +2479,6 @@ margin_top = -1.0
 margin_right = 211.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2657,8 +2492,8 @@ group = null
 flat = false
 clip_text = true
 align = 0
-items = [  ]
 selected = -1
+items = [  ]
 
 [node name="Button" type="Button" parent="Camera2D" index="5"]
 
@@ -2671,7 +2506,6 @@ margin_top = 133.0
 margin_right = 323.0
 margin_bottom = 267.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2682,7 +2516,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Base 1"
-icon = ExtResource( 15 )
+icon = ExtResource( 14 )
 flat = false
 align = 1
 script = SubResource( 38 )
@@ -2698,7 +2532,6 @@ margin_top = 131.0
 margin_right = 722.0
 margin_bottom = 265.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2709,7 +2542,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Base 2"
-icon = ExtResource( 16 )
+icon = ExtResource( 15 )
 flat = false
 align = 1
 script = SubResource( 38 )
@@ -2725,7 +2558,6 @@ margin_top = 131.0
 margin_right = 1186.0
 margin_bottom = 265.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2736,7 +2568,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Base 3"
-icon = ExtResource( 17 )
+icon = ExtResource( 16 )
 flat = false
 align = 1
 script = SubResource( 38 )
@@ -2752,7 +2584,6 @@ margin_top = 131.0
 margin_right = -117.0
 margin_bottom = 194.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2763,7 +2594,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Mover"
-icon = ExtResource( 18 )
+icon = ExtResource( 17 )
 flat = false
 align = 1
 script = SubResource( 38 )
@@ -2779,7 +2610,6 @@ margin_top = 131.0
 margin_right = -237.0
 margin_bottom = 189.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2790,7 +2620,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Bomber"
-icon = ExtResource( 19 )
+icon = ExtResource( 18 )
 flat = false
 align = 1
 script = SubResource( 38 )
@@ -2806,7 +2636,6 @@ margin_top = 131.0
 margin_right = -365.0
 margin_bottom = 193.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2817,7 +2646,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Defender"
-icon = ExtResource( 20 )
+icon = ExtResource( 19 )
 flat = false
 align = 1
 script = SubResource( 38 )
@@ -2833,7 +2662,6 @@ margin_top = 131.0
 margin_right = 4.0
 margin_bottom = 209.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2844,14 +2672,13 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Turrent"
-icon = ExtResource( 21 )
+icon = ExtResource( 20 )
 flat = false
 align = 1
 script = SubResource( 38 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D" index="12"]
 
-editor/display_folded = true
 position = Vector2( 381.74, -250.831 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2872,7 +2699,6 @@ margin_top = -34.4048
 margin_right = 125.715
 margin_bottom = 35.5952
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -2888,7 +2714,6 @@ anchor_bottom = 0.0
 margin_right = 125.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2913,7 +2738,6 @@ margin_left = 129.0
 margin_right = 252.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -2933,28 +2757,23 @@ script = SubResource( 40 )
 position = Vector2( 2.16141, 0 )
 shape = SubResource( 41 )
 
-[node name="TurretArea" parent="." index="4" instance=ExtResource( 22 )]
+[node name="TurretArea" parent="." index="4" instance=ExtResource( 21 )]
+
+[node name="MoverArea" parent="." index="5" instance=ExtResource( 22 )]
+
+[node name="Base22D" parent="." index="6" instance=ExtResource( 23 )]
 
 audio_bus_override = false
 audio_bus_name = "Master"
 
-[node name="MoverArea" parent="." index="5" instance=ExtResource( 23 )]
+[node name="Base12D" parent="." index="7" instance=ExtResource( 24 )]
 
 audio_bus_override = false
 audio_bus_name = "Master"
 
-[node name="Base22D" parent="." index="6" instance=ExtResource( 24 )]
+[node name="Base32D" parent="." index="8" instance=ExtResource( 25 )]
 
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="Base12D" parent="." index="7" instance=ExtResource( 25 )]
-
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="Base32D" parent="." index="8" instance=ExtResource( 26 )]
-
+position = Vector2( 1908.29, -398.365 )
 audio_bus_override = false
 audio_bus_name = "Master"
 
@@ -2963,7 +2782,7 @@ audio_bus_name = "Master"
 material = SubResource( 42 )
 position = Vector2( -6.24886, -834.233 )
 scale = Vector2( 0.978113, 0.875503 )
-texture = ExtResource( 27 )
+texture = ExtResource( 26 )
 script = SubResource( 43 )
 
 [node name="TurrentList" type="Sprite" parent="." index="10"]
@@ -3016,9 +2835,9 @@ script = SubResource( 43 )
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="AttackerArea/Attacker" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 [connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -3046,9 +2865,9 @@ script = SubResource( 43 )
 
 [connection signal="pressed" from="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" to="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 [connection signal="mouse_entered" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
@@ -3056,9 +2875,9 @@ script = SubResource( 43 )
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
+
+[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 

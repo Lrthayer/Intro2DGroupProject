@@ -7,7 +7,10 @@ path="res://.import/laser_001.png-fd200f5938495b0d0edeec529f1736cf.stex"
 [deps]
 
 source_file="res://Raw Graphics/Projectiles/laser_001.png"
+source_md5="0533a0e46e9bca6aa4bd027853162c0d"
+
 dest_files=[ "res://.import/laser_001.png-fd200f5938495b0d0edeec529f1736cf.stex" ]
+dest_md5="7f8b189500eaff4efea133a9f196e692"
 
 [params]
 

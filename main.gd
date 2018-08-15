@@ -21,8 +21,6 @@ func save_item(image):
 	texture.create_from_image(image)
 	texture.set_size_override(Vector2(215,190))
 	dropdown.add_icon_item(texture,"",7)
-		
-	#dropdown.add_icon_item(load("res://icon.png"),"",7)
 
 # Select Item
 func select_item(id):

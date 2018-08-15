@@ -7,7 +7,10 @@ path="res://.import/scene_proto.png-759ea80eb2867fb0ad8aa27c7dc69d02.stex"
 [deps]
 
 source_file="res://Planning/scene_proto.png"
+source_md5="f5ee191f6f5c9e3d972540c79cf5f965"
+
 dest_files=[ "res://.import/scene_proto.png-759ea80eb2867fb0ad8aa27c7dc69d02.stex" ]
+dest_md5="84609939cb8ba6ddeff4f085277728b4"
 
 [params]
 

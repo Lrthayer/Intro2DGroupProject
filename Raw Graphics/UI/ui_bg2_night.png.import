@@ -7,7 +7,10 @@ path="res://.import/ui_bg2_night.png-83b4fb825acdfb8c793637f8eba021b5.stex"
 [deps]
 
 source_file="res://Raw Graphics/UI/ui_bg2_night.png"
+source_md5="1436421a7aa0d7bdbc6416432229f775"
+
 dest_files=[ "res://.import/ui_bg2_night.png-83b4fb825acdfb8c793637f8eba021b5.stex" ]
+dest_md5="042521809a0dec7ee9d2f55a30cc2d22"
 
 [params]
 

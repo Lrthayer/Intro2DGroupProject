@@ -7,7 +7,10 @@ path="res://.import/ui_bg2.png-add3ac63f91316cc54472f7c382b3dbc.stex"
 [deps]
 
 source_file="res://Raw Graphics/UI/ui_bg2.png"
+source_md5="7a95d18320ba590f7ba23e2182b9e6f4"
+
 dest_files=[ "res://.import/ui_bg2.png-add3ac63f91316cc54472f7c382b3dbc.stex" ]
+dest_md5="afa2fe0eca9470f60d4a111bf20126a5"
 
 [params]
 

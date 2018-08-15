@@ -7,7 +7,10 @@ path="res://.import/floater_001.png-77b1eb49da17d79974f86a165db96066.stex"
 [deps]
 
 source_file="res://Graphics/Floaters/floater_001.png"
+source_md5="28bc99bdf4e34149aebd330b220059ec"
+
 dest_files=[ "res://.import/floater_001.png-77b1eb49da17d79974f86a165db96066.stex" ]
+dest_md5="c20e9300bdc7404a76d21ed183c55803"
 
 [params]
 

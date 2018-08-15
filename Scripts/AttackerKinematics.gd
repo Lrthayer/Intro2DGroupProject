@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+
 # class member variables
 var btn_right = false
 var btn_left = false
@@ -25,18 +26,18 @@ func movement(speedX, speedY):
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#check right side boundary for Attacker
-	if get_global_transform().x > right_boundary:
-		set_global_pos(Vector2(right_boundary,self.get_global_transform().y))
+	if self.global_position.x > right_boundary:
+		self.global_position = Vector2(right_boundary,self.global_position.y)
 
 	#check left side boundary for Attacker
-	if get_global_transform().x < left_boundary:
-		set_global_pos(Vector2(left_boundary,self.get_global_transform().y))
+	if self.global_position.x < left_boundary:
+		self.global_position = Vector2(left_boundary,self.global_position.y)
 	
-	if get_global_transform().y > bottom_boundary:
-		set_global_pos(Vector2(self.get_global_transform().x, bottom_boundary))
+	if self.global_position.y > bottom_boundary:
+		self.global_position = Vector2(self.global_position.x, bottom_boundary)
 		
-	if get_global_transform().y < top_boundary:
-		set_global_pos(Vector2(self.get_global_transform().x, top_boundary))
+	if self.global_position.y < top_boundary:
+		self.global_position = Vector2(self.global_position.x, top_boundary)
 	#move the Attacker
 	move(current_speed)
 
@@ -44,7 +45,7 @@ func movement(speedX, speedY):
 func _ready():
 	
 	get_node("hp_bar").set_max(hp)
-	shipPositionY = self.get_global_transform().y
+	shipPositionY = self.global_position.y
 	_fixed_process(true)
 
 	if (GLOBALS.g_current_attacker == "player1"):
@@ -55,10 +56,10 @@ func _ready():
 #called every frame 
 func _fixed_process(delta):
 	
-	right_boundary = get_parent().get_child(3).get_child(0).get_global_transform().x.x - 36
-	left_boundary = get_parent().get_child(4).get_child(0).get_global_transform().x.x + 36
-	top_boundary = get_parent().get_child(1).get_child(0).get_global_transform().y.y + 30
-	bottom_boundary = get_parent().get_child(2).get_child(0).get_global_transform().y.y - 30
+	right_boundary = get_parent().get_child(3).get_child(0).global_position.x - 36
+	left_boundary = get_parent().get_child(4).get_child(0).global_position.x + 36
+	top_boundary = get_parent().get_child(1).get_child(0).global_position.y + 30
+	bottom_boundary = get_parent().get_child(2).get_child(0).global_position.y - 30
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):

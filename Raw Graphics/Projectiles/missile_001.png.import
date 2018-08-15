@@ -7,7 +7,10 @@ path="res://.import/missile_001.png-f1fdb3cc130ae4d1f1db4b259d3c5b56.stex"
 [deps]
 
 source_file="res://Raw Graphics/Projectiles/missile_001.png"
+source_md5="e5a83fea0963fcef6c48325195f8bd62"
+
 dest_files=[ "res://.import/missile_001.png-f1fdb3cc130ae4d1f1db4b259d3c5b56.stex" ]
+dest_md5="b70384b7d6b55a4a48800347edf3f3ca"
 
 [params]
 

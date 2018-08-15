@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/Collided.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=2]
@@ -7,14 +7,11 @@
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=5]
 [ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=6]
 
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 22.1984, 35.424 )
-
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends Area2D
+
+
 var hovering = false
 var clicked = false
 var locked = false
@@ -69,7 +66,7 @@ func _process(delta):
 			toggled = 0
 				
 		if clicked:
-			self.set_global_pos(get_global_mouse_pos())
+			self.global_position = self.get_global_mouse_position()
 			#fixes spawning a new object while moving this object
 			if !get_node(\"/root/Node2D\").overButton:
 				get_node(\"/root/Node2D\").overButton = true
@@ -118,13 +115,14 @@ func _on_fireratedelta_value_changed( value ):
 func _on_height_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))"
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 
-shader/shading_mode = 0
+render_priority = 0
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 
 script/source = "extends Node2D
+
 
 # class member variables go here
 #var laserObject = preload(\"res://Scenes/enemyLaser.tscn\")
@@ -154,11 +152,11 @@ func _ready():
 #called every frame
 func _process(delta):
 	
-	theirPos = target.get_global_pos()
-	myPos = self.get_global_pos()
+	theirPos = target.global_position
+	myPos = self.global_position
 	diff = theirPos - myPos
 	rotate = atan2(-diff.y,diff.x) - 3.14/2
-	self.set_rot(rotate)
+	self.set_rotation(rotate)
 	vector = (theirPos - myPos).normalized()
 	self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta/100)
 	#tick = tick - self.get_parent().fireRateDelta
@@ -197,24 +195,25 @@ func _on_ProjWidthSpinBox_value_changed( value ):
 	laserWidth = value
 "
 
+[sub_resource type="GDScript" id=4]
+
+script/source = "extends Sprite
+
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_modulate(color)"
+
 [sub_resource type="RectangleShape2D" id=5]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="GDScript" id=6]
-
-script/source = "extends Sprite
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_modulate(color)"
-
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
-extents = Vector2( 16.9967, 6.85448 )
+extents = Vector2( 22.1984, 35.424 )
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=7]
 
 script/source = "extends ColorPickerButton
 
@@ -230,10 +229,15 @@ func _on_ColorPicker_pressed():
 		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
 "
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=8]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
+
+[sub_resource type="RectangleShape2D" id=9]
+
+custom_solver_bias = 0.0
+extents = Vector2( 16.9967, 6.85448 )
 
 [sub_resource type="RectangleShape2D" id=10]
 
@@ -244,28 +248,23 @@ extents = Vector2( 149.373, 225.538 )
 
 position = Vector2( 1083.55, -140.779 )
 input_pickable = true
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script = SubResource( 2 )
+audio_bus_override = false
+audio_bus_name = "Master"
+script = SubResource( 1 )
 
-[node name="Turret" type="Node2D" parent="."]
+[node name="Turret" type="Node2D" parent="." index="0"]
 
-editor/display_folded = true
 light_mask = 3
-material = SubResource( 3 )
-script = SubResource( 4 )
+material = SubResource( 2 )
+script = SubResource( 3 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Turret"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Turret" index="0"]
 
 input_pickable = false
-shapes/0/shape = SubResource( 5 )
-shapes/0/transform = Transform2D( 2.06324, 0, 0, 3.63881, 0.45375, 0.313156 )
-shapes/0/trigger = false
 collision_layer = 8
 collision_mask = 0
 constant_linear_velocity = Vector2( 0, 0 )
@@ -274,30 +273,33 @@ friction = 1.0
 bounce = 0.0
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="Turret/StaticBody2D"]
+[node name="Sprite" type="Sprite" parent="Turret/StaticBody2D" index="0"]
 
 position = Vector2( 1.10815, 0 )
 texture = ExtResource( 2 )
-script = SubResource( 6 )
+script = SubResource( 4 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Turret/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Turret/StaticBody2D" index="1"]
 
 position = Vector2( 0.45375, 0.313156 )
 scale = Vector2( 2.06324, 3.63881 )
 shape = SubResource( 5 )
-trigger = false
-_update_shape_index = 0
 
-[node name="Hp" type="TextureProgress" parent="Turret/StaticBody2D"]
+[node name="Hp" type="TextureProgress" parent="Turret/StaticBody2D" index="2"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = -48.0
 margin_top = 41.0
 margin_right = 48.0
 margin_bottom = 49.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 3.0
 step = 1.0
@@ -308,86 +310,99 @@ rounded = false
 texture_under = ExtResource( 3 )
 texture_over = null
 texture_progress = ExtResource( 4 )
-radial_fill/initial_angle = 1.0
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
+nine_patch_stretch = false
 
-[node name="Position2D" type="Position2D" parent="Turret"]
+[node name="Position2D" type="Position2D" parent="Turret" index="1"]
 
 position = Vector2( 1, -41 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+shape = SubResource( 6 )
 
-[node name="TurrentMenu" type="Area2D" parent="."]
+[node name="TurrentMenu" type="Area2D" parent="." index="2"]
 
 visible = false
 position = Vector2( 50, -100 )
 input_pickable = true
-shapes/0/shape = SubResource( 7 )
-shapes/0/transform = Transform2D( 10.3845, 0, 0, 6.33229, 282.027, 111.682 )
-shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
 
-[node name="StatsVBox" type="VBoxContainer" parent="TurrentMenu"]
+[node name="StatsVBox" type="VBoxContainer" parent="TurrentMenu" index="0"]
 
-editor/display_folded = true
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 14.0
 margin_top = 49.0
 margin_right = 190.0
 margin_bottom = 159.0
-alignment = 0
-
-[node name="HPHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = false
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 176.0
-margin_bottom = 24.0
 alignment = 0
 
-[node name="HPButton" type="MenuButton" parent="TurrentMenu/StatsVBox/HPHBox"]
+[node name="HPHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="0"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 3
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 176.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
 size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
+alignment = 0
+
+[node name="HPButton" type="MenuButton" parent="TurrentMenu/StatsVBox/HPHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 toggle_mode = false
-click_on_press = true
+action_mode = 0
 enabled_focus_mode = 0
 shortcut = null
+group = null
 text = "HP"
 flat = true
+align = 1
 items = [  ]
 
-[node name="HPSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/HPHBox"]
+[node name="HPSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/HPHBox" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 102.0
-margin_top = 0.0
 margin_right = 176.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100000.0
 step = 1.0
@@ -399,46 +414,59 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="DamageHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox"]
+[node name="DamageHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 28.0
 margin_right = 176.0
 margin_bottom = 52.0
-alignment = 0
-
-[node name="DamageButton" type="MenuButton" parent="TurrentMenu/StatsVBox/DamageHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 3
-size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 98.0
-margin_bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Damage"
-flat = true
-items = [  ]
-
-[node name="DamageSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/DamageHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+alignment = 0
+
+[node name="DamageButton" type="MenuButton" parent="TurrentMenu/StatsVBox/DamageHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 98.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = null
+group = null
+text = "Damage"
+flat = true
+align = 1
+items = [  ]
+
+[node name="DamageSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/DamageHBox" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 102.0
-margin_top = 0.0
 margin_right = 176.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100.0
 step = 1.0
@@ -450,46 +478,59 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="FireRateHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox"]
+[node name="FireRateHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="2"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 56.0
 margin_right = 176.0
 margin_bottom = 80.0
-alignment = 0
-
-[node name="FireRateButton" type="MenuButton" parent="TurrentMenu/StatsVBox/FireRateHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 3
-size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 98.0
-margin_bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "FireRate"
-flat = true
-items = [  ]
-
-[node name="FireRateSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/FireRateHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+alignment = 0
+
+[node name="FireRateButton" type="MenuButton" parent="TurrentMenu/StatsVBox/FireRateHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 98.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = null
+group = null
+text = "FireRate"
+flat = true
+align = 1
+items = [  ]
+
+[node name="FireRateSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/FireRateHBox" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 102.0
-margin_top = 0.0
 margin_right = 176.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100.0
 step = 0.01
@@ -501,46 +542,59 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="FireRateDeltaHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox"]
+[node name="FireRateDeltaHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="3"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 84.0
 margin_right = 176.0
 margin_bottom = 108.0
-alignment = 0
-
-[node name="FireRateDeltaButton" type="MenuButton" parent="TurrentMenu/StatsVBox/FireRateDeltaHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 3
-size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 98.0
-margin_bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "FireRateDelta"
-flat = true
-items = [  ]
-
-[node name="FireRateDeltaSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/FireRateDeltaHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+alignment = 0
+
+[node name="FireRateDeltaButton" type="MenuButton" parent="TurrentMenu/StatsVBox/FireRateDeltaHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 98.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = null
+group = null
+text = "FireRateDelta"
+flat = true
+align = 1
+items = [  ]
+
+[node name="FireRateDeltaSpinBox" type="SpinBox" parent="TurrentMenu/StatsVBox/FireRateDeltaHBox" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 102.0
-margin_top = 0.0
 margin_right = 176.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100.0
 step = 1.0
@@ -552,58 +606,75 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="VisualVBox" type="VBoxContainer" parent="TurrentMenu"]
+[node name="VisualVBox" type="VBoxContainer" parent="TurrentMenu" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 214.0
 margin_top = 50.0
 margin_right = 346.0
 margin_bottom = 102.0
-alignment = 0
-
-[node name="HeightHBox" type="HBoxContainer" parent="TurrentMenu/VisualVBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = false
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 132.0
-margin_bottom = 24.0
 alignment = 0
 
-[node name="HeightButton" type="MenuButton" parent="TurrentMenu/VisualVBox/HeightHBox"]
+[node name="HeightHBox" type="HBoxContainer" parent="TurrentMenu/VisualVBox" index="0"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 3
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 132.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
 size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
+alignment = 0
+
+[node name="HeightButton" type="MenuButton" parent="TurrentMenu/VisualVBox/HeightHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 54.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 toggle_mode = false
-click_on_press = true
+action_mode = 0
 enabled_focus_mode = 0
 shortcut = null
+group = null
 text = "Height"
 flat = true
+align = 1
 items = [  ]
 
-[node name="HeightSpinBox" type="SpinBox" parent="TurrentMenu/VisualVBox/HeightHBox"]
+[node name="HeightSpinBox" type="SpinBox" parent="TurrentMenu/VisualVBox/HeightHBox" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 58.0
-margin_top = 0.0
 margin_right = 132.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100000.0
 step = 0.01
@@ -615,47 +686,60 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="WidthHBox" type="HBoxContainer" parent="TurrentMenu/VisualVBox"]
+[node name="WidthHBox" type="HBoxContainer" parent="TurrentMenu/VisualVBox" index="1"]
 
 editor/display_folded = true
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 28.0
 margin_right = 132.0
 margin_bottom = 52.0
-alignment = 0
-
-[node name="WidthButton" type="MenuButton" parent="TurrentMenu/VisualVBox/WidthHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 3
-size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 54.0
-margin_bottom = 24.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 0
-shortcut = null
-text = "Width"
-flat = true
-items = [  ]
-
-[node name="WidthSpinBox" type="SpinBox" parent="TurrentMenu/VisualVBox/WidthHBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = true
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+alignment = 0
+
+[node name="WidthButton" type="MenuButton" parent="TurrentMenu/VisualVBox/WidthHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 54.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = null
+group = null
+text = "Width"
+flat = true
+align = 1
+items = [  ]
+
+[node name="WidthSpinBox" type="SpinBox" parent="TurrentMenu/VisualVBox/WidthHBox" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 58.0
-margin_top = 0.0
 margin_right = 132.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100000.0
 step = 0.01
@@ -667,74 +751,96 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="ColorPicker" type="ColorPickerButton" parent="TurrentMenu/VisualVBox"]
+[node name="ColorPicker" type="ColorPickerButton" parent="TurrentMenu/VisualVBox" index="2"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 56.0
 margin_right = 132.0
 margin_bottom = 76.0
+rect_pivot_offset = Vector2( 0, 0 )
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+group = null
 flat = false
+align = 1
 color = Color( 1, 1, 1, 1 )
 edit_alpha = false
-script = SubResource( 8 )
+script = SubResource( 7 )
 
-[node name="ProjectileVBox" type="VBoxContainer" parent="TurrentMenu"]
+[node name="ProjectileVBox" type="VBoxContainer" parent="TurrentMenu" index="2"]
 
-editor/display_folded = true
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 367.0
 margin_top = 53.0
 margin_right = 446.0
 margin_bottom = 93.0
-alignment = 0
-
-[node name="HeightHBox" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox"]
-
-focus_ignore_mouse = false
-focus_stop_mouse = false
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 120.0
-margin_bottom = 24.0
 alignment = 0
 
-[node name="HeightLabel" type="Label" parent="TurrentMenu/ProjectileVBox/HeightHBox"]
+[node name="HeightHBox" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox" index="0"]
 
-focus_ignore_mouse = true
-focus_stop_mouse = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 120.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
-size_flags_vertical = 0
-margin_left = 0.0
+size_flags_vertical = 2
+alignment = 0
+
+[node name="HeightLabel" type="Label" parent="TurrentMenu/ProjectileVBox/HeightHBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 5.0
 margin_right = 42.0
 margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "Height"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="HeightSpinBox" type="SpinBox" parent="TurrentMenu/ProjectileVBox/HeightHBox"]
+[node name="HeightSpinBox" type="SpinBox" parent="TurrentMenu/ProjectileVBox/HeightHBox" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 46.0
-margin_top = 0.0
 margin_right = 120.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100.0
 step = 0.1
@@ -746,44 +852,55 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="WidthHBox" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox"]
+[node name="WidthHBox" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox" index="1"]
 
-editor/display_folded = true
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 28.0
 margin_right = 120.0
 margin_bottom = 52.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 alignment = 0
 
-[node name="WidthLabel" type="Label" parent="TurrentMenu/ProjectileVBox/WidthHBox"]
+[node name="WidthLabel" type="Label" parent="TurrentMenu/ProjectileVBox/WidthHBox" index="0"]
 
-focus_ignore_mouse = true
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 0
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 5.0
 margin_right = 38.0
 margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "Width"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="WidthSpinBox" type="SpinBox" parent="TurrentMenu/ProjectileVBox/WidthHBox"]
+[node name="WidthSpinBox" type="SpinBox" parent="TurrentMenu/ProjectileVBox/WidthHBox" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 42.0
-margin_top = 0.0
 margin_right = 116.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100.0
 step = 0.1
@@ -795,43 +912,55 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="WidthHBox1" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox"]
+[node name="WidthHBox1" type="HBoxContainer" parent="TurrentMenu/ProjectileVBox" index="2"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = false
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 56.0
 margin_right = 120.0
 margin_bottom = 80.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 alignment = 0
 
-[node name="SpeedLabel" type="Label" parent="TurrentMenu/ProjectileVBox/WidthHBox1"]
+[node name="SpeedLabel" type="Label" parent="TurrentMenu/ProjectileVBox/WidthHBox1" index="0"]
 
-focus_ignore_mouse = true
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 0
-margin_left = 0.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 5.0
 margin_right = 39.0
 margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "Speed"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="SpeedSpinBox" type="SpinBox" parent="TurrentMenu/ProjectileVBox/WidthHBox1"]
+[node name="SpeedSpinBox" type="SpinBox" parent="TurrentMenu/ProjectileVBox/WidthHBox1" index="1"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 43.0
-margin_top = 0.0
 margin_right = 117.0
 margin_bottom = 24.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 min_value = 0.0
 max_value = 100.0
 step = 0.1
@@ -843,107 +972,105 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="Laser" type="Node2D" parent="TurrentMenu/ProjectileVBox"]
+[node name="Laser" type="Node2D" parent="TurrentMenu/ProjectileVBox" index="3"]
 
-editor/display_folded = true
 position = Vector2( 176.534, 43.3726 )
 script = ExtResource( 5 )
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="TurrentMenu/ProjectileVBox/Laser"]
+[node name="KinematicBody2D" type="KinematicBody2D" parent="TurrentMenu/ProjectileVBox/Laser" index="0"]
 
 position = Vector2( -0.129724, 0.0108337 )
 scale = Vector2( 0.0670746, 0.12194 )
 input_pickable = false
-shapes/0/shape = SubResource( 9 )
-shapes/0/transform = Transform2D( 2.84768, 0, 0, 5.30343, 0.571943, -0.705742 )
-shapes/0/trigger = false
 collision_layer = 0
 collision_mask = 16
-collision/margin = 0.08
+collision/safe_margin = 0.08
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D" index="0"]
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 9 )
-trigger = false
-_update_shape_index = 0
+shape = SubResource( 8 )
 
-[node name="Sprite" type="Sprite" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
+[node name="Sprite" type="Sprite" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
 position = Vector2( 1.93402, -0.0888446 )
-rotation_deg = 180.0
 scale = Vector2( 14.9088, 8.20073 )
 texture = ExtResource( 6 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu" index="3"]
 
 position = Vector2( 282.027, 111.682 )
 scale = Vector2( 10.3845, 6.33229 )
-shape = SubResource( 7 )
-trigger = false
-_update_shape_index = 0
+shape = SubResource( 9 )
 
-[node name="ColorPickerArea2D" type="Area2D" parent="TurrentMenu"]
+[node name="ColorPickerArea2D" type="Area2D" parent="TurrentMenu" index="4"]
 
 visible = false
 position = Vector2( 13.9999, 1.99998 )
 input_pickable = true
-shapes/0/shape = SubResource( 10 )
-shapes/0/transform = Transform2D( 1, 0, 0, 1, 501.393, 131.662 )
-shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
 
-[node name="ColorPicker" type="ColorPicker" parent="TurrentMenu/ColorPickerArea2D"]
+[node name="ColorPicker" type="ColorPicker" parent="TurrentMenu/ColorPickerArea2D" index="0"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 4.0
+margin_bottom = 4.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-margin_left = 355.0
-margin_top = -90.0
-margin_right = 643.0
-margin_bottom = 351.0
 alignment = 0
+color = Color( 1, 1, 1, 1 )
+edit_alpha = true
+raw_mode = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ColorPickerArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ColorPickerArea2D" index="1"]
 
 position = Vector2( 501.393, 131.662 )
 shape = SubResource( 10 )
-trigger = false
-_update_shape_index = 0
 
-[connection signal="mouse_entered"  from="."  to="." method="_on_TurretArea_mouse_enter" binds=[  ]]
+[connection signal="mouse_entered" from="." to="." method="_on_TurretArea_mouse_enter"]
 
-[connection signal="mouse_exited"  from="."  to="." method="_on_TurretArea_mouse_exit" binds=[  ]]
+[connection signal="mouse_exited" from="." to="." method="_on_TurretArea_mouse_exit"]
 
-[connection signal="value_changed"  from="TurrentMenu/StatsVBox/HPHBox/HPSpinBox"  to="." method="_on_health_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="." method="_on_health_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/StatsVBox/DamageHBox/DamageSpinBox"  to="." method="_on_damage_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/StatsVBox/DamageHBox/DamageSpinBox" to="." method="_on_damage_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/StatsVBox/FireRateHBox/FireRateSpinBox"  to="." method="_on_firerate_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="." method="_on_firerate_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox"  to="." method="_on_fireratedelta_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="." method="_on_fireratedelta_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox"  to="Turret" method="_on_height_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_height_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox"  to="Turret" method="_on_width_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_width_value_changed"]
 
-[connection signal="pressed"  from="TurrentMenu/VisualVBox/ColorPicker"  to="TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed" binds=[  ]]
+[connection signal="pressed" from="TurrentMenu/VisualVBox/ColorPicker" to="TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="value_changed"  from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox"  to="Turret" method="_on_ProjHeightSpinBox_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox"  to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox"  to="Turret" method="_on_ProjWidthSpinBox_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox"  to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="value_changed"  from="TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox"  to="Turret" method="_on_SpeedSpinBox_value_changed" binds=[  ]]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="Turret" method="_on_SpeedSpinBox_value_changed"]
 
-[connection signal="color_changed"  from="TurrentMenu/ColorPickerArea2D/ColorPicker"  to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed" binds=[  ]]
+[connection signal="color_changed" from="TurrentMenu/ColorPickerArea2D/ColorPicker" to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
-[connection signal="color_changed"  from="TurrentMenu/ColorPickerArea2D/ColorPicker"  to="TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed" binds=[  ]]
+[connection signal="color_changed" from="TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurrentMenu/VisualVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+

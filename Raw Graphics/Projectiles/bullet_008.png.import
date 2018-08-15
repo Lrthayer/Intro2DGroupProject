@@ -7,7 +7,10 @@ path="res://.import/bullet_008.png-3852fb9fc7a1b0d4ec6e23f14350aa6b.stex"
 [deps]
 
 source_file="res://Raw Graphics/Projectiles/bullet_008.png"
+source_md5="dc2d3ec5c37c20fd04a78dce54e5b3cf"
+
 dest_files=[ "res://.import/bullet_008.png-3852fb9fc7a1b0d4ec6e23f14350aa6b.stex" ]
+dest_md5="61e7df5e17b9653558fd79b4567f0adc"
 
 [params]
 

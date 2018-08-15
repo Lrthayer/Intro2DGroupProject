@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/StunLaser.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/Projectiles/bullet_008.tex" type="Texture" id=2]
@@ -10,33 +10,31 @@ extents = Vector2( 20.4711, 14.3217 )
 
 [node name="Laser" type="Node2D"]
 
-transform/scale = Vector2( 2, 2 )
-script/script = ExtResource( 1 )
+scale = Vector2( 2, 2 )
+script = ExtResource( 1 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 
-transform/pos = Vector2( 0.0143623, -0.367785 )
-transform/scale = Vector2( 0.171877, 0.288147 )
-input/pickable = false
+position = Vector2( 0.0143623, -0.367785 )
+scale = Vector2( 0.171877, 0.288147 )
+input_pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1.48708, 0, 0, 2.23024, -0.18337, 1.14387 )
+shapes/0/transform = Transform2D( 1.48708, 0, 0, 2.23024, -0.18337, 1.14387 )
 shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 16
+collision_layer = 0
+collision_mask = 16
 collision/margin = 0.08
 
 [node name="Sprite" type="Sprite" parent="KinematicBody2D"]
 
-transform/pos = Vector2( -0.0835616, 1.27638 )
-transform/scale = Vector2( 2.90905, 1.73522 )
+position = Vector2( -0.0835616, 1.27638 )
+scale = Vector2( 2.90905, 1.73522 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 
-transform/pos = Vector2( -0.18337, 1.14387 )
-transform/scale = Vector2( 1.48708, 2.23024 )
+position = Vector2( -0.18337, 1.14387 )
+scale = Vector2( 1.48708, 2.23024 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
-
-

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Laser.gd" type="Script" id=1]
 [ext_resource path="res://Graphics/Projectiles/missile_001.tex" type="Texture" id=2]
@@ -8,29 +8,29 @@
 custom_solver_bias = 0.0
 extents = Vector2( 12.4618, 6.1101 )
 
-[sub_resource type="ColorRamp" id=2]
+[sub_resource type="Gradient" id=2]
 
-offsets = FloatArray( 0, 0.309942, 0.690058, 0.906433, 1 )
-colors = ColorArray( 1, 0.952332, 0.445313, 1, 0.671875, 0.387587, 0.0551147, 1, 0.644531, 0.050354, 0.050354, 1, 0.476563, 0.476563, 0.476563, 1, 0, 0, 0, 1 )
+offsets = PoolRealArray( 0, 0.309942, 0.690058, 0.906433, 1 )
+colors = PoolColorArray( 1, 0.952332, 0.445313, 1, 0.671875, 0.387587, 0.0551147, 1, 0.644531, 0.050354, 0.050354, 1, 0.476563, 0.476563, 0.476563, 1, 0, 0, 0, 1 )
 
 [node name="Laser" type="Node2D"]
 
-script/script = ExtResource( 1 )
+script = ExtResource( 1 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 
-input/pickable = false
+input_pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 0.255595, 0, 0, 1.22891, -0.0171548, 0.533602 )
+shapes/0/transform = Transform2D( 0.255595, 0, 0, 1.22891, -0.0171548, 0.533602 )
 shapes/0/trigger = false
-collision/layers = 2
-collision/mask = 16
+collision_layer = 2
+collision_mask = 16
 collision/margin = 0.08
 
 [node name="Sprite" type="Sprite" parent="KinematicBody2D"]
 
 editor/display_folded = true
-transform/scale = Vector2( 0.75, 0.75 )
+scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 2 )
 
 [node name="Particles2D" type="Particles2D" parent="KinematicBody2D/Sprite"]
@@ -59,10 +59,8 @@ color/color_ramp = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 
-transform/pos = Vector2( -0.0171548, 0.533602 )
-transform/scale = Vector2( 0.255595, 1.22891 )
+position = Vector2( -0.0171548, 0.533602 )
+scale = Vector2( 0.255595, 1.22891 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
-
-

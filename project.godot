@@ -1,0 +1,60 @@
+[]
+
+image loader = false
+
+[application]
+
+icon = "res://icon.png"
+main_scene = "res://Scenes/Start.tscn"
+name = "test"
+
+[autoload]
+
+GLOBALS = "*res://Scripts/GLOBALS.gd"
+
+[display]
+
+driver/name = "GLES2"
+stretch/aspect = "keep_height"
+stretch/mode = "2d"
+
+[gui]
+
+common/swap_ok_cancel = false
+
+[input]
+
+0_fire = [ InputEvent(KEY,16777350) ]
+Attacker_left = [ InputEvent(KEY,16777231) ]
+Attacker_right = [ InputEvent(KEY,16777233) ]
+CameraDown = [ InputEvent(KEY,83) ]
+CameraLeft = [ InputEvent(KEY,65) ]
+CameraRight = [ InputEvent(KEY,68) ]
+CameraUp = [ InputEvent(KEY,87) ]
+Defender_left = [ InputEvent(KEY,65) ]
+Defender_right = [ InputEvent(KEY,68) ]
+Player1_Down = [ InputEvent(KEY,83) ]
+Player1_Left = [ InputEvent(KEY,65) ]
+Player1_Right = [ InputEvent(KEY,68) ]
+Player1_Up = [ InputEvent(KEY,87) ]
+Player2_Down = [ InputEvent(KEY,16777234) ]
+Player2_Left = [ InputEvent(KEY,16777231) ]
+Player2_Right = [ InputEvent(KEY,16777233) ]
+Player2_Up = [ InputEvent(KEY,16777232) ]
+edit = [ InputEvent(KEY,69) ]
+left = [ InputEvent(KEY,16777231) ]
+left_click = [ InputEvent(MBUTTON,1) ]
+middle_click = [ InputEvent(MBUTTON,3) ]
+player = [  ]
+right = [ InputEvent(KEY,16777233) ]
+right_click = [ InputEvent(MBUTTON,2) ]
+right_fire = [ InputEvent(KEY,48), InputEvent(KEY,47), InputEvent(KEY,92), InputEvent(KEY,16777350) ]
+scroll_bottom = [ InputEvent(MBUTTON,5) ]
+scroll_up = [ InputEvent(MBUTTON,4) ]
+space_fire = [ InputEvent(KEY,32) ]
+ui_down = [ InputEvent(JBUTTON,13), InputEvent(KEY,16777234) ]
+
+[rendering]
+
+threads/thread_model = 1
+

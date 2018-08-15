@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/InvaderMusic.ogg-2c3d5c256e747f3e5535f2fbd3f4b97b.oggstr"
+
+[deps]
+
+source_file="res://InvaderMusic.ogg"
+dest_files=[ "res://.import/InvaderMusic.ogg-2c3d5c256e747f3e5535f2fbd3f4b97b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

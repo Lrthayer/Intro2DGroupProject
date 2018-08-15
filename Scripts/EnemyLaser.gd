@@ -13,24 +13,6 @@ var vector = Vector2(0,0);
 
 var startPosition
 
-#Checks the collision with other other objects
-func checkCollisions():
-	
-	#Laser is colliding with an object
-	if get_node("KinematicBody2D").is_colliding():
-		#hide the laser
-		self.set_global_pos(Vector2(10000, 10000))
-		self.get_node("KinematicBody2D").set_global_pos(Vector2(10000, 10000))
-		
-		#get the other object
-		otherCollider = get_node("KinematicBody2D").get_collider()
-		
-		if self.get_node("/root/GLOBALS").state != "Editor":
-			#Call method from otherCollider to do an event like losing health
-			otherCollider.collided(dmg)
-		
-		
-
 #starts when loaded up in scene
 func _ready():
 	#startPosition = self.get_parent().get_node("Turret/Position2D")
@@ -41,22 +23,29 @@ func _ready():
 	#print (self.get_parent().get_parent().get_parent().get_name())
 	#print (self.get_parent().get_parent().get_parent().get_node("Turret/Position2D").get_name())
 
-	set_fixed_process(true)
+	set_physics_process(true)
 
 #
-func _fixed_process(delta):
+func _physics_process(delta):
 	
 	#The laser's is moving downwards using KinematicBody2D
-	get_node("KinematicBody2D").move(vector * speed)
+	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)
 	
+	if collisionInfo:
+		#hide the laser
+		self.set_global_pos(Vector2(10000, 10000))
+		self.get_node("KinematicBody2D").set_global_pos(Vector2(10000, 10000))
+		
+		#get the other object
+		otherCollider = get_node("KinematicBody2D").get_collider()
+		
+		if self.get_node("/root/GLOBALS").state != "Editor":
+			#Call method from otherCollider to do an event like losing health
+			otherCollider.collided(dmg)
 	#The laser reached a certain position on screen
 	#if get_node("KinematicBody2D").get_global_pos().y < 0:
 		#this deletes the tree structure of Laser. 
 		#get_node(".").queue_free()
-	
-		
-	#check collision
-	checkCollisions()
 
 func resetPos():
 	#print("test")

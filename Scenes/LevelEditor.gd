@@ -1,3 +1,4 @@
+extends Node2D
 #var turrent = preload("res://Scenes/Turret.tscn")
 var turrent
 #var base = preload("res://Scenes/Base1.tscn")
@@ -61,7 +62,7 @@ var numberOfSaves = 0
 func _ready():
 	
 	#setup screen capture, for level saving/playlist
-	get_viewport().queue_screen_capture()
+	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
 	
@@ -132,10 +133,10 @@ func _ready():
 		dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
 		
 		#get color values
-		var r = float(data["DefenderArea"]["colorR"])
-		var g = float(data["DefenderArea"]["colorG"])
-		var b = float(data["DefenderArea"]["colorB"])
-		var c = Color(r, g, b)
+		r = float(data["DefenderArea"]["colorR"])
+		g = float(data["DefenderArea"]["colorG"])
+		b = float(data["DefenderArea"]["colorB"])
+		c = Color(r, g, b)
 		self.get_node(dir).set_color(c)
 		
 		#add the color to sprite 
@@ -168,10 +169,10 @@ func _ready():
 			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
 			
 			#get color values
-			var r = float(data[childName]["colorR"])
-			var g = float(data[childName]["colorG"])
-			var b = float(data[childName]["colorB"])
-			var c = Color(r, g, b)
+			r = float(data[childName]["colorR"])
+			g = float(data[childName]["colorG"])
+			b = float(data[childName]["colorB"])
+			c = Color(r, g, b)
 			
 			self.get_node(dir).set_color(c)
 			
@@ -217,10 +218,10 @@ func _ready():
 			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
 			
 			#get color values
-			var r = float(data[childName]["colorR"])
-			var g = float(data[childName]["colorG"])
-			var b = float(data[childName]["colorB"])
-			var c = Color(r, g, b)
+			r = float(data[childName]["colorR"])
+			g = float(data[childName]["colorG"])
+			b = float(data[childName]["colorB"])
+			c = Color(r, g, b)
 			
 			self.get_node(dir).set_color(c)
 			
@@ -254,10 +255,10 @@ func _ready():
 			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
 			
 			#get color values
-			var r = float(data[childName]["colorR"])
-			var g = float(data[childName]["colorG"])
-			var b = float(data[childName]["colorB"])
-			var c = Color(r, g, b)
+			r = float(data[childName]["colorR"])
+			g = float(data[childName]["colorG"])
+			b = float(data[childName]["colorB"])
+			c = Color(r, g, b)
 			
 			self.get_node(dir).set_color(c)
 			
@@ -280,10 +281,10 @@ func _ready():
 			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
 			
 			#get color values
-			var r = float(data[childName]["colorR"])
-			var g = float(data[childName]["colorG"])
-			var b = float(data[childName]["colorB"])
-			var c = Color(r, g, b)
+			r = float(data[childName]["colorR"])
+			g = float(data[childName]["colorG"])
+			b = float(data[childName]["colorB"])
+			c = Color(r, g, b)
 			
 			self.get_node(dir).set_color(c)
 			
@@ -306,10 +307,10 @@ func _ready():
 			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
 			
 			#get color values
-			var r = float(data[childName]["colorR"])
-			var g = float(data[childName]["colorG"])
-			var b = float(data[childName]["colorB"])
-			var c = Color(r, g, b)
+			r = float(data[childName]["colorR"])
+			g = float(data[childName]["colorG"])
+			b = float(data[childName]["colorB"])
+			c = Color(r, g, b)
 			
 			self.get_node(dir).set_color(c)
 			
@@ -547,7 +548,7 @@ func _on_Save_Button_pressed():
 	objects["width"] = str(self.get_node(dir).get_value())
 	
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
-	var c = self.get_node(dir).get_color()
+	c = self.get_node(dir).get_color()
 	
 	objects["colorR"] = str(c[0])
 	objects["colorG"] = str(c[1])
@@ -579,7 +580,7 @@ func _on_Save_Button_pressed():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
 		
-		var c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -624,7 +625,7 @@ func _on_Save_Button_pressed():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
 		
-		var c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -658,7 +659,7 @@ func _on_Save_Button_pressed():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
 		
-		var c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -683,7 +684,7 @@ func _on_Save_Button_pressed():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
 		
-		var c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -707,7 +708,7 @@ func _on_Save_Button_pressed():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
 		
-		var c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -723,7 +724,8 @@ func _on_Save_Button_pressed():
 	ResourceSaver.save("res://myscene.tscn", packed_scene)
 	
 	# get screen capture
-	var capture = get_viewport().get_screen_capture()
+	var capture = get_viewport().get_texture().get_data()
+	capture.flip_y()
 	# save to a file
 	capture.save_png("res://screenshot" + str(numberOfSaves) + ".png")
 	#tell playlist to add pic for level

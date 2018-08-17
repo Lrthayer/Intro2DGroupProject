@@ -8,6 +8,7 @@ var base2
 var base3 
 #var ground = preload("res://Scenes/Turret.tscn")
 #var stun = preload("res://Scenes/MoverLevelEditor.tscn")
+#var laser = preload("enemyLaserLevelEditor.tscn")
 var stun
 var attacker
 var defender
@@ -26,6 +27,7 @@ var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpi
 var currentObject
 var objectIndex = 0
 var overButton = false
+var overButtonLock = false
 var pressed = false
 
 var cursorColor = Color(0,0,0)
@@ -46,9 +48,9 @@ var numberOfSaves = 0
 func _ready():
 	
 	#setup screen capture, for level saving/playlist
-	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
+	#get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+	#yield(get_tree(), "idle_frame")
+	#yield(get_tree(), "idle_frame")
 	
 	if GLOBALS.changed_scene:
 		
@@ -308,7 +310,8 @@ func _ready():
 	set_process(true)
 		#create laserObject pool
 	for i in range(laserObjectPoolAmount):
-		laserObjectPool.append(self.get_node("/root/Node2D/TurretArea/TurrentMenu/ProjectileVBox/Laser").duplicate())
+		laserObjectPool.append(self.get_node("/root/Main/TurretArea/TurrentMenu/ProjectileVBox/Laser").duplicate())
+		#laserObjectPool.append(laser.instance())
 		#give the copy a name 
 		laserObjectPool[-1].set_name("Laser" + str(i))
 		
@@ -330,31 +333,31 @@ func _process(delta):
 	var mosLoc = self.get_global_mouse_position()
 	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20)
 	#get_child(1).set_global_pos(posOffset)
-	if  Input.is_action_pressed("left_click"):
+	if  !overButton && Input.is_mouse_button_pressed(BUTTON_LEFT):
 		if !overButton && !pressed && editorState == "placing":
-			var objectInstance = turrent.duplicate()
-			objectInstance.set_hidden(false)
-			objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-			objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+			var objectInstance = null
+			#objectInstance.visible = true
+			#objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+			#objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			#we have to manually copy signals over
 			if currentObject == "Base":
 				objectInstance = base.duplicate()
-				objectInstance.set_hidden(false)
+				objectInstance.visible = true
 				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Base2":
 				objectInstance = base2.duplicate()
-				objectInstance.set_hidden(false)
+				objectInstance.visible = true
 				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Base3":
 				objectInstance = base3.duplicate()
-				objectInstance.set_hidden(false)
+				objectInstance.visible = true
 				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Mover":
 				objectInstance = stun.duplicate()
-				objectInstance.set_hidden(false)
+				objectInstance.visible = true
 				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 				objectInstance.get_child(0).get_child(1).connect("mouse_enter", self, "_on_Area2D_mouse_enter")
@@ -367,34 +370,33 @@ func _process(delta):
 				objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Turrent":
-				objectInstance = turrent.duplicate()
-				objectInstance.set_hidden(false)
-				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				objectInstance.get_node("TurrentMenu").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.get_node("TurrentMenu").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				objectInstance.get_node("TurrentMenu").connect("mouse_enter", self.get_node("Cursor"), "_on_Hide_mouse_enter")
-				objectInstance.get_node("TurrentMenu").connect("mouse_exit", self.get_node("Cursor"), "_on_unHide_mouse_exit")
-				objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_height_value_changed")
-				objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_width_value_changed")
-				objectInstance.get_node("TurrentMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/TurrentArea/Turret/StaticBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
-				objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+				objectInstance = turrent.duplicate(8)
+				objectInstance.visible = true
+				#objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+				#objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+				#objectInstance.get_node("TurrentMenu").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+				#objectInstance.get_node("TurrentMenu").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+				#objectInstance.get_node("TurrentMenu").connect("mouse_enter", self.get_node("Cursor"), "_on_Hide_mouse_enter")
+				#objectInstance.get_node("TurrentMenu").connect("mouse_exit", self.get_node("Cursor"), "_on_unHide_mouse_exit")
+				#objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_height_value_changed")
+				#objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_width_value_changed")
+				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/TurrentArea/Turret/StaticBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
+				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Attacker":
 				objectInstance = attacker
-				objectInstance.set_hidden(false)
+				objectInstance.visible = true
 				makeUnique = false
 			elif currentObject == "Defender":
 				objectInstance = defender
-				objectInstance.set_hidden(false)
+				objectInstance.visible = true
 				makeUnique = false
-			
-			
+
 			if makeUnique:
 				#change mouse location to center object with cursor 
 				mosLoc.x -= 130
 				mosLoc.y += 20
-				objectInstance.set_global_pos(mosLoc)
+				objectInstance.global_position = mosLoc
 				
 				#give the copy a name 
 				objectInstance.set_name(currentObject + str(objectIndex))
@@ -402,8 +404,8 @@ func _process(delta):
 				objectInstance.set_owner(self)
 				objectIndex += 1
 			else:
-				objectInstance.set_global_pos(mosLoc)
-				
+				objectInstance.global_position = mosLoc
+
 			#since attacker and defender are the only ones who don't use this reset default value
 			makeUnique = true
 			pressed = true
@@ -446,21 +448,26 @@ func _on_Button_button_down(type):
 		currentObject = "Defender"
 
 func set_hovering(state):
-	overButton = state
+	if !overButtonLock:
+		overButton = state
 
 func _on_Button_mouse_enter():
-	overButton = true
+	if !overButtonLock:
+		overButton = true
 
 func _on_Button_mouse_exit():
-	overButton = false
+	if !overButtonLock:
+		overButton = false
 
 func _on_Area2D_mouse_enter():
-	overButton = true
+	if !overButtonLock:
+		overButton = true
 	if cursorState != "locked":
 		cursorState = "hovering"
 
 func _on_Area2D_mouse_exit():
-	overButton = false
+	if !overButtonLock:
+		overButton = false
 	cursorState = ""
 
 func _cusorStopFollowing():
@@ -468,8 +475,6 @@ func _cusorStopFollowing():
 
 func _startFollowingMouse():
 	self.get_node("Cursor").followMouse = true
-
-
 
 func _on_Save_Button_pressed():
 	packed_scene.pack(get_tree().get_current_scene())
@@ -493,50 +498,49 @@ func _on_Save_Button_pressed():
 	
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[8]
 	objects["height"] = str(self.get_node(dir).get_value())
-	
-	
+
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[9]
 	objects["width"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[10]
 	var c = self.get_node(dir).get_color()
-	
+
 	objects["colorR"] = str(c[0])
 	objects["colorG"] = str(c[1])
 	objects["colorB"] = str(c[2])
-	
+
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[14]
 	objects["proj_speed"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[15]
 	objects["proj_height"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[16]
 	objects["proj_width"] = str(self.get_node(dir).get_value())
 	
 	dict["AttackerArea"] = objects
 	objects = {}
-	
+
 	#grab the properties of defender
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[2]
 	objects["fire_rate"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[4]
 	objects["speed"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[8]
 	objects["height"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[9]
 	objects["width"] = str(self.get_node(dir).get_value())
-	
+
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
 	c = self.get_node(dir).get_color()
-	
+
 	objects["colorR"] = str(c[0])
 	objects["colorG"] = str(c[1])
 	objects["colorB"] = str(c[2])
-	
+
 	dict["DefenderArea"] = objects
 	objects = {}
 	#grab the properties of turrets
@@ -544,43 +548,43 @@ func _on_Save_Button_pressed():
 		
 		childName = get_node("TurrentList").get_child(i).get_name()
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[0]
-		
+
 		objects["hp"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[1]
-		
+
 		objects["damage"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[2]
-		
+
 		objects["fire_rate"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[3]
-		
+
 		objects["fire_rate_delta"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[8]
-		
+
 		objects["height"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[9]
-		
+
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
-		
+
 		c = self.get_node(dir).get_color()
-		
+
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
 		objects["colorB"] = str(c[2])
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
-		
+
 		objects["proj_height"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
-		
+
 		objects["proj_width"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
-		
+
 		objects["proj_speed"] = str(self.get_node(dir).get_value())
-			
+
 		dict[childName] = objects
 		objects = {}
-		
+
 	#grab the properties of movers
 	for j in range(get_node("MoverList").get_child_count()):
 		
@@ -650,7 +654,6 @@ func _on_Save_Button_pressed():
 		
 		dict[childName] = objects
 		objects = {}
-		
 		
 	#grab the properties of Base2
 	for l in range(get_node("Base2List").get_child_count()):

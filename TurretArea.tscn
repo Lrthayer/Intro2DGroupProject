@@ -1,11 +1,12 @@
 [gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://Scripts/Collided.gd" type="Script" id=1]
-[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=2]
-[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=3]
-[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=4]
-[ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=5]
-[ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=6]
+[ext_resource path="res://Turret.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Collided.gd" type="Script" id=2]
+[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=3]
+[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=4]
+[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=5]
+[ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=6]
+[ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=7]
 
 [sub_resource type="GDScript" id=1]
 
@@ -27,6 +28,8 @@ var fireRateStatic = 1
 var fireRateDelta = .001
 
 func _ready():
+	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
 	set_process(true)
 
 #called every frame
@@ -34,19 +37,19 @@ func _process(delta):
 	if hovering:
 		#if locked let parent node know
 		if locked:
-			get_parent().cursorState = \"locked\"
+			get_node(\"/root/Main\").cursorState = \"locked\"
 
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
 					locked = false
 					#tell parent to set cursor state
-					self.get_parent().cursorState = \"hovering\"
+					self.get_node(\"/root/Main\").cursorState = \"hovering\"
 					print(\"unlocked\")
 				else:
 					locked = true
 					#tell parent to set cursor state
-					self.get_parent().cursorState = \"locked\"
+					self.get_node(\"/root/Main\").cursorState = \"locked\"
 					print(\"locked\")
 				lockToggle += 1
 		else:
@@ -68,29 +71,29 @@ func _process(delta):
 		if clicked:
 			self.global_position = self.get_global_mouse_position()
 			#fixes spawning a new object while moving this object
-			if !get_node(\"/root/Node2D\").overButton:
-				get_node(\"/root/Node2D\").overButton = true
+			if !get_node(\"/root/Main\").overButton:
+				get_node(\"/root/Main\").overButton = true
 			
 		if  Input.is_action_pressed(\"edit\") && !locked:
 			if menuToggle < 1:
 				#if already open, close
-				if !self.get_node(\"TurrentMenu\").is_hidden():
-					self.get_node(\"TurrentMenu\").set_hidden(true)
-					self.get_node(\"TurrentMenu\").set_pos(Vector2(30000,30000))
+				if self.get_node(\"TurrentMenu\").visible:
+					self.get_node(\"TurrentMenu\").visible = false
+					self.get_node(\"TurrentMenu\").position = Vector2(30000,30000)
 					#set root state to placing
-					self.get_node(\"/root/Node2D\").editorState = \"placing\"
-					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+					self.get_node(\"/root/Main\").editorState = \"placing\"
+					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
 				else:
-					self.get_node(\"TurrentMenu\").set_pos(Vector2(50,-100))
-					self.get_node(\"TurrentMenu\").set_hidden(false)
-					self.get_node(\"/root/Node2D\").editorState = \"editing\"
-					self.get_node(\"/root/Node2D/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+					self.get_node(\"TurrentMenu\").position = Vector2(50,-100)
+					self.get_node(\"TurrentMenu\").visible = true
+					self.get_node(\"/root/Main\").editorState = \"editing\"
+					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
 				menuToggle += 1
 		else:
 			menuToggle = 0
 		
 		if  Input.is_action_pressed(\"right_click\") && !locked:
-			self.get_node(\"/root/Node2D\").set_hovering(false)
+			self.get_node(\"/root/Main\").set_hovering(false)
 			self.free()
 
 func _on_TurretArea_mouse_enter():
@@ -119,82 +122,6 @@ func _on_height_value_changed( value ):
 
 render_priority = 0
 
-[sub_resource type="GDScript" id=3]
-
-script/source = "extends Node2D
-
-
-# class member variables go here
-#var laserObject = preload(\"res://Scenes/enemyLaser.tscn\")
-var laserObject
-var laserCount = 0
-var laserOffset = 0
-var theirPos
-var myPos
-var target
-var diff
-var rotate
-var timer = 1
-var tick = 1
-var rateIncrease = 0
-var laserSpeed = 3
-var laserHeight = 1
-var laserWidth = 1
-var vector = Vector2(0,0)
-
-#starts when loaded up in scene
-func _ready():
-	set_process(true)
-	#laserObject = self.get_node(\"/root/Node2D\")
-	target = self.get_node(\"/root/Node2D/AttackerArea/Attacker/KinematicBody2D\")
-	timer = self.get_parent().fireRate
-
-#called every frame
-func _process(delta):
-	
-	theirPos = target.global_position
-	myPos = self.global_position
-	diff = theirPos - myPos
-	rotate = atan2(-diff.y,diff.x) - 3.14/2
-	self.set_rotation(rotate)
-	vector = (theirPos - myPos).normalized()
-	self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta/100)
-	#tick = tick - self.get_parent().fireRateDelta
-	#enough time has passed
-	if (self.get_parent().fireRate <= 0):
-		fire()
-		self.get_parent().fireRate = self.get_parent().fireRateStatic
-		self.get_parent().fireRateDelta += self.get_parent().fireRateDelta/100
-
-#turret shoots laser
-func fire():
-	laserCount += 1
-	#create a copy of the laser object
-	var laserInstance = self.get_node(\"/root/Node2D\").getLaser()
-	laserInstance.setSprite(\"white\")
-	laserInstance.set_scale(Vector2(laserWidth, laserHeight))
-	laserInstance.startPosition = self.get_node(\"Position2D\")
-	laserInstance.set_owner(self)
-	laserInstance.speed = laserSpeed#self.get_parent().get_node(\"TurrentMenu/ProjectileVBox/SpinBox\").get_val()
-	laserInstance.setDirVector(rotate, vector)
-	laserInstance.resetPos()
-
-func _on_height_value_changed( value ):
-	self.set_scale(Vector2(self.get_scale().x, value))
-
-func _on_width_value_changed( value ):
-	self.set_scale(Vector2(value, self.get_scale().y))
-
-func _on_SpeedSpinBox_value_changed( value ):
-	laserSpeed = value
-
-func _on_ProjHeightSpinBox_value_changed( value ):
-	laserHeight = value
-
-func _on_ProjWidthSpinBox_value_changed( value ):
-	laserWidth = value
-"
-
 [sub_resource type="GDScript" id=4]
 
 script/source = "extends Sprite
@@ -211,7 +138,7 @@ extents = Vector2( 10, 10 )
 [sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
-extents = Vector2( 22.1984, 35.424 )
+extents = Vector2( 36.45, 39.221 )
 
 [sub_resource type="GDScript" id=7]
 
@@ -258,9 +185,10 @@ script = SubResource( 1 )
 
 [node name="Turret" type="Node2D" parent="." index="0"]
 
+editor/display_folded = true
 light_mask = 3
 material = SubResource( 2 )
-script = SubResource( 3 )
+script = ExtResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Turret" index="0"]
 
@@ -271,12 +199,12 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Turret/StaticBody2D" index="0"]
 
 position = Vector2( 1.10815, 0 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 script = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Turret/StaticBody2D" index="1"]
@@ -307,9 +235,9 @@ page = 0.0
 value = 3.0
 exp_edit = false
 rounded = false
-texture_under = ExtResource( 3 )
+texture_under = ExtResource( 4 )
 texture_over = null
-texture_progress = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
 radial_fill_degrees = 360.0
 radial_center_offset = Vector2( 0, 0 )
 nine_patch_stretch = false
@@ -975,7 +903,7 @@ suffix = ""
 [node name="Laser" type="Node2D" parent="TurrentMenu/ProjectileVBox" index="3"]
 
 position = Vector2( 176.534, 43.3726 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="TurrentMenu/ProjectileVBox/Laser" index="0"]
 
@@ -996,7 +924,7 @@ shape = SubResource( 8 )
 
 position = Vector2( 1.93402, -0.0888446 )
 scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu" index="3"]
 

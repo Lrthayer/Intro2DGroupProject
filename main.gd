@@ -10,7 +10,7 @@ func _ready():
 	dropdown.connect("item_selected", self, "on_item_selected")
 
 	# Select Initially Selected Item 
-	select_item(1)
+	#select_item(1)
 
 # Adding Items to Dropdown
 func add_item():

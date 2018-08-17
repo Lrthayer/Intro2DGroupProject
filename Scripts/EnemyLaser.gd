@@ -33,11 +33,11 @@ func _physics_process(delta):
 	
 	if collisionInfo:
 		#hide the laser
-		self.set_global_pos(Vector2(10000, 10000))
-		self.get_node("KinematicBody2D").set_global_pos(Vector2(10000, 10000))
+		self.global_position = Vector2(10000, 10000)
+		self.get_node("KinematicBody2D").global_position = Vector2(10000, 10000)
 		
 		#get the other object
-		otherCollider = get_node("KinematicBody2D").get_collider()
+		otherCollider = collisionInfo.collider
 		
 		if self.get_node("/root/GLOBALS").state != "Editor":
 			#Call method from otherCollider to do an event like losing health

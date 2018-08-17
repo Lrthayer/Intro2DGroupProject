@@ -75,7 +75,7 @@ func _fixed_process(delta):
 		btn_up = Input.is_action_pressed("Player2_Up")
 		btn_down = Input.is_action_pressed("Player2_Down")
 		
-	#Attacker is not stunned
+	#Only allow Attacker to move if it's not stunned
 	if(!isStunned):
 		
 		#Player moves right

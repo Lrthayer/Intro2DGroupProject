@@ -16,12 +16,6 @@ var startPosition
 #starts when loaded up in scene
 func _ready():
 	#startPosition = self.get_parent().get_node("Turret/Position2D")
-	# Called every time the node is added to the scene.
-	# Initialization here
-	#print (self.get_parent().get_name())
-	#print (self.get_parent().get_parent().get_name())
-	#print (self.get_parent().get_parent().get_parent().get_name())
-	#print (self.get_parent().get_parent().get_parent().get_node("Turret/Position2D").get_name())
 
 	set_physics_process(true)
 
@@ -42,21 +36,13 @@ func _physics_process(delta):
 		if self.get_node("/root/GLOBALS").state != "Editor":
 			#Call method from otherCollider to do an event like losing health
 			otherCollider.collided(dmg)
-	#The laser reached a certain position on screen
-	#if get_node("KinematicBody2D").get_global_pos().y < 0:
-		#this deletes the tree structure of Laser. 
-		#get_node(".").queue_free()
 
 func resetPos():
-	#print("test")
-	#print(startPosition)
-	#print(startPosition.get_global_pos())
 	self.global_position = startPosition.global_position
 	self.get_node("KinematicBody2D").global_position = startPosition.global_position
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):
-	print(rotate)
 	self.set_rotation(rotate + 3.14)
 	vector = turretVector
 

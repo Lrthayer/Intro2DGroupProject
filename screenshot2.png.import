@@ -2,12 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/screenshot2.png-e9c33ca9a15184c06248f836fc8ef1a9.stex"
 
 [deps]
 
 source_file="res://screenshot2.png"
-source_md5="d41d8cd98f00b204e9800998ecf8427e"
+source_md5="05a8403aca962e5ee1847052634845af"
+
+dest_files=[ "res://.import/screenshot2.png-e9c33ca9a15184c06248f836fc8ef1a9.stex" ]
+dest_md5="2dde3cf12b3aa4d7376b000661dc0965"
 
 [params]
 

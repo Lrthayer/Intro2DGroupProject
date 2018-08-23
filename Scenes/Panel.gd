@@ -3,7 +3,6 @@ extends Panel
 var followMouse = true
 
 func _ready():
-	#add_style_override("panel", StyleBoxFlat)
 	set_process(true)
 	
 func _process(delta):

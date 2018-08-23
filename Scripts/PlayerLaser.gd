@@ -61,19 +61,19 @@ func checkCollisions():
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	set_fixed_process(true)
+	set_physics_process(true)
 	
 #called every frame
-func _fixed_process(delta):
+func _physics_process(delta):
 	
 	#The laser is moving upwards & tilted
 	var vec = Vector2(0,speed).rotated(turn)
-	get_node("KinematicBody2D").move(vec)
+	get_node("KinematicBody2D").move_and_collide(vec)
 	
 	
 	#The laser has left the outer boundary
-	var y = get_node("KinematicBody2D").get_global_pos().y
-	var x = get_node("KinematicBody2D").get_global_pos().x
+	var y = get_node("KinematicBody2D").global_position.y
+	var x = get_node("KinematicBody2D").global_position.x
 	if y > height ||  \
 	   y < -50 ||     \
 	   x > width ||   \

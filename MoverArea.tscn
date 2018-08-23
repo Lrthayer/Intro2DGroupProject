@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Mover.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=7]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=8]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=26]
 
 script/source = "extends Area2D
 
@@ -22,6 +22,8 @@ var lockToggle = 0
 var menuToggle = 0
 
 func _ready():
+	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
 	set_process(true)
 
 func _process(delta):
@@ -49,23 +51,15 @@ func _process(delta):
 		if  Input.is_action_pressed(\"edit\") && !locked:
 			if menuToggle < 1:
 				#if already open, close
-				if !self.get_node(\"MoverMenu\").is_hidden():
-					self.get_node(\"MoverMenu\").set_hidden(true)
-					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
-					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
-					self.get_node(\"MoverMenu\").set_pos(Vector2(30000,30000))
+				if self.get_node(\"MoverMenu\").visible:
+					self.get_node(\"MoverMenu\").visible = false
+					self.get_node(\"MoverMenu\").position = Vector2(30000,30000)
 					#set root state to placing
 					self.get_node(\"/root/Main\").editorState = \"placing\"
 					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
 				else:
-					self.get_node(\"MoverMenu\").set_pos(Vector2(50,-100))
-					self.get_node(\"MoverMenu\").set_hidden(false)
-					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(false)
-					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(false)
-					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"HPHBox/HPSpinBox\").set_value(health)
-					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"DamageHBox/DamageSpinBox\").set_value(damage)
-					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateHBox/FireRateSpinBox\").set_value(fireRate)
-					#self.get_node(\"TurrentMenu/StatsVBox\").get_node(\"FireRateDeltaHBox/FireRateDeltaSpinBox\").set_value(fireRateDelta)
+					self.get_node(\"MoverMenu\").position = Vector2(50,-100)
+					self.get_node(\"MoverMenu\").visible = true
 					#set root state to editing
 					self.get_node(\"/root/Main\").editorState = \"editing\"
 					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
@@ -103,7 +97,7 @@ func _on_MoverArea_mouse_enter():
 func _on_MoverArea_mouse_exit():
 	hovering = false"
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=27]
 
 script/source = "extends Sprite
 
@@ -111,12 +105,12 @@ script/source = "extends Sprite
 func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)"
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=28]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=29]
 
 script/source = "extends CollisionShape2D
 
@@ -127,7 +121,7 @@ func _ready():
 func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position"
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id=30]
 
 script/source = "extends Area2D
 
@@ -135,22 +129,30 @@ script/source = "extends Area2D
 var clicked = false
 var toggled = 0
 
+func _ready():
+	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
+	connect(\"input_event\", self, \"_input_event\")
 
 func _input_event( viewport, event, shape_idx ):
-	if event == InputEventMouseButton:
+	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed && toggled < 1:
-				if clicked:
-					clicked = false
-					print(\"false\")
-				else:
-					clicked = true
-					print(\"true\")
-				toggled += 1
+				#tell Main that we are \"hovering\" so we don't create anything while placing this
+				get_node(\"/root/Main\").overButtonLock = true
+				get_node(\"/root/Main\").set_hovering(true)
+				clicked = true
+				print(\"true\")
+			elif !event.pressed:
+				#tell Main that we are done hovering
+				get_node(\"/root/Main\").overButtonLock = false
+				get_node(\"/root/Main\").set_hovering(false)
+				clicked = false
+			toggled = toggled + 1
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id=31]
 
 script/source = "extends Sprite
 
@@ -164,12 +166,12 @@ func _process(delta):
 
 "
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=32]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 11.8219 )
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id=33]
 
 script/source = "extends CollisionShape2D
 
@@ -181,63 +183,12 @@ func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
-[sub_resource type="GDScript" id=10]
-
-script/source = "extends Area2D
-
-
-var clicked = false
-var toggled = 0
-
-func _input_event( viewport, event, shape_idx ):
-	if event == InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.pressed && toggled < 1:
-				if clicked:
-					clicked = false
-					print(\"false\")
-				else:
-					clicked = true
-					print(\"true\")
-				toggled += 1
-	else:
-		toggled = 0"
-
-[sub_resource type="GDScript" id=11]
-
-script/source = "extends Sprite
-
-
-func _ready():
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.global_position = get_global_mouse_position()
-"
-
-[sub_resource type="RectangleShape2D" id=12]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
-[sub_resource type="GDScript" id=13]
-
-script/source = "extends CollisionShape2D
-
-
-func _ready():
-	set_process(true)
-	
-func _process(delta):
-	self.global_position = get_parent().get_child(0).global_position"
-
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=34]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="GDScript" id=15]
+[sub_resource type="GDScript" id=35]
 
 script/source = "extends ColorPickerButton
 
@@ -253,17 +204,17 @@ func _on_ColorPicker_pressed():
 		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
 "
 
-[sub_resource type="RectangleShape2D" id=16]
+[sub_resource type="RectangleShape2D" id=36]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=37]
 
 custom_solver_bias = 0.0
 extents = Vector2( 16.9967, 6.85448 )
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=38]
 
 custom_solver_bias = 0.0
 extents = Vector2( 149.373, 225.538 )
@@ -278,7 +229,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 1 )
+script = SubResource( 26 )
 
 [node name="Mover" type="Node2D" parent="." index="0"]
 
@@ -297,14 +248,14 @@ script = ExtResource( 2 )
 
 scale = Vector2( 2.38735, 2.99493 )
 texture = ExtResource( 3 )
-script = SubResource( 3 )
+script = SubResource( 27 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/KinematicBody2D" index="1"]
 
 position = Vector2( -0.318719, 6.59567 )
 scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 4 )
-script = SubResource( 5 )
+shape = SubResource( 28 )
+script = SubResource( 29 )
 
 [node name="Position2D" type="Position2D" parent="Mover/KinematicBody2D" index="2"]
 
@@ -350,25 +301,29 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 6 )
+script = SubResource( 30 )
 
 [node name="Sprite" type="Sprite" parent="Mover/Area2D" index="0"]
 
+modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
+self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 6 )
-script = SubResource( 7 )
+script = SubResource( 31 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/Area2D" index="1"]
 
-position = Vector2( -4.83211, -0.0256834 )
+position = Vector2( -4.02673, -0.0256834 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 8 )
-script = SubResource( 9 )
+shape = SubResource( 32 )
+script = SubResource( 33 )
 
-[node name="Area2D 2" type="Area2D" parent="Mover" index="2"]
+[node name="Area2D2" type="Area2D" parent="Mover" index="2"]
 
-position = Vector2( -74.6635, 8.0769 )
+position = Vector2( -187.032, -1252.98 )
+scale = Vector2( 1.12062, 175.693 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -376,27 +331,30 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 10 )
+script = SubResource( 30 )
 
-[node name="Sprite" type="Sprite" parent="Mover/Area2D 2" index="0"]
+[node name="Sprite" type="Sprite" parent="Mover/Area2D2" index="0"]
 
-position = Vector2( -267.469, 374.457 )
-scale = Vector2( 4, 685.63 )
+modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
+self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
+position = Vector2( -4.93346, 16.6439 )
+scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 6 )
-script = SubResource( 11 )
+script = SubResource( 31 )
+_sections_unfolded = [ "Transform", "Visibility" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/Area2D 2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/Area2D2" index="1"]
 
-position = Vector2( -270.41, -801.739 )
-scale = Vector2( 1.79192, 153.926 )
-shape = SubResource( 12 )
-script = SubResource( 13 )
+position = Vector2( -4.83211, -0.0256834 )
+scale = Vector2( 1, 5 )
+shape = SubResource( 32 )
+script = SubResource( 33 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
 position = Vector2( 0, 7.04199 )
 scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 14 )
+shape = SubResource( 34 )
 
 [node name="MoverMenu" type="Area2D" parent="." index="2"]
 
@@ -917,7 +875,7 @@ flat = false
 align = 1
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script = SubResource( 15 )
+script = SubResource( 35 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="MoverMenu" index="2"]
 
@@ -1133,7 +1091,7 @@ collision/safe_margin = 0.08
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 16 )
+shape = SubResource( 36 )
 
 [node name="Sprite" type="Sprite" parent="MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
@@ -1145,7 +1103,7 @@ texture = ExtResource( 8 )
 
 position = Vector2( 284.23, 114.934 )
 scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 17 )
+shape = SubResource( 37 )
 
 [node name="ColorPickerArea2D" type="Area2D" parent="MoverMenu" index="4"]
 
@@ -1182,23 +1140,7 @@ raw_mode = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverMenu/ColorPickerArea2D" index="1"]
 
 position = Vector2( 501.393, 131.662 )
-shape = SubResource( 18 )
-
-[node name="Panel" type="Panel" parent="." index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -33.0
-margin_top = -4.0
-margin_right = 32.0
-margin_bottom = 18.0
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+shape = SubResource( 38 )
 
 [connection signal="mouse_entered" from="." to="." method="_on_MoverArea_mouse_enter"]
 

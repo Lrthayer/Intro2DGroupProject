@@ -39,10 +39,8 @@ func _process(delta):
 			if toggled < 1:
 				if clicked:
 					clicked = false
-					print("false")
 				else:
 					clicked = true
-					print("true")
 				toggled += 1
 		else:
 			toggled = 0
@@ -52,8 +50,10 @@ func _process(delta):
 				#if already open, close
 				if self.get_node("AttackerMenu").visible:
 					self.get_node("AttackerMenu").visible = false
-					#self.get_node("TurrentMenu/StatsVBox").set_hidden(true)
-					#self.get_node("TurrentMenu/VisualVBox").set_hidden(true)
+					self.get_node("Attacker/Area2D").visible = false
+					self.get_node("Attacker/Area2D2").visible = false
+					self.get_node("Attacker/Area2D3").visible = false
+					self.get_node("Attacker/Area2D4").visible = false
 					self.get_node("AttackerMenu").position = Vector2(30000,30000)
 					#set root state to placing
 					self.get_node("/root/Main").editorState = "placing"
@@ -61,6 +61,10 @@ func _process(delta):
 				else:
 					self.get_node("AttackerMenu").position = Vector2(50,-100)
 					self.get_node("AttackerMenu").visible = true
+					self.get_node("Attacker/Area2D").visible = true
+					self.get_node("Attacker/Area2D2").visible = true
+					self.get_node("Attacker/Area2D3").visible = true
+					self.get_node("Attacker/Area2D4").visible = true
 					#set root state to editing
 					self.get_node("/root/Main").editorState = "editing"
 					self.get_node("/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton")._on_EditingButton_pressed()
@@ -75,8 +79,8 @@ func _process(delta):
 			if !get_parent().overButton:
 				get_parent().overButton = true
 
-func _on_AttackerArea_mouse_enter():
+func _on_AttackerArea_mouse_entered():
 	hovering = true
 
-func _on_AttackerArea_mouse_exit():
+func _on_AttackerArea_mouse_exited():
 	hovering = false

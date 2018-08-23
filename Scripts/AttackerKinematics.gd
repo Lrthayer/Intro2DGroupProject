@@ -39,7 +39,7 @@ func movement(speedX, speedY):
 	if self.global_position.y < top_boundary:
 		self.global_position = Vector2(self.global_position.x, top_boundary)
 	#move the Attacker
-	move(current_speed)
+	move_and_collide(current_speed)
 
 #Starts when scene is loaded 
 func _ready():

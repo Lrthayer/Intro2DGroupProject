@@ -20,7 +20,14 @@ var objectName
 var childName = ""
 var dir= ""
 
-var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox","StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox","StatsVBox/SpeedHBox/SpeedSpinBox","StatsVBox/HeightHBox/HeightSpinBox","StatsVBox/WidthHBox/WidthSpinBox","StatsVBox/ColorPicker","VisualVBox/HeightHBox/HeightSpinBox","VisualVBox/WidthHBox/WidthSpinBox","VisualVBox/ColorPicker","ProjectileVBox/HeightHBox/HeightSpinBox","ProjectileVBox/WidthHBox/WidthSpinBox","ProjectileVBox/WidthHBox1/SpeedSpinBox","ProjectileVBox/WidthHBox1/ProjSpeedSpinBox","ProjectileVBox/WidthHBox2/ProjHeightSpinBox","ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
+var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
+"StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
+"StatsVBox/SpeedHBox/SpeedSpinBox","StatsVBox/HeightHBox/HeightSpinBox",
+"StatsVBox/WidthHBox/WidthSpinBox","ColorPicker","VisualVBox/HeightHBox/HeightSpinBox",
+"VisualVBox/WidthHBox/WidthSpinBox","ColorPicker","ProjectileVBox/HeightHBox/HeightSpinBox",
+"ProjectileVBox/WidthHBox/WidthSpinBox","ProjectileVBox/WidthHBox1/SpeedSpinBox",
+"ProjectileVBox/WidthHBox1/ProjSpeedSpinBox","ProjectileVBox/WidthHBox2/ProjHeightSpinBox",
+"ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
 
 #add a child
 #get_parent().add_child(laserInstance)
@@ -58,7 +65,8 @@ func _ready():
 		data = {}
 		var file = File.new()
 		file.open("res://meow5.json", file.READ)
-		data.parse_json(file.get_line())
+		data = parse_json(file.get_line())
+		#data.parse_json(file.get_line())
 		
 		#grab the properties of attacker
 		dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
@@ -87,8 +95,8 @@ func _ready():
 		var g = float(data["AttackerArea"]["colorG"])
 		var b = float(data["AttackerArea"]["colorB"])
 		var c = Color(r, g, b)
-		self.get_node(dir).set_color(c)
-		
+		self.get_node(dir).color = c
+				
 		#add the color to sprite
 		dir = "AttackerArea/Attacker/KinematicBody2D/ShipSprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
@@ -123,7 +131,7 @@ func _ready():
 		g = float(data["DefenderArea"]["colorG"])
 		b = float(data["DefenderArea"]["colorB"])
 		c = Color(r, g, b)
-		self.get_node(dir).set_color(c)
+		self.get_node(dir).color = c
 		
 		#add the color to sprite 
 		dir = "DefenderArea/Defender/KinematicBody2D/DefenderSprite"
@@ -333,7 +341,7 @@ func _process(delta):
 	var mosLoc = self.get_global_mouse_position()
 	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20)
 	#get_child(1).set_global_pos(posOffset)
-	if  !overButton && Input.is_mouse_button_pressed(BUTTON_LEFT):
+	if  !overButton && Input.is_key_pressed(KEY_P):
 		if !overButton && !pressed && editorState == "placing":
 			var objectInstance = null
 			#objectInstance.visible = true
@@ -464,11 +472,13 @@ func _on_Area2D_mouse_enter():
 		overButton = true
 	if cursorState != "locked":
 		cursorState = "hovering"
+	print("locked")
 
 func _on_Area2D_mouse_exit():
 	if !overButtonLock:
 		overButton = false
 	cursorState = ""
+	print("unlocked")
 
 func _cusorStopFollowing():
 	self.get_node("Cursor").followMouse = false
@@ -503,7 +513,7 @@ func _on_Save_Button_pressed():
 	objects["width"] = str(self.get_node(dir).get_value())
 
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[10]
-	var c = self.get_node(dir).get_color()
+	var c = self.get_node(dir).color
 
 	objects["colorR"] = str(c[0])
 	objects["colorG"] = str(c[1])
@@ -535,7 +545,7 @@ func _on_Save_Button_pressed():
 	objects["width"] = str(self.get_node(dir).get_value())
 
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
-	c = self.get_node(dir).get_color()
+	c = self.get_node(dir).color
 
 	objects["colorR"] = str(c[0])
 	objects["colorG"] = str(c[1])
@@ -705,7 +715,7 @@ func _on_Save_Button_pressed():
 	
 	var file = File.new()
 	file.open("res://meow5.json", file.WRITE)
-	file.store_line(dict.to_json())
+	file.store_line(to_json(dict))
 	file.close()
 	ResourceSaver.save("res://myscene.tscn", packed_scene)
 	

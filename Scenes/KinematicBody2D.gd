@@ -22,7 +22,7 @@ var diff
 func movement(speedX, speedY):
 	
 	#checks right boundary for Defender
-	if get_global_pos().x > right_boundary:
+	if self.global_position.x > right_boundary:
 		self.global_position = Vector2(right_boundary, self.global_position.y)
 	
 	#checks left boundary for Defender
@@ -38,7 +38,7 @@ func movement(speedX, speedY):
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#move the Defender
-	move(current_speed)
+	move_and_collide(current_speed)
 
 	
 func _ready():
@@ -57,7 +57,7 @@ func _physics_process(delta):
 	
 	#rotate to protect bomber
 	diff = attacker.global_position - self.global_position
-	self.rotation = (atan2(-diff.y,diff.x) - 3.14/2)
+	self.rotation = atan2(diff.y,diff.x) + 3.14/2
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):

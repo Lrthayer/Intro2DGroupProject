@@ -81,8 +81,7 @@ func _process(delta):
 		laserInstance.set_owner(self)
 		
 		#set the position of the laser copy
-		laserInstance.set_global_pos(get_node("KinematicBody2D/ShipSprite").global_position + Vector2(0,24))
-	
+		laserInstance.global_position = get_node("KinematicBody2D/ShipSprite").global_position + Vector2(0,24)
 		
 	#Check to see if user pressed the spacebar or Numpad 0
 	firePressed = Input.is_action_pressed("space_fire") || Input.is_action_pressed("right_fire") 

@@ -22,7 +22,7 @@ var vector = Vector2(0,0)
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
-	#laserObject = self.get_node("/root/Node2D")
+	laserObject = self.get_node("/root/Node2D")
 	target = self.get_node("/root/Main/AttackerArea/Attacker/KinematicBody2D")
 	timer = self.get_parent().fireRate
 
@@ -51,8 +51,8 @@ func fire():
 	laserInstance.setSprite("white")
 	laserInstance.set_scale(Vector2(laserWidth, laserHeight))
 	laserInstance.startPosition = self.get_node("Position2D")
-	#laserInstance.set_owner(self)
-	laserInstance.speed = laserSpeed#self.get_parent().get_node("TurrentMenu/ProjectileVBox/SpinBox").get_val()
+	laserInstance.set_owner(self)
+	laserInstance.speed = laserSpeed
 	laserInstance.setDirVector(rotate, vector)
 	laserInstance.resetPos()
 

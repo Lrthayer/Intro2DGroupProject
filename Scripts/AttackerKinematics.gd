@@ -26,6 +26,7 @@ func movement(speedX, speedY):
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#check right side boundary for Attacker
+	print(global_position)
 	if self.global_position.x > right_boundary:
 		self.global_position = Vector2(right_boundary,self.global_position.y)
 
@@ -46,7 +47,7 @@ func _ready():
 	
 	get_node("hp_bar").set_max(hp)
 	shipPositionY = self.global_position.y
-	_fixed_process(true)
+	set_physics_process(true)
 
 	if (GLOBALS.g_current_attacker == "player1"):
 		player_speed = GLOBALS.g_player1_spd
@@ -54,12 +55,12 @@ func _ready():
 		player_speed = GLOBALS.g_player2_spd
 
 #called every frame 
-func _fixed_process(delta):
+func _physics_process(delta):
 	
-	right_boundary = get_parent().get_child(3).get_child(0).global_position.x - 36
-	left_boundary = get_parent().get_child(4).get_child(0).global_position.x + 36
-	top_boundary = get_parent().get_child(1).get_child(0).global_position.y + 30
-	bottom_boundary = get_parent().get_child(2).get_child(0).global_position.y - 30
+	left_boundary = get_parent().get_node("Area2D").get_child(0).global_position.x + 36
+	right_boundary = get_parent().get_node("Area2D2").get_child(0).global_position.x - 36
+	top_boundary = get_parent().get_node("Area2D3").get_child(0).global_position.y + 30
+	bottom_boundary = get_parent().get_node("Area2D4").get_child(0).global_position.y - 30
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):

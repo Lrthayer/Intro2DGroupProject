@@ -28,8 +28,24 @@ func set_turn(amt):
 #check collision with other objects
 func checkCollisions():
 	
+	#The laser's is moving downwards using KinematicBody2D
+	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)
+	
+	if collisionInfo:
+		#hide the laser
+		self.global_position = Vector2(10000, 10000)
+		self.get_node("KinematicBody2D").global_position = Vector2(10000, 10000)
+		
+		#get the other object
+		otherCollider = collisionInfo.collider
+		
+		if self.get_node("/root/GLOBALS").state != "Editor":
+			#Call method from otherCollider to do an event like losing health
+			otherCollider.collided(dmg)
+			
+	
 	#Laser is colliding with an object
-	if get_node("KinematicBody2D").is_colliding():
+	if collisionInfo:
 		
 		#destroy the laser
 		get_node(".").queue_free()

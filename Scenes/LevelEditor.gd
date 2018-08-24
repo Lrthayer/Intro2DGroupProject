@@ -84,7 +84,6 @@ func _ready():
 		dir = "AttackerArea/AttackerMenu/" + addDirectory[8]
 		self.get_node(dir).set_value(float(data["AttackerArea"]["height"]))
 		
-		
 		dir = "AttackerArea/AttackerMenu/" + addDirectory[9]
 		self.get_node(dir).set_value(float(data["AttackerArea"]["width"]))
 		
@@ -232,7 +231,6 @@ func _ready():
 			
 			self.get_node(dir).set_value(float(data[childName]["proj_height"]))
 			
-	
 		#grab the properties of base1
 		for k in range(get_node("BaseList").get_child_count()):
 			
@@ -374,11 +372,12 @@ func _process(delta):
 				objectInstance.get_child(0).get_child(2).connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 				objectInstance.get_node("MoverMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("/root/MoverArea/Mover"), "_on_height_value_changed")
 				objectInstance.get_node("MoverMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("/root/MoverArea/Mover"), "_on_width_value_changed")
-				objectInstance.get_node("MoverMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/MoverArea/Mover/KinematicBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
-				objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+				#objectInstance.get_node("MoverMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/MoverArea/Mover/KinematicBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
+				#objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
+				#objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Turrent":
-				objectInstance = turrent.duplicate(8)
+				#objectInstance = turrent.duplicate(8)
+				objectInstance = turrent.duplicate()
 				objectInstance.visible = true
 				#objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				#objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")

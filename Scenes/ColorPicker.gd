@@ -1,12 +1,8 @@
 extends ColorPickerButton
 
-
-func _on_ColorPicker_color_changed( color ):
-	self.color = color
-
-#when user presses button move the color picker to where they clicked
-func _on_ColorPicker_pressed():
-	if !self.get_parent().get_node("ColorPickerArea2D").visible:
-		self.get_parent().get_node("ColorPickerArea2D").visible = true
-	else:
-		self.get_parent().get_node("ColorPickerArea2D").visible = false
+func _ready():
+	set_process(true)
+	
+func _process(delta):
+	self.get_picker().rect_global_position = self.rect_global_position + Vector2(350, -200)
+	self.get_popup().rect_global_position = self.rect_global_position + Vector2(350, -200)

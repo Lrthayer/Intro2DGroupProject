@@ -43,7 +43,7 @@ func resetPos():
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):
-	self.set_rotation(rotate + 3.14)
+	self.set_rotation(rotate)
 	vector = turretVector
 
 func setSprite(color):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Turret.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Collided.gd" type="Script" id=2]
@@ -136,39 +136,33 @@ extents = Vector2( 10, 10 )
 custom_solver_bias = 0.0
 extents = Vector2( 36.45, 39.221 )
 
-[sub_resource type="GDScript" id=6]
-
-script/source = "extends ColorPickerButton
-
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_color(color)
-
-#when user presses button move the color picker to where they clicked
-func _on_ColorPicker_pressed():
-	if !self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").visible:
-		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").visible = true
-	else:
-		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").visible = false"
-
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 24.5003, 11.1971 )
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="GDScript" id=8]
 
-custom_solver_bias = 0.0
-extents = Vector2( 149.373, 225.538 )
+script/source = "extends ColorPickerButton
 
-[node name="TurretArea" type="Area2D" index="0"]
+func _ready():
+	set_process(true)
+	
+func _process(delta):
+	self.get_picker().rect_global_position = self.rect_global_position + Vector2(350, -200)
+	self.get_popup().rect_global_position = self.rect_global_position + Vector2(350, -200)
 
-position = Vector2( 1083.55, -140.779 )
+func _on_ColorPicker_color_changed( color ):
+	self.color = color"
+
+[node name="TurretArea" type="Area2D"]
+
+position = Vector2( 140, 250 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -258,6 +252,7 @@ audio_bus_name = "Master"
 
 [node name="StatsVBox" type="VBoxContainer" parent="TurrentMenu" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -275,6 +270,7 @@ alignment = 0
 
 [node name="HPHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -338,6 +334,7 @@ suffix = ""
 
 [node name="DamageHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -402,6 +399,7 @@ suffix = ""
 
 [node name="FireRateHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -466,6 +464,7 @@ suffix = ""
 
 [node name="FireRateDeltaHBox" type="HBoxContainer" parent="TurrentMenu/StatsVBox" index="3"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -530,6 +529,7 @@ suffix = ""
 
 [node name="VisualVBox" type="VBoxContainer" parent="TurrentMenu" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -673,34 +673,7 @@ editable = true
 prefix = ""
 suffix = ""
 
-[node name="ColorPicker" type="ColorPickerButton" parent="TurrentMenu" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 216.0
-margin_top = 121.0
-margin_right = 344.0
-margin_bottom = 141.0
-rect_pivot_offset = Vector2( 0, 0 )
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = false
-align = 1
-color = Color( 1, 1, 1, 1 )
-edit_alpha = false
-script = SubResource( 6 )
-_sections_unfolded = [ "Rect" ]
-
-[node name="ProjectileVBox" type="VBoxContainer" parent="TurrentMenu" index="3"]
+[node name="ProjectileVBox" type="VBoxContainer" parent="TurrentMenu" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -911,7 +884,7 @@ collision/safe_margin = 0.08
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
@@ -919,48 +892,38 @@ position = Vector2( 1.93402, -0.0888446 )
 scale = Vector2( 14.9088, 8.20073 )
 texture = ExtResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu" index="4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu" index="3"]
 
 position = Vector2( 266.45, 110.779 )
 scale = Vector2( 10.3845, 6.33229 )
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
-[node name="ColorPickerArea2D" type="Area2D" parent="TurrentMenu" index="5"]
-
-visible = false
-position = Vector2( 13.9999, 1.99998 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="ColorPicker" type="ColorPicker" parent="TurrentMenu/ColorPickerArea2D" index="0"]
+[node name="ColorPicker" type="ColorPickerButton" parent="TurrentMenu" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 4.0
-margin_bottom = 4.0
+margin_left = 216.0
+margin_top = 121.0
+margin_right = 344.0
+margin_bottom = 141.0
 rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 1
+focus_mode = 2
+mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-alignment = 0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+flat = false
+align = 1
 color = Color( 1, 1, 1, 1 )
-edit_alpha = true
-raw_mode = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ColorPickerArea2D" index="1"]
-
-position = Vector2( 501.393, 131.662 )
-shape = SubResource( 9 )
+edit_alpha = false
+script = SubResource( 8 )
+_sections_unfolded = [ "Rect" ]
 
 [connection signal="mouse_entered" from="." to="." method="_on_TurretArea_mouse_enter"]
 
@@ -978,8 +941,6 @@ shape = SubResource( 9 )
 
 [connection signal="value_changed" from="TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_width_value_changed"]
 
-[connection signal="pressed" from="TurrentMenu/ColorPicker" to="TurrentMenu/ColorPicker" method="_on_ColorPicker_pressed"]
-
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_ProjHeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
@@ -990,8 +951,6 @@ shape = SubResource( 9 )
 
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="Turret" method="_on_SpeedSpinBox_value_changed"]
 
-[connection signal="color_changed" from="TurrentMenu/ColorPickerArea2D/ColorPicker" to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="color_changed" from="TurrentMenu/ColorPickerArea2D/ColorPicker" to="TurrentMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="TurrentMenu/ColorPicker" to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 
 

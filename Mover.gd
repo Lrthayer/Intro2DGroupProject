@@ -37,7 +37,7 @@ func _process(delta):
 	theirPos = target.global_position
 	myPos = self.get_node("KinematicBody2D").global_position
 	diff = theirPos - myPos
-	rotate = atan2(-diff.y,diff.x) - 3.14/2
+	rotate = atan2(diff.y,diff.x) + 3.14/2
 	vector = (theirPos - myPos).normalized()
 	timer = timer - (delta + rateIncrease)
 	

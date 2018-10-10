@@ -8,6 +8,7 @@ var speed = GLOBALS.g_offense_spd
 var dmg = GLOBALS.g_offense_dmg
 var turn = 0
 var otherCollider
+var vec
 
 
 #set the damage
@@ -29,7 +30,7 @@ func set_turn(amt):
 func checkCollisions():
 	
 	#The laser's is moving downwards using KinematicBody2D
-	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)
+	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vec * speed)
 	
 	if collisionInfo:
 		#hide the laser
@@ -83,7 +84,7 @@ func _ready():
 func _physics_process(delta):
 	
 	#The laser is moving upwards & tilted
-	var vec = Vector2(0,speed).rotated(turn)
+	vec = Vector2(0,speed).rotated(turn)
 	get_node("KinematicBody2D").move_and_collide(vec)
 	
 	

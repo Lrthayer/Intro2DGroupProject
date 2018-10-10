@@ -19,6 +19,9 @@ var data
 var objectName
 var childName = ""
 var dir= ""
+var isSaving = true
+var save_scene1 = load("res://Save.tscn")
+var save_scene2 = load("res://Save2.tscn")
 
 var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
 "StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
@@ -492,6 +495,11 @@ func _on_Save_Button_pressed():
 	var objects = {}
 	var numOfObjects = 0
 	
+	var sav_obj = save_scene1.instance()
+	self.add_child(sav_obj)
+	
+	#saving interface
+	
 	#grab the properties of attacker
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
 	objects["hp"] = str(self.get_node(dir).get_value())
@@ -724,8 +732,8 @@ func _on_Save_Button_pressed():
 	# save to a file
 	capture.save_png("res://screenshot" + str(numberOfSaves) + ".png")
 	#tell playlist to add pic for level
-	self.get_node("Camera2D").get_node("playlist").save_item(capture)
-	numberOfSaves = numberOfSaves + 1
+	#self.get_node("Camera2D").get_node("playlist").save_item(capture)
+	#numberOfSaves = numberOfSaves + 1
 
 func _on_Load_Button_pressed():
 	GLOBALS.file_name = "myscene"

@@ -9,9 +9,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 2.0
+margin_left = 5.0
 margin_top = -1.0
-margin_right = 1025.0
+margin_right = 1028.0
 margin_bottom = 597.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -30,7 +30,7 @@ anchor_bottom = 0.0
 margin_left = 234.0
 margin_top = 227.0
 margin_right = 809.0
-margin_bottom = 302.0
+margin_bottom = 385.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -82,10 +82,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 30.0
-margin_top = 23.0
-margin_right = 196.0
-margin_bottom = 54.0
+margin_left = 12.0
+margin_top = 120.0
+margin_right = 564.0
+margin_bottom = 146.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -107,10 +107,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 220.0
-margin_top = 20.0
-margin_right = 371.0
-margin_bottom = 52.0
+margin_left = 12.0
+margin_top = 84.0
+margin_right = 564.0
+margin_bottom = 110.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -132,10 +132,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 393.0
-margin_top = 19.0
-margin_right = 545.0
-margin_bottom = 51.0
+margin_left = 13.0
+margin_top = 14.0
+margin_right = 566.0
+margin_bottom = 41.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -151,10 +151,37 @@ text = "Save Level"
 flat = false
 align = 1
 
+[node name="SaveLevel2" type="Button" parent="MyDialog" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 13.0
+margin_top = 49.0
+margin_right = 566.0
+margin_bottom = 76.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Save As New Level"
+flat = false
+align = 1
+
 [connection signal="pressed" from="MyDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
 
 [connection signal="pressed" from="MyDialog/SaveButton" to="." method="_on_SaveButton_pressed"]
 
 [connection signal="pressed" from="MyDialog/SaveLevel" to="." method="_on_SaveLevel_pressed"]
+
+[connection signal="pressed" from="MyDialog/SaveLevel2" to="." method="_on_SaveLevel_pressed"]
 
 

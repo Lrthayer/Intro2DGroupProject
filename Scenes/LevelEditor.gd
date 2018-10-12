@@ -488,18 +488,14 @@ func _cusorStopFollowing():
 func _startFollowingMouse():
 	self.get_node("Cursor").followMouse = true
 
-func _on_Save_Button_pressed():
+func saving_level():
+	
 	packed_scene.pack(get_tree().get_current_scene())
 	
 	#varibles
 	var objects = {}
 	var numOfObjects = 0
-	
-	var sav_obj = save_scene1.instance()
-	self.add_child(sav_obj)
-	
-	#saving interface
-	
+
 	#grab the properties of attacker
 	dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
 	objects["hp"] = str(self.get_node(dir).get_value())
@@ -560,6 +556,7 @@ func _on_Save_Button_pressed():
 
 	dict["DefenderArea"] = objects
 	objects = {}
+	
 	#grab the properties of turrets
 	for i in range(get_node("TurrentList").get_child_count()):
 		
@@ -726,6 +723,18 @@ func _on_Save_Button_pressed():
 	file.close()
 	ResourceSaver.save("res://myscene.tscn", packed_scene)
 	
+func _on_Save_Button_pressed():
+	
+	if GLOBALS.g_current_level == "Default":
+		var sav_obj = save_scene1.instance()
+		self.add_child(sav_obj)
+	else:
+		var sav_obj = save_scene2.instance()
+		self.add_child(sav_obj)
+		
+	
+	
+	"""
 	# get screen capture
 	var capture = get_viewport().get_texture().get_data()
 	capture.flip_y()
@@ -734,7 +743,7 @@ func _on_Save_Button_pressed():
 	#tell playlist to add pic for level
 	#self.get_node("Camera2D").get_node("playlist").save_item(capture)
 	#numberOfSaves = numberOfSaves + 1
-
+	"""
 func _on_Load_Button_pressed():
 	GLOBALS.file_name = "myscene"
 	GLOBALS.changed_scene = true

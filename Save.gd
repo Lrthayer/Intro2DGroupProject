@@ -15,13 +15,29 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
-
-func _on_CancelButton_pressed():
+func cancel():
 	if isParent:
 		self.queue_free()
 	else:
 		self.get_parent().queue_free()
+	
+func _on_CancelButton_pressed():
+	cancel()
+
 
 
 func _on_SaveButton_pressed():
-	self.get_parent().isSaving = false
+	GLOBALS.current_playlist_name = get_node("MyDialog/LineEdit").text
+	GLOBALS.current_level_name = "Level1"
+	var directory = Directory.new()
+	
+	print(GLOBALS.current_playlist_name)
+	
+	if GLOBALS.current_playlist_name == "":
+		get_node("AcceptDialog").popup()
+	elif directory.dir_exists("user://Playlists/" + GLOBALS.current_playlist_name + "/"):
+		get_node("AcceptDialog").popup()
+	else:
+		directory.open("user://Playlists/")
+		directory.make_dir(GLOBALS.current_playlist_name)
+		cancel()

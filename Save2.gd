@@ -18,6 +18,7 @@ func _on_SaveLevel_pressed():
 func _on_SaveButton_pressed():
 	var obj1 = Save_Scene1.instance()
 	self.add_child(obj1)
+	obj1.isParent = false
 	self.get_node("MyDialog").queue_free()
 
 

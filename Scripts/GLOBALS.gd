@@ -18,7 +18,8 @@ var changed_scene = false
 
 
 #file editing
-var file_name = ""
+var current_playlist_name = "Default"
+var current_level_name = "Default"
 
 # Event tracking
 var enemy_counter = 0

@@ -1,18 +1,17 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Save2.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Save_Interface/Save2.gd" type="Script" id=1]
 [ext_resource path="res://myPanel.gd" type="Script" id=2]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 5.0
-margin_top = -1.0
-margin_right = 1028.0
-margin_bottom = 597.0
+margin_left = 4.0
+margin_right = 1027.0
+margin_bottom = 598.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -30,7 +29,7 @@ anchor_bottom = 0.0
 margin_left = 234.0
 margin_top = 227.0
 margin_right = 809.0
-margin_bottom = 385.0
+margin_bottom = 413.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -82,10 +81,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 12.0
-margin_top = 120.0
-margin_right = 564.0
-margin_bottom = 146.0
+margin_left = 11.0
+margin_top = 151.0
+margin_right = 563.0
+margin_bottom = 177.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -107,9 +106,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 12.0
+margin_left = 11.0
 margin_top = 84.0
-margin_right = 564.0
+margin_right = 563.0
 margin_bottom = 110.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -126,16 +125,41 @@ text = "Save As New Playlist"
 flat = false
 align = 1
 
-[node name="SaveLevel" type="Button" parent="MyDialog" index="4"]
+[node name="SaveButton2" type="Button" parent="MyDialog" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 13.0
-margin_top = 14.0
-margin_right = 566.0
-margin_bottom = 41.0
+margin_left = 10.0
+margin_top = 117.0
+margin_right = 562.0
+margin_bottom = 143.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Save To New Playlist"
+flat = false
+align = 1
+
+[node name="SaveLevel" type="Button" parent="MyDialog" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 11.0
+margin_top = 15.0
+margin_right = 563.0
+margin_bottom = 42.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -151,15 +175,15 @@ text = "Save Level"
 flat = false
 align = 1
 
-[node name="SaveLevel2" type="Button" parent="MyDialog" index="5"]
+[node name="SaveLevel2" type="Button" parent="MyDialog" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 13.0
+margin_left = 11.0
 margin_top = 49.0
-margin_right = 566.0
+margin_right = 563.0
 margin_bottom = 76.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -180,8 +204,10 @@ align = 1
 
 [connection signal="pressed" from="MyDialog/SaveButton" to="." method="_on_SaveButton_pressed"]
 
+[connection signal="pressed" from="MyDialog/SaveButton2" to="." method="_on_SaveButton2_pressed"]
+
 [connection signal="pressed" from="MyDialog/SaveLevel" to="." method="_on_SaveLevel_pressed"]
 
-[connection signal="pressed" from="MyDialog/SaveLevel2" to="." method="_on_SaveLevel_pressed"]
+[connection signal="pressed" from="MyDialog/SaveLevel2" to="." method="_on_SaveLevel2_pressed"]
 
 

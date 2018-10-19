@@ -28,7 +28,7 @@ func _on_CancelButton_pressed():
 
 func _on_SaveButton_pressed():
 	GLOBALS.current_playlist_name = get_node("MyDialog/LineEdit").text
-	GLOBALS.current_level_name = "Level1"
+	#GLOBALS.current_level_name = "Level1"
 	var directory = Directory.new()
 	
 	print(GLOBALS.current_playlist_name)

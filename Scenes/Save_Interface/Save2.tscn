@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Save_Interface/Save2.gd" type="Script" id=1]
 [ext_resource path="res://myPanel.gd" type="Script" id=2]
 
-[node name="Control" type="Control" index="0"]
+[node name="Control" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -146,7 +146,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Save To New Playlist"
+text = "Save To Different Playlist"
 flat = false
 align = 1
 

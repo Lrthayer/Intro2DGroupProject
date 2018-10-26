@@ -26,4 +26,15 @@ func _on_CancelButton_pressed():
 
 
 func _on_SaveButton_pressed():
-	pass # replace with function body
+	
+	var directory = Directory.new()
+	
+	
+	var level = self.get_node("./MyDialog/OptionButton").get_selected_id()
+	
+	if directory.dir_exists("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level) + "/"):
+		pass
+	else:
+		directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
+		directory.make_dir(level)
+		

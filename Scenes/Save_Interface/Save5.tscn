@@ -1,18 +1,17 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scenes/Save_Interface/Save3.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Save_Interface/Save5.gd" type="Script" id=1]
 [ext_resource path="res://myPanel.gd" type="Script" id=2]
 
-[node name="Control" type="Control" index="0"]
+[node name="Control" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 3.0
-margin_top = 1.0
-margin_right = 1026.0
-margin_bottom = 599.0
+margin_left = 2.0
+margin_right = 1025.0
+margin_bottom = 598.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -20,6 +19,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
+dropdown_path = NodePath("MyDialog/dropdown")
 
 [node name="MyDialog" type="Panel" parent="." index="0"]
 
@@ -30,7 +30,7 @@ anchor_bottom = 0.0
 margin_left = 233.0
 margin_top = 229.0
 margin_right = 808.0
-margin_bottom = 409.0
+margin_bottom = 383.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -61,17 +61,17 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 266.0
-margin_top = -16.0
-margin_right = 346.0
-margin_bottom = -2.0
+margin_left = 279.0
+margin_top = -15.0
+margin_right = 313.0
+margin_bottom = -1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Save Level"
+text = "Save"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -82,52 +82,31 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 37.0
-margin_top = 5.0
-margin_right = 117.0
-margin_bottom = 19.0
+margin_left = 36.0
+margin_top = 3.0
+margin_right = 128.0
+margin_bottom = 17.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Level Name:"
+text = "Current Playlists"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Label3" type="Label" parent="MyDialog" index="3"]
+[node name="CancelButton" type="Button" parent="MyDialog" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 36.0
-margin_top = 54.0
-margin_right = 266.0
-margin_bottom = 68.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Select Where To Put Level In Playist:"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="CancelButton" type="Button" parent="MyDialog" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 31.0
-margin_top = 145.0
-margin_right = 555.0
-margin_bottom = 169.0
+margin_top = 101.0
+margin_right = 551.0
+margin_bottom = 134.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -143,43 +122,16 @@ text = "Cancel"
 flat = false
 align = 1
 
-[node name="LineEdit" type="LineEdit" parent="MyDialog" index="5"]
+[node name="SaveButton" type="Button" parent="MyDialog" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 31.0
-margin_top = 23.0
-margin_right = 555.0
-margin_bottom = 47.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 1
-size_flags_horizontal = 2
-size_flags_vertical = 2
-max_length = 100
-focus_mode = 2
-context_menu_enabled = true
-placeholder_text = "Enter Text Here"
-placeholder_alpha = 0.5
-caret_blink = false
-caret_blink_speed = 0.65
-caret_position = 0
-_sections_unfolded = [ "Placeholder" ]
-
-[node name="SaveButton" type="Button" parent="MyDialog" index="6"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 32.0
-margin_top = 112.0
-margin_right = 554.0
-margin_bottom = 136.0
+margin_left = 36.0
+margin_top = 61.0
+margin_right = 551.0
+margin_bottom = 94.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -191,20 +143,20 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Save Level"
+text = "Save Level In Playlist"
 flat = false
 align = 1
 
-[node name="OptionButton" type="OptionButton" parent="MyDialog" index="7"]
+[node name="dropdown" type="OptionButton" parent="MyDialog" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 33.0
-margin_top = 76.0
-margin_right = 556.0
-margin_bottom = 103.0
+margin_left = 36.0
+margin_top = 22.0
+margin_right = 552.0
+margin_bottom = 53.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -217,11 +169,10 @@ action_mode = 0
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Level 1"
 flat = false
 align = 0
-items = [ "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null, "Level 5", null, false, 5, null, "Level 6", null, false, 6, null, "Level 7", null, false, 7, null, "Level 8", null, false, 8, null, "Level 9", null, false, 9, null, "Level 10", null, false, 10, null ]
-selected = 0
+items = [  ]
+selected = -1
 
 [node name="AcceptDialog" type="AcceptDialog" parent="." index="1"]
 

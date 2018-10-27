@@ -47,7 +47,7 @@ var editorState = "placing"
 #Laser Object bool
 var laserObjectPool = []
 var laserObjectIndex = 0
-var laserObjectPoolAmount = 50
+var laserObjectPoolAmount = 500
 
 var numberOfSaves = 0
 
@@ -315,7 +315,7 @@ func _ready():
 	
 	set_process(true)
 		#create laserObject pool
-	for i in range(laserObjectPoolAmount):
+	"""for i in range(laserObjectPoolAmount):
 		laserObjectPool.append(self.get_node("/root/Main/TurretArea/TurrentMenu/ProjectileVBox/Laser").duplicate())
 		#laserObjectPool.append(laser.instance())
 		#give the copy a name 
@@ -323,7 +323,7 @@ func _ready():
 		
 		#add a child
 		self.add_child(laserObjectPool[-1])
-		#laserObjectPool[-1].set_owner(self)
+		#laserObjectPool[-1].set_owner(self)"""
 	
 	turrent = self.get_node("TurretArea")
 	stun = self.get_node("MoverArea")
@@ -341,6 +341,9 @@ func _process(delta):
 	#get_child(1).set_global_pos(posOffset)
 	if  !overButton && Input.is_key_pressed(KEY_P):
 		if !overButton && !pressed && editorState == "placing":
+			print("mousePosition:")
+			print(posOffset)
+			print("endMP")
 			var objectInstance = null
 			#objectInstance.visible = true
 			#objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
@@ -429,14 +432,19 @@ func _process(delta):
 	self.get_node("Cursor").set_modulate(cursorColor)
 	
 func getLaser():
-	#check to see if index is in bounds
+	"""#check to see if index is in bounds
 	if laserObjectIndex >= laserObjectPool.size():
 		laserObjectIndex = 0
 	#print(laserObjectIndex)
 	laserObjectIndex += 1
 	#print (laserObjectPool[laserObjectIndex-1].get_global_pos())
-	#laserObjectPool[laserObjectIndex-1].set_global_pos(Vector2(0,0))
-	return laserObjectPool[laserObjectIndex-1]
+	#laserObjectPool[laserObjectIndex-1].set_global_pos(Vector2(0,0))"""
+	var instance = self.get_node("/root/Main/TurretArea/TurrentMenu/ProjectileVBox/Laser").duplicate()
+	instance.set_name("Laser")
+		
+	#add a child
+	self.add_child(instance)
+	return instance
 	
 func _on_Button_button_down(type):
 	if type == "Base":

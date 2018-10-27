@@ -58,12 +58,12 @@ func _process(delta):
 				#if already open, close
 				if self.get_node(\"Base1Menu\").visible:
 					self.get_node(\"Base1Menu\").visible = false
-					self.get_node(\"Base1Menu\").set_pos(Vector2(30000,30000))
+					self.get_node(\"Base1Menu\").position = Vector2(30000,30000)
 					#set root state to placing
 					self.get_node(\"/root/Main\").editorState = \"placing\"
 					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
 				else:
-					self.get_node(\"Base1Menu\").set_pos(Vector2(160,-100))
+					self.get_node(\"Base1Menu\").position = Vector2(160,-100)
 					self.get_node(\"Base1Menu\").visible = true
 					#set root state to editing
 					self.get_node(\"/root/Main\").editorState = \"editing\"
@@ -148,7 +148,7 @@ extents = Vector2( 16.9967, 6.85448 )
 custom_solver_bias = 0.0
 extents = Vector2( 149.373, 225.538 )
 
-[node name="Base12D" type="Area2D" index="0"]
+[node name="Base12D" type="Area2D"]
 
 position = Vector2( 665.142, 35.4221 )
 input_pickable = true
@@ -202,6 +202,7 @@ margin_top = 55.0
 margin_right = 47.0
 margin_bottom = 63.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -243,6 +244,7 @@ margin_top = 49.0
 margin_right = 190.0
 margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -259,6 +261,7 @@ anchor_bottom = 0.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -274,6 +277,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -298,6 +302,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -324,6 +329,7 @@ margin_top = 28.0
 margin_right = 176.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -339,6 +345,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -363,6 +370,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -389,6 +397,7 @@ margin_top = 56.0
 margin_right = 176.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -404,6 +413,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -428,6 +438,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -453,6 +464,7 @@ margin_top = 84.0
 margin_right = 176.0
 margin_bottom = 104.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -497,6 +509,7 @@ margin_top = 4.0
 margin_right = 4.0
 margin_bottom = 4.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2

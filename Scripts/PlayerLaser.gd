@@ -27,9 +27,64 @@ func set_turn(amt):
 
 #check collision with other objects
 func checkCollisions():
-	
+	pass
 	#The laser's is moving downwards using KinematicBody2D
-	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)
+	"""var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)
+	
+	if collisionInfo:
+		#hide the laser
+		self.global_position = Vector2(10000, 10000)
+		self.get_node("KinematicBody2D").global_position = Vector2(10000, 10000)
+		
+		#get the other object
+		otherCollider = collisionInfo.collider
+		
+		if self.get_node("/root/GLOBALS").state != "Editor":
+			#Call method from otherCollider to do an event like losing health
+			otherCollider.collided(dmg)
+			
+	
+	#Laser is colliding with an object
+	if collisionInfo:
+		
+		#destroy the laser
+		get_node(".").queue_free()
+		
+		#get the other object
+		var otherCollider = get_node("KinematicBody2D").get_collider()
+		
+		#It is colliding with Defender
+		if otherCollider.get_name() == "StaticBody2D":
+			if otherCollider.get_parent().get_name() == "KinematicBody2D":
+				if otherCollider.get_parent().get_parent().get_name() == "Defender":
+					#ignore collision
+					pass
+				else:
+					otherCollider.collided(dmg)
+			else:
+				otherCollider.collided(dmg)
+				
+		else:
+			#it is colliding with Defender
+			if otherCollider.get_parent().get_name() == "Defender":
+				#ignore collision
+				pass
+			else:
+				otherCollider.collided(dmg)"""
+			
+
+#starts when loaded up in scene
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_physics_process(true)
+	
+#called every frame
+func _physics_process(delta):
+	
+	#The laser is moving upwards & tilted
+	var vec = Vector2(0,speed).rotated(turn)
+	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vec)
 	
 	if collisionInfo:
 		#hide the laser
@@ -71,21 +126,6 @@ func checkCollisions():
 				pass
 			else:
 				otherCollider.collided(dmg)
-			
-
-#starts when loaded up in scene
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	set_physics_process(true)
-	
-#called every frame
-func _physics_process(delta):
-	
-	#The laser is moving upwards & tilted
-	var vec = Vector2(0,speed).rotated(turn)
-	get_node("KinematicBody2D").move_and_collide(vec)
-	
 	
 	#The laser has left the outer boundary
 	var y = get_node("KinematicBody2D").global_position.y
@@ -99,9 +139,3 @@ func _physics_process(delta):
 		
 	#checks for collision
 	checkCollisions()
-	
-	
-	
-
-	
-	

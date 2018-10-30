@@ -55,7 +55,7 @@ func _process(delta):
 		if  Input.is_action_pressed(\"edit\") && !locked:
 			if menuToggle < 1:
 				#if already open, close
-				if !self.get_node(\"Base2Menu\").is_hidden():
+				if self.get_node(\"Base2Menu\").visible:
 					self.get_node(\"Base2Menu\").set_hidden(true)
 					#self.get_node(\"TurrentMenu/StatsVBox\").set_hidden(true)
 					#self.get_node(\"TurrentMenu/VisualVBox\").set_hidden(true)
@@ -65,7 +65,7 @@ func _process(delta):
 					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
 				else:
 					self.get_node(\"Base2Menu\").position = Vector2(160,-100)
-					self.get_node(\"Base2Menu\").set_hidden(false)
+					self.get_node(\"Base2Menu\").visible = true
 					self.get_node(\"/root/Main\").editorState = \"editing\"
 					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
 				menuToggle += 1

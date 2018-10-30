@@ -2824,9 +2824,9 @@ position = Vector2( -3.05176e-005, 3.05176e-005 )
 
 [connection signal="mouse_exited" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

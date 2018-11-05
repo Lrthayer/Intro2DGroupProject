@@ -31,10 +31,22 @@ func _on_SaveButton_pressed():
 	
 	
 	var level = self.get_node("./MyDialog/OptionButton").get_selected_id()
+	GLOBALS.current_level_name = get_node("MyDialog/LineEdit").text
 	
-	if directory.dir_exists("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level) + "/"):
-		pass
+	if GLOBALS.current_level_name == "":
+		self.get_node("./AcceptDialog").popup()
+	elif directory.dir_exists("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level) + "/"):
+		self.get_node("./ConfirmationDialog").popup()
 	else:
 		directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
-		directory.make_dir(level)
+		directory.make_dir(str(level))
+		saving_level()
 		
+
+
+func _on_AcceptDialog_confirmed():
+	var directory = Directory.new()
+	var level = self.get_node("./MyDialog/OptionButton").get_selected_id()
+	directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
+	directory.make_dir(str(level))
+	saving_level()

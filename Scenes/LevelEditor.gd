@@ -20,8 +20,8 @@ var objectName
 var childName = ""
 var dir= ""
 var isSaving = true
-var save_scene1 = load("res://Save.tscn")
-var save_scene2 = load("res://Save2.tscn")
+var save_scene1 = load("res://Scenes/Save_Interface/Save.tscn")
+var save_scene2 = load("res://Scenes/Save_Interface/Save2.tscn")
 
 var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
 "StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
@@ -725,7 +725,7 @@ func saving_level():
 	
 func _on_Save_Button_pressed():
 	
-	if GLOBALS.g_current_level == "Default":
+	if GLOBALS.current_level_name == "Default":
 		var sav_obj = save_scene1.instance()
 		self.add_child(sav_obj)
 	else:
@@ -733,6 +733,8 @@ func _on_Save_Button_pressed():
 		self.add_child(sav_obj)
 		
 	
+	#change the position of camera and then pause the scene
+	#let the interface go from there.
 	
 	"""
 	# get screen capture

@@ -339,6 +339,9 @@ func _process(delta):
 	var mosLoc = self.get_global_mouse_position()
 	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20)
 	#get_child(1).set_global_pos(posOffset)
+	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
+		self.get_node("MainRightClickMenu").show()
+		self.get_node("MainRightClickMenu").rect_global_position = get_global_mouse_position()
 	if  !overButton && Input.is_key_pressed(KEY_P):
 		if !overButton && !pressed && editorState == "placing":
 			print("mousePosition:")

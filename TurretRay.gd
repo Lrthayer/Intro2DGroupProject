@@ -18,42 +18,29 @@ var laserSpeed = 3
 var laserHeight = 1
 var laserWidth = 1
 var vector = Vector2(0,0)
+var globalP = Vector2(0,0)
 
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
 	laserObject = self.get_node("/root/Node2D")
-	target = self.get_node("/root/Main/AttackerArea/Attacker/KinematicBody2D")
-	timer = self.get_parent().fireRate
+	target = self.get_parent().get_node("Position2DArea2D/Position2D")
+	
+func _draw():
+	var inv = get_global_transform().inverse()
+	draw_set_transform(inv.get_origin(), inv.get_rotation(), inv.get_scale())
+	#draw_set_transform (Vector2(0,0), 0, Vector2(1,1))
+	draw_line(self.global_position, target.global_position, Color(255, 0, 0), 5)
 
 #called every frame
 func _process(delta):
+	#globalP = self.get_node("Position2D").global_position
 	theirPos = target.global_position
 	myPos = self.global_position
 	diff = theirPos - myPos
 	rotate = atan2(diff.y,diff.x) + 3.14/2
 	self.set_rotation(rotate)
-	vector = (theirPos - myPos).normalized()
-	self.get_parent().fireRate = self.get_parent().fireRate  - (delta + self.get_parent().fireRateDelta/100)
-	#tick = tick - self.get_parent().fireRateDelta
-	#enough time has passed
-	if (self.get_parent().fireRate <= 0):
-		fire()
-		self.get_parent().fireRate = self.get_parent().fireRateStatic
-		self.get_parent().fireRateDelta += self.get_parent().fireRateDelta/100
-
-#turret shoots laser
-func fire():
-	laserCount += 1
-	#create a copy of the laser object
-	var laserInstance = self.get_node("/root/Main").getLaser()
-	laserInstance.setSprite("white")
-	laserInstance.set_scale(Vector2(laserWidth, laserHeight))
-	laserInstance.startPosition = self.get_node("Position2D")
-	laserInstance.set_owner(self)
-	laserInstance.speed = laserSpeed
-	laserInstance.setDirVector(rotate, vector)
-	laserInstance.resetPos()
+	update();
 
 func _on_height_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))

@@ -123,7 +123,7 @@ func _process(delta):
 	else:
 		specialBar.max_value = specialTime
 		
-	print ("special Time : ", specialTime, " specialBar : " ,specialBar.value) 
+	#print ("special Time : ", specialTime, " specialBar : " ,specialBar.value) 
 		
 	#Check to see if user pressed the spacebar or Numpad 0
 	firePressed = Input.is_action_pressed("space_fire") || Input.is_action_pressed("right_fire") 

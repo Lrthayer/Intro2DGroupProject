@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://AttackerArea.tscn" type="PackedScene" id=1]
+[ext_resource path="res://TurretRayArea.tscn" type="PackedScene" id=2]
+
+[node name="Node2D" type="Node2D" index="0"]
+
+[node name="AttackerArea" parent="." index="0" instance=ExtResource( 1 )]
+
+position = Vector2( 637.03, 173.616 )
+
+[node name="TurretRayArea" parent="." index="1" instance=ExtResource( 2 )]
+
+

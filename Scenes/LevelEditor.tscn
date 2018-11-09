@@ -477,7 +477,7 @@ extents = Vector2( 26.9633, 12.0705 )
 
 render_priority = 0
 
-[node name="Main" type="Node2D" index="0"]
+[node name="Main" type="Node2D"]
 
 position = Vector2( 132.09, -17.8815 )
 z_as_relative = false
@@ -994,7 +994,6 @@ shape = SubResource( 8 )
 
 [node name="TurretArea" type="Area2D" parent="." index="4"]
 
-editor/display_folded = true
 position = Vector2( 1071.86, -132.428 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -1008,7 +1007,6 @@ _sections_unfolded = [ "Material", "Pause", "Visibility" ]
 
 [node name="Turret" type="Node2D" parent="TurretArea" index="0"]
 
-editor/display_folded = true
 light_mask = 3
 material = SubResource( 10 )
 script = ExtResource( 14 )

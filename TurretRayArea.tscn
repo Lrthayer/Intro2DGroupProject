@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://TurretRay.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Collided.gd" type="Script" id=2]
@@ -9,8 +9,7 @@
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=7]
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=8]
 [ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=9]
-[ext_resource path="res://RayCast2D.gd" type="Script" id=10]
-[ext_resource path="res://Position2DArea2D.gd" type="Script" id=11]
+[ext_resource path="res://Position2DArea2D.gd" type="Script" id=10]
 
 [sub_resource type="GDScript" id=1]
 
@@ -31,10 +30,35 @@ var fireRate = 1
 var fireRateStatic = 1
 var fireRateDelta = .001
 
+var rayCastExceptions = []
+
 func _ready():
 	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
 	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
 	set_process(true)
+	set_physics_process(true)
+	getallnodes(self)
+
+func getallnodes(node):
+	for N in node.get_children():
+		if N.get_child_count() > 0:
+			rayCastExceptions.append(N)
+			getallnodes(N)
+		else:
+			# Do something
+			rayCastExceptions.append(N)
+	rayCastExceptions.append(self)
+	print(rayCastExceptions)
+
+func _physics_process(delta):
+	var space_state = self.get_parent().get_world_2d().direct_space_state
+	# use global coordinates, not local to node
+	#print (rayCastExceptions)
+	#print(self.get_children())
+	var result = space_state.intersect_ray(self.global_position, self.get_node(\"Position2DArea2D/Position2D\").global_position, rayCastExceptions, self.collision_mask)
+	#print(self.get_node(\"Position2DArea2D/Position2D\").global_position)
+	#print(self.global_position)
+	print(result)
 
 #called every frame
 func _process(delta):
@@ -182,10 +206,12 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 0
+collision_mask = 16
 audio_bus_override = false
 audio_bus_name = "Master"
 script = SubResource( 1 )
-_sections_unfolded = [ "Material", "Pause", "Transform", "Visibility" ]
+_sections_unfolded = [ "Collision", "Material", "Pause", "Transform", "Visibility" ]
 
 [node name="Turret" type="Node2D" parent="." index="0"]
 
@@ -1027,18 +1053,9 @@ edit_alpha = false
 script = SubResource( 9 )
 _sections_unfolded = [ "Rect" ]
 
-[node name="RayCast2D" type="RayCast2D" parent="." index="3"]
+[node name="Position2DArea2D" type="Area2D" parent="." index="3"]
 
-position = Vector2( -66.4327, 1.32867 )
-enabled = true
-exclude_parent = true
-cast_to = Vector2( 0, 50 )
-collision_mask = 16
-script = ExtResource( 10 )
-
-[node name="Position2DArea2D" type="Area2D" parent="." index="4"]
-
-position = Vector2( -68.141, -143.774 )
+position = Vector2( -50.6875, -148.907 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -1046,7 +1063,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = ExtResource( 11 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Position2D" type="Position2D" parent="Position2DArea2D" index="0"]

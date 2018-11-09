@@ -1103,9 +1103,9 @@ _sections_unfolded = [ "Rect" ]
 
 [connection signal="value_changed" from="AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="Attacker" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="color_changed" from="AttackerMenu/ColorPickerArea2D/ColorPicker" to="Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="AttackerMenu/ColorPickerArea2D/ColorPicker" to="Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="pressed" from="AttackerMenu/ColorPicker" to="AttackerMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 

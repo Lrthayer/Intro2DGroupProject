@@ -16,10 +16,7 @@ func _process(delta):
 	pass
 
 func _physics_process(delta):
-	var space_state = self.get_parent().get_world_2d().direct_space_state
-	# use global coordinates, not local to node
-	var result = space_state.intersect_ray(Vector2(0, 0), self.get_parent().get_node("Position2DArea2D/Position2D").global_position)
-	print(result)
+
 	#if in edit mode update every frame the rotation of the turrent and casting, if in play mode it should only need to be set once in init
 	#self.cast_to = self.get_parent().get_node("Position2DArea2D/Position2D").global_position
 	#if self.is_colliding():

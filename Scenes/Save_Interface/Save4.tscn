@@ -3,15 +3,17 @@
 [ext_resource path="res://Scenes/Save_Interface/Save.gd" type="Script" id=1]
 [ext_resource path="res://myPanel.gd" type="Script" id=2]
 
-[node name="Control" type="Control" index="0"]
+[node name="Control" type="Control"]
 
+pause_mode = 2
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_right = 1027.0
-margin_bottom = 598.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 1025.0
+margin_bottom = 601.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -19,6 +21,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
+_sections_unfolded = [ "Pause", "Rect" ]
 
 [node name="MyDialog" type="Panel" parent="." index="0"]
 
@@ -26,10 +29,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 233.0
-margin_top = 229.0
-margin_right = 808.0
-margin_bottom = 358.0
+margin_left = 231.0
+margin_top = 228.0
+margin_right = 806.0
+margin_bottom = 357.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0

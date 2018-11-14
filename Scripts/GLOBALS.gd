@@ -21,6 +21,9 @@ var changed_scene = false
 var current_playlist_name = "Default"
 var current_level_name = "Default"
 
+var isSaving = false
+var isLoading = false
+
 # Event tracking
 var enemy_counter = 0
 var base_is_dead = false

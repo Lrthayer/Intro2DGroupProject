@@ -3,7 +3,6 @@ extends Control
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
-var isParent = true
 
 
 
@@ -19,10 +18,7 @@ func _ready():
 
 
 func _on_CancelButton_pressed():
-	if isParent:
-		self.queue_free()
-	else:
-		self.get_parent().queue_free()
+	get_tree().change_scene("res://Scenes/temp.tscn")
 
 
 func _on_SaveButton_pressed():
@@ -38,15 +34,19 @@ func _on_SaveButton_pressed():
 	elif directory.dir_exists("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level) + "/"):
 		self.get_node("./ConfirmationDialog").popup()
 	else:
-		directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
+		directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/")
 		directory.make_dir(str(level))
-		saving_level()
+		GLOBALS.g_current_level = level
+		GLOBALS.isSaving = true
+		get_tree().change_scene("res://Scenes/temp.tscn")
 		
 
 
 func _on_AcceptDialog_confirmed():
 	var directory = Directory.new()
 	var level = self.get_node("./MyDialog/OptionButton").get_selected_id()
-	directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
+	GLOBALS.g_current_level = level
+	directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/")
 	directory.make_dir(str(level))
-	saving_level()
+	GLOBALS.isSaving = true
+	get_tree().change_scene("res://Scenes/temp.tscn")

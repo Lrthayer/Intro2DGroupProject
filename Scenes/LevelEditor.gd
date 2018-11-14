@@ -19,9 +19,11 @@ var data
 var objectName
 var childName = ""
 var dir= ""
-var isSaving = true
-var save_scene1 = load("res://Scenes/Save_Interface/Save.tscn")
-var save_scene2 = load("res://Scenes/Save_Interface/Save2.tscn")
+var isSaving = false
+var isLoading = false
+
+var OldCameraX = 0
+var OldCameraY = 0
 
 var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
 "StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
@@ -54,6 +56,9 @@ var laserObjectPoolAmount = 50
 
 var numberOfSaves = 0
 
+
+
+
 #starts when loaded up in scene
 func _ready():
 	
@@ -64,257 +69,19 @@ func _ready():
 	
 	if GLOBALS.changed_scene:
 		
-		#open json file
-		data = {}
-		var file = File.new()
-		file.open("res://meow5.json", file.READ)
-		data = parse_json(file.get_line())
-		#data.parse_json(file.get_line())
+		GLOBALS.changed_scene = false
 		
-		#grab the properties of attacker
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["hp"]))
+		if GLOBALS.isSaving:
+			saving_level()
+			loading_level("res://Scenes/temp.json")
+		elif GLOBALS.isLoading:
+			pass
+		else:
+			loading_level("res://Scenes/temp.json")
+			
 		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[1]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["damage"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[2]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["fire_rate"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[4]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["speed"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[8]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["height"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[9]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["width"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[10]
-		
-		#get color values
-		var r = float(data["AttackerArea"]["colorR"])
-		var g = float(data["AttackerArea"]["colorG"])
-		var b = float(data["AttackerArea"]["colorB"])
-		var c = Color(r, g, b)
-		self.get_node(dir).color = c
-				
-		#add the color to sprite
-		dir = "AttackerArea/Attacker/KinematicBody2D/ShipSprite"
-		self.get_node(dir)._on_ColorPicker_color_changed(c)
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[14]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["proj_speed"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[15]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["proj_height"]))
-		
-		dir = "AttackerArea/AttackerMenu/" + addDirectory[16]
-		self.get_node(dir).set_value(float(data["AttackerArea"]["proj_width"]))
-		
-		#grab the properties of defender
-		dir = "DefenderArea/DefenderMenu/" + addDirectory[2]
-		self.get_node(dir).set_value(float(data["DefenderArea"]["fire_rate"]))
-		
-		dir = "DefenderArea/DefenderMenu/" + addDirectory[4]
-		self.get_node(dir).set_value(float(data["DefenderArea"]["speed"]))
-		
-		dir = "DefenderArea/DefenderMenu/" + addDirectory[8]
-		self.get_node(dir).set_value(float(data["DefenderArea"]["height"]))
-		
-		
-		dir = "DefenderArea/DefenderMenu/" + addDirectory[9]
-		self.get_node(dir).set_value(float(data["DefenderArea"]["width"]))
-		
-		dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
-		
-		#get color values
-		r = float(data["DefenderArea"]["colorR"])
-		g = float(data["DefenderArea"]["colorG"])
-		b = float(data["DefenderArea"]["colorB"])
-		c = Color(r, g, b)
-		self.get_node(dir).color = c
-		
-		#add the color to sprite 
-		dir = "DefenderArea/Defender/KinematicBody2D/DefenderSprite"
-		self.get_node(dir)._on_ColorPicker_color_changed(c)
-		
-		
-		#grab the properties of turrets
-		for i in range(get_node("TurrentList").get_child_count()):
-			
-			childName = get_node("TurrentList").get_child(i).get_name()
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[0]
-			
-			self.get_node(dir).set_value(float(data[childName]["hp"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[1]
-			
-			self.get_node(dir).set_value(float(data[childName]["damage"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[2]
-			
-			self.get_node(dir).set_value(float(data[childName]["fire_rate"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[3]
-			
-			self.get_node(dir).set_value(float(data[childName]["fire_rate_delta"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[8]
-			
-			self.get_node(dir).set_value(float(data[childName]["height"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[9]
-			
-			self.get_node(dir).set_value(float(data[childName]["width"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
-			
-			#get color values
-			r = float(data[childName]["colorR"])
-			g = float(data[childName]["colorG"])
-			b = float(data[childName]["colorB"])
-			c = Color(r, g, b)
-			
-			self.get_node(dir).set_color(c)
-			
-			dir = "TurrentList/" +  childName + "/Turret/StaticBody2D/Sprite"
-			self.get_node(dir)._on_ColorPicker_color_changed(c)
-			
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
-			
-			self.get_node(dir).set_value(float(data[childName]["proj_height"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
-			
-			self.get_node(dir).set_value(float(data[childName]["proj_width"]))
-			dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
-			
-			self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
-			
-			
-		#grab the properties of movers
-		for j in range(get_node("MoverList").get_child_count()):
-			
-			childName = get_node("MoverList").get_child(j).get_name()
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[0]
-			
-			self.get_node(dir).set_value(float(data[childName]["hp"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[1]
-			
-			self.get_node(dir).set_value(float(data[childName]["damage"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[2]
-			
-			self.get_node(dir).set_value(float(data[childName]["fire_rate"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[3]
-			
-			self.get_node(dir).set_value(float(data[childName]["fire_rate_delta"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[4]
-			
-			self.get_node(dir).set_value(float(data[childName]["speed"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[8]
-			
-			self.get_node(dir).set_value(float(data[childName]["height"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[9]
-			
-			self.get_node(dir).set_value(float(data[childName]["width"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
-			
-			#get color values
-			r = float(data[childName]["colorR"])
-			g = float(data[childName]["colorG"])
-			b = float(data[childName]["colorB"])
-			c = Color(r, g, b)
-			
-			self.get_node(dir).set_color(c)
-			
-			dir = "MoverList/" +  childName + "/Mover/KinematicBody2D/Sprite"
-			self.get_node(dir)._on_ColorPicker_color_changed(c)
-			
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[14]
-			
-			self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[16]
-			
-			self.get_node(dir).set_value(float(data[childName]["proj_width"]))
-			dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[15]
-			
-			self.get_node(dir).set_value(float(data[childName]["proj_height"]))
-			
-		#grab the properties of base1
-		for k in range(get_node("BaseList").get_child_count()):
-			
-			childName = get_node("BaseList").get_child(k).get_name()
-			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[0]
-			
-			self.get_node(dir).set_value(float(data[childName]["hp"]))
-			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[5]
-			
-			self.get_node(dir).set_value(float(data[childName]["height"]))
-			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[6]
-			
-			self.get_node(dir).set_value(float(data[childName]["width"]))
-			dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
-			
-			#get color values
-			r = float(data[childName]["colorR"])
-			g = float(data[childName]["colorG"])
-			b = float(data[childName]["colorB"])
-			c = Color(r, g, b)
-			
-			self.get_node(dir).set_color(c)
-			
-			dir = "BaseList/" +  childName + "/Base1/StaticBody2D/Sprite"
-			self.get_node(dir)._on_ColorPicker_color_changed(c)
-			
-		#grab the properties of base2
-		for l in range(get_node("Base2List").get_child_count()):
-			
-			childName = get_node("Base2List").get_child(l).get_name()
-			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[0]
-			
-			self.get_node(dir).set_value(float(data[childName]["hp"]))
-			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[5]
-			
-			self.get_node(dir).set_value(float(data[childName]["height"]))
-			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[6]
-			
-			self.get_node(dir).set_value(float(data[childName]["width"]))
-			dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
-			
-			#get color values
-			r = float(data[childName]["colorR"])
-			g = float(data[childName]["colorG"])
-			b = float(data[childName]["colorB"])
-			c = Color(r, g, b)
-			
-			self.get_node(dir).set_color(c)
-			
-			dir = "Base2List/" +  childName + "/Base2/StaticBody2D/Sprite"
-			self.get_node(dir)._on_ColorPicker_color_changed(c)
-			
-		#grab the properties of base3
-		for m in range(get_node("Base3List").get_child_count()):
-			
-			childName = get_node("Base3List").get_child(m).get_name()
-			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[0]
-			
-			self.get_node(dir).set_value(float(data[childName]["hp"]))
-			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[5]
-			
-			self.get_node(dir).set_value(float(data[childName]["height"]))
-			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[6]
-			
-			self.get_node(dir).set_value(float(data[childName]["width"]))
-			dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
-			
-			#get color values
-			r = float(data[childName]["colorR"])
-			g = float(data[childName]["colorG"])
-			b = float(data[childName]["colorB"])
-			c = Color(r, g, b)
-			
-			self.get_node(dir).set_color(c)
-			
-			dir = "Base3List/" +  childName + "/Base3/StaticBody2D/Sprite"
-			self.get_node(dir)._on_ColorPicker_color_changed(c)
-		#close the file
-		file.close()
-		
-	GLOBALS.changed_scene = false
+	GLOBALS.isSaving = false
+	GLOBALS.isLoading = false
 	
 	set_process(true)
 		#create laserObject pool
@@ -337,6 +104,258 @@ func _ready():
 	defender = self.get_node("DefenderArea")
 	currentObject = "Turrent"
 
+func loading_level(directory):
+	
+	#open json file
+	data = {}
+	var file = File.new()
+	file.open(directory, file.READ)
+	data = parse_json(file.get_line())
+	
+	#grab the properties of attacker
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[0]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["hp"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[1]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["damage"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[2]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["fire_rate"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[4]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["speed"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[8]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["height"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[9]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["width"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[10]
+	
+	#get color values
+	var r = float(data["AttackerArea"]["colorR"])
+	var g = float(data["AttackerArea"]["colorG"])
+	var b = float(data["AttackerArea"]["colorB"])
+	var c = Color(r, g, b)
+	self.get_node(dir).color = c
+			
+	#add the color to sprite
+	dir = "AttackerArea/Attacker/KinematicBody2D/ShipSprite"
+	self.get_node(dir)._on_ColorPicker_color_changed(c)
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[14]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["proj_speed"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[15]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["proj_height"]))
+	
+	dir = "AttackerArea/AttackerMenu/" + addDirectory[16]
+	self.get_node(dir).set_value(float(data["AttackerArea"]["proj_width"]))
+	
+	#grab the properties of defender
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[2]
+	self.get_node(dir).set_value(float(data["DefenderArea"]["fire_rate"]))
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[4]
+	self.get_node(dir).set_value(float(data["DefenderArea"]["speed"]))
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[8]
+	self.get_node(dir).set_value(float(data["DefenderArea"]["height"]))
+	
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[9]
+	self.get_node(dir).set_value(float(data["DefenderArea"]["width"]))
+	
+	dir = "DefenderArea/DefenderMenu/" + addDirectory[10]
+	
+	#get color values
+	r = float(data["DefenderArea"]["colorR"])
+	g = float(data["DefenderArea"]["colorG"])
+	b = float(data["DefenderArea"]["colorB"])
+	c = Color(r, g, b)
+	self.get_node(dir).color = c
+	
+	#add the color to sprite 
+	dir = "DefenderArea/Defender/KinematicBody2D/DefenderSprite"
+	self.get_node(dir)._on_ColorPicker_color_changed(c)
+	
+	
+	#grab the properties of turrets
+	for i in range(get_node("TurrentList").get_child_count()):
+		
+		childName = get_node("TurrentList").get_child(i).get_name()
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[0]
+		
+		self.get_node(dir).set_value(float(data[childName]["hp"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[1]
+		
+		self.get_node(dir).set_value(float(data[childName]["damage"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[2]
+		
+		self.get_node(dir).set_value(float(data[childName]["fire_rate"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[3]
+		
+		self.get_node(dir).set_value(float(data[childName]["fire_rate_delta"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[8]
+		
+		self.get_node(dir).set_value(float(data[childName]["height"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[9]
+		
+		self.get_node(dir).set_value(float(data[childName]["width"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
+		
+		#get color values
+		r = float(data[childName]["colorR"])
+		g = float(data[childName]["colorG"])
+		b = float(data[childName]["colorB"])
+		c = Color(r, g, b)
+		
+		self.get_node(dir).set_color(c)
+		
+		dir = "TurrentList/" +  childName + "/Turret/StaticBody2D/Sprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_height"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_width"]))
+		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
+		
+		
+	#grab the properties of movers
+	for j in range(get_node("MoverList").get_child_count()):
+		
+		childName = get_node("MoverList").get_child(j).get_name()
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[0]
+		
+		self.get_node(dir).set_value(float(data[childName]["hp"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[1]
+		
+		self.get_node(dir).set_value(float(data[childName]["damage"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[2]
+		
+		self.get_node(dir).set_value(float(data[childName]["fire_rate"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[3]
+		
+		self.get_node(dir).set_value(float(data[childName]["fire_rate_delta"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[4]
+		
+		self.get_node(dir).set_value(float(data[childName]["speed"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[8]
+		
+		self.get_node(dir).set_value(float(data[childName]["height"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[9]
+		
+		self.get_node(dir).set_value(float(data[childName]["width"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
+		
+		#get color values
+		r = float(data[childName]["colorR"])
+		g = float(data[childName]["colorG"])
+		b = float(data[childName]["colorB"])
+		c = Color(r, g, b)
+		
+		self.get_node(dir).set_color(c)
+		
+		dir = "MoverList/" +  childName + "/Mover/KinematicBody2D/Sprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[14]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[16]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_width"]))
+		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[15]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_height"]))
+		
+	#grab the properties of base1
+	for k in range(get_node("BaseList").get_child_count()):
+		
+		childName = get_node("BaseList").get_child(k).get_name()
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[0]
+		
+		self.get_node(dir).set_value(float(data[childName]["hp"]))
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[5]
+		
+		self.get_node(dir).set_value(float(data[childName]["height"]))
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[6]
+		
+		self.get_node(dir).set_value(float(data[childName]["width"]))
+		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
+		
+		#get color values
+		r = float(data[childName]["colorR"])
+		g = float(data[childName]["colorG"])
+		b = float(data[childName]["colorB"])
+		c = Color(r, g, b)
+		
+		self.get_node(dir).set_color(c)
+		
+		dir = "BaseList/" +  childName + "/Base1/StaticBody2D/Sprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+	#grab the properties of base2
+	for l in range(get_node("Base2List").get_child_count()):
+		
+		childName = get_node("Base2List").get_child(l).get_name()
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[0]
+		
+		self.get_node(dir).set_value(float(data[childName]["hp"]))
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[5]
+		
+		self.get_node(dir).set_value(float(data[childName]["height"]))
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[6]
+		
+		self.get_node(dir).set_value(float(data[childName]["width"]))
+		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
+		
+		#get color values
+		r = float(data[childName]["colorR"])
+		g = float(data[childName]["colorG"])
+		b = float(data[childName]["colorB"])
+		c = Color(r, g, b)
+		
+		self.get_node(dir).set_color(c)
+		
+		dir = "Base2List/" +  childName + "/Base2/StaticBody2D/Sprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+	#grab the properties of base3
+	for m in range(get_node("Base3List").get_child_count()):
+		
+		childName = get_node("Base3List").get_child(m).get_name()
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[0]
+		
+		self.get_node(dir).set_value(float(data[childName]["hp"]))
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[5]
+		
+		self.get_node(dir).set_value(float(data[childName]["height"]))
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[6]
+		
+		self.get_node(dir).set_value(float(data[childName]["width"]))
+		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
+		
+		#get color values
+		r = float(data[childName]["colorR"])
+		g = float(data[childName]["colorG"])
+		b = float(data[childName]["colorB"])
+		c = Color(r, g, b)
+		
+		self.get_node(dir).set_color(c)
+		
+		dir = "Base3List/" +  childName + "/Base3/StaticBody2D/Sprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+	
+	#close the file
+	file.close()
+	
 #called every frame
 func _process(delta):
 	var mosLoc = self.get_global_mouse_position()
@@ -716,22 +735,31 @@ func saving_level():
 		
 		dict[childName] = objects
 		objects = {}
-	
+		
 	var file = File.new()
-	file.open("res://meow5.json", file.WRITE)
-	file.store_line(to_json(dict))
-	file.close()
-	ResourceSaver.save("res://myscene.tscn", packed_scene)
+	if GLOBALS.isSaving:
+		file.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json" , file.WRITE)
+		file.store_line(to_json(dict))
+		file.close()
+		ResourceSaver.save("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".tscn" , packed_scene)
+	else:
+		file.open("res://Scenes/temp.json", file.WRITE)
+		file.store_line(to_json(dict))
+		file.close()
+		ResourceSaver.save("res://Scenes/temp.tscn", packed_scene)
 	
 func _on_Save_Button_pressed():
 	
-	if GLOBALS.current_level_name == "Default":
-		var sav_obj = save_scene1.instance()
-		self.add_child(sav_obj)
+	GLOBALS.changed_scene = true
+	
+	#save the temp scene
+	saving_level()
+	
+	if GLOBALS.g_current_level == -1:
+		get_tree().change_scene("res://Scenes/Save_Interface/Save.tscn")
 	else:
-		var sav_obj = save_scene2.instance()
-		self.add_child(sav_obj)
-		
+		get_tree().change_scene("res://Scenes/Save_Interface/Save2.tscn")
+	
 	
 	#change the position of camera and then pause the scene
 	#let the interface go from there.

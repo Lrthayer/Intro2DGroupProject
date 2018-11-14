@@ -3,7 +3,6 @@ extends Control
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
-var isParent = true
 var Save_Scene = load("res://Scenes/Save_Interface/Save5.tscn")
 var Save_Scene2 = load("res://Scenes/Save_Interface/Save3.tscn")
 
@@ -18,10 +17,7 @@ func _ready():
 #	pass
 
 func cancel():
-	if isParent:
-		self.queue_free()
-	else:
-		self.get_parent().queue_free()
+	get_tree().change_scene("res://Scenes/temp.tscn")
 	
 func _on_CancelButton_pressed():
 	cancel()
@@ -53,5 +49,4 @@ func _on_SaveButton2_pressed():
 		
 		var obj1 = Save_Scene2.instance()
 		self.add_child(obj1)
-		obj1.isParent = false
 		self.get_node("MyDialog").queue_free()

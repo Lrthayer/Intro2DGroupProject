@@ -6,6 +6,8 @@ func _ready():
 	
 #called every frame
 func _process(delta):
+	
+	
 	if Input.is_action_pressed("CameraUp"):
 		move(0,-10)
 	if Input.is_action_pressed("CameraDown"):
@@ -33,6 +35,7 @@ func _input(event):
 			setZoom(.1)
 
 func move(x, y):
+	
 	self.global_position = Vector2(self.global_position.x + x,self.global_position.y + y)
 	#move cursors
 	get_child(0).get_child(0).set_value(self.global_position.x + x)

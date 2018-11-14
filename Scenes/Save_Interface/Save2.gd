@@ -21,24 +21,21 @@ func _on_SaveLevel_pressed():
 func _on_SaveButton_pressed():
 	var obj1 = Save_Scene3.instance()
 	self.add_child(obj1)
-	obj1.isParent = false
 	self.get_node("MyDialog").queue_free()
 
 
 #delete the form
 func _on_CancelButton_pressed():
-	self.queue_free()
+	get_tree().change_scene("res://Scenes/temp.tscn")
 
 
 func _on_SaveLevel2_pressed():
 	var obj1 = Save_Scene2.instance()
 	self.add_child(obj1)
-	obj1.isParent = false
 	self.get_node("MyDialog").queue_free()
 
 
 func _on_SaveButton2_pressed():
 	var obj1 = Save_Scene4.instance()
 	self.add_child(obj1)
-	obj1.isParent = false
 	self.get_node("MyDialog").queue_free()

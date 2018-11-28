@@ -40,6 +40,7 @@ func _process(delta):
 	diff = theirPos - myPos
 	rotate = atan2(diff.y,diff.x) + 3.14/2
 	self.set_rotation(rotate)
+	#used for draw
 	update();
 
 func _on_height_value_changed( value ):

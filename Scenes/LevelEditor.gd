@@ -407,8 +407,8 @@ func _process(delta):
 
 			if makeUnique:
 				#change mouse location to center object with cursor 
-				mosLoc.x -= 130
-				mosLoc.y += 20
+				mosLoc.x -= objectInstance.width
+				mosLoc.y += objectInstance.height
 				objectInstance.global_position = mosLoc
 				
 				#give the copy a name 

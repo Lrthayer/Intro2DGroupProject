@@ -99,7 +99,7 @@ func _physics_process(delta):
 			isStunned = false
 			stunTimer = 60
 
-#Attacker collided with another object
+#Attacker collided with enemy projectile
 func collided(dmg=0):
 	hp = hp - dmg
 	check_alive()

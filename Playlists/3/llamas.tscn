@@ -845,10 +845,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 571.02
-margin_top = -1041.02
-margin_right = 596.02
-margin_bottom = -1021.02
+margin_left = 553.02
+margin_top = -1026.02
+margin_right = 578.02
+margin_bottom = -1006.02
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -860,7 +860,7 @@ script = ExtResource( 2 )
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
 editor/display_folded = true
-position = Vector2( 279.52, -845.023 )
+position = Vector2( -50.7058, -923.596 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -886,7 +886,6 @@ script = ExtResource( 5 )
 
 [node name="ShipSprite" type="Sprite" parent="AttackerArea/Attacker/KinematicBody2D" index="0"]
 
-modulate = Color( 0.876189, 0.039668, 0.039668, 1 )
 rotation = 3.14159
 texture = ExtResource( 6 )
 script = ExtResource( 7 )
@@ -1077,7 +1076,7 @@ shape = SubResource( 6 )
 [node name="AttackerMenu" type="Area2D" parent="AttackerArea" index="2"]
 
 visible = false
-position = Vector2( 30000, 30000 )
+position = Vector2( 29.9434, -91.1017 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -1736,7 +1735,7 @@ script = ExtResource( 18 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser" index="0"]
 
-position = Vector2( -0.128906, 0.0117188 )
+position = Vector2( -0.1297, 0.0108032 )
 scale = Vector2( 0.0670746, 0.12194 )
 input_pickable = false
 collision_layer = 0
@@ -1826,7 +1825,7 @@ shortcut = null
 group = null
 flat = false
 align = 1
-color = Color( 0.876189, 0.039668, 0.039668, 1 )
+color = Color( 1, 1, 1, 1 )
 edit_alpha = false
 script = ExtResource( 20 )
 _sections_unfolded = [ "Rect" ]
@@ -1850,7 +1849,7 @@ script = ExtResource( 21 )
 
 editor/display_folded = true
 position = Vector2( -0.00369018, 7.00465 )
-rotation = 2.52368
+rotation = 2.97992
 scale = Vector2( 1.68406, 1.2189 )
 input_pickable = false
 collision_layer = 24
@@ -2561,7 +2560,6 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
-pressed = true
 enabled_focus_mode = 2
 shortcut = null
 group = null
@@ -2829,7 +2827,6 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = true
-pressed = true
 enabled_focus_mode = 2
 shortcut = null
 group = null
@@ -2899,7 +2896,7 @@ script = ExtResource( 36 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
 
-position = Vector2( 136, 0 )
+position = Vector2( -87, 0 )
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
@@ -3846,7 +3843,7 @@ script = SubResource( 39 )
 
 modulate = Color( 0, 0, 0, 1 )
 material = SubResource( 40 )
-position = Vector2( 583.031, -1031.46 )
+position = Vector2( 565.031, -1016.46 )
 scale = Vector2( 0.978113, 0.875503 )
 z_index = 10
 texture = ExtResource( 43 )
@@ -3902,9 +3899,9 @@ script = ExtResource( 44 )
 
 [connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
 
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 [connection signal="pressed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 
@@ -3914,13 +3911,13 @@ script = ExtResource( 44 )
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
-
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
+[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 

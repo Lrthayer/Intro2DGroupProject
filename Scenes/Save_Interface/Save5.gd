@@ -1,11 +1,5 @@
 extends Control
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
-var Save_Scene = load("res://Scenes/Save_Interface/Save3.tscn")
-
 
 export (NodePath) var dropdown_path # Select the main node and add path from inspector
 onready var dropdown = get_node(dropdown_path)
@@ -19,12 +13,14 @@ func _ready():
 	
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()
+	var id_num = 1
 	
 	while (file != ""):
-		dropdown.add_item(file)
+		dropdown.add_item(file,id_num)
+		id_num+=1
 		file = directory.get_next()
 	
-	
+	directory.list_dir_end ( )
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
@@ -33,10 +29,12 @@ func _ready():
 
 
 func _on_CancelButton_pressed():
-	get_tree().change_scene("res://Scenes/temp.tscn")
+	get_tree().change_scene("res://Scenes/temp.tscn")      
 
 
 func _on_SaveButton_pressed():
-	var obj1 = Save_Scene.instance()
-	self.add_child(obj1)
-	self.get_node("MyDialog").queue_free()
+	var playlist_id = self.get_node("./MyDialog/dropdown").get_selected_id()
+	var selected_playlist = self.get_node("./MyDialog/dropdown").get_item_text(playlist_id)
+	GLOBALS.current_playlist_name = selected_playlist
+	print(GLOBALS.current_playlist_name)
+	get_tree().change_scene("res://Scenes/Save_Interface/Save3.tscn")

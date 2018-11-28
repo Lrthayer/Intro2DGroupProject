@@ -25,13 +25,23 @@ var isLoading = false
 var OldCameraX = 0
 var OldCameraY = 0
 
-var addDirectory = ["StatsVBox/HPHBox/HPSpinBox","StatsVBox/DamageHBox/DamageSpinBox",
-"StatsVBox/FireRateHBox/FireRateSpinBox","StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
-"StatsVBox/SpeedHBox/SpeedSpinBox","StatsVBox/HeightHBox/HeightSpinBox",
-"StatsVBox/WidthHBox/WidthSpinBox","ColorPicker","VisualVBox/HeightHBox/HeightSpinBox",
-"VisualVBox/WidthHBox/WidthSpinBox","ColorPicker","ProjectileVBox/HeightHBox/HeightSpinBox",
-"ProjectileVBox/WidthHBox/WidthSpinBox","ProjectileVBox/WidthHBox1/SpeedSpinBox",
-"ProjectileVBox/WidthHBox1/ProjSpeedSpinBox","ProjectileVBox/WidthHBox2/ProjHeightSpinBox",
+var addDirectory = [
+"StatsVBox/HPHBox/HPSpinBox",
+"StatsVBox/DamageHBox/DamageSpinBox",
+"StatsVBox/FireRateHBox/FireRateSpinBox",
+"StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox",
+"StatsVBox/SpeedHBox/SpeedSpinBox",
+"StatsVBox/HeightHBox/HeightSpinBox",
+"StatsVBox/WidthHBox/WidthSpinBox",
+"ColorPicker",
+"VisualVBox/HeightHBox/HeightSpinBox",
+"VisualVBox/WidthHBox/WidthSpinBox",
+"ColorPicker",
+"ProjectileVBox/HeightHBox/HeightSpinBox",
+"ProjectileVBox/WidthHBox/WidthSpinBox",
+"ProjectileVBox/WidthHBox1/SpeedSpinBox",
+"ProjectileVBox/WidthHBox1/ProjSpeedSpinBox",
+"ProjectileVBox/WidthHBox2/ProjHeightSpinBox",
 "ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
 
 #add a child
@@ -737,6 +747,7 @@ func saving_level():
 		objects = {}
 		
 	var file = File.new()
+	
 	if GLOBALS.isSaving:
 		file.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json" , file.WRITE)
 		file.store_line(to_json(dict))

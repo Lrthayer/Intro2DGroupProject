@@ -13,12 +13,19 @@ func _ready():
 	
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()
+	
 	var id_num = 1
 	
 	while (file != ""):
-		dropdown.add_item(file,id_num)
-		id_num+=1
-		file = directory.get_next()
+		
+		#user is saving it to different playlist
+		if(file != GLOBALS.current_playlist_name):
+			
+			dropdown.add_item(file,id_num)
+			id_num+=1
+			file = directory.get_next()
+		else:
+			file = directory.get_next()
 	
 	directory.list_dir_end ( )
 

@@ -11,7 +11,29 @@ func _ready():
 
 #save the level
 func _on_SaveLevel_pressed():
-	pass # replace with function body
+	
+	#make a directory object
+	var directory = Directory.new()
+	
+	#go to level directory
+	directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level))
+	
+	#start going down the list of files
+	directory.list_dir_begin(true,true)
+	
+	#remove the two files
+	var file_name = directory.get_next()
+	directory.remove(file_name)
+	file_name = directory.get_next()
+	directory.remove(file_name)
+	
+	#end the list
+	directory.list_dir_end()
+	
+	GLOBALS.isSaving = true
+	
+	
+	get_tree().change_scene("res://Scenes/temp.tscn")
 
 #save as a playlist
 func _on_SaveButton_pressed():

@@ -25,7 +25,7 @@ var menuToggle = 0
 
 var pointValue = 10
 var health = 3
-var damage = 1
+var damage = .02
 var fireRate = 1
 var fireRateStatic = 1
 var fireRateDelta = .001
@@ -62,18 +62,15 @@ func _physics_process(delta):
 	print(result)
 	print(result.values())
 	print(result.size())
-	var dict1 = {}
-	var dict2 = {}
-	dict1[\"test\"] = dict2
-	print (dict1)
 	if result.size() > 1:
 		for object in result:
-			result[object].collided(damage)
-	elif result.size() != 0:
-		var tmp = result.keys()
-		print (tmp)
-		#tmp[0].collided(damage)
-		result.keys()[0].collided(damage)
+			#if colliding with defender move the point to the defender
+			if result.collider.get_parent().get_parent().get_name() == \"Defender\":
+				#tell turret node that we are colliding with defender so it can draw the line accordingly
+				self.get_node(\"Turret\").collidingWithDefender = true
+				self.get_node(\"Position2DArea2D\").global_position = result.position
+			else:
+				result.collider.collided(damage)
 
 #called every frame
 func _process(delta):
@@ -213,7 +210,7 @@ func _on_ColorPicker_color_changed( color ):
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="TurretRayArea" type="Area2D"]
+[node name="TurretRayArea" type="Area2D" index="0"]
 
 position = Vector2( 543.337, 286.309 )
 input_pickable = true

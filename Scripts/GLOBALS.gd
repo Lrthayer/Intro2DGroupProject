@@ -1,5 +1,4 @@
 extends Node
-
 ###
 ### Store all the variables you want to be shared across
 ### scenes here.

@@ -25,6 +25,10 @@ driver/name="GLES2"
 stretch/aspect="keep_height"
 stretch/mode="2d"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "SMRT" )
+
 [gui]
 
 common/swap_ok_cancel=false

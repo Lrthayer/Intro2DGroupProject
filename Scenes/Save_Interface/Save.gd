@@ -17,13 +17,6 @@ func cancel():
 func _on_CancelButton_pressed():
 	cancel()
 
-
-
-func _on_SaveButton_pressed():
-	get_tree().change_scene("res://Scenes/Save_Interface/Save5.tscn")
-
-
-
 func _on_SaveButton2_pressed():
 	
 	

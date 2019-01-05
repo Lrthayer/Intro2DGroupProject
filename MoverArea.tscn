@@ -9,7 +9,7 @@
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=7]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=8]
 
-[sub_resource type="GDScript" id=26]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends Area2D
 
@@ -97,7 +97,7 @@ func _on_MoverArea_mouse_enter():
 func _on_MoverArea_mouse_exit():
 	hovering = false"
 
-[sub_resource type="GDScript" id=27]
+[sub_resource type="GDScript" id=2]
 
 script/source = "extends Sprite
 
@@ -105,12 +105,12 @@ script/source = "extends Sprite
 func _on_ColorPicker_color_changed( color ):
 	self.set_modulate(color)"
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=29]
+[sub_resource type="GDScript" id=4]
 
 script/source = "extends CollisionShape2D
 
@@ -121,7 +121,7 @@ func _ready():
 func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position"
 
-[sub_resource type="GDScript" id=30]
+[sub_resource type="GDScript" id=5]
 
 script/source = "extends Area2D
 
@@ -152,7 +152,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=31]
+[sub_resource type="GDScript" id=6]
 
 script/source = "extends Sprite
 
@@ -166,12 +166,12 @@ func _process(delta):
 
 "
 
-[sub_resource type="RectangleShape2D" id=32]
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 11.8219 )
 
-[sub_resource type="GDScript" id=33]
+[sub_resource type="GDScript" id=8]
 
 script/source = "extends CollisionShape2D
 
@@ -183,12 +183,12 @@ func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
-[sub_resource type="RectangleShape2D" id=34]
+[sub_resource type="RectangleShape2D" id=9]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="GDScript" id=35]
+[sub_resource type="GDScript" id=10]
 
 script/source = "extends ColorPickerButton
 
@@ -204,17 +204,17 @@ func _on_ColorPicker_pressed():
 		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
 "
 
-[sub_resource type="RectangleShape2D" id=36]
+[sub_resource type="RectangleShape2D" id=11]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=37]
+[sub_resource type="RectangleShape2D" id=12]
 
 custom_solver_bias = 0.0
 extents = Vector2( 16.9967, 6.85448 )
 
-[sub_resource type="RectangleShape2D" id=38]
+[sub_resource type="RectangleShape2D" id=13]
 
 custom_solver_bias = 0.0
 extents = Vector2( 149.373, 225.538 )
@@ -229,7 +229,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 26 )
+script = SubResource( 1 )
 
 [node name="Mover" type="Node2D" parent="." index="0"]
 
@@ -248,14 +248,14 @@ script = ExtResource( 2 )
 
 scale = Vector2( 2.38735, 2.99493 )
 texture = ExtResource( 3 )
-script = SubResource( 27 )
+script = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/KinematicBody2D" index="1"]
 
 position = Vector2( -0.318719, 6.59567 )
 scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 28 )
-script = SubResource( 29 )
+shape = SubResource( 3 )
+script = SubResource( 4 )
 
 [node name="Position2D" type="Position2D" parent="Mover/KinematicBody2D" index="2"]
 
@@ -272,6 +272,7 @@ margin_top = 20.0
 margin_right = 48.0
 margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -292,6 +293,7 @@ nine_patch_stretch = false
 
 [node name="Area2D" type="Area2D" parent="Mover" index="1"]
 
+editor/display_folded = true
 position = Vector2( 207.428, -1270.71 )
 scale = Vector2( 1.12062, 175.693 )
 input_pickable = true
@@ -301,7 +303,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 30 )
+script = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="Mover/Area2D" index="0"]
 
@@ -310,18 +312,19 @@ self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 6 )
-script = SubResource( 31 )
+script = SubResource( 6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/Area2D" index="1"]
 
 position = Vector2( -4.02673, -0.0256834 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 32 )
-script = SubResource( 33 )
+shape = SubResource( 7 )
+script = SubResource( 8 )
 
 [node name="Area2D2" type="Area2D" parent="Mover" index="2"]
 
+editor/display_folded = true
 position = Vector2( -187.032, -1252.98 )
 scale = Vector2( 1.12062, 175.693 )
 input_pickable = true
@@ -331,7 +334,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 30 )
+script = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="Mover/Area2D2" index="0"]
 
@@ -340,21 +343,21 @@ self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 6 )
-script = SubResource( 31 )
+script = SubResource( 6 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mover/Area2D2" index="1"]
 
 position = Vector2( -4.83211, -0.0256834 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 32 )
-script = SubResource( 33 )
+shape = SubResource( 7 )
+script = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
 position = Vector2( 0, 7.04199 )
 scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 34 )
+shape = SubResource( 9 )
 
 [node name="MoverMenu" type="Area2D" parent="." index="2"]
 
@@ -379,6 +382,7 @@ margin_top = 49.0
 margin_right = 190.0
 margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -394,6 +398,7 @@ anchor_bottom = 0.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -409,6 +414,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -433,6 +439,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -458,6 +465,7 @@ margin_top = 28.0
 margin_right = 176.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -473,6 +481,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -497,6 +506,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -523,6 +533,7 @@ margin_top = 56.0
 margin_right = 176.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -538,6 +549,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -562,6 +574,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -588,6 +601,7 @@ margin_top = 84.0
 margin_right = 176.0
 margin_bottom = 108.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -603,6 +617,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -627,6 +642,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -653,6 +669,7 @@ margin_top = 112.0
 margin_right = 176.0
 margin_bottom = 136.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -668,6 +685,7 @@ anchor_bottom = 0.0
 margin_right = 98.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -692,6 +710,7 @@ margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -709,7 +728,6 @@ suffix = ""
 
 [node name="VisualVBox" type="VBoxContainer" parent="MoverMenu" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -719,6 +737,7 @@ margin_top = 50.0
 margin_right = 346.0
 margin_bottom = 102.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -734,6 +753,7 @@ anchor_bottom = 0.0
 margin_right = 132.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -749,6 +769,7 @@ anchor_bottom = 0.0
 margin_right = 54.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -773,6 +794,7 @@ margin_left = 58.0
 margin_right = 132.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -798,6 +820,7 @@ margin_top = 28.0
 margin_right = 132.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -813,6 +836,7 @@ anchor_bottom = 0.0
 margin_right = 54.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
@@ -837,6 +861,7 @@ margin_left = 58.0
 margin_right = 132.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -862,6 +887,7 @@ margin_top = 56.0
 margin_right = 132.0
 margin_bottom = 76.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -873,9 +899,9 @@ shortcut = null
 group = null
 flat = false
 align = 1
-color = Color( 0.574219, 0.325241, 0.325241, 1 )
+color = Color( 1, 1, 1, 1 )
 edit_alpha = false
-script = SubResource( 35 )
+script = SubResource( 10 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="MoverMenu" index="2"]
 
@@ -888,6 +914,7 @@ margin_top = 53.0
 margin_right = 446.0
 margin_bottom = 93.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -903,6 +930,7 @@ anchor_bottom = 0.0
 margin_right = 153.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -919,6 +947,7 @@ margin_top = 5.0
 margin_right = 72.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -938,6 +967,7 @@ margin_left = 76.0
 margin_right = 150.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -963,6 +993,7 @@ margin_top = 28.0
 margin_right = 153.0
 margin_bottom = 52.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -979,6 +1010,7 @@ margin_top = 5.0
 margin_right = 75.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -998,6 +1030,7 @@ margin_left = 79.0
 margin_right = 153.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1023,6 +1056,7 @@ margin_top = 56.0
 margin_right = 153.0
 margin_bottom = 80.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1039,6 +1073,7 @@ margin_top = 5.0
 margin_right = 71.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1058,6 +1093,7 @@ margin_left = 75.0
 margin_right = 149.0
 margin_bottom = 24.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1091,7 +1127,7 @@ collision/safe_margin = 0.08
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 36 )
+shape = SubResource( 11 )
 
 [node name="Sprite" type="Sprite" parent="MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
@@ -1103,7 +1139,7 @@ texture = ExtResource( 8 )
 
 position = Vector2( 284.23, 114.934 )
 scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 37 )
+shape = SubResource( 12 )
 
 [node name="ColorPickerArea2D" type="Area2D" parent="MoverMenu" index="4"]
 
@@ -1128,6 +1164,7 @@ margin_top = 4.0
 margin_right = 4.0
 margin_bottom = 4.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -1140,7 +1177,7 @@ raw_mode = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverMenu/ColorPickerArea2D" index="1"]
 
 position = Vector2( 501.393, 131.662 )
-shape = SubResource( 38 )
+shape = SubResource( 13 )
 
 [connection signal="mouse_entered" from="." to="." method="_on_MoverArea_mouse_enter"]
 

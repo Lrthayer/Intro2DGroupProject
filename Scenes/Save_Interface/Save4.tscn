@@ -10,10 +10,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 1025.0
-margin_bottom = 601.0
+margin_right = 1026.0
+margin_bottom = 602.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -22,6 +20,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Rect" ]
+dropdown_path = NodePath("MyDialog/dropdown")
 
 [node name="MyDialog" type="Panel" parent="." index="0"]
 
@@ -29,10 +28,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 220.0
-margin_top = 230.0
-margin_right = 795.0
-margin_bottom = 359.0
+margin_left = 229.0
+margin_top = 220.0
+margin_right = 804.0
+margin_bottom = 374.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -63,17 +62,17 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 259.0
-margin_top = -16.0
-margin_right = 339.0
-margin_bottom = -2.0
+margin_left = 279.0
+margin_top = -15.0
+margin_right = 313.0
+margin_bottom = -1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Save Playlist"
+text = "Save"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -94,7 +93,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Playlist Name:"
+text = "Current Playlists"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -105,10 +104,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 32.0
-margin_top = 91.0
-margin_right = 554.0
-margin_bottom = 117.0
+margin_left = 36.0
+margin_top = 101.0
+margin_right = 551.0
+margin_bottom = 134.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -124,43 +123,16 @@ text = "Cancel"
 flat = false
 align = 1
 
-[node name="LineEdit" type="LineEdit" parent="MyDialog" index="4"]
+[node name="SaveButton" type="Button" parent="MyDialog" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 33.0
-margin_top = 21.0
-margin_right = 555.0
-margin_bottom = 45.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 1
-size_flags_horizontal = 2
-size_flags_vertical = 2
-max_length = 100
-focus_mode = 2
-context_menu_enabled = true
-placeholder_text = "Enter Text Here"
-placeholder_alpha = 0.5
-caret_blink = false
-caret_blink_speed = 0.65
-caret_position = 0
-_sections_unfolded = [ "Placeholder" ]
-
-[node name="SaveButton2" type="Button" parent="MyDialog" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 33.0
-margin_top = 55.0
-margin_right = 553.0
-margin_bottom = 82.0
+margin_left = 36.0
+margin_top = 61.0
+margin_right = 551.0
+margin_bottom = 94.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -172,9 +144,37 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Save As New Playlist"
+text = "Save Level In Playlist"
 flat = false
 align = 1
+
+[node name="dropdown" type="OptionButton" parent="MyDialog" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 36.0
+margin_top = 22.0
+margin_right = 552.0
+margin_bottom = 53.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+action_mode = 0
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Default"
+flat = false
+align = 0
+items = [ "Default", null, false, 0, null ]
+selected = 0
 
 [node name="AcceptDialog" type="AcceptDialog" parent="." index="1"]
 
@@ -200,32 +200,8 @@ dialog_text = "            No Blank Playlist"
 dialog_hide_on_ok = true
 _sections_unfolded = [ "Dialog" ]
 
-[node name="AcceptDialog2" type="AcceptDialog" parent="." index="2"]
-
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 430.0
-margin_top = 278.0
-margin_right = 644.0
-margin_bottom = 336.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-popup_exclusive = false
-window_title = "Message"
-resizable = false
-dialog_text = "       Playlist Already Exists!"
-dialog_hide_on_ok = true
-_sections_unfolded = [ "Dialog" ]
-
 [connection signal="pressed" from="MyDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
 
-[connection signal="pressed" from="MyDialog/SaveButton2" to="." method="_on_SaveButton_pressed"]
+[connection signal="pressed" from="MyDialog/SaveButton" to="." method="_on_SaveButton_pressed"]
 
 

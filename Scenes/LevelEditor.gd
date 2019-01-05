@@ -766,7 +766,15 @@ func _on_Save_Button_pressed():
 	#save the temp scene
 	saving_level()
 	
-	if GLOBALS.g_current_level == -1:
+	var directory = Directory.new()
+	directory.open("user://Playlists/")
+	
+	directory.list_dir_begin(true,true)
+	var file = directory.get_next()
+	directory.list_dir_end()
+	
+	
+	if file == "":
 		get_tree().change_scene("res://Scenes/Save_Interface/Save.tscn")
 	else:
 		get_tree().change_scene("res://Scenes/Save_Interface/Save2.tscn")

@@ -11,8 +11,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 3.0
+margin_top = -2.0
 margin_right = 1026.0
-margin_bottom = 598.0
+margin_bottom = 596.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -21,6 +22,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Rect" ]
+dropdown_path = NodePath("MyDialog/OptionButton")
 
 [node name="MyDialog" type="Panel" parent="." index="0"]
 
@@ -31,7 +33,7 @@ anchor_bottom = 0.0
 margin_left = 234.0
 margin_top = 227.0
 margin_right = 809.0
-margin_bottom = 413.0
+margin_bottom = 365.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -45,9 +47,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = -19.0
+margin_top = -20.0
 margin_right = 575.0
-margin_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -77,16 +78,37 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="CancelButton" type="Button" parent="MyDialog" index="2"]
+[node name="Label2" type="Label" parent="MyDialog" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 11.0
-margin_top = 151.0
-margin_right = 563.0
-margin_bottom = 177.0
+margin_left = 20.0
+margin_top = 5.0
+margin_right = 55.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Save Options"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="CancelButton" type="Button" parent="MyDialog" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 15.0
+margin_top = 97.0
+margin_right = 567.0
+margin_bottom = 123.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -102,16 +124,16 @@ text = "Cancel"
 flat = false
 align = 1
 
-[node name="SaveButton" type="Button" parent="MyDialog" index="3"]
+[node name="NextButton" type="Button" parent="MyDialog" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 11.0
-margin_top = 84.0
-margin_right = 563.0
-margin_bottom = 110.0
+margin_left = 15.0
+margin_top = 62.0
+margin_right = 566.0
+margin_bottom = 88.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -123,93 +145,40 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Save As New Playlist"
+text = "Save / Next"
 flat = false
 align = 1
 
-[node name="SaveButton2" type="Button" parent="MyDialog" index="4"]
+[node name="OptionButton" type="OptionButton" parent="MyDialog" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 10.0
-margin_top = 117.0
-margin_right = 562.0
-margin_bottom = 143.0
+margin_left = 17.0
+margin_top = 25.0
+margin_right = 565.0
+margin_bottom = 54.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
 toggle_mode = false
+action_mode = 0
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Save To Different Playlist"
+text = "Item 0"
 flat = false
-align = 1
-
-[node name="SaveLevel" type="Button" parent="MyDialog" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 11.0
-margin_top = 15.0
-margin_right = 563.0
-margin_bottom = 42.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Save Level"
-flat = false
-align = 1
-
-[node name="SaveLevel2" type="Button" parent="MyDialog" index="6"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 11.0
-margin_top = 49.0
-margin_right = 563.0
-margin_bottom = 76.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Save As New Level"
-flat = false
-align = 1
+align = 0
+items = [ "Save Level", null, false, 0, null, "Save As New Level", null, false, 1, null, "Save As New Playlist", null, false, 2, null, "Save To Different Playlist", null, false, 3, null ]
+selected = 0
 
 [connection signal="pressed" from="MyDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
 
-[connection signal="pressed" from="MyDialog/SaveButton" to="." method="_on_SaveButton_pressed"]
-
-[connection signal="pressed" from="MyDialog/SaveButton2" to="." method="_on_SaveButton2_pressed"]
-
-[connection signal="pressed" from="MyDialog/SaveLevel" to="." method="_on_SaveLevel_pressed"]
-
-[connection signal="pressed" from="MyDialog/SaveLevel2" to="." method="_on_SaveLevel2_pressed"]
+[connection signal="pressed" from="MyDialog/NextButton" to="." method="_on_SaveButton_pressed"]
 
 

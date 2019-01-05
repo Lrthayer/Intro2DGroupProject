@@ -27,9 +27,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 226.0
-margin_top = 213.0
-margin_right = 801.0
+margin_left = 219.0
+margin_top = 240.0
+margin_right = 794.0
 margin_bottom = 367.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -105,9 +105,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 32.0
-margin_top = 121.0
+margin_top = 92.0
 margin_right = 554.0
-margin_bottom = 145.0
+margin_bottom = 116.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -150,32 +150,7 @@ caret_blink_speed = 0.65
 caret_position = 0
 _sections_unfolded = [ "Placeholder" ]
 
-[node name="SaveButton" type="Button" parent="MyDialog" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 32.0
-margin_top = 90.0
-margin_right = 554.0
-margin_bottom = 114.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Save To Different Playlist"
-flat = false
-align = 1
-
-[node name="SaveButton2" type="Button" parent="MyDialog" index="6"]
+[node name="SaveButton2" type="Button" parent="MyDialog" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -249,8 +224,6 @@ dialog_hide_on_ok = true
 _sections_unfolded = [ "Dialog" ]
 
 [connection signal="pressed" from="MyDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
-
-[connection signal="pressed" from="MyDialog/SaveButton" to="." method="_on_SaveButton_pressed"]
 
 [connection signal="pressed" from="MyDialog/SaveButton2" to="." method="_on_SaveButton2_pressed"]
 

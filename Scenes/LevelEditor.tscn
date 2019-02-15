@@ -479,9 +479,10 @@ render_priority = 0
 
 [node name="Main" type="Node2D" index="0"]
 
-position = Vector2( 132.09, -17.8815 )
+position = Vector2( 39140, 30730 )
 z_as_relative = false
 script = ExtResource( 1 )
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Panel" type="Panel" parent="." index="0"]
 
@@ -533,6 +534,7 @@ editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
 script = ExtResource( 5 )
+_sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Offset", "Smoothing" ]
 
 [node name="HBarArea2D" type="Area2D" parent="Camera2D" index="0"]
 
@@ -991,6 +993,37 @@ script = SubResource( 7 )
 
 position = Vector2( 2.16141, 0 )
 shape = SubResource( 8 )
+
+[node name="FileDialog" type="FileDialog" parent="Camera2D" index="13"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -176.52
+margin_top = 1050.02
+margin_right = 503.48
+margin_bottom = 1470.02
+rect_min_size = Vector2( 200, 70 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = true
+window_title = "Open a File"
+resizable = false
+dialog_hide_on_ok = false
+mode_overrides_title = true
+mode = 0
+access = 0
+filters = PoolStringArray(  )
+show_hidden_files = false
+current_dir = "res://"
+current_file = ""
+current_path = "res://"
+_sections_unfolded = [ "Dialog", "Popup" ]
 
 [node name="TurretArea" type="Area2D" parent="." index="4"]
 
@@ -2819,9 +2852,9 @@ _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "M
 
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
-[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
-
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
+
+[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -2957,12 +2990,12 @@ _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "M
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
 
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
+
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
 

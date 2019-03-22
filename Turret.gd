@@ -50,7 +50,7 @@ func fire():
 	laserInstance.setSprite("white")
 	laserInstance.set_scale(Vector2(laserWidth, laserHeight))
 	laserInstance.startPosition = self.get_node("Position2D")
-	laserInstance.set_owner(self)
+	#laserInstance.set_owner(self)
 	laserInstance.speed = laserSpeed
 	laserInstance.setDirVector(rotate, vector)
 	laserInstance.resetPos()

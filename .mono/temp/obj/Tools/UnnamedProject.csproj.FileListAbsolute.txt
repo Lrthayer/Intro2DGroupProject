@@ -1,0 +1,6 @@
+C:\Users\aei\Documents\GitHub\Intro2DGroupProject\.mono\temp\bin\Tools\UnnamedProject.dll
+C:\Users\aei\Documents\GitHub\Intro2DGroupProject\.mono\temp\bin\Tools\UnnamedProject.pdb
+C:\Users\aei\Documents\GitHub\Intro2DGroupProject\.mono\temp\obj\Tools\UnnamedProject.csprojAssemblyReference.cache
+C:\Users\aei\Documents\GitHub\Intro2DGroupProject\.mono\temp\obj\Tools\UnnamedProject.csproj.CoreCompileInputs.cache
+C:\Users\aei\Documents\GitHub\Intro2DGroupProject\.mono\temp\obj\Tools\UnnamedProject.dll
+C:\Users\aei\Documents\GitHub\Intro2DGroupProject\.mono\temp\obj\Tools\UnnamedProject.pdb

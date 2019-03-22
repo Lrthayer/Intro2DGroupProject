@@ -27,10 +27,10 @@ func checkCollisions():
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	set_fixed_process(true)
+	set_physics_process(true)
 
 #called every frame
-func _fixed_process(delta):
+func _physics_process(delta):
 	
 	#The laser's is moving downwards using KinematicBody2D
 	get_node("KinematicBody2D").move(vector * speed)
@@ -45,6 +45,6 @@ func _fixed_process(delta):
 	
 #determine direction of laser
 func setDirVector(rotate, turretVector):
-	self.set_rot(rotate)
+	#self.set_rot(rotate)
 	vector = turretVector
 	

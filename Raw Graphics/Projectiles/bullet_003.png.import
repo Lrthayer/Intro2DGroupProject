@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/bullet_003.png-63ec0f0f7e693cf9488f228baf670b0a.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Raw Graphics/Projectiles/bullet_003.png"
-source_md5="fd7b95e8204b4ef54763e9b968866cd9"
-
 dest_files=[ "res://.import/bullet_003.png-63ec0f0f7e693cf9488f228baf670b0a.stex" ]
-dest_md5="cfac06c84488052b71bda743ad4925b1"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

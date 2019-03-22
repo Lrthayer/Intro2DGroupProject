@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/defender_and_attacker.jpg-1b845f95885082810365c6e0f2742c22.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Planning/Screenshots/defender_and_attacker.jpg"
-source_md5="28ac289aee4fc012f78ba829269c99e9"
-
 dest_files=[ "res://.import/defender_and_attacker.jpg-1b845f95885082810365c6e0f2742c22.stex" ]
-dest_md5="517fcfd8fbc11f6e9df53613c440e4d9"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

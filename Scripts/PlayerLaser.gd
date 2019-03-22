@@ -21,7 +21,7 @@ func set_spd(amt):
 #set the rotation
 func set_turn(amt):
 	amt = deg2rad(amt)
-	set_rot(amt)
+	#set_rot(amt)
 	turn = amt
 
 

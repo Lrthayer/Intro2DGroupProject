@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/creep_001.png-c189fa9f29b2d4969b5d0c90c703b5d0.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Raw Graphics/Creeps/creep_001.png"
-source_md5="40b75db16044704ab8086c589c0d59bf"
-
 dest_files=[ "res://.import/creep_001.png-c189fa9f29b2d4969b5d0c90c703b5d0.stex" ]
-dest_md5="fd2195c10a7f56752f7630ebe9527424"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

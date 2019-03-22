@@ -12,7 +12,7 @@ func _process(delta):
 		self.z_index = 10
 
 func _on_Hide_mouse_enter():
-	self.set_hidden(true)
+	self.visible = false
 
 func _on_unHide_mouse_exit():
-	self.set_hidden(false)
+	self.visible = true

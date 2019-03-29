@@ -78,14 +78,14 @@ public class ClickableArea2D : Area2D
             if (menuToggle < 1)
             {
                 //if already open, close
-                if (this.GetNode("AttackerMenu").Get("visible").Equals(true))
+                if (this.GetNode("menu").Get("visible").Equals(true))
                 {
-					this.GetNode("AttackerMenu").Set("visible", false);
-					this.GetNode("Attacker/Area2D").Set("visible", false);
-					this.GetNode("Attacker/Area2D2").Set("visible", false);
-					this.GetNode("Attacker/Area2D3").Set("visible", false);
-					this.GetNode("Attacker/Area2D4").Set("visible", false);
-					this.GetNode("AttackerMenu").Set("position", new Vector2(30000,30000));
+					this.GetNode("menu").Set("visible", false);
+					//this.GetNode("Attacker/Area2D").Set("visible", false);
+					//this.GetNode("Attacker/Area2D2").Set("visible", false);
+					//this.GetNode("Attacker/Area2D3").Set("visible", false);
+					//this.GetNode("Attacker/Area2D4").Set("visible", false);
+					//this.GetNode("AttackerMenu").Set("position", new Vector2(30000,30000));
 					//set root state to placing
 					this.GetNode("/root/Main").Set("state", "placing");
 					PlacingButton temp = (PlacingButton)this.GetNode("/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton");
@@ -93,12 +93,12 @@ public class ClickableArea2D : Area2D
                 }
                 else
                 {
-                    this.GetNode("AttackerMenu").Set("position", new Vector2(50,-100));
-                    this.GetNode("AttackerMenu").Set("visible", true);
-                    this.GetNode("AttackerMenu/Area2D").Set("visible", true);
-                    this.GetNode("AttackerMenu/Area2D2").Set("visible", true);
-                    this.GetNode("AttackerMenu/Area2D3").Set("visible", true);
-                    this.GetNode("AttackerMenu/Area2D4").Set("visible", true);
+                    this.GetNode("menu").Set("position", new Vector2(50,-100));
+                    this.GetNode("menu").Set("visible", true);
+                    //this.GetNode("AttackerMenu/Area2D").Set("visible", true);
+                    //this.GetNode("AttackerMenu/Area2D2").Set("visible", true);
+                    //this.GetNode("AttackerMenu/Area2D3").Set("visible", true);
+                    //this.GetNode("AttackerMenu/Area2D4").Set("visible", true);
                     //set root state to editing
                     this.GetNode("/root/Main").Set("editorState", "editing");
                     EditingButton eb =  (EditingButton)this.GetNode("/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton");
@@ -113,7 +113,27 @@ public class ClickableArea2D : Area2D
             menuToggle = 0;
         }
 
-    }//end hoverings with click
+        if (clicked)
+        {
+            this.GlobalPosition = this.GetGlobalMousePosition();
+
+            //fixes spawning a new object while moving this object
+            if (this.GetParent().Get("overButton").Equals(false))
+            {
+                this.GetParent().Set("overButton", true);
+            }
+        }
+
+    }//end hoverings with click 
+  }
+
+  public void on_Area2D_mouse_entered()
+  {
+
+  }
+
+  public void on_Area2D_mouse_exited()
+  {
       
   }
 }

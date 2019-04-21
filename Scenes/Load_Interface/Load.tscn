@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Load_Interface/Load.gd" type="Script" id=1]
 [ext_resource path="res://myPanel.gd" type="Script" id=2]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" index="0"]
 
 pause_mode = 2
 anchor_left = 0.0
@@ -20,7 +20,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Rect" ]
-dropdown_path = NodePath("MyDialog")
+dropdown_path = NodePath("MyDialog/dropdown")
 
 [node name="MyDialog" type="Panel" parent="." index="0"]
 

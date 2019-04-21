@@ -37,13 +37,14 @@
 [ext_resource path="res://TurretArea.tscn" type="PackedScene" id=35]
 [ext_resource path="res://Mover.gd" type="Script" id=36]
 [ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=37]
-[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=38]
-[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=39]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=40]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=41]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=42]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=43]
-[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=44]
+[ext_resource path="res://Scenes/MoverSprite.gd" type="Script" id=38]
+[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=39]
+[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=40]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=41]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=42]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=43]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=44]
+[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=45]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -473,20 +474,12 @@ func _on_MoverArea_mouse_enter():
 func _on_MoverArea_mouse_exit():
 	hovering = false"
 
-[sub_resource type="GDScript" id=27]
-
-script/source = "extends Sprite
-
-
-func _on_ColorPicker_color_changed( color ):
-	self.set_modulate(color)"
-
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=27]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=29]
+[sub_resource type="GDScript" id=28]
 
 script/source = "extends CollisionShape2D
 
@@ -497,7 +490,7 @@ func _ready():
 func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position"
 
-[sub_resource type="GDScript" id=30]
+[sub_resource type="GDScript" id=29]
 
 script/source = "extends Area2D
 
@@ -528,7 +521,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=31]
+[sub_resource type="GDScript" id=30]
 
 script/source = "extends Sprite
 
@@ -542,12 +535,12 @@ func _process(delta):
 
 "
 
-[sub_resource type="RectangleShape2D" id=32]
+[sub_resource type="RectangleShape2D" id=31]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 11.8219 )
 
-[sub_resource type="GDScript" id=33]
+[sub_resource type="GDScript" id=32]
 
 script/source = "extends CollisionShape2D
 
@@ -559,22 +552,22 @@ func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
-[sub_resource type="RectangleShape2D" id=34]
+[sub_resource type="RectangleShape2D" id=33]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="RectangleShape2D" id=35]
+[sub_resource type="RectangleShape2D" id=34]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=36]
+[sub_resource type="RectangleShape2D" id=35]
 
 custom_solver_bias = 0.0
 extents = Vector2( 26.9633, 12.0705 )
 
-[sub_resource type="GDScript" id=37]
+[sub_resource type="GDScript" id=36]
 
 script/source = "extends Area2D
 
@@ -659,7 +652,7 @@ func _on_Base2D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=38]
+[sub_resource type="GDScript" id=37]
 
 script/source = "extends Area2D
 
@@ -743,7 +736,7 @@ func _on_Base12D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=39]
+[sub_resource type="GDScript" id=38]
 
 script/source = "extends Area2D
 
@@ -828,7 +821,7 @@ func _on_Base32D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ShaderMaterial" id=40]
+[sub_resource type="ShaderMaterial" id=39]
 
 render_priority = 0
 
@@ -845,10 +838,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 590.02
-margin_top = -1036.02
-margin_right = 615.02
-margin_bottom = -1016.02
+margin_left = 562.02
+margin_top = -1017.02
+margin_right = 587.02
+margin_bottom = -997.023
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -859,8 +852,7 @@ script = ExtResource( 2 )
 
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
-editor/display_folded = true
-position = Vector2( -238.48, -1085.02 )
+position = Vector2( -245.48, -1048.02 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -877,7 +869,6 @@ script = ExtResource( 4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/Attacker" index="0"]
 
-editor/display_folded = true
 input_pickable = false
 collision_layer = 16
 collision_mask = 0
@@ -1033,7 +1024,7 @@ script = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D3" index="1"]
 
-position = Vector2( 1.37646, 5.96046e-008 )
+position = Vector2( 1.37646, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = SubResource( 5 )
@@ -1763,7 +1754,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="ColorPickerArea2D" type="Area2D" parent="AttackerArea/AttackerMenu" index="4"]
 
-editor/display_folded = true
 visible = false
 position = Vector2( 570.212, -14.5809 )
 input_pickable = true
@@ -1832,7 +1822,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="DefenderArea" type="Area2D" parent="." index="2"]
 
-editor/display_folded = true
 position = Vector2( -132.09, -1432.12 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -1849,7 +1838,7 @@ script = ExtResource( 21 )
 
 editor/display_folded = true
 position = Vector2( -0.00369018, 7.00465 )
-rotation = 3.44397
+rotation = 3.43288
 scale = Vector2( 1.68406, 1.2189 )
 input_pickable = false
 collision_layer = 24
@@ -2880,7 +2869,6 @@ script = SubResource( 25 )
 
 [node name="MoverArea" type="Area2D" parent="." index="5"]
 
-editor/display_folded = true
 position = Vector2( 3820.84, -312.779 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2897,7 +2885,7 @@ script = ExtResource( 36 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
 
-position = Vector2( -99, 0 )
+position = Vector2( 58, 0 )
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
@@ -2909,13 +2897,13 @@ script = ExtResource( 37 )
 
 scale = Vector2( 2.38735, 2.99493 )
 texture = ExtResource( 31 )
-script = SubResource( 27 )
+script = ExtResource( 38 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D" index="1"]
 
 scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 28 )
-script = SubResource( 29 )
+shape = SubResource( 27 )
+script = SubResource( 28 )
 
 [node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D" index="2"]
 
@@ -2953,6 +2941,7 @@ nine_patch_stretch = false
 
 [node name="Area2D" type="Area2D" parent="MoverArea/Mover" index="1"]
 
+editor/display_folded = true
 position = Vector2( 207.428, -1270.71 )
 scale = Vector2( 1.12062, 175.693 )
 input_pickable = true
@@ -2962,7 +2951,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 30 )
+script = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D" index="0"]
 
@@ -2970,19 +2959,20 @@ modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
 self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 38 )
-script = SubResource( 31 )
+texture = ExtResource( 39 )
+script = SubResource( 30 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D" index="1"]
 
 position = Vector2( -4.93335, 16.6439 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 32 )
-script = SubResource( 33 )
+shape = SubResource( 31 )
+script = SubResource( 32 )
 
 [node name="Area2D2" type="Area2D" parent="MoverArea/Mover" index="2"]
 
+editor/display_folded = true
 position = Vector2( -187.032, -1252.98 )
 scale = Vector2( 1.12062, 175.693 )
 input_pickable = true
@@ -2992,7 +2982,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 30 )
+script = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D2" index="0"]
 
@@ -3000,22 +2990,22 @@ modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
 self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 38 )
-script = SubResource( 31 )
+texture = ExtResource( 39 )
+script = SubResource( 30 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D2" index="1"]
 
 position = Vector2( -4.93335, 16.6439 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 32 )
-script = SubResource( 33 )
+shape = SubResource( 31 )
+script = SubResource( 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea" index="1"]
 
 position = Vector2( 0, 7.04199 )
 scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 34 )
+shape = SubResource( 33 )
 
 [node name="MoverMenu" type="Area2D" parent="MoverArea" index="2"]
 
@@ -3407,6 +3397,7 @@ alignment = 0
 
 [node name="HeightHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/VisualVBox" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3473,6 +3464,7 @@ suffix = ""
 
 [node name="WidthHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/VisualVBox" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3561,7 +3553,7 @@ shortcut = null
 group = null
 flat = false
 align = 1
-color = Color( 0.574219, 0.325241, 0.325241, 1 )
+color = Color( 0.90625, 0.90625, 0.90625, 1 )
 edit_alpha = false
 script = ExtResource( 20 )
 _sections_unfolded = [ "Rect" ]
@@ -3648,6 +3640,7 @@ suffix = ""
 
 [node name="WidthHBox2" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3710,6 +3703,7 @@ suffix = ""
 
 [node name="WidthHBox3" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -3772,6 +3766,7 @@ suffix = ""
 
 [node name="Laser" type="Node2D" parent="MoverArea/MoverMenu/ProjectileVBox" index="3"]
 
+editor/display_folded = true
 position = Vector2( 176.534, 43.3726 )
 script = ExtResource( 18 )
 
@@ -3788,23 +3783,22 @@ collision/safe_margin = 0.08
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 35 )
+shape = SubResource( 34 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
 position = Vector2( 1.93402, -0.0888446 )
 scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 39 )
+texture = ExtResource( 40 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu" index="4"]
 
 position = Vector2( 287.07, 110.66 )
 scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 36 )
+shape = SubResource( 35 )
 
-[node name="Base22D" type="Area2D" parent="." index="6" instance=ExtResource( 40 )]
+[node name="Base22D" type="Area2D" parent="." index="6" instance=ExtResource( 41 )]
 
-editor/display_folded = true
 position = Vector2( -200.42, 11.6915 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -3813,9 +3807,9 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 37 )
+script = SubResource( 36 )
 
-[node name="Base12D" type="Area2D" parent="." index="7" instance=ExtResource( 41 )]
+[node name="Base12D" type="Area2D" parent="." index="7" instance=ExtResource( 42 )]
 
 position = Vector2( 665.142, 35.4221 )
 input_pickable = true
@@ -3825,9 +3819,9 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 38 )
+script = SubResource( 37 )
 
-[node name="Base32D" type="Area2D" parent="." index="8" instance=ExtResource( 42 )]
+[node name="Base32D" type="Area2D" parent="." index="8" instance=ExtResource( 43 )]
 
 editor/display_folded = true
 position = Vector2( 1908.29, -398.365 )
@@ -3838,17 +3832,17 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 39 )
+script = SubResource( 38 )
 
 [node name="Cursor" type="Sprite" parent="." index="9"]
 
 modulate = Color( 0, 0, 0, 1 )
-material = SubResource( 40 )
-position = Vector2( 602.031, -1026.46 )
+material = SubResource( 39 )
+position = Vector2( 574.031, -1007.46 )
 scale = Vector2( 0.978113, 0.875503 )
 z_index = 10
-texture = ExtResource( 43 )
-script = ExtResource( 44 )
+texture = ExtResource( 44 )
+script = ExtResource( 45 )
 
 [node name="TurrentList" type="Sprite" parent="." index="10"]
 
@@ -3860,13 +3854,13 @@ script = ExtResource( 44 )
 
 [node name="Base3List" type="Sprite" parent="." index="14"]
 
-[connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
-
 [connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
+[connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
 
 [connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/HPHBox/HPSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HPSpinBox_value_changed"]
 
@@ -3890,19 +3884,23 @@ script = ExtResource( 44 )
 
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 
-[connection signal="pressed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_pressed"]
+[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 
-[connection signal="mouse_entered" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
+[connection signal="pressed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 
 [connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
+[connection signal="mouse_entered" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
 
 [connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
 
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="pressed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 
@@ -3912,9 +3910,9 @@ script = ExtResource( 44 )
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
-
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
+
+[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 

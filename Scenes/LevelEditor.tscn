@@ -368,12 +368,12 @@ func _on_MoverArea_mouse_enter():
 func _on_MoverArea_mouse_exit():
 	hovering = false"
 
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=26]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=28]
+[sub_resource type="GDScript" id=27]
 
 script/source = "extends CollisionShape2D
 
@@ -384,7 +384,7 @@ func _ready():
 func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position"
 
-[sub_resource type="GDScript" id=29]
+[sub_resource type="GDScript" id=28]
 
 script/source = "extends Area2D
 
@@ -415,7 +415,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=30]
+[sub_resource type="GDScript" id=29]
 
 script/source = "extends Sprite
 
@@ -429,12 +429,12 @@ func _process(delta):
 
 "
 
-[sub_resource type="RectangleShape2D" id=31]
+[sub_resource type="RectangleShape2D" id=30]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 11.8219 )
 
-[sub_resource type="GDScript" id=32]
+[sub_resource type="GDScript" id=31]
 
 script/source = "extends CollisionShape2D
 
@@ -446,26 +446,26 @@ func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
-[sub_resource type="RectangleShape2D" id=33]
+[sub_resource type="RectangleShape2D" id=32]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="RectangleShape2D" id=34]
+[sub_resource type="RectangleShape2D" id=33]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=35]
+[sub_resource type="RectangleShape2D" id=34]
 
 custom_solver_bias = 0.0
 extents = Vector2( 26.9633, 12.0705 )
 
-[sub_resource type="ShaderMaterial" id=36]
+[sub_resource type="ShaderMaterial" id=35]
 
 render_priority = 0
 
-[node name="Main" type="Node2D" index="0"]
+[node name="Main" type="Node2D"]
 
 position = Vector2( 132.09, -17.8815 )
 z_as_relative = false
@@ -2532,8 +2532,8 @@ script = ExtResource( 38 )
 
 position = Vector2( -0.318719, 6.59567 )
 scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 27 )
-script = SubResource( 28 )
+shape = SubResource( 26 )
+script = SubResource( 27 )
 
 [node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D" index="2"]
 
@@ -2581,7 +2581,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 29 )
+script = SubResource( 28 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D" index="0"]
 
@@ -2590,15 +2590,15 @@ self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 39 )
-script = SubResource( 30 )
+script = SubResource( 29 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D" index="1"]
 
 position = Vector2( -4.02673, -0.0256834 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 31 )
-script = SubResource( 32 )
+shape = SubResource( 30 )
+script = SubResource( 31 )
 
 [node name="Area2D2" type="Area2D" parent="MoverArea/Mover" index="2"]
 
@@ -2612,7 +2612,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 29 )
+script = SubResource( 28 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D2" index="0"]
 
@@ -2621,21 +2621,21 @@ self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
 texture = ExtResource( 39 )
-script = SubResource( 30 )
+script = SubResource( 29 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D2" index="1"]
 
 position = Vector2( -4.83211, -0.0256834 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 31 )
-script = SubResource( 32 )
+shape = SubResource( 30 )
+script = SubResource( 31 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea" index="1"]
 
 position = Vector2( 0, 7.04199 )
 scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 33 )
+shape = SubResource( 32 )
 
 [node name="MoverMenu" type="Area2D" parent="MoverArea" index="2"]
 
@@ -3413,7 +3413,7 @@ collision/safe_margin = 0.08
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 34 )
+shape = SubResource( 33 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
@@ -3425,7 +3425,7 @@ texture = ExtResource( 40 )
 
 position = Vector2( 287.07, 110.66 )
 scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 35 )
+shape = SubResource( 34 )
 
 [node name="Base22D" parent="." index="6" instance=ExtResource( 41 )]
 
@@ -3437,7 +3437,7 @@ position = Vector2( 1908.29, -398.365 )
 
 [node name="Cursor" type="Sprite" parent="." index="9"]
 
-material = SubResource( 36 )
+material = SubResource( 35 )
 position = Vector2( -42.09, -832.119 )
 scale = Vector2( 0.978113, 0.875503 )
 texture = ExtResource( 44 )
@@ -3453,13 +3453,13 @@ script = ExtResource( 45 )
 
 [node name="Base3List" type="Sprite" parent="." index="14"]
 
-[connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
 
-[connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
+
+[connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/HPHBox/HPSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HPSpinBox_value_changed"]
 
@@ -3479,9 +3479,9 @@ script = ExtResource( 45 )
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="AttackerArea/Attacker" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 
@@ -3495,9 +3495,9 @@ script = ExtResource( 45 )
 
 [connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
 
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
@@ -3545,9 +3545,9 @@ script = ExtResource( 45 )
 
 [connection signal="mouse_exited" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

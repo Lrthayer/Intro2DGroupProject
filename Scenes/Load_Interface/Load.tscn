@@ -173,7 +173,7 @@ group = null
 text = "Default"
 flat = false
 align = 0
-items = [ "Default", null, false, 0, null ]
+items = [  ]
 selected = 0
 
 [node name="AcceptDialog" type="AcceptDialog" parent="." index="1"]

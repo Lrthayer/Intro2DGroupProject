@@ -794,6 +794,29 @@ func _on_Save_Button_pressed():
 	#numberOfSaves = numberOfSaves + 1
 	"""
 func _on_Load_Button_pressed():
-	GLOBALS.file_name = "myscene"
-	GLOBALS.changed_scene = true
-	get_tree().change_scene("res://myscene.tscn")
+	
+	#load the directory
+	var directory = Directory.new()
+	directory.open("user://Playlists/")
+	
+	directory.list_dir_begin(true,true)
+	var file = directory.get_next()
+	directory.list_dir_end()
+	
+	#check the directory
+	if file == "":
+		self.get_node("Camera2D/Control/AcceptDialog").show()
+		self.get_node("Camera2D/Control/AcceptDialog").rect_position = Vector2(self.get_node("Camera2D").position.x + 50,self.get_node("Camera2D").position.y -50)
+		self.get_node("Camera2D/Control").mouse_filter = Control.MOUSE_FILTER_STOP
+	else:
+		GLOBALS.changed_scene = true
+		get_tree().change_scene("res://Load_Interface/load.tscn")
+
+
+#user clicked okay
+func _on_AcceptDialog_confirmed():
+	self.get_node("Camera2D/Control").mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+#user clicked X
+func _on_AcceptDialog_hide():
+	self.get_node("Camera2D/Control").mouse_filter = Control.MOUSE_FILTER_IGNORE

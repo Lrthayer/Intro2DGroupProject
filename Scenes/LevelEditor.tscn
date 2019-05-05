@@ -465,7 +465,7 @@ extents = Vector2( 26.9633, 12.0705 )
 
 render_priority = 0
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" index="0"]
 
 position = Vector2( 132.09, -17.8815 )
 z_as_relative = false
@@ -492,6 +492,7 @@ script = ExtResource( 2 )
 
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
+editor/display_folded = true
 position = Vector2( -50.7058, -923.596 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -1462,6 +1463,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="DefenderArea" type="Area2D" parent="." index="2"]
 
+editor/display_folded = true
 position = Vector2( -132.09, -1432.12 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -1664,6 +1666,7 @@ shape = SubResource( 16 )
 
 [node name="DefenderMenu" type="Area2D" parent="DefenderArea" index="2"]
 
+editor/display_folded = true
 visible = false
 position = Vector2( 19.2055, -76.2926 )
 input_pickable = true
@@ -2056,7 +2059,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Camera2D" type="Camera2D" parent="." index="3"]
 
-editor/display_folded = true
 position = Vector2( 134.52, -842.023 )
 anchor_mode = 1
 rotating = false
@@ -2412,6 +2414,7 @@ script = SubResource( 21 )
 
 [node name="StatesArea" type="Area2D" parent="Camera2D" index="11"]
 
+editor/display_folded = true
 position = Vector2( 381.74, -250.831 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2493,12 +2496,55 @@ script = SubResource( 23 )
 position = Vector2( 2.16141, 0 )
 shape = SubResource( 24 )
 
+[node name="Control" type="Control" parent="Camera2D" index="12"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -513.0
+margin_top = -302.0
+margin_right = 513.0
+margin_bottom = 301.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Mouse" ]
+
+[node name="AcceptDialog" type="AcceptDialog" parent="Camera2D/Control" index="0"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 447.0
+margin_top = 264.0
+margin_right = 622.0
+margin_bottom = 322.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = "Alert!"
+resizable = false
+dialog_text = "There is nothing to load!!"
+dialog_hide_on_ok = true
+_sections_unfolded = [ "Dialog", "Mouse", "Popup" ]
+
 [node name="TurretArea" parent="." index="4" instance=ExtResource( 35 )]
 
-position = Vector2( 1071.86, -132.428 )
+position = Vector2( 1071.86, -131.428 )
 
 [node name="MoverArea" type="Area2D" parent="." index="5"]
 
+editor/display_folded = true
 position = Vector2( 3820.84, -312.779 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -3487,13 +3533,13 @@ script = ExtResource( 45 )
 
 [connection signal="pressed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 
-[connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_entered" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
 
-[connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
+
+[connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 
@@ -3545,9 +3591,9 @@ script = ExtResource( 45 )
 
 [connection signal="mouse_exited" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
@@ -3595,6 +3641,10 @@ script = ExtResource( 45 )
 
 [connection signal="pressed" from="Camera2D/StatesArea/StatesHBox/EditingButton" to="Camera2D/StatesArea/StatesHBox/EditingButton" method="_on_EditingButton_pressed"]
 
+[connection signal="confirmed" from="Camera2D/Control/AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
+
+[connection signal="hide" from="Camera2D/Control/AcceptDialog" to="." method="_on_AcceptDialog_hide"]
+
 [connection signal="mouse_entered" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
 
 [connection signal="mouse_exited" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_exit"]
@@ -3619,12 +3669,12 @@ script = ExtResource( 45 )
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
 
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
-
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
 
 

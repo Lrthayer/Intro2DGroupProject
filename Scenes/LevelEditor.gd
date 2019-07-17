@@ -774,7 +774,7 @@ func _on_Save_Button_pressed():
 	directory.list_dir_end()
 	
 	
-	if file == "":
+	if GLOBALS.current_level_name == "Default":
 		get_tree().change_scene("res://Scenes/Save_Interface/Save.tscn")
 	else:
 		get_tree().change_scene("res://Scenes/Save_Interface/Save2.tscn")
@@ -802,7 +802,7 @@ func _on_Load_Button_pressed():
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()
 	directory.list_dir_end()
-	
+
 	#check the directory
 	if file == "":
 		self.get_node("Camera2D/Control/AcceptDialog").show()
@@ -810,7 +810,7 @@ func _on_Load_Button_pressed():
 		self.get_node("Camera2D/Control").mouse_filter = Control.MOUSE_FILTER_STOP
 	else:
 		GLOBALS.changed_scene = true
-		get_tree().change_scene("res://Load_Interface/load.tscn")
+		get_tree().change_scene("res://Scenes/Load_Interface/load.tscn")
 
 
 #user clicked okay

@@ -14,7 +14,7 @@ func _ready():
 	pass
 
 #save the level
-func _on_SaveLevel_pressed():
+func _on_SaveButton_pressed():
 	
 	
 	var id = dropdown.get_selected_id()
@@ -50,3 +50,7 @@ func _on_SaveLevel_pressed():
 
 	
 	
+
+
+func _on_CancelButton_pressed():
+	get_tree().change_scene("res://Scenes/temp.tscn")

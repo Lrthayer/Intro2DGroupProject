@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Save_Interface/Save4.gd" type="Script" id=1]
 [ext_resource path="res://myPanel.gd" type="Script" id=2]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" index="0"]
 
 pause_mode = 2
 anchor_left = 0.0

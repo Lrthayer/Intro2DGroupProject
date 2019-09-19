@@ -85,7 +85,7 @@ func _ready():
 			saving_level()
 			loading_level("res://Scenes/temp.json")
 		elif GLOBALS.isLoading:
-			pass
+			loading_level("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
 		else:
 			loading_level("res://Scenes/temp.json")
 			

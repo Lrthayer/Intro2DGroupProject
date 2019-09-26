@@ -12,6 +12,7 @@ func _ready():
 #	pass
 
 func cancel():
+	GLOBALS.changed_scene = false
 	get_tree().change_scene("res://Scenes/temp.tscn")
 	
 func _on_CancelButton_pressed():

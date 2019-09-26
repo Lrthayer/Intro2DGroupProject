@@ -72,10 +72,6 @@ var numberOfSaves = 0
 #starts when loaded up in scene
 func _ready():
 	
-	#setup screen capture, for level saving/playlist
-	#get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-	#yield(get_tree(), "idle_frame")
-	#yield(get_tree(), "idle_frame")
 	
 	if GLOBALS.changed_scene:
 		
@@ -84,11 +80,12 @@ func _ready():
 		if GLOBALS.isSaving:
 			saving_level()
 			loading_level("res://Scenes/temp.json")
-		elif GLOBALS.isLoading:
+		
+		if GLOBALS.isLoading:
 			loading_level("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
-		else:
-			loading_level("res://Scenes/temp.json")
 			
+	else:
+		loading_level("res://Scenes/temp.json")
 		
 	GLOBALS.isSaving = false
 	GLOBALS.isLoading = false
@@ -221,7 +218,7 @@ func loading_level(directory):
 		b = float(data[childName]["colorB"])
 		c = Color(r, g, b)
 		
-		self.get_node(dir).set_color(c)
+		self.get_node(dir).set_pick_color(c)
 		
 		dir = "TurrentList/" +  childName + "/Turret/StaticBody2D/Sprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
@@ -270,7 +267,7 @@ func loading_level(directory):
 		b = float(data[childName]["colorB"])
 		c = Color(r, g, b)
 		
-		self.get_node(dir).set_color(c)
+		self.get_node(dir).set_pick_color(c)
 		
 		dir = "MoverList/" +  childName + "/Mover/KinematicBody2D/Sprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
@@ -306,7 +303,7 @@ func loading_level(directory):
 		b = float(data[childName]["colorB"])
 		c = Color(r, g, b)
 		
-		self.get_node(dir).set_color(c)
+		self.get_node(dir).set_pick_color(c)
 		
 		dir = "BaseList/" +  childName + "/Base1/StaticBody2D/Sprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
@@ -332,7 +329,7 @@ func loading_level(directory):
 		b = float(data[childName]["colorB"])
 		c = Color(r, g, b)
 		
-		self.get_node(dir).set_color(c)
+		self.get_node(dir).set_pick_color(c)
 		
 		dir = "Base2List/" +  childName + "/Base2/StaticBody2D/Sprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
@@ -358,7 +355,7 @@ func loading_level(directory):
 		b = float(data[childName]["colorB"])
 		c = Color(r, g, b)
 		
-		self.get_node(dir).set_color(c)
+		self.get_node(dir).set_pick_color(c)
 		
 		dir = "Base3List/" +  childName + "/Base3/StaticBody2D/Sprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
@@ -610,8 +607,8 @@ func saving_level():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
 
-		c = self.get_node(dir).get_color()
-
+		c = self.get_node(dir).get_pick_color()
+		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
 		objects["colorB"] = str(c[2])
@@ -655,7 +652,7 @@ func saving_level():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "MoverList/" +  childName + "/MoverMenu/" + addDirectory[10]
 		
-		c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_pick_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -689,7 +686,7 @@ func saving_level():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "BaseList/" +  childName + "/Base1Menu/" + addDirectory[7]
 		
-		c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_pick_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -713,7 +710,7 @@ func saving_level():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "Base2List/" +  childName + "/Base2Menu/" + addDirectory[7]
 		
-		c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_pick_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -737,7 +734,7 @@ func saving_level():
 		objects["width"] = str(self.get_node(dir).get_value())
 		dir = "Base3List/" +  childName + "/Base3Menu/" + addDirectory[7]
 		
-		c = self.get_node(dir).get_color()
+		c = self.get_node(dir).get_pick_color()
 		
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
@@ -780,19 +777,6 @@ func _on_Save_Button_pressed():
 		get_tree().change_scene("res://Scenes/Save_Interface/Save2.tscn")
 	
 	
-	#change the position of camera and then pause the scene
-	#let the interface go from there.
-	
-	"""
-	# get screen capture
-	var capture = get_viewport().get_texture().get_data()
-	capture.flip_y()
-	# save to a file
-	capture.save_png("res://screenshot" + str(numberOfSaves) + ".png")
-	#tell playlist to add pic for level
-	#self.get_node("Camera2D").get_node("playlist").save_item(capture)
-	#numberOfSaves = numberOfSaves + 1
-	"""
 func _on_Load_Button_pressed():
 	
 	#load the directory

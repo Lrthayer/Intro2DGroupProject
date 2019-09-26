@@ -838,10 +838,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 619.02
-margin_top = -1045.02
-margin_right = 644.02
-margin_bottom = -1025.02
+margin_left = 645.22
+margin_top = -1077.62
+margin_right = 670.22
+margin_bottom = -1057.62
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -853,7 +853,7 @@ script = ExtResource( 2 )
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
 editor/display_folded = true
-position = Vector2( -50.7058, -923.596 )
+position = Vector2( -299.48, -1102.02 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -965,7 +965,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D" index="1"]
 
-position = Vector2( 1.37648, 0 )
+position = Vector2( 1.37646, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = ExtResource( 13 )
@@ -1025,7 +1025,7 @@ script = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D3" index="1"]
 
-position = Vector2( 1.37646, 0 )
+position = Vector2( 1.37646, -2.98023e-008 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = SubResource( 5 )
@@ -1727,7 +1727,7 @@ script = ExtResource( 18 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser" index="0"]
 
-position = Vector2( -0.1297, 0.0108032 )
+position = Vector2( -0.1297, 0.0108643 )
 scale = Vector2( 0.0670746, 0.12194 )
 input_pickable = false
 collision_layer = 0
@@ -1840,7 +1840,7 @@ script = ExtResource( 21 )
 
 editor/display_folded = true
 position = Vector2( -0.00369018, 7.00465 )
-rotation = 2.97992
+rotation = 3.6188
 scale = Vector2( 1.68406, 1.2189 )
 input_pickable = false
 collision_layer = 24
@@ -2421,10 +2421,11 @@ _sections_unfolded = [ "Rect" ]
 [node name="Camera2D" type="Camera2D" parent="." index="3"]
 
 position = Vector2( 134.52, -842.023 )
+scale = Vector2( 1.2, 1.2 )
 anchor_mode = 1
 rotating = false
 current = true
-zoom = Vector2( 1, 1 )
+zoom = Vector2( 1.2, 1.2 )
 limit_left = -10000000
 limit_top = -10000000
 limit_right = 10000000
@@ -2931,7 +2932,7 @@ script = ExtResource( 36 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
 
-position = Vector2( -57, 0 )
+position = Vector2( 21, 0 )
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
@@ -3884,13 +3885,37 @@ script = SubResource( 38 )
 
 modulate = Color( 0, 0, 0, 1 )
 material = SubResource( 39 )
-position = Vector2( 631.031, -1035.46 )
+position = Vector2( 657.231, -1068.06 )
 scale = Vector2( 0.978113, 0.875503 )
 z_index = 10
 texture = ExtResource( 44 )
 script = ExtResource( 45 )
 
 [node name="TurrentList" type="Sprite" parent="." index="10"]
+
+[node name="Turrent0" type="Area2D" parent="TurrentList" index="0" instance=ExtResource( 35 )]
+
+position = Vector2( -301.48, -783.023 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = SubResource( 25 )
+
+[node name="Turrent1" type="Area2D" parent="TurrentList" index="1" instance=ExtResource( 35 )]
+
+position = Vector2( -202.48, -969.023 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = SubResource( 25 )
 
 [node name="MoverList" type="Sprite" parent="." index="11"]
 
@@ -3900,13 +3925,13 @@ script = ExtResource( 45 )
 
 [node name="Base3List" type="Sprite" parent="." index="14"]
 
-[connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
 
-[connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
+
+[connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/HPHBox/HPSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HPSpinBox_value_changed"]
 
@@ -3960,9 +3985,9 @@ script = ExtResource( 45 )
 
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
-
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+
+[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -4093,5 +4118,13 @@ script = ExtResource( 45 )
 [connection signal="mouse_entered" from="Base32D" to="Base32D" method="_on_Base32D_mouse_enter"]
 
 [connection signal="mouse_exited" from="Base32D" to="Base32D" method="_on_Base32D_mouse_exit"]
+
+[connection signal="mouse_entered" from="TurrentList/Turrent0" to="TurrentList/Turrent0" method="_on_TurretArea_mouse_enter"]
+
+[connection signal="mouse_exited" from="TurrentList/Turrent0" to="TurrentList/Turrent0" method="_on_TurretArea_mouse_exit"]
+
+[connection signal="mouse_entered" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_enter"]
+
+[connection signal="mouse_exited" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_exit"]
 
 

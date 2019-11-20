@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Panel.gd" type="Script" id=2]
@@ -13,30 +13,26 @@
 [ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=11]
 [ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=12]
 [ext_resource path="res://turret001.tex" type="Texture" id=13]
-[ext_resource path="res://Scenes/PlacingButton.cs" type="Script" id=14]
-[ext_resource path="res://Scripts/EditingButton.cs" type="Script" id=15]
-[ext_resource path="res://Turret.gd" type="Script" id=16]
-[ext_resource path="res://Scripts/Collided.gd" type="Script" id=17]
-[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=18]
-[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=19]
-[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=20]
-[ext_resource path="res://Scenes/RigidBody2D.gd" type="Script" id=21]
-[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=22]
-[ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=23]
-[ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=24]
-[ext_resource path="res://TurretRayArea.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Mover.gd" type="Script" id=26]
-[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=27]
-[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=28]
-[ext_resource path="res://Scenes/ColorPicker.gd" type="Script" id=29]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=30]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=33]
-[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=34]
-[ext_resource path="res://Scenes/FileDialog.cs" type="Script" id=35]
-[ext_resource path="res://Scenes/MainRightClickMenu.gd" type="Script" id=36]
-[ext_resource path="res://Scripts/ClickableArea2D.cs" type="Script" id=37]
+[ext_resource path="res://Turret.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/Collided.gd" type="Script" id=15]
+[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=16]
+[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=17]
+[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=18]
+[ext_resource path="res://Scenes/RigidBody2D.gd" type="Script" id=19]
+[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=20]
+[ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=21]
+[ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=22]
+[ext_resource path="res://TurretRayArea.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Mover.gd" type="Script" id=24]
+[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=25]
+[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=26]
+[ext_resource path="res://Scenes/ColorPicker.gd" type="Script" id=27]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=31]
+[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=32]
+[ext_resource path="res://Scenes/MainRightClickMenu.gd" type="Script" id=33]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
@@ -617,7 +613,6 @@ margin_bottom = 40.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Placing"
-script = ExtResource( 14 )
 
 [node name="EditingButton" type="CheckButton" parent="Camera2D/StatesArea/StatesHBox"]
 margin_left = 129.0
@@ -626,7 +621,6 @@ margin_bottom = 40.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Editing"
-script = ExtResource( 15 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/StatesArea"]
 position = Vector2( 2.16141, 0 )
@@ -640,16 +634,16 @@ script = SubResource( 7 )
 [node name="Turret" type="Node2D" parent="TurretArea"]
 light_mask = 3
 material = SubResource( 8 )
-script = ExtResource( 16 )
+script = ExtResource( 14 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="TurretArea/Turret"]
 collision_layer = 8
 collision_mask = 0
-script = ExtResource( 17 )
+script = ExtResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="TurretArea/Turret/StaticBody2D"]
 position = Vector2( 1.10815, 0 )
-texture = ExtResource( 18 )
+texture = ExtResource( 16 )
 script = SubResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/Turret/StaticBody2D"]
@@ -666,8 +660,8 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 max_value = 3.0
 value = 3.0
-texture_under = ExtResource( 19 )
-texture_progress = ExtResource( 20 )
+texture_under = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
 
 [node name="Position2D" type="Position2D" parent="TurretArea/Turret"]
 position = Vector2( 1, -41 )
@@ -921,7 +915,7 @@ gravity_scale = 0.0
 continuous_cd = 2
 contacts_reported = 1
 contact_monitor = true
-script = ExtResource( 21 )
+script = ExtResource( 19 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu/ProjectileVBox/Laser2"]
 position = Vector2( -0.0913086, -0.0752258 )
@@ -931,11 +925,11 @@ shape = SubResource( 12 )
 [node name="Sprite" type="Sprite" parent="TurretArea/TurrentMenu/ProjectileVBox/Laser2"]
 position = Vector2( -0.000488281, 0 )
 scale = Vector2( 1, 0.999997 )
-texture = ExtResource( 22 )
+texture = ExtResource( 20 )
 
 [node name="Laser" type="Node2D" parent="TurretArea/TurrentMenu/ProjectileVBox"]
 position = Vector2( 176.534, 43.3726 )
-script = ExtResource( 23 )
+script = ExtResource( 21 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="TurretArea/TurrentMenu/ProjectileVBox/Laser"]
 position = Vector2( -0.129724, 0.0108337 )
@@ -946,7 +940,7 @@ collision_mask = 16
 [node name="Sprite" type="Sprite" parent="TurretArea/TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 1.93402, -0.0888446 )
 scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 24 )
+texture = ExtResource( 22 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurretArea/TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 0.568359, -0.705566 )
@@ -969,7 +963,7 @@ color = Color( 1, 1, 1, 1 )
 edit_alpha = false
 script = SubResource( 15 )
 
-[node name="TurretRayArea" parent="." instance=ExtResource( 25 )]
+[node name="TurretRayArea" parent="." instance=ExtResource( 23 )]
 position = Vector2( 158.775, -776.156 )
 
 [node name="MoverArea" type="Area2D" parent="."]
@@ -978,13 +972,13 @@ position = Vector2( 3820.84, -312.779 )
 script = SubResource( 16 )
 
 [node name="Mover" type="Node2D" parent="MoverArea"]
-script = ExtResource( 26 )
+script = ExtResource( 24 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover"]
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
-script = ExtResource( 27 )
+script = ExtResource( 25 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D"]
 scale = Vector2( 2.38735, 2.99493 )
@@ -1009,8 +1003,8 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 max_value = 3.0
 value = 3.0
-texture_under = ExtResource( 19 )
-texture_progress = ExtResource( 20 )
+texture_under = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
 
 [node name="Area2D" type="Area2D" parent="MoverArea/Mover"]
 position = Vector2( 207.428, -1270.71 )
@@ -1022,7 +1016,7 @@ modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
 self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 28 )
+texture = ExtResource( 26 )
 script = SubResource( 21 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D"]
@@ -1041,7 +1035,7 @@ modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
 self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 28 )
+texture = ExtResource( 26 )
 script = SubResource( 21 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D2"]
@@ -1250,7 +1244,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
-script = ExtResource( 29 )
+script = ExtResource( 27 )
 
 [node name="ProjectileVBox" type="VBoxContainer" parent="MoverArea/MoverMenu"]
 margin_left = 367.0
@@ -1331,7 +1325,7 @@ value = 1.0
 [node name="Laser" type="Node2D" parent="MoverArea/MoverMenu/ProjectileVBox"]
 editor/display_folded = true
 position = Vector2( 176.534, 43.3726 )
-script = ExtResource( 23 )
+script = ExtResource( 21 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/MoverMenu/ProjectileVBox/Laser"]
 position = Vector2( -0.129724, 0.0108337 )
@@ -1347,26 +1341,26 @@ shape = SubResource( 12 )
 [node name="Sprite" type="Sprite" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 1.93402, -0.0888446 )
 scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 22 )
+texture = ExtResource( 20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu"]
 position = Vector2( 287.07, 110.66 )
 scale = Vector2( 10.3845, 6.62774 )
 shape = SubResource( 25 )
 
-[node name="Base22D" parent="." instance=ExtResource( 30 )]
+[node name="Base22D" parent="." instance=ExtResource( 28 )]
 
-[node name="Base12D" parent="." instance=ExtResource( 31 )]
+[node name="Base12D" parent="." instance=ExtResource( 29 )]
 
-[node name="Base32D" parent="." instance=ExtResource( 32 )]
+[node name="Base32D" parent="." instance=ExtResource( 30 )]
 position = Vector2( 1908.29, -398.365 )
 
 [node name="Cursor" type="Sprite" parent="."]
 material = SubResource( 26 )
 position = Vector2( -42.09, -832.119 )
 scale = Vector2( 0.978113, 0.875503 )
-texture = ExtResource( 33 )
-script = ExtResource( 34 )
+texture = ExtResource( 31 )
+script = ExtResource( 32 )
 
 [node name="TurrentList" type="Sprite" parent="."]
 
@@ -1387,24 +1381,22 @@ margin_bottom = 220.0
 popup_exclusive = true
 window_title = "Open a File"
 mode = 0
-script = ExtResource( 35 )
 
 [node name="MainRightClickMenu" type="PopupMenu" parent="."]
 margin_right = 20.0
 margin_bottom = 20.0
-script = ExtResource( 36 )
+script = ExtResource( 33 )
 
 [node name="ClickableArea2D" type="Area2D" parent="."]
 position = Vector2( -50.7058, -923.596 )
-script = ExtResource( 37 )
 
 [connection signal="mouse_entered" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
-[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 [connection signal="mouse_entered" from="Camera2D/Save_Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/Save_Button" to="." method="_on_Button_mouse_exit"]
@@ -1421,8 +1413,8 @@ script = ExtResource( 37 )
 [connection signal="button_down" from="Camera2D/Button1" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
 [connection signal="mouse_entered" from="Camera2D/Button1" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 [connection signal="mouse_entered" from="Camera2D/Button2" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/Button2" to="." method="_on_Button_mouse_exit"]
@@ -1454,10 +1446,10 @@ script = ExtResource( 37 )
 [connection signal="value_changed" from="TurretArea/TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="TurretArea" method="_on_fireratedelta_value_changed"]
 [connection signal="value_changed" from="TurretArea/TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="TurretArea/Turret" method="_on_height_value_changed"]
 [connection signal="value_changed" from="TurretArea/TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="TurretArea/Turret" method="_on_width_value_changed"]
-[connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretArea/Turret" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretArea/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-[connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretArea/Turret" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurretArea/Turret" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretArea/TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurretArea/Turret" method="_on_ProjWidthSpinBox_value_changed"]
 [connection signal="value_changed" from="TurretArea/TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="TurretArea/Turret" method="_on_SpeedSpinBox_value_changed"]
 [connection signal="color_changed" from="TurretArea/TurrentMenu/ColorPicker" to="TurretArea/Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 [connection signal="mouse_entered" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
@@ -1472,7 +1464,7 @@ script = ExtResource( 37 )
 [connection signal="value_changed" from="MoverArea/MoverMenu/VisualVBox/WidthHBox/WidthSpinBox" to="MoverArea/Mover/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
 [connection signal="color_changed" from="MoverArea/MoverMenu/ColorPicker" to="MoverArea/Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]

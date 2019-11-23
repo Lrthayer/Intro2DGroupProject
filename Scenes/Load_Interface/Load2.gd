@@ -63,4 +63,5 @@ func _on_LoadButton_pressed():
 
 func _on_CancelButton_pressed():
 	GLOBALS.current_playlist_name = GLOBALS.temp_playlist
+	GLOBALS.PressedCancelButton = true
 	get_tree().change_scene("res://Scenes/temp.tscn")  

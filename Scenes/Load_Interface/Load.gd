@@ -19,15 +19,11 @@ func _ready():
 	
 	while (file != ""):
 		
-		#user is saving it to different playlist
-		if(file != GLOBALS.current_playlist_name):
-			
-			dropdown.add_item(file,id_num)
-			playlist.append(file)
-			id_num+=1
-			file = directory.get_next()
-		else:
-			file = directory.get_next()
+		dropdown.add_item(file,id_num)
+		playlist.append(file)
+		id_num+=1
+		file = directory.get_next()
+		
 	
 	directory.list_dir_end ( )
 
@@ -39,6 +35,7 @@ func _ready():
 
 
 func _on_CancelButton_pressed():
+	GLOBALS.PressedCancelButton = true
 	get_tree().change_scene("res://Scenes/temp.tscn")  
 
 

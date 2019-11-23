@@ -24,6 +24,7 @@ var temp_playlist = "Default"
 
 var isSaving = false
 var isLoading = false
+var PressedCancelButton = false
 
 # Event tracking
 var enemy_counter = 0

@@ -73,6 +73,7 @@ var numberOfSaves = 0
 func _ready():
 	
 	
+	
 	if GLOBALS.changed_scene:
 		
 		GLOBALS.changed_scene = false
@@ -83,9 +84,10 @@ func _ready():
 		
 		if GLOBALS.isLoading:
 			loading_level("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
-			
-	else:
-		loading_level("res://Scenes/temp.json")
+			saving_level()
+		
+		if GLOBALS.PressedCancelButton:
+			loading_level("res://Scenes/temp.json")
 		
 	GLOBALS.isSaving = false
 	GLOBALS.isLoading = false
@@ -608,10 +610,11 @@ func saving_level():
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[10]
 
 		c = self.get_node(dir).get_pick_color()
-		
+
 		objects["colorR"] = str(c[0])
 		objects["colorG"] = str(c[1])
 		objects["colorB"] = str(c[2])
+		
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[11]
 
 		objects["proj_height"] = str(self.get_node(dir).get_value())
@@ -746,6 +749,8 @@ func saving_level():
 	var file = File.new()
 	
 	if GLOBALS.isSaving:
+		#for some reason saving it to its folder is not working. Idea to fix problem. copy temp json which has right values for some reason
+		print("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
 		file.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json" , file.WRITE)
 		file.store_line(to_json(dict))
 		file.close()
@@ -770,6 +775,7 @@ func _on_Save_Button_pressed():
 	var file = directory.get_next()
 	directory.list_dir_end()
 	
+	GLOBALS.changed_scene = true
 	
 	if GLOBALS.current_level_name == "Default":
 		get_tree().change_scene("res://Scenes/Save_Interface/Save.tscn")
@@ -781,6 +787,10 @@ func _on_Load_Button_pressed():
 	
 	#load the directory
 	var directory = Directory.new()
+	
+	if !directory.dir_exists("res://Playlists"):
+		directory.make_dir("res://Playlists")
+		
 	directory.open("user://Playlists/")
 	
 	directory.list_dir_begin(true,true)
@@ -794,6 +804,7 @@ func _on_Load_Button_pressed():
 		self.get_node("Camera2D/Control").mouse_filter = Control.MOUSE_FILTER_STOP
 	else:
 		GLOBALS.changed_scene = true
+		saving_level()
 		get_tree().change_scene("res://Scenes/Load_Interface/load.tscn")
 
 

@@ -838,10 +838,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 571.02
-margin_top = -1027.02
-margin_right = 596.02
-margin_bottom = -1007.02
+margin_left = 580.02
+margin_top = -1033.02
+margin_right = 605.02
+margin_bottom = -1013.02
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -853,7 +853,7 @@ script = ExtResource( 2 )
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
 editor/display_folded = true
-position = Vector2( -300.48, -1094.02 )
+position = Vector2( -305.48, -1103.02 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -1025,7 +1025,7 @@ script = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D3" index="1"]
 
-position = Vector2( 1.37646, -2.98023e-008 )
+position = Vector2( 1.37646, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = SubResource( 5 )
@@ -1056,7 +1056,7 @@ script = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D4" index="1"]
 
-position = Vector2( 1.37646, 0 )
+position = Vector2( 1.3765, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = SubResource( 5 )
@@ -1840,7 +1840,7 @@ script = ExtResource( 21 )
 
 editor/display_folded = true
 position = Vector2( -0.00369018, 7.00465 )
-rotation = 3.61128
+rotation = 3.63462
 scale = Vector2( 1.68406, 1.2189 )
 input_pickable = false
 collision_layer = 24
@@ -2551,7 +2551,6 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
-pressed = true
 enabled_focus_mode = 2
 shortcut = null
 group = null
@@ -2883,10 +2882,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 447.0
-margin_top = 264.0
-margin_right = 622.0
-margin_bottom = 322.0
+margin_left = 184.52
+margin_top = -892.023
+margin_right = 359.52
+margin_bottom = -834.023
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -2931,7 +2930,7 @@ script = ExtResource( 36 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
 
-position = Vector2( -88, 0 )
+position = Vector2( -80, 0 )
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
@@ -3884,7 +3883,7 @@ script = SubResource( 38 )
 
 modulate = Color( 0, 0, 0, 1 )
 material = SubResource( 39 )
-position = Vector2( 583.031, -1017.46 )
+position = Vector2( 592.031, -1023.46 )
 scale = Vector2( 0.978113, 0.875503 )
 z_index = 10
 texture = ExtResource( 44 )
@@ -3894,7 +3893,7 @@ script = ExtResource( 45 )
 
 [node name="Turrent0" type="Area2D" parent="TurrentList" index="0" instance=ExtResource( 35 )]
 
-position = Vector2( -300.48, -892.023 )
+position = Vector2( -296.48, -789.023 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -3954,9 +3953,9 @@ script = SubResource( 25 )
 
 [connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
 
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
@@ -4004,9 +4003,9 @@ script = SubResource( 25 )
 
 [connection signal="mouse_exited" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
-
 [connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+
+[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
 [connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 

@@ -748,18 +748,23 @@ func saving_level():
 		
 	var file = File.new()
 	
+	#load the directory
+	var directory = Directory.new()
+	
 	if GLOBALS.isSaving:
 		#for some reason saving it to its folder is not working. Idea to fix problem. copy temp json which has right values for some reason
-		print("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
-		file.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json" , file.WRITE)
-		file.store_line(to_json(dict))
-		file.close()
+		#print("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
+		#file.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json" , file.WRITE)
+		#file.store_line(to_json(dict))
+		#file.close()
+		directory.copy("res://Scenes/temp.json", "res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
 		ResourceSaver.save("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".tscn" , packed_scene)
 	else:
 		file.open("res://Scenes/temp.json", file.WRITE)
 		file.store_line(to_json(dict))
 		file.close()
 		ResourceSaver.save("res://Scenes/temp.tscn", packed_scene)
+		
 	
 func _on_Save_Button_pressed():
 	

@@ -1,15 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" id=1]
-[ext_resource path="res://Graphics/UI/title.tex" type="Texture" id=2]
-[ext_resource path="res://Scripts/Menu/playButton.gd" type="Script" id=3]
-[ext_resource path="res://Scripts/Menu/levelEditorButton.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/Menu/instructionsButton.gd" type="Script" id=5]
-[ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=6]
-[ext_resource path="res://Scripts/Menu/quitButton.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Menu/levelEditorButton.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Menu/instructionsButton.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Menu/quitToMainMenuButton.gd" type="Script" id=5]
 
 [node name="TextureRect" type="TextureRect"]
 
+pause_mode = 2
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -27,62 +26,18 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Pause" ]
 
-[node name="TextureRect" type="TextureRect" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 110.0
-margin_top = 33.0
-margin_right = 921.0
-margin_bottom = 103.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 2 )
-stretch_mode = 0
-
-[node name="playButton" type="Button" parent="." index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 364.0
-margin_top = 175.0
-margin_right = 639.0
-margin_bottom = 212.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Play"
-flat = false
-align = 1
-script = ExtResource( 3 )
-
-[node name="levelEditorButton" type="Button" parent="." index="2"]
+[node name="resumeButton" type="Button" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 365.0
-margin_top = 226.0
+margin_top = 211.0
 margin_right = 640.0
-margin_bottom = 263.0
+margin_bottom = 248.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -94,21 +49,21 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Level Editor"
+text = "Resume"
 flat = false
 align = 1
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 
-[node name="instructionsButton" type="Button" parent="." index="3"]
+[node name="instructionsButton" type="Button" parent="." index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 366.0
-margin_top = 277.0
+margin_top = 262.0
 margin_right = 641.0
-margin_bottom = 314.0
+margin_bottom = 299.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -123,18 +78,18 @@ group = null
 text = "Instructions"
 flat = false
 align = 1
-script = ExtResource( 5 )
+script = ExtResource( 3 )
 
-[node name="controlsButton" type="Button" parent="." index="4"]
+[node name="controlsButton" type="Button" parent="." index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 366.0
-margin_top = 328.0
+margin_top = 313.0
 margin_right = 641.0
-margin_bottom = 365.0
+margin_bottom = 350.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -149,18 +104,18 @@ group = null
 text = "Controls"
 flat = false
 align = 1
-script = ExtResource( 6 )
+script = ExtResource( 4 )
 
-[node name="quitButton" type="Button" parent="." index="5"]
+[node name="quitToMainMenuButton" type="Button" parent="." index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 367.0
-margin_top = 378.0
+margin_top = 363.0
 margin_right = 642.0
-margin_bottom = 415.0
+margin_bottom = 400.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -172,9 +127,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Quit"
+text = "Quit to Main Menu"
 flat = false
 align = 1
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 

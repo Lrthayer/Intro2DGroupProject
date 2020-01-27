@@ -66,16 +66,9 @@ var laserObjectPoolAmount = 50
 
 var numberOfSaves = 0
 
-
-
-
 #starts when loaded up in scene
 func _ready():
-	
-	
-	
 	if GLOBALS.changed_scene:
-		
 		GLOBALS.changed_scene = false
 		
 		if GLOBALS.isSaving:
@@ -369,6 +362,11 @@ func loading_level(directory):
 func _process(delta):
 	var mosLoc = self.get_global_mouse_position()
 	var posOffset = Vector2(mosLoc.x-20, mosLoc.y-20)
+	
+	if Input.is_action_pressed("ui_cancel"):
+		get_tree().paused = true
+		get_tree().change_scene("res://Scenes/Menu/Pause.tscn")
+	
 	#get_child(1).set_global_pos(posOffset)
 	if  !overButton && Input.is_key_pressed(KEY_P):
 		if !overButton && !pressed && editorState == "placing":
@@ -764,10 +762,8 @@ func saving_level():
 		file.store_line(to_json(dict))
 		file.close()
 		ResourceSaver.save("res://Scenes/temp.tscn", packed_scene)
-		
-	
+
 func _on_Save_Button_pressed():
-	
 	GLOBALS.changed_scene = true
 	
 	#save the temp scene
@@ -786,7 +782,6 @@ func _on_Save_Button_pressed():
 		get_tree().change_scene("res://Scenes/Save_Interface/Save.tscn")
 	else:
 		get_tree().change_scene("res://Scenes/Save_Interface/Save2.tscn")
-	
 	
 func _on_Load_Button_pressed():
 	

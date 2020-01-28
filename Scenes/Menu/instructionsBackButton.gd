@@ -13,4 +13,6 @@ func _pressed():
 		get_tree().change_scene("res://Scenes/Menu/Start.tscn")
 	if (GLOBALS.last_scene == "pause"):
 		GLOBALS.last_scene == "game"
-		#TODO get_tree().change_scene("res://Scenes/Pause.xml")
+		#hide this menu then show pause menu
+		self.get_parent().hide()
+		self.get_parent().get_parent().get_node("PauseMenu").show()

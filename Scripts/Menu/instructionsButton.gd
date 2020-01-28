@@ -11,5 +11,7 @@ func _pressed():
 		GLOBALS.last_scene = "pause"
 	if GLOBALS.last_scene == "initial":
 		GLOBALS.last_scene = "start"
-
-	get_tree().change_scene("res://Scenes/Menu/Instructions.tscn")
+	
+	#hide self then show instruction menu
+	self.get_parent().hide()
+	self.get_parent().get_parent().get_node("InstructionsMenu").show()

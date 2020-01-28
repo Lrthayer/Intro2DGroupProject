@@ -5,6 +5,5 @@ func _ready():
 
 func _pressed():
 		# resume game screen
-	GLOBALS.last_scene = "pause"
+	GLOBALS.last_scene = "start"
 	get_tree().change_scene("res://Scenes/LevelEditor.tscn")
-	get_tree().paused = false

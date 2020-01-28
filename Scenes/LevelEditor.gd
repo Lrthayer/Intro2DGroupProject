@@ -365,7 +365,8 @@ func _process(delta):
 	
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().paused = true
-		get_tree().change_scene("res://Scenes/Menu/Pause.tscn")
+		self.get_node("CanvasLayer/PauseMenu").show()
+		GLOBALS.last_scene = "pause"
 	
 	#get_child(1).set_global_pos(posOffset)
 	if  !overButton && Input.is_key_pressed(KEY_P):

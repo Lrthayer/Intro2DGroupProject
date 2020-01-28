@@ -7,7 +7,6 @@ func _ready():
 #called every frame
 func _process(delta):
 	
-	
 	if Input.is_action_pressed("CameraUp"):
 		move(0,-10)
 	if Input.is_action_pressed("CameraDown"):

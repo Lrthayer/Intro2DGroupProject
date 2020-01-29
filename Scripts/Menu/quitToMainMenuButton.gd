@@ -6,3 +6,4 @@ func _ready():
 func _pressed():
 	get_tree().change_scene("res://Scenes/Menu/Start.tscn")
 	self.get_tree().paused = false
+	GLOBALS.last_scene == "start"

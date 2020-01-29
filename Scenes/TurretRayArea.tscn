@@ -886,13 +886,13 @@ shape = SubResource( 10 )
 
 [connection signal="value_changed" from="TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_width_value_changed"]
 
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_ProjWidthSpinBox_value_changed"]
+
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 
 [connection signal="color_changed" from="TurrentMenu/ColorPicker" to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 

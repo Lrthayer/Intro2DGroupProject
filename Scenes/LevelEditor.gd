@@ -1,6 +1,7 @@
 extends Node2D
 #var turrent = preload("res://Scenes/Turret.tscn")
 var turrent
+var laser
 #var base = preload("res://Scenes/Base1.tscn")
 var base
 #var base2 = preload("res://Scenes/Base2.tscn")
@@ -98,6 +99,7 @@ func _ready():
 		#laserObjectPool[-1].set_owner(self)
 	
 	turrent = self.get_node("TurretArea")
+	laser = self.get_node("TurretRayArea")
 	stun = self.get_node("MoverArea")
 	base = self.get_node("Base12D")
 	base2 = self.get_node("Base22D")
@@ -420,6 +422,9 @@ func _process(delta):
 				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/TurrentArea/Turret/StaticBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
 				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
 				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
+			elif currentObject == "Laser":
+				objectInstance = laser.duplicate()
+				objectInstance.visible = true
 			elif currentObject == "Attacker":
 				objectInstance = attacker
 				objectInstance.visible = true
@@ -483,6 +488,8 @@ func _on_Button_button_down(type):
 		currentObject = "Attacker"
 	elif type == "Defender":
 		currentObject = "Defender"
+	elif type == "Laser":
+		currentObject = "Laser"
 
 func set_hovering(state):
 	if !overButtonLock:

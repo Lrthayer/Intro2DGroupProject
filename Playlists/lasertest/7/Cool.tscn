@@ -1006,10 +1006,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 712.82
-margin_top = -1080.22
-margin_right = 737.82
-margin_bottom = -1060.22
+margin_left = 539.02
+margin_top = -1027.02
+margin_right = 564.02
+margin_bottom = -1007.02
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -2590,11 +2590,10 @@ _sections_unfolded = [ "Rect" ]
 
 editor/display_folded = true
 position = Vector2( 134.52, -842.023 )
-scale = Vector2( 1.4, 1.4 )
 anchor_mode = 1
 rotating = false
 current = true
-zoom = Vector2( 1.4, 1.4 )
+zoom = Vector2( 1, 1 )
 limit_left = -10000000
 limit_top = -10000000
 limit_right = 10000000
@@ -3143,7 +3142,7 @@ script = ExtResource( 38 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
 
-position = Vector2( 0.999756, 0 )
+position = Vector2( 40.9998, 0 )
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
@@ -4096,7 +4095,7 @@ script = SubResource( 39 )
 
 modulate = Color( 0, 0, 0, 1 )
 material = SubResource( 40 )
-position = Vector2( 724.831, -1070.66 )
+position = Vector2( 551.031, -1017.46 )
 scale = Vector2( 0.978113, 0.875503 )
 z_index = 10
 texture = ExtResource( 46 )
@@ -4109,20 +4108,6 @@ script = ExtResource( 47 )
 [node name="Laser0" type="Area2D" parent="LaserList" index="0" instance=ExtResource( 37 )]
 
 position = Vector2( -269.48, -815.023 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-collision_layer = 16
-collision_mask = 16
-audio_bus_override = false
-audio_bus_name = "Master"
-script = SubResource( 26 )
-
-[node name="@Laser0@7654" type="Area2D" parent="LaserList" index="1" instance=ExtResource( 37 )]
-
-position = Vector2( -46.08, -773.423 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -4693,9 +4678,5 @@ script = ExtResource( 54 )
 [connection signal="mouse_entered" from="LaserList/Laser0" to="LaserList/Laser0" method="_on_TurretArea_mouse_enter"]
 
 [connection signal="mouse_exited" from="LaserList/Laser0" to="LaserList/Laser0" method="_on_TurretArea_mouse_exit"]
-
-[connection signal="mouse_entered" from="LaserList/@Laser0@7654" to="LaserList/@Laser0@7654" method="_on_TurretArea_mouse_enter"]
-
-[connection signal="mouse_exited" from="LaserList/@Laser0@7654" to="LaserList/@Laser0@7654" method="_on_TurretArea_mouse_exit"]
 
 

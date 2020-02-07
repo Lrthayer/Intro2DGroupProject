@@ -357,6 +357,45 @@ func loading_level(directory):
 		dir = "Base3List/" +  childName + "/Base3/StaticBody2D/Sprite"
 		self.get_node(dir)._on_ColorPicker_color_changed(c)
 	
+	#grab the properties of Laser Turrents
+	for i in range(get_node("LaserList").get_child_count()):
+		
+		
+		childName = get_node("LaserList").get_child(i).get_name()
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[0]
+		
+		self.get_node(dir).set_value(float(data[childName]["hp"]))
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[1]
+		
+		self.get_node(dir).set_value(float(data[childName]["damage"]))
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[8]
+		
+		self.get_node(dir).set_value(float(data[childName]["height"]))
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[9]
+		
+		self.get_node(dir).set_value(float(data[childName]["width"]))
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[10]
+		
+		#get color values
+		r = float(data[childName]["colorR"])
+		g = float(data[childName]["colorG"])
+		b = float(data[childName]["colorB"])
+		c = Color(r, g, b)
+		
+		self.get_node(dir).set_pick_color(c)
+		
+		dir = "LaserList/" +  childName + "/Turret/StaticBody2D/Sprite"
+		self.get_node(dir)._on_ColorPicker_color_changed(c)
+		
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_height"]))
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+		
+		self.get_node(dir).set_value(float(data[childName]["proj_width"]))
+		
+
+		
 	#close the file
 	file.close()
 	
@@ -728,6 +767,7 @@ func saving_level():
 		dict[childName] = objects
 		objects = {}
 	
+
 	#grab the properties of Base3
 	for m in range(get_node("Base3List").get_child_count()):
 		
@@ -751,6 +791,42 @@ func saving_level():
 		
 		dict[childName] = objects
 		objects = {}
+		
+	#grab the properties of laser turrent
+	for n in range(get_node("LaserList").get_child_count()):
+		
+		childName = get_node("LaserList").get_child(n).get_name()
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[0]
+		
+		objects["hp"] = str(self.get_node(dir).get_value())
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[1]
+		
+		objects["damage"] = str(self.get_node(dir).get_value())
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[8]
+		
+		objects["height"] = str(self.get_node(dir).get_value())
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[9]
+		
+		objects["width"] = str(self.get_node(dir).get_value())
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[10]
+		
+		c = self.get_node(dir).get_pick_color()
+		
+		objects["colorR"] = str(c[0])
+		objects["colorG"] = str(c[1])
+		objects["colorB"] = str(c[2])
+		
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[11]
+		
+		objects["proj_height"] = str(self.get_node(dir).get_value())
+		dir = "LaserList/" +  childName + "/TurrentMenu/" + addDirectory[12]
+
+		objects["proj_width"] = str(self.get_node(dir).get_value())
+		
+		
+		dict[childName] = objects
+		objects = {}
+		
 		
 	var file = File.new()
 	

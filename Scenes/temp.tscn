@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Panel.gd" type="Script" id=2]
@@ -34,17 +34,26 @@
 [ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=32]
 [ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=33]
 [ext_resource path="res://turret001.tex" type="Texture" id=34]
-[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=35]
-[ext_resource path="res://Mover.gd" type="Script" id=36]
-[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=37]
-[ext_resource path="res://Scenes/MoverSprite.gd" type="Script" id=38]
-[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=39]
-[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=40]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=41]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=42]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=43]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=44]
-[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=45]
+[ext_resource path="res://Raw Graphics/Ships/ship_003.png" type="Texture" id=35]
+[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Scenes/TurretRayArea.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Mover.gd" type="Script" id=38]
+[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=39]
+[ext_resource path="res://Scenes/MoverSprite.gd" type="Script" id=40]
+[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=41]
+[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=42]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=43]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=44]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=45]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=46]
+[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=47]
+[ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" id=48]
+[ext_resource path="res://Scripts/Menu/resumeButton.gd" type="Script" id=49]
+[ext_resource path="res://Scripts/Menu/instructionsButton.gd" type="Script" id=50]
+[ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=51]
+[ext_resource path="res://Scripts/Menu/quitToMainMenuButton.gd" type="Script" id=52]
+[ext_resource path="res://Graphics/UI/Shop.tex" type="Texture" id=53]
+[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=54]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -400,6 +409,146 @@ var toggled = 0
 var lockToggle = 0
 var menuToggle = 0
 
+var pointValue = 10
+var health = 3
+var damage = .02
+var fireRate = 1
+var fireRateStatic = 1
+var fireRateDelta = .001
+
+var rayCastExceptions = []
+
+func _ready():
+	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
+	set_process(true)
+	set_physics_process(true)
+	getallnodes(self)
+
+func getallnodes(node):
+	for N in node.get_children():
+		if N.get_child_count() > 0:
+			rayCastExceptions.append(N)
+			getallnodes(N)
+		else:
+			# Do something
+			rayCastExceptions.append(N)
+	rayCastExceptions.append(self)
+	#print(\"exceptions\")
+	#print(rayCastExceptions)
+
+func _physics_process(delta):
+	var space_state = self.get_parent().get_world_2d().direct_space_state
+	# use global coordinates, not local to node
+	#print (rayCastExceptions)
+	#print(self.get_children())
+	var result = space_state.intersect_ray(self.global_position, self.get_node(\"Position2DArea2D/Position2D\").global_position, rayCastExceptions, self.collision_mask)
+	#print(self.get_node(\"Position2DArea2D/Position2D\").global_position)
+	#print(self.global_position)
+	if result.size() > 1:
+		for object in result:
+			#if colliding with defender move the point to the defender
+			if result.collider.get_parent().get_parent().get_name() == \"Defender\":
+				#tell turret node that we are colliding with defender so it can draw the line accordingly
+				self.get_node(\"Turret\").collidingWithDefender = true
+				self.get_node(\"Position2DArea2D\").global_position = result.position
+			elif result.collider.get_parent().get_parent().get_name() == \"Attacker\":
+				result.collider.collided(damage)
+
+#called every frame
+func _process(delta):
+	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_node(\"/root/Main\").cursorState = \"locked\"
+
+		if Input.is_action_pressed(\"middle_click\"):
+			if lockToggle < 1:
+				if locked:
+					locked = false
+					#tell parent to set cursor state
+					self.get_node(\"/root/Main\").cursorState = \"hovering\"
+				else:
+					locked = true
+					#tell parent to set cursor state
+					self.get_node(\"/root/Main\").cursorState = \"locked\"
+				lockToggle += 1
+		else:
+			lockToggle = 0
+	
+	if (hovering || clicked) && !locked:
+		if  Input.is_action_pressed(\"left_click\"):
+			if toggled < 1:
+				if clicked:
+					clicked = false
+				else:
+					clicked = true
+				toggled += 1
+		else:
+			toggled = 0
+				
+		if clicked:
+			self.global_position = self.get_global_mouse_position()
+			#fixes spawning a new object while moving this object
+#			if !get_node(\"/root/Main\").overButton:
+#				get_node(\"/root/Main\").overButton = true
+			
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if self.get_node(\"TurrentMenu\").visible:
+					self.get_node(\"TurrentMenu\").visible = false
+					self.get_node(\"TurrentMenu\").position = Vector2(30000,30000)
+					#set root state to placing
+					self.get_node(\"/root/Main\").editorState = \"placing\"
+					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+				else:
+					self.get_node(\"TurrentMenu\").position = Vector2(50,-100)
+					self.get_node(\"TurrentMenu\").visible = true
+					self.get_node(\"/root/Main\").editorState = \"editing\"
+					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+				menuToggle += 1
+		else:
+			menuToggle = 0
+		
+		if  Input.is_action_pressed(\"right_click\") && !locked:
+			self.get_node(\"/root/Main\").set_hovering(false)
+			self.free()
+
+func _on_TurretArea_mouse_enter():
+	hovering = true
+
+func _on_TurretArea_mouse_exit():
+	hovering = false
+
+func _on_health_value_changed( value ):
+	health = value
+
+func _on_damage_value_changed( value ):
+	damage = value
+
+func _on_firerate_value_changed( value ):
+	fireRate = value
+	fireRateStatic = value
+
+func _on_fireratedelta_value_changed( value ):
+	fireRateDelta = value
+
+func _on_height_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))"
+
+[sub_resource type="GDScript" id=27]
+
+script/source = "extends Area2D
+
+
+var hovering = false
+var clicked = false
+var locked = false
+var toggled = 0
+var lockToggle = 0
+var menuToggle = 0
+
 func _ready():
 	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
 	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
@@ -474,12 +623,12 @@ func _on_MoverArea_mouse_enter():
 func _on_MoverArea_mouse_exit():
 	hovering = false"
 
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=28]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10.5307, 7.81266 )
 
-[sub_resource type="GDScript" id=28]
+[sub_resource type="GDScript" id=29]
 
 script/source = "extends CollisionShape2D
 
@@ -490,7 +639,7 @@ func _ready():
 func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position"
 
-[sub_resource type="GDScript" id=29]
+[sub_resource type="GDScript" id=30]
 
 script/source = "extends Area2D
 
@@ -521,7 +670,7 @@ func _input_event( viewport, event, shape_idx ):
 	else:
 		toggled = 0"
 
-[sub_resource type="GDScript" id=30]
+[sub_resource type="GDScript" id=31]
 
 script/source = "extends Sprite
 
@@ -535,12 +684,12 @@ func _process(delta):
 
 "
 
-[sub_resource type="RectangleShape2D" id=31]
+[sub_resource type="RectangleShape2D" id=32]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 11.8219 )
 
-[sub_resource type="GDScript" id=32]
+[sub_resource type="GDScript" id=33]
 
 script/source = "extends CollisionShape2D
 
@@ -552,22 +701,22 @@ func _process(delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
-[sub_resource type="RectangleShape2D" id=33]
+[sub_resource type="RectangleShape2D" id=34]
 
 custom_solver_bias = 0.0
 extents = Vector2( 33.1893, 13.6369 )
 
-[sub_resource type="RectangleShape2D" id=34]
+[sub_resource type="RectangleShape2D" id=35]
 
 custom_solver_bias = 0.0
 extents = Vector2( 8.23344, 6.1101 )
 
-[sub_resource type="RectangleShape2D" id=35]
+[sub_resource type="RectangleShape2D" id=36]
 
 custom_solver_bias = 0.0
 extents = Vector2( 26.9633, 12.0705 )
 
-[sub_resource type="GDScript" id=36]
+[sub_resource type="GDScript" id=37]
 
 script/source = "extends Area2D
 
@@ -652,7 +801,7 @@ func _on_Base2D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=37]
+[sub_resource type="GDScript" id=38]
 
 script/source = "extends Area2D
 
@@ -736,7 +885,7 @@ func _on_Base12D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="GDScript" id=38]
+[sub_resource type="GDScript" id=39]
 
 script/source = "extends Area2D
 
@@ -821,13 +970,32 @@ func _on_Base32D_mouse_exit():
 	hovering = false
 "
 
-[sub_resource type="ShaderMaterial" id=39]
+[sub_resource type="ShaderMaterial" id=40]
 
 render_priority = 0
 
+[sub_resource type="GDScript" id=41]
+
+script/source = "extends TextureRect
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called when the node is added to the scene for the first time.
+	# Initialization here
+	self.hide()
+
+#func _process(delta):
+#	# Called every frame. Delta is time since last frame.
+#	# Update game logic here.
+#	pass
+"
+
 [node name="Main" type="Node2D" index="1"]
 
-position = Vector2( 132.09, -17.8815 )
+position = Vector2( 130, -20 )
 z_as_relative = false
 script = ExtResource( 1 )
 
@@ -838,10 +1006,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 580.02
-margin_top = -1030.02
-margin_right = 605.02
-margin_bottom = -1010.02
+margin_left = 712.82
+margin_top = -1080.22
+margin_right = 737.82
+margin_bottom = -1060.22
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -853,7 +1021,7 @@ script = ExtResource( 2 )
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
 editor/display_folded = true
-position = Vector2( -306.48, -1091.02 )
+position = Vector2( -289.48, -1101.02 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -907,7 +1075,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 min_value = 0.0
-max_value = 20.0
+max_value = 15.0
 step = 1.0
 page = 0.0
 value = 15.0
@@ -1840,7 +2008,7 @@ script = ExtResource( 21 )
 
 editor/display_folded = true
 position = Vector2( -0.00369018, 7.00465 )
-rotation = 3.62187
+rotation = 3.59287
 scale = Vector2( 1.68406, 1.2189 )
 input_pickable = false
 collision_layer = 24
@@ -2420,11 +2588,13 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="Camera2D" type="Camera2D" parent="." index="3"]
 
+editor/display_folded = true
 position = Vector2( 134.52, -842.023 )
+scale = Vector2( 1.4, 1.4 )
 anchor_mode = 1
 rotating = false
 current = true
-zoom = Vector2( 1, 1 )
+zoom = Vector2( 1.4, 1.4 )
 limit_left = -10000000
 limit_top = -10000000
 limit_right = 10000000
@@ -2474,7 +2644,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 min_value = 0.0
-max_value = 266.61
+max_value = 264.52
 step = 0.0
 page = 0.0
 value = 1.0
@@ -2518,7 +2688,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
 size_flags_vertical = 2
-min_value = -859.905
+min_value = -862.023
 max_value = 100.0
 step = 1.0
 page = 0.0
@@ -2583,16 +2753,16 @@ text = "Load"
 flat = false
 align = 1
 
-[node name="Button" type="Button" parent="Camera2D" index="4"]
+[node name="baseButton" type="Button" parent="Camera2D" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 13.0
-margin_top = 130.5
-margin_right = 326.0
-margin_bottom = 264.5
+margin_left = 135.0
+margin_top = 130.0
+margin_right = 448.0
+margin_bottom = 264.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -2611,15 +2781,15 @@ align = 1
 script = SubResource( 21 )
 _sections_unfolded = [ "Rect" ]
 
-[node name="Button1" type="Button" parent="Camera2D" index="5"]
+[node name="base2Button" type="Button" parent="Camera2D" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 333.0
+margin_left = 455.0
 margin_top = 130.0
-margin_right = 726.0
+margin_right = 848.0
 margin_bottom = 264.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -2638,15 +2808,15 @@ flat = false
 align = 1
 script = SubResource( 21 )
 
-[node name="Button2" type="Button" parent="Camera2D" index="6"]
+[node name="base3Button" type="Button" parent="Camera2D" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 733.0
+margin_left = 855.0
 margin_top = 130.0
-margin_right = 1190.0
+margin_right = 1312.0
 margin_bottom = 264.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -2665,7 +2835,7 @@ flat = false
 align = 1
 script = SubResource( 21 )
 
-[node name="Button3" type="Button" parent="Camera2D" index="7"]
+[node name="moverButton" type="Button" parent="Camera2D" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2692,7 +2862,7 @@ flat = false
 align = 1
 script = SubResource( 21 )
 
-[node name="Button5" type="Button" parent="Camera2D" index="8"]
+[node name="bomberButton" type="Button" parent="Camera2D" index="8"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2719,7 +2889,7 @@ flat = false
 align = 1
 script = SubResource( 21 )
 
-[node name="Button6" type="Button" parent="Camera2D" index="9"]
+[node name="defenderButton" type="Button" parent="Camera2D" index="9"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2746,7 +2916,7 @@ flat = false
 align = 1
 script = SubResource( 21 )
 
-[node name="Button4" type="Button" parent="Camera2D" index="10"]
+[node name="turretButton" type="Button" parent="Camera2D" index="10"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -2773,7 +2943,34 @@ flat = false
 align = 1
 script = SubResource( 21 )
 
-[node name="StatesArea" type="Area2D" parent="Camera2D" index="11"]
+[node name="laserButton" type="Button" parent="Camera2D" index="11"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 9.0
+margin_top = 131.0
+margin_right = 129.0
+margin_bottom = 221.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Laser"
+icon = ExtResource( 35 )
+flat = false
+align = 1
+script = SubResource( 21 )
+
+[node name="StatesArea" type="Area2D" parent="Camera2D" index="12"]
 
 editor/display_folded = true
 position = Vector2( 381.74, -250.831 )
@@ -2844,6 +3041,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = true
+pressed = true
 enabled_focus_mode = 2
 shortcut = null
 group = null
@@ -2857,8 +3055,9 @@ script = SubResource( 23 )
 position = Vector2( 2.16141, 0 )
 shape = SubResource( 24 )
 
-[node name="Control" type="Control" parent="Camera2D" index="12"]
+[node name="Control" type="Control" parent="Camera2D" index="13"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -2899,7 +3098,7 @@ dialog_text = "There is nothing to load!!"
 dialog_hide_on_ok = true
 _sections_unfolded = [ "Dialog", "Mouse", "Popup" ]
 
-[node name="TurretArea" type="Area2D" parent="." index="4" instance=ExtResource( 35 )]
+[node name="TurretArea" type="Area2D" parent="." index="4" instance=ExtResource( 36 )]
 
 position = Vector2( 1071.86, -131.428 )
 input_pickable = true
@@ -2911,7 +3110,21 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = SubResource( 25 )
 
-[node name="MoverArea" type="Area2D" parent="." index="5"]
+[node name="TurretRayArea" type="Area2D" parent="." index="5" instance=ExtResource( 37 )]
+
+position = Vector2( 543.337, 286.309 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision_layer = 16
+collision_mask = 16
+audio_bus_override = false
+audio_bus_name = "Master"
+script = SubResource( 26 )
+
+[node name="MoverArea" type="Area2D" parent="." index="6"]
 
 editor/display_folded = true
 position = Vector2( 3820.84, -312.779 )
@@ -2922,33 +3135,33 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 26 )
+script = SubResource( 27 )
 
 [node name="Mover" type="Node2D" parent="MoverArea" index="0"]
 
-script = ExtResource( 36 )
+script = ExtResource( 38 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
 
-position = Vector2( 57, 0 )
+position = Vector2( 0.999756, 0 )
 scale = Vector2( 1.14837, 1 )
 input_pickable = true
 collision_layer = 8
 collision_mask = 1
 collision/safe_margin = 0.08
-script = ExtResource( 37 )
+script = ExtResource( 39 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D" index="0"]
 
 scale = Vector2( 2.38735, 2.99493 )
 texture = ExtResource( 31 )
-script = ExtResource( 38 )
+script = ExtResource( 40 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D" index="1"]
 
 scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 27 )
-script = SubResource( 28 )
+shape = SubResource( 28 )
+script = SubResource( 29 )
 
 [node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D" index="2"]
 
@@ -2996,7 +3209,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 29 )
+script = SubResource( 30 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D" index="0"]
 
@@ -3004,16 +3217,16 @@ modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
 self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 39 )
-script = SubResource( 30 )
+texture = ExtResource( 41 )
+script = SubResource( 31 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D" index="1"]
 
-position = Vector2( -4.93335, 16.6439 )
+position = Vector2( -4.93311, 16.6439 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 31 )
-script = SubResource( 32 )
+shape = SubResource( 32 )
+script = SubResource( 33 )
 
 [node name="Area2D2" type="Area2D" parent="MoverArea/Mover" index="2"]
 
@@ -3027,7 +3240,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 29 )
+script = SubResource( 30 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D2" index="0"]
 
@@ -3035,22 +3248,22 @@ modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
 self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
 position = Vector2( -4.93346, 16.6439 )
 scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 39 )
-script = SubResource( 30 )
+texture = ExtResource( 41 )
+script = SubResource( 31 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D2" index="1"]
 
-position = Vector2( -4.93335, 16.6439 )
+position = Vector2( -4.93359, 16.6439 )
 scale = Vector2( 1, 5 )
-shape = SubResource( 31 )
-script = SubResource( 32 )
+shape = SubResource( 32 )
+script = SubResource( 33 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea" index="1"]
 
 position = Vector2( 0, 7.04199 )
 scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 33 )
+shape = SubResource( 34 )
 
 [node name="MoverMenu" type="Area2D" parent="MoverArea" index="2"]
 
@@ -3828,21 +4041,21 @@ collision/safe_margin = 0.08
 
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 34 )
+shape = SubResource( 35 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
 
 position = Vector2( 1.93402, -0.0888446 )
 scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 40 )
+texture = ExtResource( 42 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu" index="4"]
 
 position = Vector2( 287.07, 110.66 )
 scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 35 )
+shape = SubResource( 36 )
 
-[node name="Base22D" type="Area2D" parent="." index="6" instance=ExtResource( 41 )]
+[node name="Base22D" type="Area2D" parent="." index="7" instance=ExtResource( 43 )]
 
 position = Vector2( -200.42, 11.6915 )
 input_pickable = true
@@ -3852,9 +4065,9 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 36 )
+script = SubResource( 37 )
 
-[node name="Base12D" type="Area2D" parent="." index="7" instance=ExtResource( 42 )]
+[node name="Base12D" type="Area2D" parent="." index="8" instance=ExtResource( 44 )]
 
 position = Vector2( 665.142, 35.4221 )
 input_pickable = true
@@ -3864,9 +4077,9 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 37 )
+script = SubResource( 38 )
 
-[node name="Base32D" type="Area2D" parent="." index="8" instance=ExtResource( 43 )]
+[node name="Base32D" type="Area2D" parent="." index="9" instance=ExtResource( 45 )]
 
 editor/display_folded = true
 position = Vector2( 1908.29, -398.365 )
@@ -3877,51 +4090,401 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 38 )
+script = SubResource( 39 )
 
-[node name="Cursor" type="Sprite" parent="." index="9"]
+[node name="Cursor" type="Sprite" parent="." index="10"]
 
 modulate = Color( 0, 0, 0, 1 )
-material = SubResource( 39 )
-position = Vector2( 592.031, -1020.46 )
+material = SubResource( 40 )
+position = Vector2( 724.831, -1070.66 )
 scale = Vector2( 0.978113, 0.875503 )
 z_index = 10
-texture = ExtResource( 44 )
-script = ExtResource( 45 )
+texture = ExtResource( 46 )
+script = ExtResource( 47 )
 
-[node name="TurrentList" type="Sprite" parent="." index="10"]
+[node name="TurrentList" type="Sprite" parent="." index="11"]
 
-[node name="Turrent0" type="Area2D" parent="TurrentList" index="0" instance=ExtResource( 35 )]
+[node name="LaserList" type="Sprite" parent="." index="12"]
 
-position = Vector2( -298.48, -786.023 )
+[node name="Laser0" type="Area2D" parent="LaserList" index="0" instance=ExtResource( 37 )]
+
+position = Vector2( -269.48, -815.023 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 16
+collision_mask = 16
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 25 )
+script = SubResource( 26 )
 
-[node name="Turrent1" type="Area2D" parent="TurrentList" index="1" instance=ExtResource( 35 )]
+[node name="@Laser0@7654" type="Area2D" parent="LaserList" index="1" instance=ExtResource( 37 )]
 
-position = Vector2( -160.39, -1004.9 )
+position = Vector2( -46.08, -773.423 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 16
+collision_mask = 16
 audio_bus_override = false
 audio_bus_name = "Master"
-script = SubResource( 25 )
+script = SubResource( 26 )
 
-[node name="MoverList" type="Sprite" parent="." index="11"]
+[node name="MoverList" type="Sprite" parent="." index="13"]
 
-[node name="BaseList" type="Sprite" parent="." index="12"]
+[node name="BaseList" type="Sprite" parent="." index="14"]
 
-[node name="Base2List" type="Sprite" parent="." index="13"]
+[node name="Base2List" type="Sprite" parent="." index="15"]
 
-[node name="Base3List" type="Sprite" parent="." index="14"]
+[node name="Base3List" type="Sprite" parent="." index="16"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="17"]
+
+pause_mode = 2
+editor/display_folded = true
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+_sections_unfolded = [ "Pause" ]
+
+[node name="PauseMenu" type="TextureRect" parent="CanvasLayer" index="0"]
+
+pause_mode = 2
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 1025.0
+margin_bottom = 601.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 48 )
+expand = true
+stretch_mode = 0
+script = SubResource( 41 )
+_sections_unfolded = [ "Pause" ]
+
+[node name="resumeButton" type="Button" parent="CanvasLayer/PauseMenu" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 365.0
+margin_top = 211.0
+margin_right = 640.0
+margin_bottom = 248.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Resume"
+flat = false
+align = 1
+script = ExtResource( 49 )
+
+[node name="instructionsButton" type="Button" parent="CanvasLayer/PauseMenu" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 366.0
+margin_top = 262.0
+margin_right = 641.0
+margin_bottom = 299.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Instructions"
+flat = false
+align = 1
+script = ExtResource( 50 )
+
+[node name="controlsButton" type="Button" parent="CanvasLayer/PauseMenu" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 366.0
+margin_top = 313.0
+margin_right = 641.0
+margin_bottom = 350.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Controls"
+flat = false
+align = 1
+script = ExtResource( 51 )
+
+[node name="quitToMainMenuButton" type="Button" parent="CanvasLayer/PauseMenu" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 367.0
+margin_top = 363.0
+margin_right = 642.0
+margin_bottom = 400.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Quit to Main Menu"
+flat = false
+align = 1
+script = ExtResource( 52 )
+
+[node name="ControlsMenu" type="TextureRect" parent="CanvasLayer" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1022.0
+margin_bottom = 599.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 53 )
+expand = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/ControlsMenu" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 168.0
+margin_top = 47.0
+margin_right = 760.0
+margin_bottom = 397.0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0.15625, 0.0140381, 0.0140381, 1 )
+text = "Player1
+A - To move left
+D - To move right
+space bar - to shoot laser when Bomber
+
+Player2
+Left arrow - To move left
+Right arrow - To move right
+NUMPAD 0 key - to shoot laser when Bomber"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Material", "Rect", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Label2" type="Label" parent="CanvasLayer/ControlsMenu" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 369.0
+margin_top = 10.0
+margin_right = 446.0
+margin_bottom = 24.0
+rect_scale = Vector2( 3, 3 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Controls"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors" ]
+
+[node name="controlsBackButton" type="Button" parent="CanvasLayer/ControlsMenu" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 550.0
+margin_top = 63.0
+margin_right = 638.0
+margin_bottom = 97.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Back"
+flat = false
+align = 1
+script = ExtResource( 54 )
+
+[node name="InstructionsMenu" type="TextureRect" parent="CanvasLayer" index="2"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1022.0
+margin_bottom = 599.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 53 )
+expand = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/InstructionsMenu" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 168.0
+margin_top = 47.0
+margin_right = 760.0
+margin_bottom = 397.0
+rect_scale = Vector2( 1.6, 2.5 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0.15625, 0.0140381, 0.0140381, 1 )
+text = "Two Player Co-op
+Player1 is Bomber
+Player2 is Guardian
+
+Player1 must kill all enemies to declare victory of the battle 
+or destroy the military base to beat level. 
+
+Player2 must defend player1 from the enemy lasers so that
+they can beat the level together.
+
+There will be a upgrade shop to help you out in each
+level gained by the Guardian earning gems. "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Material", "Rect", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[node name="Label2" type="Label" parent="CanvasLayer/InstructionsMenu" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 369.0
+margin_top = 10.0
+margin_right = 446.0
+margin_bottom = 24.0
+rect_scale = Vector2( 3, 3 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Instructions"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Rect", "custom_colors" ]
+
+[node name="instructionsBackButton" type="Button" parent="CanvasLayer/InstructionsMenu" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 550.0
+margin_top = 63.0
+margin_right = 638.0
+margin_bottom = 97.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Back"
+flat = false
+align = 1
+script = ExtResource( 54 )
 
 [connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
 
@@ -3949,9 +4512,9 @@ script = SubResource( 25 )
 
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="AttackerArea/Attacker" method="_on_ProjWidthSpinBox_value_changed"]
 
-[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 
@@ -4001,53 +4564,59 @@ script = SubResource( 25 )
 
 [connection signal="pressed" from="Camera2D/Load_Button" to="." method="_on_Load_Button_pressed"]
 
-[connection signal="button_down" from="Camera2D/Button" to="." method="_on_Button_button_down" binds= [ "Base" ]]
+[connection signal="button_down" from="Camera2D/baseButton" to="." method="_on_Button_button_down" binds= [ "Base" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/baseButton" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/baseButton" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button" to="." method="_on_Button_pressed" binds= [ "Base1" ]]
+[connection signal="pressed" from="Camera2D/baseButton" to="." method="_on_Button_pressed" binds= [ "Base1" ]]
 
-[connection signal="button_down" from="Camera2D/Button1" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
+[connection signal="button_down" from="Camera2D/base2Button" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button1" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/base2Button" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button1" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/base2Button" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 
-[connection signal="pressed" from="Camera2D/Button1" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 
-[connection signal="button_down" from="Camera2D/Button2" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
+[connection signal="button_down" from="Camera2D/base3Button" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button2" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/base3Button" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button2" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/base3Button" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="button_down" from="Camera2D/Button3" to="." method="_on_Button_button_down" binds= [ "Mover" ]]
+[connection signal="button_down" from="Camera2D/moverButton" to="." method="_on_Button_button_down" binds= [ "Mover" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button3" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/moverButton" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button3" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/moverButton" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="button_down" from="Camera2D/Button5" to="." method="_on_Button_button_down" binds= [ "Attacker" ]]
+[connection signal="button_down" from="Camera2D/bomberButton" to="." method="_on_Button_button_down" binds= [ "Attacker" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button5" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/bomberButton" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button5" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/bomberButton" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="button_down" from="Camera2D/Button6" to="." method="_on_Button_button_down" binds= [ "Defender" ]]
+[connection signal="button_down" from="Camera2D/defenderButton" to="." method="_on_Button_button_down" binds= [ "Defender" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button6" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/defenderButton" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button6" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/defenderButton" to="." method="_on_Button_mouse_exit"]
 
-[connection signal="button_down" from="Camera2D/Button4" to="." method="_on_Button_button_down" binds= [ "Turrent" ]]
+[connection signal="button_down" from="Camera2D/turretButton" to="." method="_on_Button_button_down" binds= [ "Turrent" ]]
 
-[connection signal="mouse_entered" from="Camera2D/Button4" to="." method="_on_Button_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/turretButton" to="." method="_on_Button_mouse_enter"]
 
-[connection signal="mouse_exited" from="Camera2D/Button4" to="." method="_on_Button_mouse_exit"]
+[connection signal="mouse_exited" from="Camera2D/turretButton" to="." method="_on_Button_mouse_exit"]
+
+[connection signal="button_down" from="Camera2D/laserButton" to="." method="_on_Button_button_down" binds= [ "Laser" ]]
+
+[connection signal="mouse_entered" from="Camera2D/laserButton" to="." method="_on_Button_mouse_enter"]
+
+[connection signal="mouse_exited" from="Camera2D/laserButton" to="." method="_on_Button_mouse_exit"]
 
 [connection signal="mouse_entered" from="Camera2D/StatesArea" to="." method="_on_Area2D_mouse_enter"]
 
@@ -4073,6 +4642,10 @@ script = SubResource( 25 )
 
 [connection signal="mouse_exited" from="TurretArea" to="TurretArea" method="_on_TurretArea_mouse_exit"]
 
+[connection signal="mouse_entered" from="TurretRayArea" to="TurretRayArea" method="_on_TurretArea_mouse_enter"]
+
+[connection signal="mouse_exited" from="TurretRayArea" to="TurretRayArea" method="_on_TurretArea_mouse_exit"]
+
 [connection signal="mouse_entered" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
 
 [connection signal="mouse_exited" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_exit"]
@@ -4097,13 +4670,13 @@ script = SubResource( 25 )
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
 
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
-
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
 
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
 
 [connection signal="mouse_entered" from="Base22D" to="Base22D" method="_on_Base2D_mouse_enter"]
 
@@ -4117,12 +4690,12 @@ script = SubResource( 25 )
 
 [connection signal="mouse_exited" from="Base32D" to="Base32D" method="_on_Base32D_mouse_exit"]
 
-[connection signal="mouse_entered" from="TurrentList/Turrent0" to="TurrentList/Turrent0" method="_on_TurretArea_mouse_enter"]
+[connection signal="mouse_entered" from="LaserList/Laser0" to="LaserList/Laser0" method="_on_TurretArea_mouse_enter"]
 
-[connection signal="mouse_exited" from="TurrentList/Turrent0" to="TurrentList/Turrent0" method="_on_TurretArea_mouse_exit"]
+[connection signal="mouse_exited" from="LaserList/Laser0" to="LaserList/Laser0" method="_on_TurretArea_mouse_exit"]
 
-[connection signal="mouse_entered" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_enter"]
+[connection signal="mouse_entered" from="LaserList/@Laser0@7654" to="LaserList/@Laser0@7654" method="_on_TurretArea_mouse_enter"]
 
-[connection signal="mouse_exited" from="TurrentList/Turrent1" to="TurrentList/Turrent1" method="_on_TurretArea_mouse_exit"]
+[connection signal="mouse_exited" from="LaserList/@Laser0@7654" to="LaserList/@Laser0@7654" method="_on_TurretArea_mouse_exit"]
 
 

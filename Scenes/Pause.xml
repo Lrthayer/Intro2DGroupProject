@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<resource_file type="PackedScene" subresource_count="6" version="2.1" version_name="Godot Engine v2.1.6.stable.official">
+<resource_file type="PackedScene" subresource_count="6" version="2.1" version_name="Godot Engine v2.1.4.stable.official">
 	<ext_resource path="res://Scripts/toInstructions.gd" type="Script" index="2"></ext_resource>
-	<ext_resource path="res://Scripts/toControls.gd" type="Script" index="3"></ext_resource>
-	<ext_resource path="res://Scripts/Pause.gd" type="Script" index="0"></ext_resource>
 	<ext_resource path="res://Scripts/toMain.gd" type="Script" index="4"></ext_resource>
 	<ext_resource path="res://Scripts/resumeGame.gd" type="Script" index="1"></ext_resource>
+	<ext_resource path="res://Scripts/Pause.gd" type="Script" index="0"></ext_resource>
+	<ext_resource path="res://Scripts/toControls.gd" type="Script" index="3"></ext_resource>
 	<main_resource>
 		<dictionary name="_bundled" shared="false">
 			<string> "conn_count" </string>

@@ -21,6 +21,7 @@ var changed_scene = false
 var current_playlist_name = "Default"
 var current_level_name = "Default"
 var temp_playlist = "Default"
+var next_level = ""
 
 var isSaving = false
 var isLoading = false

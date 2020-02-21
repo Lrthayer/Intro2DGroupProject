@@ -642,9 +642,8 @@ position = Vector2( 7.52608e-006, -0.299716 )
 scale = Vector2( 2.54709, 3.16364 )
 shape = SubResource( 2 )
 
-[node name="Area2D" type="Area2D" parent="AttackerArea/Attacker" index="1"]
+[node name="leftBoundaryArea2D" type="Area2D" parent="AttackerArea/Attacker" index="1"]
 
-editor/display_folded = true
 visible = false
 position = Vector2( -350.423, -127.165 )
 scale = Vector2( 1.60938, 231 )
@@ -658,7 +657,7 @@ audio_bus_name = "Master"
 script = ExtResource( 12 )
 _sections_unfolded = [ "Collision" ]
 
-[node name="leftBoundary" type="Sprite" parent="AttackerArea/Attacker/Area2D" index="0"]
+[node name="leftBoundary" type="Sprite" parent="AttackerArea/Attacker/leftBoundaryArea2D" index="0"]
 
 position = Vector2( 1.37648, 0 )
 scale = Vector2( 2.25621, 3 )
@@ -666,16 +665,15 @@ texture = ExtResource( 13 )
 script = SubResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/leftBoundaryArea2D" index="1"]
 
 position = Vector2( 0.941341, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = ExtResource( 14 )
 
-[node name="Area2D2" type="Area2D" parent="AttackerArea/Attacker" index="2"]
+[node name="rightBoundaryArea2D" type="Area2D" parent="AttackerArea/Attacker" index="2"]
 
-editor/display_folded = true
 visible = false
 position = Vector2( 668.9, -79.5117 )
 scale = Vector2( 1.60938, 231 )
@@ -688,23 +686,22 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 15 )
 
-[node name="rightBoundary" type="Sprite" parent="AttackerArea/Attacker/Area2D2" index="0"]
+[node name="rightBoundary" type="Sprite" parent="AttackerArea/Attacker/rightBoundaryArea2D" index="0"]
 
 position = Vector2( 1.37648, 0 )
 scale = Vector2( 2.25621, 3 )
 texture = ExtResource( 13 )
 script = ExtResource( 16 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/rightBoundaryArea2D" index="1"]
 
 position = Vector2( 0.941341, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = ExtResource( 14 )
 
-[node name="Area2D3" type="Area2D" parent="AttackerArea/Attacker" index="3"]
+[node name="topBoundaryArea2D" type="Area2D" parent="AttackerArea/Attacker" index="3"]
 
-editor/display_folded = true
 visible = false
 position = Vector2( 214.447, -220.148 )
 rotation = 1.5708
@@ -719,23 +716,22 @@ audio_bus_name = "Master"
 script = ExtResource( 17 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="topBoundary" type="Sprite" parent="AttackerArea/Attacker/Area2D3" index="0"]
+[node name="topBoundary" type="Sprite" parent="AttackerArea/Attacker/topBoundaryArea2D" index="0"]
 
 position = Vector2( 1.37648, 0 )
 scale = Vector2( 2.25621, 3 )
 texture = ExtResource( 13 )
 script = SubResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D3" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/topBoundaryArea2D" index="1"]
 
 position = Vector2( 0.941341, 0 )
 scale = Vector2( 0.721263, 1 )
 shape = SubResource( 4 )
 script = SubResource( 5 )
 
-[node name="Area2D4" type="Area2D" parent="AttackerArea/Attacker" index="4"]
+[node name="bottomBoundaryArea2D" type="Area2D" parent="AttackerArea/Attacker" index="4"]
 
-editor/display_folded = true
 visible = false
 position = Vector2( 193.526, 191.3 )
 rotation = 1.5708
@@ -750,14 +746,14 @@ audio_bus_name = "Master"
 script = ExtResource( 18 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bottomBoundary" type="Sprite" parent="AttackerArea/Attacker/Area2D4" index="0"]
+[node name="bottomBoundary" type="Sprite" parent="AttackerArea/Attacker/bottomBoundaryArea2D" index="0"]
 
 position = Vector2( 1.37648, 0 )
 scale = Vector2( 2.25621, 3 )
 texture = ExtResource( 13 )
 script = SubResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/Area2D4" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/bottomBoundaryArea2D" index="1"]
 
 position = Vector2( 0.941341, 0 )
 scale = Vector2( 0.721263, 1 )
@@ -1526,8 +1522,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="DefenderArea" type="Area2D" parent="." index="2"]
 
-editor/display_folded = true
-position = Vector2( -132.09, -1432.12 )
+position = Vector2( 51.3086, -828.936 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -1541,7 +1536,6 @@ script = ExtResource( 22 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender" index="0"]
 
-editor/display_folded = true
 position = Vector2( -0.00369018, 7.00465 )
 scale = Vector2( 1.68406, 1.2189 )
 input_pickable = false
@@ -1592,10 +1586,8 @@ position = Vector2( -0.288285, 14.5665 )
 scale = Vector2( 2.45045, 0.604477 )
 shape = SubResource( 11 )
 
-[node name="Area2D" type="Area2D" parent="DefenderArea/Defender" index="1"]
+[node name="topBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender" index="1"]
 
-editor/display_folded = true
-visible = false
 position = Vector2( 14.7581, -144.612 )
 scale = Vector2( 1.7382, 0.809096 )
 input_pickable = true
@@ -1607,7 +1599,7 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = SubResource( 12 )
 
-[node name="topBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D" index="0"]
+[node name="topBoundary" type="Sprite" parent="DefenderArea/Defender/topBoundaryArea2D" index="0"]
 
 position = Vector2( 40.6006, 39.5764 )
 scale = Vector2( 664.151, 2.9 )
@@ -1615,7 +1607,7 @@ texture = ExtResource( 20 )
 script = SubResource( 13 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/topBoundaryArea2D" index="1"]
 
 position = Vector2( -159.806, 39.4341 )
 scale = Vector2( 1.38945, 2 )
@@ -1623,10 +1615,8 @@ shape = SubResource( 14 )
 script = SubResource( 15 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Area2D2" type="Area2D" parent="DefenderArea/Defender" index="2"]
+[node name="rightBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender" index="2"]
 
-editor/display_folded = true
-visible = false
 position = Vector2( 702.235, -120.805 )
 rotation = 1.5708
 scale = Vector2( 1.7382, 0.809096 )
@@ -1640,7 +1630,7 @@ audio_bus_name = "Master"
 script = SubResource( 12 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="rightBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D2" index="0"]
+[node name="rightBoundary" type="Sprite" parent="DefenderArea/Defender/rightBoundaryArea2D" index="0"]
 
 position = Vector2( 36.7758, 39.5764 )
 scale = Vector2( 664.151, 2.9 )
@@ -1648,7 +1638,7 @@ texture = ExtResource( 20 )
 script = SubResource( 13 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D2" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/rightBoundaryArea2D" index="1"]
 
 position = Vector2( -159.806, 39.4341 )
 scale = Vector2( 1.38945, 2 )
@@ -1656,10 +1646,8 @@ shape = SubResource( 14 )
 script = SubResource( 15 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Area2D3" type="Area2D" parent="DefenderArea/Defender" index="3"]
+[node name="bottomBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender" index="3"]
 
-editor/display_folded = true
-visible = false
 position = Vector2( 618.957, 317.792 )
 rotation = 3.14159
 scale = Vector2( 1.7382, 0.809096 )
@@ -1673,7 +1661,7 @@ audio_bus_name = "Master"
 script = SubResource( 12 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="bottomBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D3" index="0"]
+[node name="bottomBoundary" type="Sprite" parent="DefenderArea/Defender/bottomBoundaryArea2D" index="0"]
 
 position = Vector2( 36.7758, 39.5764 )
 scale = Vector2( 664.151, 2.9 )
@@ -1681,7 +1669,7 @@ texture = ExtResource( 20 )
 script = SubResource( 13 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D3" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/bottomBoundaryArea2D" index="1"]
 
 position = Vector2( -159.806, 39.4341 )
 scale = Vector2( 1.38945, 2 )
@@ -1689,10 +1677,8 @@ shape = SubResource( 14 )
 script = SubResource( 15 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Area2D4" type="Area2D" parent="DefenderArea/Defender" index="4"]
+[node name="leftBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender" index="4"]
 
-editor/display_folded = true
-visible = false
 position = Vector2( -408.137, 365.908 )
 rotation = 1.5708
 scale = Vector2( 1.7382, 0.809096 )
@@ -1706,7 +1692,7 @@ audio_bus_name = "Master"
 script = SubResource( 12 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="leftBoundary" type="Sprite" parent="DefenderArea/Defender/Area2D4" index="0"]
+[node name="leftBoundary" type="Sprite" parent="DefenderArea/Defender/leftBoundaryArea2D" index="0"]
 
 position = Vector2( 36.7758, 39.5764 )
 scale = Vector2( 664.151, 2.9 )
@@ -1714,7 +1700,7 @@ texture = ExtResource( 20 )
 script = SubResource( 13 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/Area2D4" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/leftBoundaryArea2D" index="1"]
 
 position = Vector2( -159.806, 39.4341 )
 scale = Vector2( 1.38945, 2 )
@@ -1725,7 +1711,9 @@ _sections_unfolded = [ "Transform" ]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea" index="1"]
 
 position = Vector2( 0.814514, 8.14502 )
+z_index = 1
 shape = SubResource( 16 )
+_sections_unfolded = [ "Material", "Visibility", "Z Index" ]
 
 [node name="DefenderMenu" type="Area2D" parent="DefenderArea" index="2"]
 

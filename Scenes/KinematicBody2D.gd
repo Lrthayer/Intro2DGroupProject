@@ -21,6 +21,7 @@ var diff
 #Gives movement to Defender
 func movement(speedX, speedY):
 	
+	print(top_boundary)
 	#checks right boundary for Defender
 	if self.global_position.x > right_boundary:
 		self.global_position = Vector2(right_boundary, self.global_position.y)
@@ -29,9 +30,11 @@ func movement(speedX, speedY):
 	if self.global_position.x < left_boundary:
 		self.global_position = Vector2(left_boundary,self.global_position.y)
 	
+	#checks bottom boundary for Defender
 	if self.global_position.y > bottom_boundary:
 		self.global_position = Vector2(self.global_position.x, bottom_boundary)
 	
+	#checks bottom boundary for Defender
 	if self.global_position.y < top_boundary:
 		self.global_position = Vector2(self.global_position.x, top_boundary)
 
@@ -42,18 +45,15 @@ func movement(speedX, speedY):
 
 	
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	
 	attacker = self.get_parent().get_parent().get_parent().get_node("AttackerArea/Attacker/KinematicBody2D/ShipSprite")
 	set_physics_process(true)
 
 func _physics_process(delta):
 	
-	right_boundary = get_parent().get_child(3).get_child(0).global_position.x - 42
-	left_boundary = get_parent().get_child(4).get_child(0).global_position.x + 42
-	top_boundary = get_parent().get_child(1).get_child(0).global_position.y + 42
-	bottom_boundary = get_parent().get_child(2).get_child(0).global_position.y - 42
+	right_boundary = get_parent().get_node("rightBoundaryArea2D/rightBoundary").global_position.x - 42 #get_parent().get_child(3).get_child(0).global_position.x - 42
+	left_boundary = get_parent().get_node("leftBoundaryArea2D/leftBoundary").global_position.x #get_parent().get_child(4).get_child(0).global_position.x + 42
+	top_boundary = get_parent().get_node("topBoundaryArea2D/topBoundary").global_position.y + 42#get_parent().get_child(1).get_child(0).global_position.y + 42
+	bottom_boundary = get_parent().get_node("bottomBoundaryArea2D/bottomBoundary").global_position.y - 42
 	
 	#rotate to protect bomber
 	diff = attacker.global_position - self.global_position

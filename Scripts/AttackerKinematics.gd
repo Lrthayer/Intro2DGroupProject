@@ -12,8 +12,6 @@ var left_boundary
 var right_boundary
 var top_boundary
 var bottom_boundary
-#var top_boundary = GLOBALS.g_top_boundary
-#var down_boundary = GLOBALS.g_bottom_boundary
 var hp = GLOBALS.g_offense_hp
 var shipPositionY
 var isStunned = false
@@ -44,7 +42,6 @@ func movement(speedX, speedY):
 
 #Starts when scene is loaded 
 func _ready():
-	
 	get_node("hp_bar").set_max(hp)
 	shipPositionY = self.global_position.y
 	set_physics_process(true)
@@ -56,11 +53,10 @@ func _ready():
 
 #called every frame 
 func _physics_process(delta):
-	
-	left_boundary = get_parent().get_node("Area2D").get_child(0).global_position.x + 36
-	right_boundary = get_parent().get_node("Area2D2").get_child(0).global_position.x - 36
-	top_boundary = get_parent().get_node("Area2D3").get_child(0).global_position.y + 30
-	bottom_boundary = get_parent().get_node("Area2D4").get_child(0).global_position.y - 30
+	left_boundary = get_parent().get_node("leftBoundaryArea2D/leftBoundary").global_position.x + 36 #get_parent().get_node("Area2D").get_child(0).global_position.x + 36
+	right_boundary = get_parent().get_node("rightBoundaryArea2D/rightBoundary").global_position.x - 36
+	top_boundary = get_parent().get_node("topBoundaryArea2D/topBoundary").global_position.y + 30
+	bottom_boundary = get_parent().get_node("bottomBoundaryArea2D/bottomBoundary").global_position.y - 30
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):

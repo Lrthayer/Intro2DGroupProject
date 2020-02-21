@@ -1,6 +1,5 @@
 extends Area2D
 
-
 var hovering = false
 var clicked = false
 var locked = false
@@ -50,10 +49,10 @@ func _process(delta):
 				#if already open, close
 				if self.get_node("DefenderMenu").visible:
 					self.get_node("DefenderMenu").visible = false
-					self.get_node("Defender/Area2D").visible = false
-					self.get_node("Defender/Area2D2").visible = false
-					self.get_node("Defender/Area2D3").visible = false
-					self.get_node("Defender/Area2D4").visible = false
+					self.get_node("Defender/topBoundaryArea2D").visible = false
+					self.get_node("Defender/bottomBoundaryArea2D").visible = false
+					self.get_node("Defender/leftBoundaryArea2D").visible = false
+					self.get_node("Defender/rightBoundaryArea2D").visible = false
 					self.get_node("DefenderMenu").position = Vector2(30000,30000)
 					#set root state to placing
 					self.get_node("/root/Main").editorState = "placing"
@@ -61,10 +60,10 @@ func _process(delta):
 				else:
 					self.get_node("DefenderMenu").position = Vector2(50,-100)
 					self.get_node("DefenderMenu").visible = true
-					self.get_node("Defender/Area2D").visible = true
-					self.get_node("Defender/Area2D2").visible = true
-					self.get_node("Defender/Area2D3").visible = true
-					self.get_node("Defender/Area2D4").visible = true
+					self.get_node("Defender/topBoundaryArea2D").visible = true
+					self.get_node("Defender/bottomBoundaryArea2D").visible = true
+					self.get_node("Defender/leftBoundaryArea2D").visible = true
+					self.get_node("Defender/rightBoundaryArea2D").visible = true
 					#set root state to editing
 					self.get_node("/root/Main").editorState = "editing"
 					self.get_node("/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton")._on_EditingButton_pressed()

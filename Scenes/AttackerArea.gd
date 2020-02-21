@@ -61,10 +61,10 @@ func _process(delta):
 				else:
 					self.get_node("AttackerMenu").position = Vector2(50,-100)
 					self.get_node("AttackerMenu").visible = true
-					self.get_node("Attacker/Area2D").visible = true
-					self.get_node("Attacker/Area2D2").visible = true
-					self.get_node("Attacker/Area2D3").visible = true
-					self.get_node("Attacker/Area2D4").visible = true
+					self.get_node("Attacker/topBoundaryArea2D").visible = true
+					self.get_node("Attacker/bottomBoundaryArea2D").visible = true
+					self.get_node("Attacker/leftBoundaryArea2D").visible = true
+					self.get_node("Attacker/rightBoundaryArea2D").visible = true
 					#set root state to editing
 					self.get_node("/root/Main").editorState = "editing"
 					self.get_node("/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton")._on_EditingButton_pressed()

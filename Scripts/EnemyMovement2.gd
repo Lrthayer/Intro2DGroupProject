@@ -22,7 +22,8 @@ func collided(dmg = 0):
 		#spawn another mover
 		if(spawn != 3):
 			spawn += 1
-			move_to(Vector2(900,moverY))
+			#move_to(Vector2(900,moverY))
+			self.position = Vector2(900,moverY)
 			hp = 3
 			get_node("HP").set_value(hp)
 			GLOBALS.enemy_counter -= 1

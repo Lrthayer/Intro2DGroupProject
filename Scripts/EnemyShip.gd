@@ -13,8 +13,7 @@ var pics = [preload("res://Graphics/Creeps/creep_001.tex"), \
 
 #starts when loaded up in scene
 func _ready():
-	set_fixed_process(true)
-	
+	set_physics_process(true)
 
 #choose a sprite texture 
 func random_pick():

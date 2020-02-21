@@ -27,10 +27,12 @@ func _process(delta):
 	#increase rate of fire of the turrent over time
 	rateIncrease += .00001
 	theirPos = target.get_global_pos()
-	myPos = self.get_global_pos()
+	#myPos = self.get_global_pos()
+	myPos = self.global_position
 	diff = theirPos - myPos
 	rotate = atan2(-diff.y,diff.x) - 3.14/2
-	self.set_rot(rotate)
+	#self.set_rot(rotate)
+	self.rotation = rotate
 	vector = (theirPos - myPos).normalized()
 	timer = timer - (delta + rateIncrease)
 	
@@ -58,4 +60,5 @@ func fire():
 	laserInstance.setDirVector(rotate, vector)
 	
 	#set the position of the laser copy
-	laserInstance.set_global_pos(get_node("Position2D").get_global_pos())
+	#laserInstance.set_global_pos(get_node("Position2D").get_global_pos())
+	laserInstance.global_position = get_node("Position2D").global_position

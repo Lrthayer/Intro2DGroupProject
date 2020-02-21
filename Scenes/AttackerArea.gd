@@ -50,10 +50,10 @@ func _process(delta):
 				#if already open, close
 				if self.get_node("AttackerMenu").visible:
 					self.get_node("AttackerMenu").visible = false
-					self.get_node("Attacker/Area2D").visible = false
-					self.get_node("Attacker/Area2D2").visible = false
-					self.get_node("Attacker/Area2D3").visible = false
-					self.get_node("Attacker/Area2D4").visible = false
+					self.get_node("Attacker/topBoundaryArea2D").visible = false
+					self.get_node("Attacker/bottomBoundaryArea2D").visible = false
+					self.get_node("Attacker/leftBoundaryArea2D").visible = false
+					self.get_node("Attacker/rightBoundaryArea2D").visible = false
 					self.get_node("AttackerMenu").position = Vector2(30000,30000)
 					#set root state to placing
 					self.get_node("/root/Main").editorState = "placing"

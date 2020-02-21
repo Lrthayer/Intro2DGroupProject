@@ -55,9 +55,7 @@ var pressed = false
 
 var cursorColor = Color(0,0,0)
 var cursorState = ""
-
 var makeUnique = true
-
 var editorState = "placing"
 
 #Laser Object bool
@@ -766,7 +764,6 @@ func saving_level():
 		
 		dict[childName] = objects
 		objects = {}
-	
 
 	#grab the properties of Base3
 	for m in range(get_node("Base3List").get_child_count()):

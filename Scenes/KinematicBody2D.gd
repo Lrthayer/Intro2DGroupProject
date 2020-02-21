@@ -47,6 +47,10 @@ func movement(speedX, speedY):
 func _ready():
 	attacker = self.get_parent().get_parent().get_parent().get_node("AttackerArea/Attacker/KinematicBody2D/ShipSprite")
 	set_physics_process(true)
+	#if not in playing mode pause defender
+	if GLOBALS.state != "Playing":
+		print ("!!!!!!!!!!!!!!!!!!")
+		self.pause_mode = true
 
 func _physics_process(delta):
 	
@@ -113,3 +117,12 @@ func collided(dmg=0):
 #Defender is stunned by laser
 func stunned():
 	isStunned = true
+
+func _on_SpeedSpinBox_value_changed( value ):
+	player_speed = value
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))

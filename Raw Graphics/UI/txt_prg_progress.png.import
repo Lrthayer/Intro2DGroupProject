@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/txt_prg_progress.png-1d00c57e309ae8f4fce39c966a7dfb52.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Raw Graphics/UI/txt_prg_progress.png"
-source_md5="d62663e86c026724f91ece7156385224"
-
 dest_files=[ "res://.import/txt_prg_progress.png-1d00c57e309ae8f4fce39c966a7dfb52.stex" ]
-dest_md5="e6d11c69e175b4c964e4e08be04ee85d"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

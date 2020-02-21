@@ -13,7 +13,7 @@ var pics = [preload("res://Graphics/Ships/ship_004.tex"), \
 #starts when loaded up in scene
 func _ready():
 	#set 1 of three images randomly as sprite
-	set_fixed_process(true)
+	set_physics_process(true)
 	
 #picks a random texture for sprite
 func random_pick():

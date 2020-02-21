@@ -6,7 +6,6 @@
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
-
 script/source = "extends Area2D
 
 var hovering = false
@@ -74,7 +73,8 @@ func _process(delta):
 			
 			
 		if clicked:
-			self.set_global_pos(get_global_mouse_position())
+			#self.set_global_pos(get_global_mouse_position())
+			self.global_position = get_global_mouse_position()
 			#fixes spawning a new object while moving this object
 			if !get_node(\"/root/Main\").overButton:
 				get_node(\"/root/Main\").overButton = true
@@ -91,7 +91,6 @@ func _on_Base2D_mouse_exit():
 "
 
 [sub_resource type="GDScript" id=2]
-
 script/source = "extends Sprite
 
 # class member variables go here, for example:
@@ -114,22 +113,18 @@ func _on_ColorPicker_color_changed( color ):
 "
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
-
-custom_solver_bias = 0.0
 points = PoolVector2Array( 7.4, -1.2, 7.4, 5, -7.4, 5, -7.4, -1.2, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
 
 [sub_resource type="RectangleShape2D" id=4]
-
-custom_solver_bias = 0.0
 extents = Vector2( 164.936, 54.913 )
 
 [sub_resource type="GDScript" id=5]
-
 script/source = "extends ColorPickerButton
 
 
 func _on_ColorPicker_color_changed( color ):
-	self.set_color(color)
+	#self.set_color(color)
+	self.color = color
 
 #when user presses button move the color picker to where they clicked
 func _on_ColorPicker_pressed():
@@ -140,402 +135,167 @@ func _on_ColorPicker_pressed():
 "
 
 [sub_resource type="RectangleShape2D" id=6]
-
-custom_solver_bias = 0.0
 extents = Vector2( 16.9967, 6.85448 )
 
 [sub_resource type="RectangleShape2D" id=7]
-
-custom_solver_bias = 0.0
 extents = Vector2( 149.373, 225.538 )
 
 [node name="Base22D" type="Area2D"]
-
 position = Vector2( -200.42, 11.6915 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 script = SubResource( 1 )
 
-[node name="Base2" type="Node2D" parent="." index="0"]
+[node name="Base2" type="Node2D" parent="."]
 
-editor/display_folded = true
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Base2" index="0"]
-
-input_pickable = false
+[node name="StaticBody2D" type="StaticBody2D" parent="Base2"]
 collision_layer = 8
 collision_mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="Base2/StaticBody2D" index="0"]
-
+[node name="Sprite" type="Sprite" parent="Base2/StaticBody2D"]
 texture = ExtResource( 2 )
 script = SubResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base2/StaticBody2D" index="1"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base2/StaticBody2D"]
 position = Vector2( -1.64311, 64.4346 )
 scale = Vector2( 22.9014, 4.76138 )
 shape = SubResource( 3 )
 
-[node name="hp_bar" type="TextureProgress" parent="Base2/StaticBody2D" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="hp_bar" type="TextureProgress" parent="Base2/StaticBody2D"]
 margin_left = -49.0
 margin_top = 55.0
 margin_right = 47.0
 margin_bottom = 63.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
 value = 100.0
-exp_edit = false
-rounded = false
 texture_under = ExtResource( 3 )
-texture_over = null
 texture_progress = ExtResource( 4 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1.10809, 4.43213 )
 shape = SubResource( 4 )
 
-[node name="Base2Menu" type="Area2D" parent="." index="2"]
-
+[node name="Base2Menu" type="Area2D" parent="."]
 visible = false
 position = Vector2( 162.828, -78.6815 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 
-[node name="StatsVBox" type="VBoxContainer" parent="Base2Menu" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="StatsVBox" type="VBoxContainer" parent="Base2Menu"]
 margin_left = 14.0
 margin_top = 49.0
 margin_right = 190.0
 margin_bottom = 159.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-alignment = 0
 
-[node name="HPHBox" type="HBoxContainer" parent="Base2Menu/StatsVBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HPHBox" type="HBoxContainer" parent="Base2Menu/StatsVBox"]
 margin_right = 176.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-alignment = 0
 
-[node name="HPButton" type="MenuButton" parent="Base2Menu/StatsVBox/HPHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HPButton" type="MenuButton" parent="Base2Menu/StatsVBox/HPHBox"]
 margin_right = 98.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
 text = "HP"
-flat = true
-align = 1
-items = [  ]
 
-[node name="HPSpinBox" type="SpinBox" parent="Base2Menu/StatsVBox/HPHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HPSpinBox" type="SpinBox" parent="Base2Menu/StatsVBox/HPHBox"]
 margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-min_value = 0.0
 max_value = 100000.0
-step = 1.0
-page = 0.0
 value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
 
-[node name="HeightHBox" type="HBoxContainer" parent="Base2Menu/StatsVBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HeightHBox" type="HBoxContainer" parent="Base2Menu/StatsVBox"]
 margin_top = 28.0
 margin_right = 176.0
 margin_bottom = 52.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-alignment = 0
 
-[node name="HeightButton" type="MenuButton" parent="Base2Menu/StatsVBox/HeightHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HeightButton" type="MenuButton" parent="Base2Menu/StatsVBox/HeightHBox"]
 margin_right = 98.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
 text = "Height"
-flat = true
-align = 1
-items = [  ]
 
-[node name="HeightSpinBox" type="SpinBox" parent="Base2Menu/StatsVBox/HeightHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HeightSpinBox" type="SpinBox" parent="Base2Menu/StatsVBox/HeightHBox"]
 margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-min_value = 0.0
 max_value = 100000.0
 step = 0.01
-page = 0.0
 value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
 
-[node name="WidthHBox" type="HBoxContainer" parent="Base2Menu/StatsVBox" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="WidthHBox" type="HBoxContainer" parent="Base2Menu/StatsVBox"]
 margin_top = 56.0
 margin_right = 176.0
 margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-alignment = 0
 
-[node name="WidthButton" type="MenuButton" parent="Base2Menu/StatsVBox/WidthHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="WidthButton" type="MenuButton" parent="Base2Menu/StatsVBox/WidthHBox"]
 margin_right = 98.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
 text = "Width"
-flat = true
-align = 1
-items = [  ]
 
-[node name="WidthSpinBox" type="SpinBox" parent="Base2Menu/StatsVBox/WidthHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="WidthSpinBox" type="SpinBox" parent="Base2Menu/StatsVBox/WidthHBox"]
 margin_left = 102.0
 margin_right = 176.0
 margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-min_value = 0.0
 max_value = 100000.0
 step = 0.01
-page = 0.0
 value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
 
-[node name="ColorPicker" type="ColorPickerButton" parent="Base2Menu/StatsVBox" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ColorPicker" type="ColorPickerButton" parent="Base2Menu/StatsVBox"]
 margin_top = 84.0
 margin_right = 176.0
 margin_bottom = 104.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = false
-align = 1
 color = Color( 0.574219, 0.325241, 0.325241, 1 )
 edit_alpha = false
 script = SubResource( 5 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base2Menu" index="1"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base2Menu"]
 position = Vector2( 114.702, 98.3136 )
 scale = Vector2( 10.3845, 6.62774 )
 shape = SubResource( 6 )
 
-[node name="ColorPickerArea2D" type="Area2D" parent="Base2Menu" index="2"]
-
+[node name="ColorPickerArea2D" type="Area2D" parent="Base2Menu"]
 visible = false
 position = Vector2( -126.867, 1.99998 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 
-[node name="ColorPicker" type="ColorPicker" parent="Base2Menu/ColorPickerArea2D" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="ColorPicker" type="ColorPicker" parent="Base2Menu/ColorPickerArea2D"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 4.0
 margin_bottom = 4.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-alignment = 0
-color = Color( 1, 1, 1, 1 )
-edit_alpha = true
-raw_mode = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Base2Menu/ColorPickerArea2D" index="1"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base2Menu/ColorPickerArea2D"]
 position = Vector2( 501.393, 131.662 )
 shape = SubResource( 7 )
-
 [connection signal="mouse_entered" from="." to="." method="_on_Base2D_mouse_enter"]
-
 [connection signal="mouse_exited" from="." to="." method="_on_Base2D_mouse_exit"]
-
 [connection signal="value_changed" from="Base2Menu/StatsVBox/HPHBox/HPSpinBox" to="Base2/StaticBody2D" method="_on_HPSpinBox_value_changed"]
-
 [connection signal="value_changed" from="Base2Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base2/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
-
 [connection signal="value_changed" from="Base2Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base2/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
-
 [connection signal="pressed" from="Base2Menu/StatsVBox/ColorPicker" to="Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-
-[connection signal="color_changed" from="Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-
+[connection signal="color_changed" from="Base2Menu/ColorPickerArea2D/ColorPicker" to="Base2Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]

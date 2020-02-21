@@ -3,7 +3,6 @@ extends StaticBody2D
 #class variables
 var hp = GLOBALS.g_base_hp
 
-
 #starts when loaded up in scene
 func _ready():
 	set_process(true)

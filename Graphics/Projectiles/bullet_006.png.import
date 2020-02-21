@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/bullet_006.png-9fa5f0a303ee3bf93a7c60242a02ded6.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Graphics/Projectiles/bullet_006.png"
-source_md5="8ccc7acf320f0f64dafa6a9f43464e17"
-
 dest_files=[ "res://.import/bullet_006.png-9fa5f0a303ee3bf93a7c60242a02ded6.stex" ]
-dest_md5="424d3aad920dcd3fca83032fff4e6c67"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

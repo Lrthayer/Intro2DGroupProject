@@ -16,7 +16,6 @@ var saved_scene = null
 var saved_subscene = null
 var changed_scene = false
 
-
 #file editing
 var current_playlist_name = "Default"
 var current_level_name = "Default"
@@ -135,10 +134,9 @@ func P( interrupter ):
 # loads the saved scene
 func V():
 	if GLOBALS.saved_scene != null:
-        # free interrupting scene
-        get_tree().get_current_scene().queue_free()
-        # loadd saved scene back to the tree
-        get_tree().get_root().add_child(GLOBALS.saved_scene)
-        get_tree().set_current_scene( GLOBALS.saved_scene )
-        GLOBALS.saved_scene = null
-#-----------------------------------------
+		 # free interrupting scene
+		get_tree().get_current_scene().queue_free()
+		# loadd saved scene back to the tree
+		get_tree().get_root().add_child(GLOBALS.saved_scene)
+		get_tree().set_current_scene( GLOBALS.saved_scene )
+		GLOBALS.saved_scene = null

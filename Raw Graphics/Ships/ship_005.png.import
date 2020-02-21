@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/ship_005.png-7d41cb334b03311eae1a64781860a188.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Raw Graphics/Ships/ship_005.png"
-source_md5="d0179b72900a4fa84749434f5e1c0072"
-
 dest_files=[ "res://.import/ship_005.png-7d41cb334b03311eae1a64781860a188.stex" ]
-dest_md5="71c5350254362c85782bfcf5c6f9f2e8"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

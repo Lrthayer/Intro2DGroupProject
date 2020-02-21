@@ -3,20 +3,21 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/scene_proto.png-759ea80eb2867fb0ad8aa27c7dc69d02.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://Planning/scene_proto.png"
-source_md5="f5ee191f6f5c9e3d972540c79cf5f965"
-
 dest_files=[ "res://.import/scene_proto.png-759ea80eb2867fb0ad8aa27c7dc69d02.stex" ]
-dest_md5="84609939cb8ba6ddeff4f085277728b4"
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
@@ -26,6 +27,7 @@ flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=true

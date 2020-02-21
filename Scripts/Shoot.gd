@@ -24,7 +24,6 @@ var inSpecial = false
 
 #starts when loaded up in scene
 func _ready():
-	
 	#current attacter is player1
 	if (GLOBALS.g_current_attacker == "player1"):
 		GLOBALS.g_current_attacker = "player2"

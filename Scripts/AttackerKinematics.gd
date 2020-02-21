@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-
 # class member variables
 var btn_right = false
 var btn_left = false
@@ -17,10 +16,8 @@ var shipPositionY
 var isStunned = false
 var stunTimer = 60
 
-
 #Gives movement to Attacker
 func movement(speedX, speedY):
-	
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#check right side boundary for Attacker
@@ -50,6 +47,10 @@ func _ready():
 		player_speed = GLOBALS.g_player1_spd
 	else:
 		player_speed = GLOBALS.g_player2_spd
+	
+	#if in level editor pause attacker
+	if (GLOBALS.state != "Playing"):
+		self.pause_mode = true
 
 #called every frame 
 func _physics_process(delta):

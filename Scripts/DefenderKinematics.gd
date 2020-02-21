@@ -20,27 +20,27 @@ var diff
 
 #Gives movement to Defender
 func movement(speedX, speedY):
-	print (get_global_pos())
-	print(right_boundary)
-	print(left_boundary)
+	#print (self.global_position)
+	#print(right_boundary)
+	#print(left_boundary)
 	#checks right boundary for Defender
-	if get_global_pos().x > right_boundary:
-		set_global_pos(Vector2(right_boundary, get_global_pos().y))
+	if self.global_position.x > right_boundary:
+		self.global_position = (Vector2(right_boundary, self.global_position.y))
 	
 	#checks left boundary for Defender
-	if get_global_pos().x < left_boundary:
-		set_global_pos(Vector2(left_boundary,get_global_pos().y))
+	if self.global_position.x < left_boundary:
+		self.global_position = (Vector2(left_boundary,self.global_position.y))
 	
-	if get_global_pos().y > bottom_boundary:
-		set_global_pos(Vector2(get_global_pos().x, bottom_boundary))
+	if self.global_position.y > bottom_boundary:
+		self.global_position = (Vector2(self.global_position.x, bottom_boundary))
 	
-	if get_global_pos().y < top_boundary:
-		set_global_pos(Vector2(get_global_pos().x, top_boundary))
+	if self.global_position.y < top_boundary:
+		self.global_position = (Vector2(self.global_position.x, top_boundary))
 
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#move the Defender
-	move(current_speed)
+	move_and_collide(current_speed)
 
 	
 func _ready():
@@ -48,10 +48,9 @@ func _ready():
 	# Initialization here
 	
 	attacker = self.get_parent().get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
-	set_fixed_process(true)
+	set_physics_process(true)
 
-func _fixed_process(delta):
-	
+func _physics_process(delta):
 	#rotate to protect bomber
 	#diff = attacker.get_global_pos() - self.get_global_pos()
 	#self.set_rot(atan2(-diff.y,diff.x) - 3.14/2)
@@ -99,7 +98,6 @@ func _fixed_process(delta):
 
 #defender is colliding with another object
 func collided(dmg=0):
-	
 	# defender score has not reached the cap
 	if defendingScoreLimit < 1500:
 		
@@ -115,5 +113,3 @@ func collided(dmg=0):
 #Defender is stunned by laser
 func stunned():
 	isStunned = true
-	
-

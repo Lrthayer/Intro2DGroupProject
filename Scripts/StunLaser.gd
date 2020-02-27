@@ -11,7 +11,7 @@ var vector = Vector2(0,0);
 func checkCollisions():
 	
 	#Laser is colliding with an object
-	if get_node("KinematicBody2D").is_colliding():
+	if get_node("KinematicBody2D"):
 		
 		#destroy the laser
 		get_node(".").queue_free()
@@ -30,13 +30,13 @@ func _ready():
 	set_physics_process(true)
 
 #called every frame
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	#The laser's is moving downwards using KinematicBody2D
-	get_node("KinematicBody2D").move(vector * speed)
+	var _collison = get_node("KinematicBody2D").move_and_collide(vector * speed)
 	
 	#The laser reached a certain position on screen
-	if get_node("KinematicBody2D").get_global_pos().y < 0:
+	if get_node("KinematicBody2D").global_position.y < 0:
 		#this deletes the tree structure of Laser. 
 		get_node(".").queue_free()
 	

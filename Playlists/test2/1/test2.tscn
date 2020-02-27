@@ -54,8 +54,11 @@
 [ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=52]
 [ext_resource path="res://Scenes/Camera2D.gd" type="Script" id=53]
 [ext_resource path="res://Scenes/Area2D3.gd" type="Script" id=54]
-[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=55]
+[ext_resource path="res://Scripts/Menu/instructionsBackButton.gd" type="Script" id=55]
 [ext_resource path="res://Scenes/rightBoundary.gd" type="Script" id=56]
+
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 89.2784, 10.6377 )

@@ -35,7 +35,7 @@ func movement(speedX, speedY):
 	if self.global_position.y < top_boundary:
 		self.global_position = Vector2(self.global_position.x, top_boundary)
 	#move the Attacker
-	move_and_collide(current_speed)
+	var _collision = move_and_collide(current_speed)
 
 #Starts when scene is loaded 
 func _ready():
@@ -53,7 +53,7 @@ func _ready():
 		self.pause_mode = true
 
 #called every frame 
-func _physics_process(delta):
+func _physics_process(_delta):
 	left_boundary = get_parent().get_node("leftBoundaryArea2D/leftBoundary").global_position.x + 36 #get_parent().get_node("Area2D").get_child(0).global_position.x + 36
 	right_boundary = get_parent().get_node("rightBoundaryArea2D/rightBoundary").global_position.x - 36
 	top_boundary = get_parent().get_node("topBoundaryArea2D/topBoundary").global_position.y + 30
@@ -113,7 +113,7 @@ func check_alive():
 		#kill self
 		get_parent().queue_free()
 		#gameover scene
-		get_tree().change_scene("res://Scenes/GameOver.xml")
+		var _changeSceneErr = get_tree().change_scene("res://Scenes/GameOver.xml")
 
 func _on_SpeedSpinBox_value_changed( value ):
 	player_speed = value

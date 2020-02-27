@@ -36,7 +36,7 @@ func collided(dmg = 0):
 func _ready():
 	set_physics_process(true)
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	#if self.get_parent().clicked:
 		#self.set_global_pos(get_global_mouse_pos())
 	
@@ -55,11 +55,11 @@ func _physics_process(delta):
 
 	#mover goes right
 	if goright:
-		move_and_collide(Vector2(self.get_parent().speed,0))
+		var _collison = move_and_collide(Vector2(self.get_parent().speed,0))
 
 	#mover goes left
 	if goleft:
-		move_and_collide(Vector2(-1 * self.get_parent().speed,0))
+		var _collison = move_and_collide(Vector2(-1 * self.get_parent().speed,0))
 
 func _on_HeightSpinBox_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))

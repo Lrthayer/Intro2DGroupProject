@@ -10,17 +10,9 @@ var speed = 0
 var dmg = 1
 var otherCollider
 var vector = Vector2(0,0);
-
 var startPosition
 
-#starts when loaded up in scene
-func _ready():
-	#startPosition = self.get_parent().get_node("Turret/Position2D")
-
-	set_physics_process(true)
-
-#
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	#The laser's is moving downwards using KinematicBody2D
 	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)

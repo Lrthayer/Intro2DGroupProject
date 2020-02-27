@@ -16,17 +16,14 @@ var vector = Vector2(0,0)
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
-	target = self.get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+	target = self.get_parent().get_parent().get_node("AttackerArea/Attacker/KinematicBody2D/ShipSprite")
 
 #called every frame
 func _process(delta):
 	
 	#increase rate of fire of the turrent over time
 	rateIncrease += .00001
-	theirPos = target.get_global_pos()
+	theirPos = target.global_position
 	#myPos = self.get_global_pos()
 	myPos = self.global_position
 	diff = theirPos - myPos

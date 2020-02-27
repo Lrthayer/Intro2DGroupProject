@@ -39,7 +39,7 @@
 [ext_resource path="res://Scenes/Cursor.gd" type="Script" id=37]
 [ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=38]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=39]
-[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=40]
+[ext_resource path="res://Scripts/Menu/instructionsBackButton.gd" type="Script" id=40]
 [ext_resource path="res://Scenes/KinematicBody2D.gd" type="Script" id=41]
 [ext_resource path="res://Scenes/DefenderSprite.gd" type="Script" id=42]
 [ext_resource path="res://Scripts/check.gd" type="Script" id=43]
@@ -56,6 +56,9 @@
 [ext_resource path="res://Base12D.tscn" type="PackedScene" id=54]
 [ext_resource path="res://TurretArea.tscn" type="PackedScene" id=55]
 [ext_resource path="res://Scenes/Menu/Shop.tscn" type="PackedScene" id=56]
+
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 89.2784, 10.6377 )

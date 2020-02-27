@@ -1,0 +1,300 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/BaseKinematics.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/Structures/base003.tex" type="Texture" id=2]
+[ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=3]
+[ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+var hovering = false
+var locked = false
+var clicked = false
+var toggled = 0
+var lockToggle = 0
+
+var menuToggle = 0
+
+func _ready():
+	set_process(true)
+	
+func _process(_delta):
+	if hovering:
+		#if locked let parent node know
+		if locked:
+			get_parent().cursorState = \"locked\"
+		if Input.is_action_pressed(\"middle_click\"):
+			if lockToggle < 1:
+				if locked:
+					locked = false
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"hovering\"
+					print(\"unlocked\")
+				else:
+					locked = true
+					#tell parent to set cursor state
+					self.get_parent().cursorState = \"locked\"
+					print(\"locked\")
+				lockToggle += 1
+		else:
+			lockToggle = 0
+	if (hovering || clicked) && !locked:
+		if  Input.is_action_pressed(\"left_click\"):
+			if toggled < 1:
+				if clicked:
+					clicked = false
+					print(\"false\")
+				else:
+					clicked = true
+					print(\"true\")
+				toggled += 1
+		else:
+			toggled = 0
+			
+		if  Input.is_action_pressed(\"edit\") && !locked:
+			if menuToggle < 1:
+				#if already open, close
+				if self.get_node(\"Base1Menu\").visible:
+					self.get_node(\"Base1Menu\").visible = false
+					self.get_node(\"Base1Menu\").set_pos(Vector2(30000,30000))
+					#set root state to placing
+					self.get_node(\"/root/Main\").editorState = \"placing\"
+					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
+				else:
+					self.get_node(\"Base1Menu\").set_pos(Vector2(160,-100))
+					self.get_node(\"Base1Menu\").visible = true
+					#set root state to editing
+					self.get_node(\"/root/Main\").editorState = \"editing\"
+					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
+				menuToggle += 1
+		else:
+			menuToggle = 0
+			
+		if clicked:
+			self.global_position = get_global_mouse_position()
+			#fixes spawning a new object while moving this object
+			if !get_node(\"/root/Main\").overButton:
+				get_node(\"/root/Main\").overButton = true
+		
+		if  Input.is_action_pressed(\"right_click\") && !locked:
+			self.get_node(\"/root/Main\").set_hovering(false)
+			self.free()
+
+func _on_Base12D_mouse_enter():
+	hovering = true
+
+func _on_Base12D_mouse_exit():
+	hovering = false
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 131.979, 59.8076 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Sprite
+
+# class member variables go here, for example:
+# var a = 2
+# var b = \"textvar\"
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	pass
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))
+
+func _on_ColorPicker_color_changed( color ):
+	self.set_modulate(color)
+"
+
+[sub_resource type="ConvexPolygonShape2D" id=4]
+points = PoolVector2Array( 5.7, -2.6, 5.7, 5, -5.7, 5, -5.7, -2.6, -3, -3, -1.5, -10, 1.5, -10, 3, -3 )
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends ColorPickerButton
+
+
+func _on_ColorPicker_color_changed( color ):
+	#self.set_color(color)
+	self.color = color
+
+#when user presses button move the color picker to where they clicked
+func _on_ColorPicker_pressed():
+	if self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").is_hidden():
+		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(false)
+	else:
+		self.get_parent().get_parent().get_node(\"ColorPickerArea2D\").set_hidden(true)
+"
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 16.9967, 6.85448 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 149.373, 225.538 )
+
+[node name="Base12D" type="Area2D"]
+position = Vector2( 665.142, 35.4221 )
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.44354, 7.33054 )
+shape = SubResource( 2 )
+
+[node name="Base1" type="Node2D" parent="."]
+scale = Vector2( 1, 0.999998 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Base1"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Base1/StaticBody2D"]
+texture = ExtResource( 2 )
+script = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base1/StaticBody2D"]
+position = Vector2( -0.73761, 40.6475 )
+scale = Vector2( 22.9014, 4.76138 )
+shape = SubResource( 4 )
+
+[node name="hp_bar" type="TextureProgress" parent="Base1/StaticBody2D"]
+margin_left = -49.0
+margin_top = 55.0
+margin_right = 47.0
+margin_bottom = 63.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+value = 100.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 4 )
+
+[node name="Base1Menu" type="Area2D" parent="."]
+visible = false
+position = Vector2( 148.413, -84.7859 )
+
+[node name="StatsVBox" type="VBoxContainer" parent="Base1Menu"]
+margin_left = 14.0
+margin_top = 49.0
+margin_right = 190.0
+margin_bottom = 159.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="HPHBox" type="HBoxContainer" parent="Base1Menu/StatsVBox"]
+margin_right = 176.0
+margin_bottom = 24.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="HPButton" type="MenuButton" parent="Base1Menu/StatsVBox/HPHBox"]
+margin_right = 98.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+text = "HP"
+
+[node name="HPSpinBox" type="SpinBox" parent="Base1Menu/StatsVBox/HPHBox"]
+margin_left = 102.0
+margin_right = 176.0
+margin_bottom = 24.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+max_value = 100000.0
+value = 1.0
+
+[node name="HeightHBox" type="HBoxContainer" parent="Base1Menu/StatsVBox"]
+margin_top = 28.0
+margin_right = 176.0
+margin_bottom = 52.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="HeightButton" type="MenuButton" parent="Base1Menu/StatsVBox/HeightHBox"]
+margin_right = 98.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+text = "Height"
+
+[node name="HeightSpinBox" type="SpinBox" parent="Base1Menu/StatsVBox/HeightHBox"]
+margin_left = 102.0
+margin_right = 176.0
+margin_bottom = 24.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+max_value = 100000.0
+step = 0.01
+value = 1.0
+
+[node name="WidthHBox" type="HBoxContainer" parent="Base1Menu/StatsVBox"]
+margin_top = 56.0
+margin_right = 176.0
+margin_bottom = 80.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="WidthButton" type="MenuButton" parent="Base1Menu/StatsVBox/WidthHBox"]
+margin_right = 98.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+toggle_mode = false
+text = "Width"
+
+[node name="WidthSpinBox" type="SpinBox" parent="Base1Menu/StatsVBox/WidthHBox"]
+margin_left = 102.0
+margin_right = 176.0
+margin_bottom = 24.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+max_value = 100000.0
+step = 0.01
+value = 1.0
+
+[node name="ColorPicker" type="ColorPickerButton" parent="Base1Menu/StatsVBox"]
+margin_top = 84.0
+margin_right = 176.0
+margin_bottom = 104.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+color = Color( 0.574219, 0.325241, 0.325241, 1 )
+edit_alpha = false
+script = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base1Menu"]
+position = Vector2( 114.702, 98.3136 )
+scale = Vector2( 10.3845, 6.62774 )
+shape = SubResource( 6 )
+
+[node name="ColorPickerArea2D" type="Area2D" parent="Base1Menu"]
+visible = false
+position = Vector2( -131.412, 26.9926 )
+
+[node name="ColorPicker" type="ColorPicker" parent="Base1Menu/ColorPickerArea2D"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 4.0
+margin_bottom = 4.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Base1Menu/ColorPickerArea2D"]
+position = Vector2( 501.393, 131.662 )
+shape = SubResource( 7 )
+[connection signal="mouse_entered" from="." to="." method="_on_Base12D_mouse_enter"]
+[connection signal="mouse_exited" from="." to="." method="_on_Base12D_mouse_exit"]
+[connection signal="value_changed" from="Base1Menu/StatsVBox/HPHBox/HPSpinBox" to="Base1/StaticBody2D" method="_on_HPSpinBox_value_changed"]
+[connection signal="value_changed" from="Base1Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base1/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
+[connection signal="value_changed" from="Base1Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base1/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
+[connection signal="pressed" from="Base1Menu/StatsVBox/ColorPicker" to="Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
+[connection signal="color_changed" from="Base1Menu/ColorPickerArea2D/ColorPicker" to="Base1/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="Base1Menu/ColorPickerArea2D/ColorPicker" to="Base1Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]

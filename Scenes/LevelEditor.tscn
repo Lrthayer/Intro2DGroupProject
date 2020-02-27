@@ -1,60 +1,58 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=91 format=2]
 
-[ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Panel.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/AttackerArea.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/LevelEditor.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Panel.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/AttackerArea.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Shoot.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/AttackerKinematics.gd" type="Script" id=5]
 [ext_resource path="res://Graphics/Ships/ship_002.tex" type="Texture" id=6]
-[ext_resource path="res://Scenes/ShipSprite.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/ShipSprite.gd" type="Script" id=7]
 [ext_resource path="res://Graphics/UI/txt_prg_under.tex" type="Texture" id=8]
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=9]
 [ext_resource path="res://Graphics/UI/blueBar.png" type="Texture" id=10]
-[ext_resource path="res://Scenes/StaticBody2D1.gd" type="Script" id=11]
-[ext_resource path="res://Scenes/Area2D.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/StaticBody2D1.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/Area2D.gd" type="Script" id=12]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_005.png" type="Texture" id=13]
-[ext_resource path="res://Scenes/CollisionShape2D.gd" type="Script" id=14]
-[ext_resource path="res://Scenes/Area2D2.gd" type="Script" id=15]
-[ext_resource path="res://Scenes/rightBoundary.gd" type="Script" id=16]
-[ext_resource path="res://Scenes/Area2D3.gd" type="Script" id=17]
-[ext_resource path="res://Scenes/Area2D4.gd" type="Script" id=18]
+[ext_resource path="res://Scripts/CollisionShape2D.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/Area2D2.gd" type="Script" id=15]
+[ext_resource path="res://Scripts/rightBoundary.gd" type="Script" id=16]
+[ext_resource path="res://Scripts/Area2D3.gd" type="Script" id=17]
+[ext_resource path="res://Scripts/Area2D4.gd" type="Script" id=18]
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=19]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" id=20]
-[ext_resource path="res://Scenes/ColorPicker.gd" type="Script" id=21]
-[ext_resource path="res://Scenes/DefenderArea.gd" type="Script" id=22]
-[ext_resource path="res://Scenes/KinematicBody2D.gd" type="Script" id=23]
+[ext_resource path="res://Scripts/ColorPicker.gd" type="Script" id=21]
+[ext_resource path="res://Scripts/KinematicBody2D.gd" type="Script" id=23]
 [ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=24]
-[ext_resource path="res://Scenes/DefenderSprite.gd" type="Script" id=25]
-[ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=26]
+[ext_resource path="res://Scripts/DefenderSprite.gd" type="Script" id=25]
 [ext_resource path="res://Scripts/check.gd" type="Script" id=27]
-[ext_resource path="res://Scenes/Camera2D.gd" type="Script" id=28]
+[ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=28]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=29]
 [ext_resource path="res://Raw Graphics/Structures/base004.png" type="Texture" id=30]
 [ext_resource path="res://Raw Graphics/Structures/base005.png" type="Texture" id=31]
-[ext_resource path="res://Mover.tex" type="Texture" id=32]
+[ext_resource path="res://Graphics/Ships/ship_001_shield.tex" type="Texture" id=32]
 [ext_resource path="res://Raw Graphics/Ships/ship_002 - Copy.png" type="Texture" id=33]
 [ext_resource path="res://Raw Graphics/Ships/ship_001.png" type="Texture" id=34]
-[ext_resource path="res://turret001.tex" type="Texture" id=35]
+[ext_resource path="res://Graphics/Ships/Mover.tex" type="Texture" id=35]
 [ext_resource path="res://Raw Graphics/Ships/ship_003.png" type="Texture" id=36]
-[ext_resource path="res://TurretArea.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Scenes/TurretArea.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Scenes/TurretRayArea.tscn" type="PackedScene" id=38]
-[ext_resource path="res://Mover.gd" type="Script" id=39]
+[ext_resource path="res://Scripts/Mover.gd" type="Script" id=39]
 [ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=40]
-[ext_resource path="res://Scenes/MoverSprite.gd" type="Script" id=41]
+[ext_resource path="res://Scripts/MoverSprite.gd" type="Script" id=41]
 [ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=42]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=43]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=44]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=45]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=46]
+[ext_resource path="res://Scenes/Base22D.tscn" type="PackedScene" id=44]
+[ext_resource path="res://Scenes/Base12D.tscn" type="PackedScene" id=45]
+[ext_resource path="res://Scenes/Base32D.tscn" type="PackedScene" id=46]
 [ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=47]
-[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=48]
+[ext_resource path="res://Scripts/Cursor.gd" type="Script" id=48]
 [ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" id=49]
 [ext_resource path="res://Scripts/Menu/resumeButton.gd" type="Script" id=50]
 [ext_resource path="res://Scripts/Menu/instructionsButton.gd" type="Script" id=51]
 [ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=52]
 [ext_resource path="res://Scripts/Menu/quitToMainMenuButton.gd" type="Script" id=53]
 [ext_resource path="res://Graphics/UI/Shop.tex" type="Texture" id=54]
-[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=55]
+[ext_resource path="res://Scripts/Menu/instructionsBackButton.gd" type="Script" id=55]
 [ext_resource path="res://Scenes/Menu/Shop.tscn" type="PackedScene" id=56]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -69,9 +67,10 @@ script/source = "extends Sprite
 func _ready():
 	set_process(true)
 	
-func _process(delta):
+func _process(_delta):
 	if get_parent().clicked:
-		self.global_position = get_global_mouse_position()"
+		self.global_position = get_global_mouse_position()
+"
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 10.6611, 10 )
@@ -83,8 +82,9 @@ script/source = "extends CollisionShape2D
 func _ready():
 	set_process(true)
 	
-func _process(delta):
-	self.global_position = get_parent().get_child(0).global_position"
+func _process(_delta):
+	self.global_position = get_parent().get_child(0).global_position
+"
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 39.5963, 38.6246 )
@@ -112,11 +112,12 @@ var clicked = false
 var toggled = 0
 
 func _ready():
-	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
-	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
-	connect(\"input_event\", self, \"_input_event\")
+	var connectErrors = 0
+	connectErrors += connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connectErrors += connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
+	connectErrors += connect(\"input_event\", self, \"_input_event\")
 
-func _input_event( viewport, event, shape_idx ):
+func _input_event( _viewport, event, _shape_idx ):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed && toggled < 1:
@@ -132,18 +133,18 @@ func _input_event( viewport, event, shape_idx ):
 				clicked = false
 			toggled = toggled + 1
 	else:
-		toggled = 0"
+		toggled = 0
+"
 
 [sub_resource type="GDScript" id=13]
 script/source = "extends Sprite
-
 
 var clickable = false
 
 func _ready():
 	set_process(true)
 	
-func _process(delta):
+func _process(_delta):
 	if get_parent().clicked:
 		self.global_position = self.get_global_mouse_position()
 
@@ -159,7 +160,7 @@ script/source = "extends CollisionShape2D
 func _ready():
 	set_process(true)
 	
-func _process(delta):
+func _process(_delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
@@ -176,13 +177,7 @@ script/source = "extends Area2D
 var clicked = false
 var toggled = 0
 
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
-
-
-func _input_event( viewport, event, shape_idx ):
+func _input_event( _viewport, event, _shape_idx ):
 	if event == InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed && toggled < 1:
@@ -194,7 +189,8 @@ func _input_event( viewport, event, shape_idx ):
 					print(\"true\")
 				toggled += 1
 	else:
-		toggled = 0"
+		toggled = 0
+"
 
 [sub_resource type="GDScript" id=18]
 script/source = "extends HScrollBar
@@ -208,8 +204,9 @@ func _ready():
 	# Initialization here
 	set_process(true)
 	
-func _process(delta):
-	pass#set_global_pos(get_parent().get_child(7).get_global_pos())"
+func _process(_delta):
+	pass#set_global_pos(get_parent().get_child(7).get_global_pos())
+"
 
 [sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 512.656, 31.6259 )
@@ -225,12 +222,13 @@ func _ready():
 	set_process(true)
 
 #called every frame
-func _process(delta):
+func _process(_delta):
 	var currentPos = self.rect_position
 	if Input.is_action_pressed(\"left\"):
 		self.rect_position = Vector2(currentPos.x + 15, currentPos.y)
 	elif Input.is_action_pressed(\"right\"):
-		self.rect_position = Vector2(currentPos.x - 15, currentPos.y)"
+		self.rect_position = Vector2(currentPos.x - 15, currentPos.y)
+"
 
 [sub_resource type="GDScript" id=22]
 script/source = "extends CheckButton
@@ -258,7 +256,6 @@ extents = Vector2( 122.995, 43.7786 )
 [sub_resource type="GDScript" id=25]
 script/source = "extends Area2D
 
-
 var hovering = false
 var clicked = false
 var locked = false
@@ -267,11 +264,14 @@ var lockToggle = 0
 var menuToggle = 0
 
 func _ready():
-	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
-	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
+	var connectErrors = 0
+	connectErrors += connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connectErrors += connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
+	if connectErrors != 0:
+		print(connectErrors)
 	set_process(true)
 
-func _process(delta):
+func _process(_delta):
 	if hovering:
 		#if locked let parent node know
 		if locked:
@@ -338,7 +338,8 @@ func _on_MoverArea_mouse_enter():
 	print(\"moverHovering\")
 
 func _on_MoverArea_mouse_exit():
-	hovering = false"
+	hovering = false
+"
 
 [sub_resource type="RectangleShape2D" id=26]
 extents = Vector2( 10.5307, 7.81266 )
@@ -350,8 +351,9 @@ script/source = "extends CollisionShape2D
 func _ready():
 	set_process(true)
 	
-func _process(delta):
-	self.global_position = get_parent().get_child(0).global_position"
+func _process(_delta):
+	self.global_position = get_parent().get_child(0).global_position
+"
 
 [sub_resource type="GDScript" id=28]
 script/source = "extends Area2D
@@ -361,11 +363,13 @@ var clicked = false
 var toggled = 0
 
 func _ready():
-	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
-	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
-	connect(\"input_event\", self, \"_input_event\")
-
-func _input_event( viewport, event, shape_idx ):
+	var connectErrors = 0
+	connectErrors += connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
+	connectErrors += connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
+	connectErrors += connect(\"input_event\", self, \"_input_event\")
+	if connectErrors != 0:
+		print(connectErrors)
+func _input_event( _viewport, event, _shape_idx ):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed && toggled < 1:
@@ -381,7 +385,8 @@ func _input_event( viewport, event, shape_idx ):
 				clicked = false
 			toggled = toggled + 1
 	else:
-		toggled = 0"
+		toggled = 0
+"
 
 [sub_resource type="GDScript" id=29]
 script/source = "extends Sprite
@@ -390,7 +395,7 @@ script/source = "extends Sprite
 func _ready():
 	set_process(true)
 	
-func _process(delta):
+func _process(_delta):
 	if get_parent().clicked:
 		self.global_position = get_global_mouse_position()
 
@@ -406,7 +411,7 @@ script/source = "extends CollisionShape2D
 func _ready():
 	set_process(true)
 	
-func _process(delta):
+func _process(_delta):
 	self.global_position = get_parent().get_child(0).global_position
 "
 
@@ -885,7 +890,6 @@ script = ExtResource( 21 )
 
 [node name="DefenderArea" type="Area2D" parent="."]
 position = Vector2( 51.3086, -828.936 )
-script = ExtResource( 22 )
 
 [node name="Defender" type="Node2D" parent="DefenderArea"]
 
@@ -912,7 +916,7 @@ shape = SubResource( 10 )
 position = Vector2( 0.00219124, 18.8657 )
 rotation = 3.14159
 scale = Vector2( 0.593804, 0.820415 )
-texture = ExtResource( 26 )
+texture = ExtResource( 32 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="DefenderArea/Defender/KinematicBody2D"]
 position = Vector2( 0.182007, 1.82967 )
@@ -1899,10 +1903,10 @@ script = ExtResource( 55 )
 
 [node name="Shop" parent="CanvasLayer" instance=ExtResource( 56 )]
 visible = false
-[connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
 [connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
-[connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
+[connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
 [connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/HPHBox/HPSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HPSpinBox_value_changed"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/DamageHBox/DamageSpinBox" to="AttackerArea/Attacker" method="_on_DamageSpinBox_value_changed"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="AttackerArea/Attacker" method="_on_FireRateSpinBox_value_changed"]
@@ -1916,15 +1920,15 @@ visible = false
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="pressed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_pressed"]
-[connection signal="mouse_entered" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
 [connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
-[connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
+[connection signal="mouse_entered" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
 [connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/StatsVBox/SpeedHBox/SpeedSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_SpeedSpinBox_value_changed"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/VisualVBox/HeightHBox/HeightSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/VisualVBox/WidthHBox/WidthSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="pressed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 [connection signal="mouse_entered" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
@@ -1948,8 +1952,8 @@ visible = false
 [connection signal="button_down" from="Camera2D/base2Button" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
 [connection signal="mouse_entered" from="Camera2D/base2Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/base2Button" to="." method="_on_Button_mouse_exit"]
-[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 [connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 [connection signal="button_down" from="Camera2D/base3Button" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 [connection signal="mouse_entered" from="Camera2D/base3Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/base3Button" to="." method="_on_Button_mouse_exit"]

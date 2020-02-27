@@ -28,7 +28,7 @@
 [ext_resource path="res://Scenes/Area2D2.gd" type="Script" id=26]
 [ext_resource path="res://Scenes/rightBoundary.gd" type="Script" id=27]
 [ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=28]
-[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=29]
+[ext_resource path="res://Scripts/Menu/instructionsBackButton.gd" type="Script" id=29]
 [ext_resource path="res://Scripts/Menu/quitToMainMenuButton.gd" type="Script" id=30]
 [ext_resource path="res://Scenes/ColorPicker.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Area2D3.gd" type="Script" id=32]
@@ -56,6 +56,9 @@
 [ext_resource path="res://Mover.tex" type="Texture" id=54]
 [ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" id=55]
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=56]
+
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 89.2784, 10.6377 )

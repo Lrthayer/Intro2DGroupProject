@@ -12,18 +12,15 @@ var rotate
 var timer = 5
 var rateIncrease = 0
 var vector = Vector2(0,0)
+var speed = 1
 
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
 	target = self.get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
 
 #called every frame
 func _process(delta):
-	
 	#increase rate of fire of the turret over time
 	rateIncrease += .00001
 	#theirPos = target.get_global_pos()

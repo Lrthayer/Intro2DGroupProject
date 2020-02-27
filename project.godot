@@ -15,6 +15,9 @@ _global_script_class_icons={
 
 [application]
 
+config/name="Void Invaders"
+config/description="2D coop game where an attacker bombs bases and a defender blocks incoming attacks"
+config/icon="res://Graphics/title.png"
 icon="res://icon.png"
 main_scene="res://Scenes/Start.tscn"
 name="test"

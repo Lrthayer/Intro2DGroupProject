@@ -2,7 +2,7 @@ extends StaticBody2D
 
 
 #Turret is colliding with another object
-func collided(dmg = 0):
+func collided(_dmg = 0):
 	
 	#hp -= dmg
 	self.get_parent().get_parent().health -= self.get_parent().get_parent().damage

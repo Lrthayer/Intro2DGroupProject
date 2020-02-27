@@ -1,4 +1,4 @@
-"""extends KinematicBody2D
+extends KinematicBody2D
 
 # class member variables
 var btn_right = false
@@ -20,40 +20,48 @@ var diff
 
 #Gives movement to Defender
 func movement(speedX, speedY):
-	#print (self.global_position)
-	#print(right_boundary)
-	#print(left_boundary)
+	
+	print(top_boundary)
 	#checks right boundary for Defender
 	if self.global_position.x > right_boundary:
-		self.global_position = (Vector2(right_boundary, self.global_position.y))
+		self.global_position = Vector2(right_boundary, self.global_position.y)
 	
 	#checks left boundary for Defender
 	if self.global_position.x < left_boundary:
-		self.global_position = (Vector2(left_boundary,self.global_position.y))
+		self.global_position = Vector2(left_boundary,self.global_position.y)
 	
+	#checks bottom boundary for Defender
 	if self.global_position.y > bottom_boundary:
-		self.global_position = (Vector2(self.global_position.x, bottom_boundary))
+		self.global_position = Vector2(self.global_position.x, bottom_boundary)
 	
+	#checks bottom boundary for Defender
 	if self.global_position.y < top_boundary:
-		self.global_position = (Vector2(self.global_position.x, top_boundary))
+		self.global_position = Vector2(self.global_position.x, top_boundary)
 
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#move the Defender
-	var collision = move_and_collide(current_speed)
+	var _colision = move_and_collide(current_speed)
+
 	
 func _ready():
-	attacker = self.get_parent().get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
+	attacker = self.get_parent().get_parent().get_parent().get_node("AttackerArea/Attacker/KinematicBody2D/ShipSprite")
 	set_physics_process(true)
+	#if not in playing mode pause defender
+	if GLOBALS.state != "Playing":
+		print ("!!!!!!!!!!!!!!!!!!")
+		self.pause_mode = true
 
 func _physics_process(_delta):
+	
+	right_boundary = get_parent().get_node("rightBoundaryArea2D/rightBoundary").global_position.x - 42 #get_parent().get_child(3).get_child(0).global_position.x - 42
+	left_boundary = get_parent().get_node("leftBoundaryArea2D/leftBoundary").global_position.x #get_parent().get_child(4).get_child(0).global_position.x + 42
+	top_boundary = get_parent().get_node("topBoundaryArea2D/topBoundary").global_position.y + 42#get_parent().get_child(1).get_child(0).global_position.y + 42
+	bottom_boundary = get_parent().get_node("bottomBoundaryArea2D/bottomBoundary").global_position.y - 42
+	
 	#rotate to protect bomber
-	#diff = attacker.get_global_pos() - self.get_global_pos()
-	#self.set_rot(atan2(-diff.y,diff.x) - 3.14/2)
-	right_boundary = get_parent().get_child(3).get_child(0).get_global_pos().x - 42
-	left_boundary = get_parent().get_child(4).get_child(0).get_global_pos().x + 42
-	top_boundary = get_parent().get_child(1).get_child(0).get_global_pos().y + 42
-	bottom_boundary = get_parent().get_child(2).get_child(0).get_global_pos().y - 42
+	diff = attacker.global_position - self.global_position
+	self.rotation = atan2(diff.y,diff.x) + 3.14/2
 	
 	#Current Attacker is player1
 	if (GLOBALS.g_current_attacker == "player1"):
@@ -94,6 +102,7 @@ func _physics_process(_delta):
 
 #defender is colliding with another object
 func collided(_dmg=0):
+	
 	# defender score has not reached the cap
 	if defendingScoreLimit < 1500:
 		
@@ -104,9 +113,16 @@ func collided(_dmg=0):
 		else:
 			GLOBALS.g_player2_defender_score += 100
 			defendingScoreLimit += 100
-	
 
 #Defender is stunned by laser
 func stunned():
 	isStunned = true
-"""
+
+func _on_SpeedSpinBox_value_changed( value ):
+	player_speed = value
+
+func _on_HeightSpinBox_value_changed( value ):
+	self.set_scale(Vector2(self.get_scale().x, value))
+
+func _on_WidthSpinBox_value_changed( value ):
+	self.set_scale(Vector2(value, self.get_scale().y))

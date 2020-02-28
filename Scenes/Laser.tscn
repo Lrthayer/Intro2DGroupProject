@@ -10,8 +10,8 @@ extents = Vector2( 8.23344, 6.1101 )
 script = ExtResource( 1 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
-collision_layer = 0
-collision_mask = 8
+collision_layer = 524288
+collision_mask = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( -0.0171548, -0.0381834 )

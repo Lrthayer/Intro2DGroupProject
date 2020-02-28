@@ -108,6 +108,10 @@ func _process(delta):
 		self.get_node("KinematicBody2D/ShipSprite").modulate = Color(1,1,1,0.5)
 		
 	if inSpecial:
+		print(self.get_node("KinematicBody2D").get_collision_layer_bit(4))
+		self.get_node("KinematicBody2D").set_collision_layer_bit(4,false)
+		self.get_node("KinematicBody2D").set_collision_layer_bit(6,true)
+		#self.get_node("KinematicBody2D").set_collision_layer_bit(1,true)
 		specialBar.max_value = specialDuration
 		currentspecialDuration -= delta
 		#decrease special bar

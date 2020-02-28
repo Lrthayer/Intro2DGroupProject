@@ -3,7 +3,6 @@ extends Node2D
 
 # class member variables go here
 #var laserObject = preload("res://Scenes/enemyLaser.tscn")
-var laserObject
 var laserCount = 0
 var laserOffset = 0
 var theirPos
@@ -26,7 +25,6 @@ var originalPosition = Vector2()
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
-	laserObject = self.get_node("/root/Node2D")
 	target = self.get_parent().get_node("Position2DArea2D/Position2D")
 	originalPosition = target.global_position
 	

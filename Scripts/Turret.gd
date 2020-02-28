@@ -3,7 +3,6 @@ extends Node2D
 
 # class member variables go here
 #var laserObject = preload("res://Scenes/enemyLaser.tscn")
-var laserObject
 var laserCount = 0
 var laserOffset = 0
 var theirPos
@@ -22,7 +21,6 @@ var vector = Vector2(0,0)
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
-	laserObject = self.get_node("/root/Node2D")
 	target = self.get_node("/root/Main/AttackerArea/Attacker/KinematicBody2D")
 	timer = self.get_parent().fireRate
 
@@ -50,7 +48,7 @@ func fire():
 	laserInstance.setSprite("white")
 	laserInstance.set_scale(Vector2(laserWidth, laserHeight))
 	laserInstance.startPosition = self.get_node("Position2D")
-	laserInstance.set_owner(self)
+	#laserInstance.set_owner(self)
 	laserInstance.speed = laserSpeed
 	laserInstance.setDirVector(rotate, vector)
 	laserInstance.resetPos()

@@ -9,4 +9,4 @@ func _pressed():
 		#set the next_level to the new next level for the new current level
 		GLOBALS.next_level = ""
 		#TODO change scene to next in the list
-		get_tree().change_scene("")
+		#get_tree().change_scene("")

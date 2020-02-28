@@ -17,7 +17,7 @@ var speed = 1
 #starts when loaded up in scene
 func _ready():
 	set_process(true)
-	target = self.get_parent().get_node("Attacker/KinematicBody2D/ShipSprite")
+	target = self.get_node("/root/Main/AttackerArea/Attacker/KinematicBody2D")
 
 #called every frame
 func _process(delta):

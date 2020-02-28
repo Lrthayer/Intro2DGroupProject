@@ -11,7 +11,7 @@ func _ready():
 	set_process(true)
 
 #called every frame
-func _process(delta):
+func _process(_delta):
 	if hovering:
 		#if locked let parent node know
 		if locked:

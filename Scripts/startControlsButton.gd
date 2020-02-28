@@ -11,4 +11,4 @@ func _pressed():
 		GLOBALS.last_scene = "pause"
 	if GLOBALS.last_scene == "initial":
 		GLOBALS.last_scene = "start"
-	get_tree().change_scene("res://Scenes/Menu/Controls.tscn")
+	var _changeSceneError = get_tree().change_scene("res://Scenes/Menu/Controls.tscn")

@@ -6,4 +6,4 @@ func _ready():
 func _pressed():
 		# resume game screen
 	GLOBALS.last_scene = "start"
-	get_tree().change_scene("res://Scenes/LevelEditor.tscn")
+	var _changeSceneError = get_tree().change_scene("res://Scenes/LevelEditor.tscn")

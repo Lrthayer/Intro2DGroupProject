@@ -113,7 +113,7 @@ func check_alive():
 		#kill self
 		get_parent().queue_free()
 		#gameover scene
-		var _changeSceneErr = get_tree().change_scene("res://Scenes/GameOver.xml")
+		#var _changeSceneErr = get_tree().change_scene("res://Scenes/GameOver.xml")
 
 func _on_SpeedSpinBox_value_changed( value ):
 	player_speed = value

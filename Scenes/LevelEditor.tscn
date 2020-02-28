@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=2]
+[gd_scene load_steps=93 format=2]
 
 [ext_resource path="res://Scripts/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Panel.gd" type="Script" id=2]
@@ -21,9 +21,11 @@
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=19]
 [ext_resource path="res://Raw Graphics/Projectiles/bullet_004.png" type="Texture" id=20]
 [ext_resource path="res://Scripts/ColorPicker.gd" type="Script" id=21]
+[ext_resource path="res://Scripts/DefenderArea.gd" type="Script" id=22]
 [ext_resource path="res://Scripts/KinematicBody2D.gd" type="Script" id=23]
 [ext_resource path="res://Graphics/Ships/ship_001.tex" type="Texture" id=24]
 [ext_resource path="res://Scripts/DefenderSprite.gd" type="Script" id=25]
+[ext_resource path="res://Scenes/shopQuitConfirmationPopup.gd" type="Script" id=26]
 [ext_resource path="res://Scripts/check.gd" type="Script" id=27]
 [ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=28]
 [ext_resource path="res://Raw Graphics/Structures/base003.png" type="Texture" id=29]
@@ -116,6 +118,8 @@ func _ready():
 	connectErrors += connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
 	connectErrors += connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
 	connectErrors += connect(\"input_event\", self, \"_input_event\")
+	if connectErrors != 0:
+		print(connectErrors)
 
 func _input_event( _viewport, event, _shape_idx ):
 	if event is InputEventMouseButton:
@@ -469,7 +473,7 @@ script = ExtResource( 4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/Attacker"]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 524288
 script = ExtResource( 5 )
 
 [node name="ShipSprite" type="Sprite" parent="AttackerArea/Attacker/KinematicBody2D"]
@@ -493,6 +497,9 @@ size_flags_vertical = 2
 value = 100.0
 texture_under = ExtResource( 8 )
 texture_progress = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="special_bar" type="TextureProgress" parent="AttackerArea/Attacker/KinematicBody2D"]
 margin_left = -24.0
@@ -502,9 +509,13 @@ margin_bottom = 39.0
 rect_scale = Vector2( 0.5, 0.5 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
+step = 0.001
 value = 100.0
 texture_under = ExtResource( 8 )
 texture_progress = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StaticBody2D1" type="StaticBody2D" parent="AttackerArea/Attacker/KinematicBody2D"]
 position = Vector2( 0.000694023, -4.92217 )
@@ -841,8 +852,8 @@ script = ExtResource( 19 )
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser"]
 position = Vector2( -0.129724, 0.0108337 )
 scale = Vector2( 0.0670746, 0.12194 )
-collision_layer = 0
-collision_mask = 16
+collision_layer = 524288
+collision_mask = 16384
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/AttackerMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 0.571943, -0.705742 )
@@ -890,6 +901,7 @@ script = ExtResource( 21 )
 
 [node name="DefenderArea" type="Area2D" parent="."]
 position = Vector2( 51.3086, -828.936 )
+script = ExtResource( 22 )
 
 [node name="Defender" type="Node2D" parent="DefenderArea"]
 
@@ -931,6 +943,7 @@ scale = Vector2( 2.45045, 0.604477 )
 shape = SubResource( 11 )
 
 [node name="topBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender"]
+visible = false
 position = Vector2( 14.7581, -144.612 )
 scale = Vector2( 1.7382, 0.809096 )
 script = SubResource( 12 )
@@ -948,6 +961,7 @@ shape = SubResource( 14 )
 script = SubResource( 15 )
 
 [node name="rightBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender"]
+visible = false
 position = Vector2( 702.235, -120.805 )
 rotation = 1.5708
 scale = Vector2( 1.7382, 0.809096 )
@@ -966,6 +980,7 @@ shape = SubResource( 14 )
 script = SubResource( 15 )
 
 [node name="bottomBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender"]
+visible = false
 position = Vector2( 618.957, 317.792 )
 rotation = 3.14159
 scale = Vector2( 1.7382, 0.809096 )
@@ -984,6 +999,7 @@ shape = SubResource( 14 )
 script = SubResource( 15 )
 
 [node name="leftBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender"]
+visible = false
 position = Vector2( -416.711, 366.861 )
 rotation = 1.5708
 scale = Vector2( 1.7382, 0.809096 )
@@ -1816,6 +1832,14 @@ margin_bottom = 400.0
 text = "Quit to Main Menu"
 script = ExtResource( 53 )
 
+[node name="shopQuitConfirmationPopup" type="ConfirmationDialog" parent="CanvasLayer/PauseMenu/quitToMainMenuButton"]
+margin_left = -238.0
+margin_top = -384.0
+margin_right = -38.0
+margin_bottom = -314.0
+dialog_text = "Quit to Main Menu?"
+script = ExtResource( 26 )
+
 [node name="ControlsMenu" type="TextureRect" parent="CanvasLayer"]
 visible = false
 margin_right = 1022.0
@@ -1927,15 +1951,15 @@ visible = false
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/StatsVBox/SpeedHBox/SpeedSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_SpeedSpinBox_value_changed"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/VisualVBox/HeightHBox/HeightSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/VisualVBox/WidthHBox/WidthSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="pressed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 [connection signal="mouse_entered" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
-[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
+[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
@@ -1952,8 +1976,8 @@ visible = false
 [connection signal="button_down" from="Camera2D/base2Button" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
 [connection signal="mouse_entered" from="Camera2D/base2Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/base2Button" to="." method="_on_Button_mouse_exit"]
-[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 [connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
+[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
 [connection signal="button_down" from="Camera2D/base3Button" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 [connection signal="mouse_entered" from="Camera2D/base3Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/base3Button" to="." method="_on_Button_mouse_exit"]
@@ -1994,7 +2018,7 @@ visible = false
 [connection signal="value_changed" from="MoverArea/MoverMenu/VisualVBox/WidthHBox/WidthSpinBox" to="MoverArea/Mover/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
 [connection signal="color_changed" from="MoverArea/MoverMenu/ColorPicker" to="MoverArea/Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]

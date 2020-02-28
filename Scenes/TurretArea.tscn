@@ -435,8 +435,8 @@ script = ExtResource( 6 )
 [node name="KinematicBody2D" type="KinematicBody2D" parent="TurrentMenu/ProjectileVBox/Laser"]
 position = Vector2( -0.129724, 0.0108337 )
 scale = Vector2( 0.0670746, 0.12194 )
-collision_layer = 0
-collision_mask = 16
+collision_layer = 524288
+collision_mask = 24
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 0.571943, -0.705742 )
@@ -472,9 +472,9 @@ script = SubResource( 8 )
 [connection signal="value_changed" from="TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="." method="_on_fireratedelta_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_height_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_width_value_changed"]
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_ProjHeightSpinBox_value_changed"]
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="Turret" method="_on_SpeedSpinBox_value_changed"]
 [connection signal="color_changed" from="TurrentMenu/ColorPicker" to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]

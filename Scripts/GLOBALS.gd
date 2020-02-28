@@ -15,7 +15,7 @@ var last_scene = "initial"
 var saved_scene = null
 var saved_subscene = null
 var changed_scene = false
-
+var new_playest = false
 
 #file editing
 var current_playlist_name = "Default"

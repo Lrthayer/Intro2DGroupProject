@@ -10,10 +10,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 1025.0
-margin_bottom = 602.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 1026.0
+margin_bottom = 603.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -22,6 +22,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause", "Rect" ]
+dropdown_path = NodePath("MyDialog/OptionButton")
 
 [node name="MyDialog" type="Panel" parent="." index="0"]
 
@@ -32,7 +33,7 @@ anchor_bottom = 0.0
 margin_left = 234.0
 margin_top = 216.0
 margin_right = 809.0
-margin_bottom = 396.0
+margin_bottom = 430.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -115,7 +116,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Select Where To Put Level In Playist:"
+text = "Select Where To Put Level In Playiist:"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -127,9 +128,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 31.0
-margin_top = 145.0
+margin_top = 179.0
 margin_right = 555.0
-margin_bottom = 169.0
+margin_bottom = 204.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -145,7 +146,35 @@ text = "Cancel"
 flat = false
 align = 1
 
-[node name="LineEdit" type="LineEdit" parent="MyDialog" index="5"]
+[node name="AddLevels" type="Button" parent="MyDialog" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 31.0
+margin_top = 143.0
+margin_right = 555.0
+margin_bottom = 170.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+hint_tooltip = "Playlist has to be full for you to add more levels
+"
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Add More Levels to Playlist"
+flat = false
+align = 1
+_sections_unfolded = [ "Hint" ]
+
+[node name="LineEdit" type="LineEdit" parent="MyDialog" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -172,7 +201,7 @@ caret_blink_speed = 0.65
 caret_position = 0
 _sections_unfolded = [ "Placeholder" ]
 
-[node name="SaveButton" type="Button" parent="MyDialog" index="6"]
+[node name="SaveButton" type="Button" parent="MyDialog" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -197,7 +226,7 @@ text = "Save Level"
 flat = false
 align = 1
 
-[node name="OptionButton" type="OptionButton" parent="MyDialog" index="7"]
+[node name="OptionButton" type="OptionButton" parent="MyDialog" index="8"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -222,7 +251,7 @@ group = null
 text = "Level 1"
 flat = false
 align = 0
-items = [ "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null, "Level 5", null, false, 5, null, "Level 6", null, false, 6, null, "Level 7", null, false, 7, null, "Level 8", null, false, 8, null, "Level 9", null, false, 9, null, "Level 10", null, false, 10, null ]
+items = [  ]
 selected = 0
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="." index="1"]
@@ -275,7 +304,33 @@ dialog_text = "Need to Name Level"
 dialog_hide_on_ok = true
 _sections_unfolded = [ "Dialog" ]
 
+[node name="AcceptDialog2" type="AcceptDialog" parent="." index="3"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 434.0
+margin_top = 274.0
+margin_right = 517.0
+margin_bottom = 332.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = "Alert!"
+resizable = false
+dialog_text = "Need to make all your levels"
+dialog_hide_on_ok = true
+_sections_unfolded = [ "Dialog" ]
+
 [connection signal="pressed" from="MyDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
+
+[connection signal="pressed" from="MyDialog/AddLevels" to="." method="_on_AddLevels_pressed"]
 
 [connection signal="pressed" from="MyDialog/SaveButton" to="." method="_on_SaveButton_pressed"]
 

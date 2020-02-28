@@ -69,6 +69,7 @@ var numberOfSaves = 0
 
 #starts when loaded up in scene
 func _ready():
+	
 	if GLOBALS.changed_scene:
 		GLOBALS.changed_scene = false
 		

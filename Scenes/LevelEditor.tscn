@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://Scripts/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Panel.gd" type="Script" id=2]
@@ -56,6 +56,8 @@
 [ext_resource path="res://Graphics/UI/Shop.tex" type="Texture" id=54]
 [ext_resource path="res://Scripts/Menu/instructionsBackButton.gd" type="Script" id=55]
 [ext_resource path="res://Scenes/Menu/Shop.tscn" type="PackedScene" id=56]
+[ext_resource path="res://Graphics/Turrets/turret001.tex" type="Texture" id=57]
+[ext_resource path="res://Scripts/Defender.gd" type="Script" id=58]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 89.2784, 10.6377 )
@@ -472,14 +474,10 @@ scale = Vector2( 1.29688, 1.29688 )
 script = ExtResource( 4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="AttackerArea/Attacker"]
-collision_layer = 16
-collision_mask = 524288
+scale = Vector2( 0.907471, 0.838152 )
+collision_layer = 0
+collision_mask = 4
 script = ExtResource( 5 )
-
-[node name="ShipSprite" type="Sprite" parent="AttackerArea/Attacker/KinematicBody2D"]
-rotation = 3.14159
-texture = ExtResource( 6 )
-script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackerArea/Attacker/KinematicBody2D"]
 position = Vector2( 0.0800667, -4.29828 )
@@ -528,6 +526,12 @@ script = ExtResource( 11 )
 position = Vector2( 7.52608e-06, -0.299716 )
 scale = Vector2( 2.54709, 3.16364 )
 shape = SubResource( 2 )
+
+[node name="ShipSprite" type="Sprite" parent="AttackerArea/Attacker/KinematicBody2D"]
+rotation = 3.14159
+scale = Vector2( 1.10196, 1.1931 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="leftBoundaryArea2D" type="Area2D" parent="AttackerArea/Attacker"]
 visible = false
@@ -904,12 +908,13 @@ position = Vector2( 51.3086, -828.936 )
 script = ExtResource( 22 )
 
 [node name="Defender" type="Node2D" parent="DefenderArea"]
+script = ExtResource( 58 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="DefenderArea/Defender"]
 position = Vector2( -0.00369018, 7.00465 )
 scale = Vector2( 1.68406, 1.2189 )
-collision_layer = 24
-collision_mask = 0
+collision_layer = 2
+collision_mask = 4
 script = ExtResource( 23 )
 
 [node name="DefenderSprite" type="Sprite" parent="DefenderArea/Defender/KinematicBody2D"]
@@ -930,17 +935,39 @@ rotation = 3.14159
 scale = Vector2( 0.593804, 0.820415 )
 texture = ExtResource( 32 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="DefenderArea/Defender/KinematicBody2D"]
+[node name="DefenderShieldStaticBody2D" type="StaticBody2D" parent="DefenderArea/Defender/KinematicBody2D"]
 position = Vector2( 0.182007, 1.82967 )
 scale = Vector2( 0.81418, 0.925585 )
-collision_layer = 24
+collision_layer = 2
 collision_mask = 0
 script = ExtResource( 27 )
+__meta__ = {
+"_editor_description_": "defenderShield"
+}
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/KinematicBody2D/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefenderArea/Defender/KinematicBody2D/DefenderShieldStaticBody2D"]
 position = Vector2( -0.288285, 14.5665 )
 scale = Vector2( 2.45045, 0.604477 )
 shape = SubResource( 11 )
+__meta__ = {
+"_editor_description_": "www"
+}
+
+[node name="special_bar" type="TextureProgress" parent="DefenderArea/Defender/KinematicBody2D"]
+margin_left = -23.8447
+margin_top = 34.4058
+margin_right = 72.1553
+margin_bottom = 42.4058
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+step = 0.001
+value = 100.0
+texture_under = ExtResource( 8 )
+texture_progress = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="topBoundaryArea2D" type="Area2D" parent="DefenderArea/Defender"]
 visible = false
@@ -1271,31 +1298,34 @@ icon = ExtResource( 31 )
 script = SubResource( 21 )
 
 [node name="moverButton" type="Button" parent="Camera2D"]
-margin_left = -232.0
+margin_left = -229.285
 margin_top = 131.0
-margin_right = -117.0
+margin_right = -114.285
 margin_bottom = 194.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Mover"
-icon = ExtResource( 32 )
+icon = ExtResource( 35 )
 script = SubResource( 21 )
 
 [node name="bomberButton" type="Button" parent="Camera2D"]
-margin_left = -362.0
+margin_left = -359.285
 margin_top = 131.0
-margin_right = -237.0
+margin_right = -234.285
 margin_bottom = 189.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Bomber"
 icon = ExtResource( 33 )
 script = SubResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="defenderButton" type="Button" parent="Camera2D"]
-margin_left = -490.0
+margin_left = -487.285
 margin_top = 131.0
-margin_right = -365.0
+margin_right = -362.285
 margin_bottom = 193.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -1311,7 +1341,7 @@ margin_bottom = 209.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Turrent"
-icon = ExtResource( 35 )
+icon = ExtResource( 57 )
 script = SubResource( 21 )
 
 [node name="laserButton" type="Button" parent="Camera2D"]
@@ -1394,7 +1424,7 @@ script = ExtResource( 40 )
 
 [node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D"]
 scale = Vector2( 2.38735, 2.99493 )
-texture = ExtResource( 32 )
+texture = ExtResource( 35 )
 script = ExtResource( 41 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D"]
@@ -1927,10 +1957,10 @@ script = ExtResource( 55 )
 
 [node name="Shop" parent="CanvasLayer" instance=ExtResource( 56 )]
 visible = false
-[connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 [connection signal="mouse_entered" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_entered"]
-[connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_entered" from="AttackerArea" to="." method="_on_Area2D_mouse_enter"]
 [connection signal="mouse_exited" from="AttackerArea" to="AttackerArea" method="_on_AttackerArea_mouse_exited"]
+[connection signal="mouse_exited" from="AttackerArea" to="." method="_on_Area2D_mouse_exit"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/HPHBox/HPSpinBox" to="AttackerArea/Attacker/KinematicBody2D" method="_on_HPSpinBox_value_changed"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/DamageHBox/DamageSpinBox" to="AttackerArea/Attacker" method="_on_DamageSpinBox_value_changed"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="AttackerArea/Attacker" method="_on_FireRateSpinBox_value_changed"]
@@ -1940,19 +1970,19 @@ visible = false
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="AttackerArea/Attacker" method="_on_ProjSpeedSpinBox_value_changed"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="AttackerArea/Attacker" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="AttackerArea/AttackerMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="AttackerArea/Attacker" method="_on_ProjWidthSpinBox_value_changed"]
-[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPickerArea2D/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/Attacker/KinematicBody2D/ShipSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="pressed" from="AttackerArea/AttackerMenu/ColorPicker" to="AttackerArea/AttackerMenu/ColorPicker" method="_on_ColorPicker_pressed"]
-[connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 [connection signal="mouse_entered" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_enter"]
-[connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_entered" from="DefenderArea" to="." method="_on_Area2D_mouse_enter"]
 [connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
+[connection signal="mouse_exited" from="DefenderArea" to="." method="_on_Area2D_mouse_exit"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/StatsVBox/SpeedHBox/SpeedSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_SpeedSpinBox_value_changed"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/VisualVBox/HeightHBox/HeightSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
 [connection signal="value_changed" from="DefenderArea/DefenderMenu/VisualVBox/WidthHBox/WidthSpinBox" to="DefenderArea/Defender/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 [connection signal="pressed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_pressed"]
 [connection signal="mouse_entered" from="Camera2D/HBarArea2D" to="." method="_on_Area2D_mouse_enter"]
@@ -1976,8 +2006,8 @@ visible = false
 [connection signal="button_down" from="Camera2D/base2Button" to="." method="_on_Button_button_down" binds= [ "Base2" ]]
 [connection signal="mouse_entered" from="Camera2D/base2Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/base2Button" to="." method="_on_Button_mouse_exit"]
-[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 [connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button_pressed" binds= [ "Base2" ]]
+[connection signal="pressed" from="Camera2D/base2Button" to="." method="_on_Button1_pressed" binds= [ "Base2" ]]
 [connection signal="button_down" from="Camera2D/base3Button" to="." method="_on_Button_button_down" binds= [ "Base3" ]]
 [connection signal="mouse_entered" from="Camera2D/base3Button" to="." method="_on_Button_mouse_enter"]
 [connection signal="mouse_exited" from="Camera2D/base3Button" to="." method="_on_Button_mouse_exit"]

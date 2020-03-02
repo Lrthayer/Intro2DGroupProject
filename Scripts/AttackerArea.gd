@@ -5,7 +5,6 @@ var clicked = false
 var locked = false
 var toggled = 0
 var lockToggle = 0
-
 var menuToggle = 0
 
 func _ready():

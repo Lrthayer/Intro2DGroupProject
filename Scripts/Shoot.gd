@@ -108,10 +108,7 @@ func _process(delta):
 		self.get_node("KinematicBody2D/ShipSprite").modulate = Color(1,1,1,0.5)
 		
 	if inSpecial:
-		print(self.get_node("KinematicBody2D").get_collision_layer_bit(4))
-		self.get_node("KinematicBody2D").set_collision_layer_bit(4,false)
-		self.get_node("KinematicBody2D").set_collision_layer_bit(6,true)
-		#self.get_node("KinematicBody2D").set_collision_layer_bit(1,true)
+		self.get_node("KinematicBody2D").set_collision_mask_bit(2,false)
 		specialBar.max_value = specialDuration
 		currentspecialDuration -= delta
 		#decrease special bar
@@ -119,18 +116,20 @@ func _process(delta):
 		if currentspecialDuration <= 0:
 			self.get_node("KinematicBody2D/ShipSprite").modulate = Color(1,1,1,1)
 			currentspecialDuration = specialDuration
-			#reset spceialBar
-			#specialBar.value = specialDuration
 			inSpecial = false
 	#if not in special tell special bar to use the recharge time as it's new max value
 	else:
 		specialBar.max_value = specialTime
+		self.get_node("KinematicBody2D").set_collision_mask_bit(2,true)
 		
 	#print ("special Time : ", specialTime, " specialBar : " ,specialBar.value) 
 		
 	#Check to see if user pressed the spacebar or Numpad 0
 	firePressed = Input.is_action_pressed("space_fire") || Input.is_action_pressed("right_fire") 
 	specialButton = false
+	
+	if specialBar.value == specialBar.max_value:
+		specialTemp = specialTime + 1
 
 func _on_DamageSpinBox_value_changed( value ):
 	damage = value

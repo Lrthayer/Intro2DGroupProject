@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+var reflect = false
 
 #Defender staticbody2D is colliding with laser
 func collided(dmg = 0):

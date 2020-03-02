@@ -11,27 +11,37 @@ var dmg = 1
 var otherCollider
 var vector = Vector2(0,0);
 var startPosition
+var reflected = false
 
 func _physics_process(_delta):
 	
 	#The laser's is moving downwards using KinematicBody2D
-	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vector * speed)
-	
-	if collisionInfo:
-		#hide the laser
-		self.global_position = Vector2(10000, 10000)
-		self.get_node("KinematicBody2D").global_position = Vector2(10000, 10000)
-		
-		#get the other object
-		otherCollider = collisionInfo.collider
-		
-		if self.get_node("/root/GLOBALS").state != "Editor":
-			#Call method from otherCollider to do an event like losing health
-			otherCollider.collided(dmg)
+	if !reflected:
+		var collisionInfo : KinematicCollision2D = get_node("KinematicBody2D").move_and_collide(vector * speed)
+		if collisionInfo:
+			print(collisionInfo.collider.get("reflect"))
+			if collisionInfo.collider.get("reflect") and !reflected:
+				print ("YYYYYYYYYYYYYYYYY")
+				reflected = true
+				get_node("KinematicBody2D").move_and_collide(-vector * speed)
+			else:
+				#hide the laser
+				#self.global_position = Vector2(10000, 10000)
+				#self.get_node("KinematicBody2D").global_position = Vector2(10000, 10000)
+				
+				#get the other object
+				otherCollider = collisionInfo.collider
+				
+				if self.get_node("/root/GLOBALS").state != "Editor":
+					#Call method from otherCollider to do an event like losing health
+					otherCollider.collided(dmg)
+	else:
+		get_node("KinematicBody2D").move_and_collide(-vector * speed)
 
 func resetPos():
 	self.global_position = startPosition.global_position
 	self.get_node("KinematicBody2D").global_position = startPosition.global_position
+	reflected = false
 
 #determine what direction to set laser
 func setDirVector(rotate, turretVector):

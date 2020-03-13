@@ -544,13 +544,13 @@ func _on_Area2D_mouse_enter():
 		overButton = true
 	if cursorState != "locked":
 		cursorState = "hovering"
-	print("locked")
+	#print("locked")
 
 func _on_Area2D_mouse_exit():
 	if !overButtonLock:
 		overButton = false
 	cursorState = ""
-	print("unlocked")
+	#print("unlocked")
 
 func _cusorStopFollowing():
 	self.get_node("Cursor").followMouse = false
@@ -837,14 +837,14 @@ func saving_level():
 		directory.copy("res://Scenes/temp.json", "res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".json")
 		var saveErr : int = ResourceSaver.save("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level) + "/" + GLOBALS.current_level_name + ".tscn" , packed_scene)
 		if saveErr != 0:
-			print (saveErr)
+			print ("save error " + str(saveErr))
 	else:
 		file.open("res://Scenes/temp.json", file.WRITE)
 		file.store_line(to_json(dict))
 		file.close()
 		var saveErr : int = ResourceSaver.save("res://Scenes/temp.tscn", packed_scene)
 		if saveErr != 0:
-			print(saveErr)
+			print("save error " + str(saveErr))
 
 func _on_Save_Button_pressed():
 	GLOBALS.changed_scene = true

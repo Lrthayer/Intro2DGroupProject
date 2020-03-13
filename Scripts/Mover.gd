@@ -23,9 +23,7 @@ func _ready():
 func _process(delta):
 	#increase rate of fire of the turret over time
 	rateIncrease += .00001
-	#theirPos = target.get_global_pos()
-	theirPos = global_position
-	#myPos = self.get_global_pos()
+	theirPos = target.global_position
 	myPos = self.global_position
 	diff = theirPos - myPos
 	rotate = atan2(-diff.y,diff.x) - 3.14/2

@@ -16,280 +16,97 @@
 [ext_resource path="res://Scripts/Menu/shopQuitConfirmationPopup.gd" type="Script" id=14]
 
 [node name="Shop" type="TextureRect"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 1.0
 margin_right = 1024.0
 margin_bottom = 598.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 1 )
 expand = true
-stretch_mode = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="title" type="TextureRect" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="title" type="TextureRect" parent="."]
 margin_left = 368.0
 margin_top = 35.0
 margin_right = 618.0
 margin_bottom = 134.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 2 )
-stretch_mode = 0
 
-[node name="upgradeSpeedButton" type="TextureButton" parent="title" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="upgradeSpeedButton" type="TextureButton" parent="title"]
 margin_left = -130.0
 margin_top = 146.0
 margin_right = 88.0
 margin_bottom = 203.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 4 )
 script = ExtResource( 5 )
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="cost" type="TextureRect" parent="title/upgradeSpeedButton" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="cost" type="TextureRect" parent="title/upgradeSpeedButton"]
 margin_left = 83.0
 margin_top = 53.0
 margin_right = 184.0
 margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Grow Direction", "Hint", "Material", "Rect", "Theme", "Visibility" ]
 
-[node name="upgradeRateButton" type="TextureButton" parent="title" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="upgradeRateButton" type="TextureButton" parent="title"]
 margin_left = -130.0
 margin_top = 250.0
 margin_right = 45.0
 margin_bottom = 307.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 texture_normal = ExtResource( 7 )
 script = ExtResource( 8 )
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="cost" type="TextureRect" parent="title/upgradeRateButton" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="cost" type="TextureRect" parent="title/upgradeRateButton"]
 margin_left = 83.0
 margin_top = 53.0
 margin_right = 184.0
 margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Grow Direction", "Hint", "Material", "Rect", "Theme", "Visibility" ]
 
-[node name="upgradeDamageButton" type="TextureButton" parent="title" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="upgradeDamageButton" type="TextureButton" parent="title"]
 margin_left = -130.0
 margin_top = 350.0
 margin_right = 82.0
 margin_bottom = 407.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 texture_normal = ExtResource( 9 )
 script = ExtResource( 10 )
-_sections_unfolded = [ "Rect", "Textures" ]
 
-[node name="cost" type="TextureRect" parent="title/upgradeDamageButton" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="cost" type="TextureRect" parent="title/upgradeDamageButton"]
 margin_left = 87.0
 margin_top = 54.0
 margin_right = 188.0
 margin_bottom = 81.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 texture = ExtResource( 6 )
-stretch_mode = 0
-_sections_unfolded = [ "Grow Direction", "Hint", "Material", "Rect", "Theme", "Visibility" ]
 
-[node name="currentDefenderGems" type="Label" parent="title" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="currentDefenderGems" type="Label" parent="title"]
 margin_left = -308.0
 margin_top = -33.0
 margin_right = -205.0
 margin_bottom = 4.0
 rect_scale = Vector2( 1.5, 1.5 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 script = ExtResource( 11 )
-_sections_unfolded = [ "Focus", "Hint", "Mouse", "Rect", "Size Flags", "Theme", "custom_fonts", "custom_styles" ]
 
-[node name="nextLevelButton" type="Button" parent="title" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="nextLevelButton" type="Button" parent="title"]
 margin_left = 219.0
 margin_top = 468.0
 margin_right = 422.0
 margin_bottom = 512.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Next Level"
-flat = false
-align = 1
 script = ExtResource( 12 )
 
-[node name="quitToMainMenuButton" type="Button" parent="title" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="quitToMainMenuButton" type="Button" parent="title"]
 margin_left = 90.0
 margin_top = 467.0
 margin_right = 202.0
 margin_bottom = 511.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Quit"
-flat = false
-align = 1
 script = ExtResource( 13 )
 
-[node name="shopQuitConfirmationPopup" type="ConfirmationDialog" parent="title/quitToMainMenuButton" index="0"]
-
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="shopQuitConfirmationPopup" type="ConfirmationDialog" parent="title/quitToMainMenuButton"]
 margin_left = -55.0
 margin_top = -229.0
 margin_right = 155.0
 margin_bottom = -159.0
-rect_min_size = Vector2( 200, 70 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-popup_exclusive = false
-window_title = "Please Confirm..."
-resizable = false
 dialog_text = "Are you sure you want to quit?"
-dialog_hide_on_ok = true
 script = ExtResource( 14 )
-_sections_unfolded = [ "Dialog" ]
-
 [connection signal="confirmed" from="title/quitToMainMenuButton/shopQuitConfirmationPopup" to="title/quitToMainMenuButton/shopQuitConfirmationPopup" method="_on_shopQuitConfirmationPopup_confirmed"]
-
-

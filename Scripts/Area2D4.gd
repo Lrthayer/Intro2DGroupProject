@@ -9,7 +9,7 @@ func _ready():
 	connectErrs += connect("mouse_exited", get_node("/root/Main"), "_on_Area2D_mouse_exit")
 	connectErrs += connect("input_event", self, "_input_event")
 	if connectErrs != 0:
-		print(connectErrs)
+		print("connect errors " + str(connectErrs))
 func _input_event( _viewport, event, _shape_idx ):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
@@ -18,7 +18,7 @@ func _input_event( _viewport, event, _shape_idx ):
 				get_node("/root/Main").overButtonLock = true
 				get_node("/root/Main").set_hovering(true)
 				clicked = true
-				print("true")
+				#print("true")
 			elif !event.pressed:
 				#tell Main that we are done hovering
 				get_node("/root/Main").overButtonLock = false

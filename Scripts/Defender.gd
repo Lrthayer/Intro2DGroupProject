@@ -30,10 +30,8 @@ func _process(delta):
 	#if user pressed the special power button make the sprite 50 percent opaque and turn off collisions
 	if specialButton and specialTemp > specialTime:
 		inSpecial = true
+		get_node("KinematicBody2D/DefenderShield").modulate = Color(50,1,1,1)
 		specialTemp = 0
-	elif specialButton and specialTemp < specialTime:
-		print(specialTemp)
-		print(specialTime)
 
 	if inSpecial:
 		self.get_node("KinematicBody2D/DefenderShieldStaticBody2D").reflect = true
@@ -44,6 +42,7 @@ func _process(delta):
 		if currentspecialDuration <= 0:
 			currentspecialDuration = specialDuration
 			inSpecial = false
+			get_node("KinematicBody2D/DefenderShield").modulate = Color(1,1,1,1)
 	#if not in special tell special bar to use the recharge time as it's new max value
 	else:
 		specialBar.max_value = specialTime

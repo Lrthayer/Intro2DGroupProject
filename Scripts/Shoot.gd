@@ -47,8 +47,6 @@ func _ready():
 		fireRateTimer = .5
 	else:
 		fireRateTimer = 0
-		
-		
 	#set special bar's max value to specialDuration
 	specialBar.max_value = specialTime
 	#set special Temp higher than speical Time so player can use special initially
@@ -57,9 +55,7 @@ func _ready():
 
 #calls every frame
 func _process(delta):
-	
 	fireRateTimer -= delta
-	
 	#Determine what button should be pressed for firing laser
 	if (GLOBALS.g_current_attacker == "player1"):
 		fireButton = Input.is_action_pressed("space_fire")
@@ -72,11 +68,11 @@ func _process(delta):
 	if fireButton and !firePressed and fireRateTimer <= 0:
 		
 		laserCount += 1
-		
 		#create a copy of the laser object
 		var laserInstance = laserObject.instance()
 		laserInstance.set_scale(Vector2(bulletWidth, bulletWidth))
 		laserInstance.speed = bullet_speed
+		laserInstance.dmg = damage
 		#set the fire rate
 		if (fireRate == 1):
 			fireRateTimer = 1
@@ -87,10 +83,8 @@ func _process(delta):
 		
 		#give the copy a name 
 		laserInstance.set_name("Laser" + str(laserCount))
-		
 		#add a child
 		add_child(laserInstance)
-		
 		#set owner 
 		laserInstance.set_owner(self)
 		

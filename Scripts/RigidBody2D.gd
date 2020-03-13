@@ -32,7 +32,7 @@ func _on_ProjHeightSpinBox_value_changed( value ):
 	self.set_scale(Vector2(self.get_scale().x, value))
 
 func printInfo():
-	print(self.global_position)
+	pass#(self.global_position)
 
 func _on_RigidBody2D_body_entered(_body):
 		#hide the laser

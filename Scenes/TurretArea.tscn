@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/Turret.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Collided.gd" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Graphics/UI/txt_prg_progress.tex" type="Texture" id=5]
 [ext_resource path="res://Scripts/EnemyLaser.gd" type="Script" id=6]
 [ext_resource path="res://Graphics/Projectiles/bullet_004.tex" type="Texture" id=7]
+[ext_resource path="res://Scripts/LaserCollisionShape2D.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/LaserCollisionShape.gd" type="Script" id=9]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
@@ -40,7 +42,6 @@ func _process(_delta):
 		#if locked let parent node know
 		if locked:
 			get_node(\"/root/Main\").cursorState = \"locked\"
-
 		if Input.is_action_pressed(\"middle_click\"):
 			if lockToggle < 1:
 				if locked:
@@ -154,13 +155,13 @@ position = Vector2( 140, 250 )
 script = SubResource( 1 )
 
 [node name="Turret" type="Node2D" parent="."]
-light_mask = 3
+light_mask = 0
 material = SubResource( 2 )
 script = ExtResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Turret"]
-collision_layer = 8
-collision_mask = 0
+collision_layer = 4
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Turret/StaticBody2D"]
@@ -437,11 +438,13 @@ position = Vector2( -0.129724, 0.0108337 )
 scale = Vector2( 0.0670746, 0.12194 )
 collision_layer = 4
 collision_mask = 2
+script = ExtResource( 8 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
+[node name="LaserCollisionShape" type="CollisionShape2D" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 0.571943, -0.705742 )
 scale = Vector2( 2.84768, 5.30343 )
 shape = SubResource( 6 )
+script = ExtResource( 9 )
 
 [node name="Sprite" type="Sprite" parent="TurrentMenu/ProjectileVBox/Laser/KinematicBody2D"]
 position = Vector2( 1.93402, -0.0888446 )
@@ -464,6 +467,9 @@ toggle_mode = false
 color = Color( 1, 1, 1, 1 )
 edit_alpha = false
 script = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="mouse_entered" from="." to="." method="_on_TurretArea_mouse_enter"]
 [connection signal="mouse_exited" from="." to="." method="_on_TurretArea_mouse_exit"]
 [connection signal="value_changed" from="TurrentMenu/StatsVBox/HPHBox/HPSpinBox" to="." method="_on_health_value_changed"]
@@ -472,9 +478,9 @@ script = SubResource( 8 )
 [connection signal="value_changed" from="TurrentMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="." method="_on_fireratedelta_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_height_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_width_value_changed"]
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="Turret" method="_on_ProjHeightSpinBox_value_changed"]
-[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/HeightHBox/HeightSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="Turret" method="_on_ProjWidthSpinBox_value_changed"]
+[connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox/WidthSpinBox" to="TurrentMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
 [connection signal="value_changed" from="TurrentMenu/ProjectileVBox/WidthHBox1/SpeedSpinBox" to="Turret" method="_on_SpeedSpinBox_value_changed"]
 [connection signal="color_changed" from="TurrentMenu/ColorPicker" to="Turret/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]

@@ -16,7 +16,8 @@ func _ready():
 	connectErrors += connect("mouse_exited", get_node("/root/Main"), "_on_Area2D_mouse_exit")
 	connectErrors += connect("mouse_entered", self, "_on_Position2DArea2D_mouse_enter")
 	connectErrors += connect("mouse_exited", self, "_on_Position2DArea2D_mouse_exit")
-	print(connectErrors)
+	if connectErrors != 0:
+		print("connect errors: " + str(connectErrors))
 	set_process(true)
 
 func _process(_delta):

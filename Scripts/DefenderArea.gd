@@ -23,12 +23,12 @@ func _process(_delta):
 					locked = false
 					#tell parent to set cursor state
 					self.get_parent().cursorState = "hovering"
-					print("unlocked")
+					#print("unlocked")
 				else:
 					locked = true
 					#tell parent to set cursor state
 					self.get_parent().cursorState = "locked"
-					print("locked")
+					#print("locked")
 				lockToggle += 1
 		else:
 			lockToggle = 0

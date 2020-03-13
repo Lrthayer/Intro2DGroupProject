@@ -21,7 +21,6 @@ func movement(speedX, speedY):
 	current_speed.x = speedX
 	current_speed.y = speedY
 	#check right side boundary for Attacker
-	print(global_position)
 	if self.global_position.x > right_boundary:
 		self.global_position = Vector2(right_boundary,self.global_position.y)
 

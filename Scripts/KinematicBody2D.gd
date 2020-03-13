@@ -21,7 +21,7 @@ var diff
 #Gives movement to Defender
 func movement(speedX, speedY):
 	
-	print(top_boundary)
+	#print(top_boundary)
 	#checks right boundary for Defender
 	if self.global_position.x > right_boundary:
 		self.global_position = Vector2(right_boundary, self.global_position.y)
@@ -49,7 +49,6 @@ func _ready():
 	set_physics_process(true)
 	#if not in playing mode pause defender
 	if GLOBALS.state != "Playing":
-		print ("!!!!!!!!!!!!!!!!!!")
 		self.pause_mode = true
 
 func _physics_process(_delta):

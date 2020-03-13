@@ -17,25 +17,26 @@ func _ready():
 func _physics_process(_delta):
 	
 	#The laser's is moving downwards using KinematicBody2D
-	var collision = get_node("KinematicBody2D").move_and_collide(vector * speed)
+	var collision = get_node("KinematicBody2D").move_and_collide(-vector * speed)
 	if collision:
 		#destroy the laser
 		get_node(".").queue_free()
 		
 		#get the other object
-		otherCollider = get_node("KinematicBody2D").get_collider()
+		otherCollider = collision.collider
 		
 		#Call method from otherCollider to do an event like losing health
-		otherCollider.stunned()
+		if otherCollider.has_method("stunned"):
+			otherCollider.stunned()
 		
 	#The laser reached a certain position on screen
-	if get_node("KinematicBody2D").global_position.y < 0:
+	#if get_node("KinematicBody2D").global_position.y < 0:
 		#this deletes the tree structure of Laser. 
-		get_node(".").queue_free()
+	#	get_node(".").queue_free()
 
 #determine direction of laser
 func setDirVector(rotate, turretVector):
 	#self.set_rot(rotate)
-	self.rotation = rotate
+	self.set_rotation(rotate)
 	vector = turretVector
 	

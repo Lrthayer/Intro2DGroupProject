@@ -1,5 +1,5 @@
-
 extends Node2D
+
 
 #class variables
 var height = 650
@@ -9,7 +9,6 @@ var dmg = GLOBALS.g_offense_dmg
 var turn = 0
 var otherCollider
 var vec
-
 
 #set the damage
 func set_dmg(amt):
@@ -26,10 +25,8 @@ func set_turn(amt):
 	self.rotation = amt
 	turn = amt
 
-
 #check collision with other objects
 func checkCollisions():
-	
 	#The laser's is moving downwards using KinematicBody2D
 	var collisionInfo = get_node("KinematicBody2D").move_and_collide(vec * speed)
 	
@@ -41,11 +38,10 @@ func checkCollisions():
 		#get the other object
 		otherCollider = collisionInfo.collider
 		
-		if self.get_node("/root/GLOBALS").state != "Editor":
+		#if self.get_node("/root/GLOBALS").state != "Editor":
 			#Call method from otherCollider to do an event like losing health
-			otherCollider.collided(dmg)
-			
-	
+		otherCollider.collided(dmg)
+	"""
 	#Laser is colliding with an object
 	if collisionInfo:
 		
@@ -65,7 +61,6 @@ func checkCollisions():
 					otherCollider.collided(dmg)
 			else:
 				otherCollider.collided(dmg)
-				
 		else:
 			#it is colliding with Defender
 			if otherCollider.get_parent().get_name() == "Defender":
@@ -73,37 +68,30 @@ func checkCollisions():
 				pass
 			else:
 				otherCollider.collided(dmg)
-			
-
+	"""
 #starts when loaded up in scene
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
 	set_physics_process(true)
 	
 #called every frame
 func _physics_process(_delta):
-	
 	#The laser is moving upwards & tilted
 	vec = Vector2(0,speed).rotated(turn)
 	get_node("KinematicBody2D").move_and_collide(vec)
 	
-	
 	#The laser has left the outer boundary
+	"""
 	var y = get_node("KinematicBody2D").global_position.y
 	var x = get_node("KinematicBody2D").global_position.x
-	if y > height ||  \
-	   y < -50 ||     \
-	   x > width ||   \
+	if y > height ||  
+	   y < -50 ||     
+	   x > width ||   
 	   x < -50:
 		#this deletes the tree structure of Laser. 
 		get_node(".").queue_free()
-		
+		"""
+	if get_node("KinematicBody2D").global_position.x > self.get_viewport().size.x || \
+	get_node("KinematicBody2D").global_position.y > self.get_viewport().size.y:
+		get_node(".").queue_free()
 	#checks for collision
 	checkCollisions()
-	
-	
-	
-
-	
-	

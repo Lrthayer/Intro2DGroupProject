@@ -25,6 +25,7 @@ var next_level = ""
 
 var isSaving = false
 var isLoading = false
+var isPlaying = false
 var PressedCancelButton = false
 
 # Event tracking

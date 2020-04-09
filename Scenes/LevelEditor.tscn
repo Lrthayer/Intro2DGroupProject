@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://Scenes/LevelEditor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Panel.gd" type="Script" id=2]
@@ -38,24 +38,20 @@
 [ext_resource path="res://Raw Graphics/Ships/ship_003.png" type="Texture" id=36]
 [ext_resource path="res://TurretArea.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Scenes/TurretRayArea.tscn" type="PackedScene" id=38]
-[ext_resource path="res://Mover.gd" type="Script" id=39]
-[ext_resource path="res://Scripts/EnemyMovement2.gd" type="Script" id=40]
-[ext_resource path="res://Scenes/MoverSprite.gd" type="Script" id=41]
-[ext_resource path="res://Graphics/Projectiles/bullet_005.png" type="Texture" id=42]
-[ext_resource path="res://Raw Graphics/Projectiles/bullet_008.png" type="Texture" id=43]
-[ext_resource path="res://Base22D.tscn" type="PackedScene" id=44]
-[ext_resource path="res://Base12D.tscn" type="PackedScene" id=45]
-[ext_resource path="res://Base32D.tscn" type="PackedScene" id=46]
-[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=47]
-[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=48]
-[ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" id=49]
-[ext_resource path="res://Scripts/Menu/resumeButton.gd" type="Script" id=50]
-[ext_resource path="res://Scripts/Menu/instructionsButton.gd" type="Script" id=51]
-[ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=52]
-[ext_resource path="res://Scripts/Menu/quitToMainMenuButton.gd" type="Script" id=53]
-[ext_resource path="res://Graphics/UI/Shop.tex" type="Texture" id=54]
-[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=55]
-[ext_resource path="res://Scenes/Menu/Shop.tscn" type="PackedScene" id=56]
+[ext_resource path="res://MoverArea.tscn" type="PackedScene" id=39]
+[ext_resource path="res://Base22D.tscn" type="PackedScene" id=40]
+[ext_resource path="res://Base12D.tscn" type="PackedScene" id=41]
+[ext_resource path="res://Base32D.tscn" type="PackedScene" id=42]
+[ext_resource path="res://Graphics/Floaters/floater_003.png" type="Texture" id=43]
+[ext_resource path="res://Scenes/Cursor.gd" type="Script" id=44]
+[ext_resource path="res://Graphics/UI/ui_bg.tex" type="Texture" id=45]
+[ext_resource path="res://Scripts/Menu/resumeButton.gd" type="Script" id=46]
+[ext_resource path="res://Scripts/Menu/instructionsButton.gd" type="Script" id=47]
+[ext_resource path="res://Scripts/Menu/controlsButton.gd" type="Script" id=48]
+[ext_resource path="res://Scripts/Menu/quitToMainMenuButton.gd" type="Script" id=49]
+[ext_resource path="res://Graphics/UI/Shop.tex" type="Texture" id=50]
+[ext_resource path="res://Scenes/Menu/instructionsBackButton.gd" type="Script" id=51]
+[ext_resource path="res://Scenes/Menu/Shop.tscn" type="PackedScene" id=52]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -293,185 +289,6 @@ func _on_EditingButton_pressed():
 custom_solver_bias = 0.0
 extents = Vector2( 122.995, 43.7786 )
 
-[sub_resource type="GDScript" id=25]
-
-script/source = "extends Area2D
-
-
-var hovering = false
-var clicked = false
-var locked = false
-var toggled = 0
-var lockToggle = 0
-var menuToggle = 0
-
-func _ready():
-	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
-	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
-	set_process(true)
-
-func _process(delta):
-	if hovering:
-		#if locked let parent node know
-		if locked:
-			self.get_node(\"/root/Main\").cursorState = \"locked\"
-		
-		if Input.is_action_pressed(\"middle_click\"):
-			if lockToggle < 1:
-				if locked:
-					locked = false
-					#tell parent to set cursor state
-					self.get_node(\"/root/Main\").cursorState = \"hovering\"
-					print(\"unlocked\")
-				else:
-					locked = true
-					#tell parent to set cursor state
-					self.get_node(\"/root/Main\").cursorState = \"locked\"
-					print(\"locked\")
-				lockToggle += 1
-		else:
-			lockToggle = 0
-		
-		if  Input.is_action_pressed(\"edit\") && !locked:
-			if menuToggle < 1:
-				#if already open, close
-				if self.get_node(\"MoverMenu\").visible:
-					self.get_node(\"MoverMenu\").visible = false
-					self.get_node(\"MoverMenu\").position = Vector2(30000,30000)
-					#set root state to placing
-					self.get_node(\"/root/Main\").editorState = \"placing\"
-					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/PlacingButton\")._on_PlacingButton_pressed()
-				else:
-					self.get_node(\"MoverMenu\").position = Vector2(50,-100)
-					self.get_node(\"MoverMenu\").visible = true
-					#set root state to editing
-					self.get_node(\"/root/Main\").editorState = \"editing\"
-					self.get_node(\"/root/Main/Camera2D/StatesArea/StatesHBox/EditingButton\")._on_EditingButton_pressed()
-				menuToggle += 1
-		else:
-			menuToggle = 0
-
-	if (hovering || clicked) && !locked:
-		if  Input.is_action_pressed(\"left_click\"):
-			if toggled < 1:
-				if clicked:
-					clicked = false
-				else:
-					clicked = true
-				toggled += 1
-		else:
-			toggled = 0
-				
-		if clicked:
-			self.global_position = get_global_mouse_position()
-			#fixes spawning a new object while moving this object
-			if !get_node(\"/root/Main\").overButton:
-				get_node(\"/root/Main\").overButton = true
-		
-		if  Input.is_action_pressed(\"right_click\") && !locked:
-			self.get_node(\"/root/Main\").set_hovering(false)
-			self.free()
-
-func _on_MoverArea_mouse_enter():
-	hovering = true
-	print(\"moverHovering\")
-
-func _on_MoverArea_mouse_exit():
-	hovering = false"
-
-[sub_resource type="RectangleShape2D" id=26]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10.5307, 7.81266 )
-
-[sub_resource type="GDScript" id=27]
-
-script/source = "extends CollisionShape2D
-
-
-func _ready():
-	set_process(true)
-	
-func _process(delta):
-	self.global_position = get_parent().get_child(0).global_position"
-
-[sub_resource type="GDScript" id=28]
-
-script/source = "extends Area2D
-
-
-var clicked = false
-var toggled = 0
-
-func _ready():
-	connect(\"mouse_entered\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_enter\")
-	connect(\"mouse_exited\", get_node(\"/root/Main\"), \"_on_Area2D_mouse_exit\")
-	connect(\"input_event\", self, \"_input_event\")
-
-func _input_event( viewport, event, shape_idx ):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.pressed && toggled < 1:
-				#tell Main that we are \"hovering\" so we don't create anything while placing this
-				get_node(\"/root/Main\").overButtonLock = true
-				get_node(\"/root/Main\").set_hovering(true)
-				clicked = true
-				print(\"true\")
-			elif !event.pressed:
-				#tell Main that we are done hovering
-				get_node(\"/root/Main\").overButtonLock = false
-				get_node(\"/root/Main\").set_hovering(false)
-				clicked = false
-			toggled = toggled + 1
-	else:
-		toggled = 0"
-
-[sub_resource type="GDScript" id=29]
-
-script/source = "extends Sprite
-
-
-func _ready():
-	set_process(true)
-	
-func _process(delta):
-	if get_parent().clicked:
-		self.global_position = get_global_mouse_position()
-
-"
-
-[sub_resource type="RectangleShape2D" id=30]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 11.8219 )
-
-[sub_resource type="GDScript" id=31]
-
-script/source = "extends CollisionShape2D
-
-
-func _ready():
-	set_process(true)
-	
-func _process(delta):
-	self.global_position = get_parent().get_child(0).global_position
-"
-
-[sub_resource type="RectangleShape2D" id=32]
-
-custom_solver_bias = 0.0
-extents = Vector2( 33.1893, 13.6369 )
-
-[sub_resource type="RectangleShape2D" id=33]
-
-custom_solver_bias = 0.0
-extents = Vector2( 8.23344, 6.1101 )
-
-[sub_resource type="RectangleShape2D" id=34]
-
-custom_solver_bias = 0.0
-extents = Vector2( 26.9633, 12.0705 )
-
 [sub_resource type="ShaderMaterial" id=35]
 
 render_priority = 0
@@ -522,6 +339,7 @@ script = ExtResource( 2 )
 
 [node name="AttackerArea" type="Area2D" parent="." index="1"]
 
+editor/display_folded = true
 position = Vector2( -50.7058, -923.596 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -2593,10 +2411,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -513.0
-margin_top = -302.0
-margin_right = 513.0
-margin_bottom = 301.0
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 514.0
+margin_bottom = 303.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -2635,942 +2453,13 @@ position = Vector2( 1071.86, -131.428 )
 
 [node name="TurretRayArea" parent="." index="5" instance=ExtResource( 38 )]
 
-[node name="MoverArea" type="Area2D" parent="." index="6"]
+[node name="MoverArea" parent="." index="6" instance=ExtResource( 39 )]
 
-editor/display_folded = true
-position = Vector2( 3820.84, -312.779 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-script = SubResource( 25 )
+[node name="Base22D" parent="." index="7" instance=ExtResource( 40 )]
 
-[node name="Mover" type="Node2D" parent="MoverArea" index="0"]
+[node name="Base12D" parent="." index="8" instance=ExtResource( 41 )]
 
-script = ExtResource( 39 )
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/Mover" index="0"]
-
-scale = Vector2( 1.14837, 1 )
-input_pickable = true
-collision_layer = 8
-collision_mask = 1
-collision/safe_margin = 0.08
-script = ExtResource( 40 )
-
-[node name="Sprite" type="Sprite" parent="MoverArea/Mover/KinematicBody2D" index="0"]
-
-scale = Vector2( 2.38735, 2.99493 )
-texture = ExtResource( 32 )
-script = ExtResource( 41 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/KinematicBody2D" index="1"]
-
-position = Vector2( -0.318719, 6.59567 )
-scale = Vector2( 2.44655, 1.30976 )
-shape = SubResource( 26 )
-script = SubResource( 27 )
-
-[node name="Position2D" type="Position2D" parent="MoverArea/Mover/KinematicBody2D" index="2"]
-
-position = Vector2( 0, -9.90164 )
-
-[node name="HP" type="TextureProgress" parent="MoverArea/Mover/KinematicBody2D" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -48.0
-margin_top = 20.0
-margin_right = 48.0
-margin_bottom = 28.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 3.0
-step = 1.0
-page = 0.0
-value = 3.0
-exp_edit = false
-rounded = false
-texture_under = ExtResource( 8 )
-texture_over = null
-texture_progress = ExtResource( 9 )
-radial_fill_degrees = 360.0
-radial_center_offset = Vector2( 0, 0 )
-nine_patch_stretch = false
-
-[node name="Area2D" type="Area2D" parent="MoverArea/Mover" index="1"]
-
-editor/display_folded = true
-position = Vector2( 207.428, -1270.71 )
-scale = Vector2( 1.12062, 175.693 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-script = SubResource( 28 )
-
-[node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D" index="0"]
-
-modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
-self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
-position = Vector2( -4.93346, 16.6439 )
-scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 42 )
-script = SubResource( 29 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D" index="1"]
-
-position = Vector2( -4.02673, -0.0256834 )
-scale = Vector2( 1, 5 )
-shape = SubResource( 30 )
-script = SubResource( 31 )
-
-[node name="Area2D2" type="Area2D" parent="MoverArea/Mover" index="2"]
-
-editor/display_folded = true
-position = Vector2( -187.032, -1252.98 )
-scale = Vector2( 1.12062, 175.693 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-script = SubResource( 28 )
-
-[node name="Sprite" type="Sprite" parent="MoverArea/Mover/Area2D2" index="0"]
-
-modulate = Color( 0.980469, 0.416972, 0.0306396, 1 )
-self_modulate = Color( 0.988281, 0.655165, 0.0810699, 1 )
-position = Vector2( -4.93346, 16.6439 )
-scale = Vector2( 4, 18.8495 )
-texture = ExtResource( 42 )
-script = SubResource( 29 )
-_sections_unfolded = [ "Transform", "Visibility" ]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/Mover/Area2D2" index="1"]
-
-position = Vector2( -4.83211, -0.0256834 )
-scale = Vector2( 1, 5 )
-shape = SubResource( 30 )
-script = SubResource( 31 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea" index="1"]
-
-position = Vector2( 0, 7.04199 )
-scale = Vector2( 0.998816, 0.830143 )
-shape = SubResource( 32 )
-
-[node name="MoverMenu" type="Area2D" parent="MoverArea" index="2"]
-
-position = Vector2( 50, -100 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-
-[node name="StatsVBox" type="VBoxContainer" parent="MoverArea/MoverMenu" index="0"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 14.0
-margin_top = 49.0
-margin_right = 190.0
-margin_bottom = 159.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="HPHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox" index="0"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 108.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="HPButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/HPHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 30.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "HP"
-flat = true
-align = 1
-items = [  ]
-
-[node name="HPSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/HPHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 34.0
-margin_right = 108.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100000.0
-step = 1.0
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="DamageHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox" index="1"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 28.0
-margin_right = 142.0
-margin_bottom = 52.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="DamageButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/DamageHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 64.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "Damage"
-flat = true
-align = 1
-items = [  ]
-
-[node name="DamageSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/DamageHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 142.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="FireRateHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox" index="2"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 56.0
-margin_right = 142.0
-margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="FireRateButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/FireRateHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 64.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "FireRate"
-flat = true
-align = 1
-items = [  ]
-
-[node name="FireRateSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/FireRateHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 142.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 0.01
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="FireRateDeltaHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox" index="3"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 84.0
-margin_right = 176.0
-margin_bottom = 108.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="FireRateDeltaButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/FireRateDeltaHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 98.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "FireRateDelta"
-flat = true
-align = 1
-items = [  ]
-
-[node name="FireRateDeltaSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/FireRateDeltaHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 102.0
-margin_right = 176.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 0.001
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="SpeedHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/StatsVBox" index="4"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 112.0
-margin_right = 129.0
-margin_bottom = 136.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="SpeedButton" type="MenuButton" parent="MoverArea/MoverMenu/StatsVBox/SpeedHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 51.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "Speed"
-flat = true
-align = 1
-items = [  ]
-
-[node name="SpeedSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/StatsVBox/SpeedHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 55.0
-margin_right = 129.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 0.1
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="VisualVBox" type="VBoxContainer" parent="MoverArea/MoverMenu" index="1"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 214.0
-margin_top = 50.0
-margin_right = 346.0
-margin_bottom = 102.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="HeightHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/VisualVBox" index="0"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 132.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="HeightButton" type="MenuButton" parent="MoverArea/MoverMenu/VisualVBox/HeightHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 54.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "Height"
-flat = true
-align = 1
-items = [  ]
-
-[node name="HeightSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/VisualVBox/HeightHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 58.0
-margin_right = 132.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100000.0
-step = 0.01
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox" type="HBoxContainer" parent="MoverArea/MoverMenu/VisualVBox" index="1"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 28.0
-margin_right = 128.0
-margin_bottom = 52.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="WidthButton" type="MenuButton" parent="MoverArea/MoverMenu/VisualVBox/WidthHBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 50.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "Width"
-flat = true
-align = 1
-items = [  ]
-
-[node name="WidthSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/VisualVBox/WidthHBox" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 54.0
-margin_right = 128.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100000.0
-step = 0.01
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="ColorPicker" type="ColorPickerButton" parent="MoverArea/MoverMenu" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 217.0
-margin_top = 128.0
-margin_right = 347.0
-margin_bottom = 148.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = false
-align = 1
-color = Color( 0.90625, 0.90625, 0.90625, 1 )
-edit_alpha = false
-script = ExtResource( 21 )
-_sections_unfolded = [ "Rect" ]
-
-[node name="ProjectileVBox" type="VBoxContainer" parent="MoverArea/MoverMenu" index="3"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 367.0
-margin_top = 53.0
-margin_right = 446.0
-margin_bottom = 93.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="WidthHBox1" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 150.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="ProjSpeedLabel" type="Label" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 72.0
-margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Proj. Speed"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjSpeedSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 76.0
-margin_right = 150.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 0.1
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox2" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox" index="1"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 28.0
-margin_right = 153.0
-margin_bottom = 52.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="ProjHeightLabel" type="Label" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 75.0
-margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Proj. Height"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjHeightSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 79.0
-margin_right = 153.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 0.1
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="WidthHBox3" type="HBoxContainer" parent="MoverArea/MoverMenu/ProjectileVBox" index="2"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 56.0
-margin_right = 149.0
-margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-alignment = 0
-
-[node name="ProjWidthLabel" type="Label" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 71.0
-margin_bottom = 14.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Proj. Width"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjWidthSpinBox" type="SpinBox" parent="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 75.0
-margin_right = 149.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-min_value = 0.0
-max_value = 100.0
-step = 0.1
-page = 0.0
-value = 1.0
-exp_edit = false
-rounded = false
-editable = true
-prefix = ""
-suffix = ""
-
-[node name="Laser" type="Node2D" parent="MoverArea/MoverMenu/ProjectileVBox" index="3"]
-
-editor/display_folded = true
-position = Vector2( 176.534, 43.3726 )
-script = ExtResource( 19 )
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="MoverArea/MoverMenu/ProjectileVBox/Laser" index="0"]
-
-position = Vector2( -0.129724, 0.0108337 )
-scale = Vector2( 0.0670746, 0.12194 )
-input_pickable = false
-collision_layer = 0
-collision_mask = 16
-collision/safe_margin = 0.08
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="0"]
-
-position = Vector2( 0.571943, -0.705742 )
-scale = Vector2( 2.84768, 5.30343 )
-shape = SubResource( 33 )
-
-[node name="Sprite" type="Sprite" parent="MoverArea/MoverMenu/ProjectileVBox/Laser/KinematicBody2D" index="1"]
-
-position = Vector2( 1.93402, -0.0888446 )
-scale = Vector2( 14.9088, 8.20073 )
-texture = ExtResource( 43 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MoverArea/MoverMenu" index="4"]
-
-position = Vector2( 287.07, 110.66 )
-scale = Vector2( 10.3845, 6.62774 )
-shape = SubResource( 34 )
-
-[node name="Base22D" parent="." index="7" instance=ExtResource( 44 )]
-
-[node name="Base12D" parent="." index="8" instance=ExtResource( 45 )]
-
-[node name="Base32D" parent="." index="9" instance=ExtResource( 46 )]
+[node name="Base32D" parent="." index="9" instance=ExtResource( 42 )]
 
 position = Vector2( 1908.29, -398.365 )
 
@@ -3579,8 +2468,8 @@ position = Vector2( 1908.29, -398.365 )
 material = SubResource( 35 )
 position = Vector2( -42.09, -832.119 )
 scale = Vector2( 0.978113, 0.875503 )
-texture = ExtResource( 47 )
-script = ExtResource( 48 )
+texture = ExtResource( 43 )
+script = ExtResource( 44 )
 
 [node name="TurrentList" type="Sprite" parent="." index="11"]
 
@@ -3597,6 +2486,7 @@ script = ExtResource( 48 )
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="17"]
 
 pause_mode = 2
+editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -3622,7 +2512,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 49 )
+texture = ExtResource( 45 )
 expand = true
 stretch_mode = 0
 script = SubResource( 36 )
@@ -3652,7 +2542,7 @@ group = null
 text = "Resume"
 flat = false
 align = 1
-script = ExtResource( 50 )
+script = ExtResource( 46 )
 
 [node name="instructionsButton" type="Button" parent="CanvasLayer/PauseMenu" index="1"]
 
@@ -3678,7 +2568,7 @@ group = null
 text = "Instructions"
 flat = false
 align = 1
-script = ExtResource( 51 )
+script = ExtResource( 47 )
 
 [node name="controlsButton" type="Button" parent="CanvasLayer/PauseMenu" index="2"]
 
@@ -3704,7 +2594,7 @@ group = null
 text = "Controls"
 flat = false
 align = 1
-script = ExtResource( 52 )
+script = ExtResource( 48 )
 
 [node name="quitToMainMenuButton" type="Button" parent="CanvasLayer/PauseMenu" index="3"]
 
@@ -3730,7 +2620,7 @@ group = null
 text = "Quit to Main Menu"
 flat = false
 align = 1
-script = ExtResource( 53 )
+script = ExtResource( 49 )
 
 [node name="ControlsMenu" type="TextureRect" parent="CanvasLayer" index="1"]
 
@@ -3747,7 +2637,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 54 )
+texture = ExtResource( 50 )
 expand = true
 stretch_mode = 0
 
@@ -3831,7 +2721,7 @@ group = null
 text = "Back"
 flat = false
 align = 1
-script = ExtResource( 55 )
+script = ExtResource( 51 )
 
 [node name="InstructionsMenu" type="TextureRect" parent="CanvasLayer" index="2"]
 
@@ -3848,7 +2738,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 54 )
+texture = ExtResource( 50 )
 expand = true
 stretch_mode = 0
 
@@ -3935,9 +2825,9 @@ group = null
 text = "Back"
 flat = false
 align = 1
-script = ExtResource( 55 )
+script = ExtResource( 51 )
 
-[node name="Shop" parent="CanvasLayer" index="3" instance=ExtResource( 56 )]
+[node name="Shop" parent="CanvasLayer" index="3" instance=ExtResource( 52 )]
 
 visible = false
 
@@ -3983,9 +2873,9 @@ visible = false
 
 [connection signal="mouse_exited" from="DefenderArea" to="DefenderArea" method="_on_DefenderArea2D_mouse_exit"]
 
-[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
-
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
+
+[connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPickerArea2D/ColorPicker" to="DefenderArea/DefenderMenu/ColorPicker" method="_on_ColorPicker_color_changed"]
 
 [connection signal="color_changed" from="DefenderArea/DefenderMenu/ColorPicker" to="DefenderArea/Defender/KinematicBody2D/DefenderSprite" method="_on_ColorPicker_color_changed"]
 
@@ -3997,13 +2887,13 @@ visible = false
 
 [connection signal="value_changed" from="Camera2D/HBarArea2D/HScrollBar" to="Camera2D" method="_on_HScrollBar_value_changed"]
 
-[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
-
 [connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_cusorStopFollowing"]
 
-[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
+[connection signal="mouse_entered" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_enter"]
 
 [connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_startFollowingMouse"]
+
+[connection signal="mouse_exited" from="Camera2D/VBarArea2D" to="." method="_on_Area2D_mouse_exit"]
 
 [connection signal="value_changed" from="Camera2D/VBarArea2D/VScrollBar" to="Camera2D" method="_on_VScrollBar_value_changed"]
 
@@ -4092,37 +2982,5 @@ visible = false
 [connection signal="confirmed" from="Camera2D/Control/AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
 
 [connection signal="hide" from="Camera2D/Control/AcceptDialog" to="." method="_on_AcceptDialog_hide"]
-
-[connection signal="mouse_entered" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_enter"]
-
-[connection signal="mouse_exited" from="MoverArea" to="MoverArea" method="_on_MoverArea_mouse_exit"]
-
-[connection signal="mouse_entered" from="MoverArea/Mover/KinematicBody2D" to="MoverArea/Mover/KinematicBody2D" method="_on_mouse_enter"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/HPHBox/HPSpinBox" to="MoverArea/Mover" method="_on_HPSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/DamageHBox/DamageSpinBox" to="MoverArea/Mover" method="_on_DamageSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/FireRateHBox/FireRateSpinBox" to="MoverArea/Mover" method="_on_FireRateSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/FireRateDeltaHBox/FireRateDeltaSpinBox" to="MoverArea/Mover" method="_on_FireRateDeltaSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/StatsVBox/SpeedHBox/SpeedSpinBox" to="MoverArea/Mover" method="_on_SpeedSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/VisualVBox/HeightHBox/HeightSpinBox" to="MoverArea/Mover/KinematicBody2D" method="_on_HeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/VisualVBox/WidthHBox/WidthSpinBox" to="MoverArea/Mover/KinematicBody2D" method="_on_WidthSpinBox_value_changed"]
-
-[connection signal="color_changed" from="MoverArea/MoverMenu/ColorPicker" to="MoverArea/Mover/KinematicBody2D/Sprite" method="_on_ColorPicker_color_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox1/ProjSpeedSpinBox" to="MoverArea/Mover" method="_on_ProjSpeedSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjHeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox2/ProjHeightSpinBox" to="MoverArea/Mover" method="_on_ProjHeightSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/MoverMenu/ProjectileVBox/Laser" method="_on_ProjWidthSpinBox_value_changed"]
-
-[connection signal="value_changed" from="MoverArea/MoverMenu/ProjectileVBox/WidthHBox3/ProjWidthSpinBox" to="MoverArea/Mover" method="_on_ProjWidthSpinBox_value_changed"]
 
 

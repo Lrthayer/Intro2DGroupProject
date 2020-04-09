@@ -65,13 +65,12 @@ func _on_SaveButton_pressed():
 		GLOBALS.g_current_level = level
 		GLOBALS.isSaving = true
 		
+		
 		var file = File.new()
-		file.open("res://Playlists/PlaylistInfo.json", file.READ)
-		dict = parse_json(file.get_line())
-		file.close()
 		
 		#set the playlist amount of levels
 		if GLOBALS.new_playest:
+			
 			file.open("res://Playlists/PlaylistInfo.json", file.WRITE)
 			objects["Max_Levels"] = 10
 			objects["Level_Count"] = 1
@@ -79,6 +78,11 @@ func _on_SaveButton_pressed():
 			GLOBALS.new_playest = false
 			
 		else:
+			
+			
+			file.open("res://Playlists/PlaylistInfo.json", file.READ)
+			dict = parse_json(file.get_line())
+			file.close()
 			
 			var level_count = dict[GLOBALS.current_playlist_name]["Level_Count"]
 			dict[GLOBALS.current_playlist_name]["Level_Count"] = level_count + 1

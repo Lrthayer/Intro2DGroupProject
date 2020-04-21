@@ -102,8 +102,6 @@ func _physics_process(_delta):
 #defender is colliding with another object
 func collided(_dmg=0):
 	
-	if self.get_parent().inSpecial:
-		pass
 	# defender score has not reached the cap
 	if defendingScoreLimit < 1500:
 		

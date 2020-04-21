@@ -296,5 +296,5 @@ shape = SubResource( 7 )
 [connection signal="value_changed" from="Base3Menu/StatsVBox/HeightHBox/HeightSpinBox" to="Base3/StaticBody2D/Sprite" method="_on_HeightSpinBox_value_changed"]
 [connection signal="value_changed" from="Base3Menu/StatsVBox/WidthHBox/WidthSpinBox" to="Base3/StaticBody2D/Sprite" method="_on_WidthSpinBox_value_changed"]
 [connection signal="pressed" from="Base3Menu/StatsVBox/ColorPicker" to="Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_pressed"]
-[connection signal="color_changed" from="Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]
 [connection signal="color_changed" from="Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3Menu/StatsVBox/ColorPicker" method="_on_ColorPicker_color_changed"]
+[connection signal="color_changed" from="Base3Menu/ColorPickerArea2D/ColorPicker" to="Base3/StaticBody2D/Sprite" method="_on_ColorPicker_color_changed"]

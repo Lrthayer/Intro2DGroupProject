@@ -1,19 +1,17 @@
 extends Node2D
-#var turrent = preload("res://Scenes/Turret.tscn")
+
+#placing vars
 var turrent
 var laser
-#var base = preload("res://Scenes/Base1.tscn")
 var base
-#var base2 = preload("res://Scenes/Base2.tscn")
 var base2
 var base3 
-#var ground = preload("res://Scenes/Turret.tscn")
-#var stun = preload("res://Scenes/MoverLevelEditor.tscn")
-#var laser = preload("enemyLaserLevelEditor.tscn")
 var stun
 var attacker
 var defender
+var image
 
+#save and load vars
 var packed_scene = PackedScene.new()
 var dict = {}
 var data 
@@ -22,10 +20,7 @@ var childName = ""
 var dir= ""
 var isSaving = false
 var isLoading = false
-
-var OldCameraX = 0
-var OldCameraY = 0
-
+var numberOfSaves = 0
 var addDirectory = [
 "StatsVBox/HPHBox/HPSpinBox",
 "StatsVBox/DamageHBox/DamageSpinBox",
@@ -45,14 +40,12 @@ var addDirectory = [
 "ProjectileVBox/WidthHBox2/ProjHeightSpinBox",
 "ProjectileVBox/WidthHBox3/ProjWidthSpinBox"]
 
-#add a child
-#get_parent().add_child(laserInstance)
+#state for placing vars
 var currentObject
 var objectIndex = 0
 var overButton = false
 var overButtonLock = false
 var pressed = false
-
 var cursorColor = Color(0,0,0)
 var cursorState = ""
 var makeUnique = true
@@ -62,8 +55,6 @@ var editorState = "placing"
 var laserObjectPool = []
 var laserObjectIndex = 0
 var laserObjectPoolAmount = 50
-
-var numberOfSaves = 0
 
 #starts when loaded up in scene
 func _ready():
@@ -82,7 +73,6 @@ func _ready():
 			loading_level("res://Scenes/temp.json")
 		
 	GLOBALS.isSaving = false
-	GLOBALS.isLoading = false
 	
 	set_process(true)
 		#create laserObject pool
@@ -104,6 +94,7 @@ func _ready():
 	base3 = self.get_node("Base32D")
 	attacker = self.get_node("AttackerArea")
 	defender = self.get_node("DefenderArea")
+	image = self.get_node("ImageArea2D")
 	currentObject = "Turrent"
 
 func loading_level(directory):
@@ -164,7 +155,6 @@ func loading_level(directory):
 	
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[8]
 	self.get_node(dir).set_value(float(data["DefenderArea"]["height"]))
-	
 	
 	dir = "DefenderArea/DefenderMenu/" + addDirectory[9]
 	self.get_node(dir).set_value(float(data["DefenderArea"]["width"]))
@@ -227,7 +217,6 @@ func loading_level(directory):
 		dir = "TurrentList/" +  childName + "/TurrentMenu/" + addDirectory[13]
 		
 		self.get_node(dir).set_value(float(data[childName]["proj_speed"]))
-		
 		
 	#grab the properties of movers
 	for j in range(get_node("MoverList").get_child_count()):
@@ -392,8 +381,6 @@ func loading_level(directory):
 		
 		self.get_node(dir).set_value(float(data[childName]["proj_width"]))
 		
-
-		
 	#close the file
 	file.close()
 	
@@ -406,74 +393,41 @@ func _process(_delta):
 		self.get_node("CanvasLayer/PauseMenu").show()
 		GLOBALS.last_scene = "pause"
 	
-	#get_child(1).set_global_pos(posOffset)
 	if  !overButton && Input.is_key_pressed(KEY_P):
 		if !overButton && !pressed && editorState == "placing":
 			var objectInstance = null
+			var offset = Vector2(130,20)
 			#objectInstance.visible = true
-			#objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-			#objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-			#we have to manually copy signals over
 			if currentObject == "Base":
 				objectInstance = base.duplicate()
-				objectInstance.visible = true
-				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Base2":
 				objectInstance = base2.duplicate()
-				objectInstance.visible = true
-				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Base3":
 				objectInstance = base3.duplicate()
-				objectInstance.visible = true
-				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Mover":
 				objectInstance = stun.duplicate()
-				objectInstance.visible = true
-				objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				objectInstance.get_child(0).get_child(1).connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.get_child(0).get_child(1).connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				objectInstance.get_child(0).get_child(2).connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				objectInstance.get_child(0).get_child(2).connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				objectInstance.get_node("MoverMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("/root/MoverArea/Mover"), "_on_height_value_changed")
-				objectInstance.get_node("MoverMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("/root/MoverArea/Mover"), "_on_width_value_changed")
-				#objectInstance.get_node("MoverMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/MoverArea/Mover/KinematicBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
-				#objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				#objectInstance.get_node("MoverMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Turrent":
-				#objectInstance = turrent.duplicate(8)
 				objectInstance = turrent.duplicate()
-				objectInstance.visible = true
-				#objectInstance.connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				#objectInstance.connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				#objectInstance.get_node("TurrentMenu").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				#objectInstance.get_node("TurrentMenu").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
-				#objectInstance.get_node("TurrentMenu").connect("mouse_enter", self.get_node("Cursor"), "_on_Hide_mouse_enter")
-				#objectInstance.get_node("TurrentMenu").connect("mouse_exit", self.get_node("Cursor"), "_on_unHide_mouse_exit")
-				#objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/HeightHBox/HeightSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_height_value_changed")
-				#objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").connect("value_changed", objectInstance.get_node("TurrentMenu/VisualVBox/WidthHBox/WidthSpinBox").get_parent().get_parent().get_parent().get_parent().get_parent(), "_on_width_value_changed")
-				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D/ColorPicker").connect("color_changed", objectInstance.get_node("/root/TurrentArea/Turret/StaticBody2D/Sprite"), "_on_ColorPickerButton_color_changed")
-				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_enter", self, "_on_Area2D_mouse_enter")
-				#objectInstance.get_node("TurrentMenu/ColorPickerArea2D").connect("mouse_exit", self, "_on_Area2D_mouse_exit")
 			elif currentObject == "Laser":
 				objectInstance = laser.duplicate()
-				objectInstance.visible = true
 			elif currentObject == "Attacker":
 				objectInstance = attacker
-				objectInstance.visible = true
 				makeUnique = false
 			elif currentObject == "Defender":
 				objectInstance = defender
-				objectInstance.visible = true
 				makeUnique = false
-
+			elif currentObject == "Image":
+				#get file
+				self.get_node("CanvasLayer/customButtonFileDialog").popup()
+				#we will place the object in the slot connected to customButtonFileDialog slot in this file line: 858 appr.
+				
+				#since we handle this placement in the slot leave before trying to place, reset press before leaving
+				pressed = true
+				return
 			if makeUnique:
 				#change mouse location to center object with cursor 
-				mosLoc.x -= 130
-				mosLoc.y += 20
+				mosLoc.x -= offset.x
+				mosLoc.y += offset.y
 				objectInstance.global_position = mosLoc
 				
 				#give the copy a name 
@@ -526,6 +480,8 @@ func _on_Button_button_down(type):
 		currentObject = "Defender"
 	elif type == "Laser":
 		currentObject = "Laser"
+	elif type == "Image":
+		currentObject = "Image"
 
 func set_hovering(state):
 	if !overButtonLock:
@@ -544,13 +500,11 @@ func _on_Area2D_mouse_enter():
 		overButton = true
 	if cursorState != "locked":
 		cursorState = "hovering"
-	#print("locked")
 
 func _on_Area2D_mouse_exit():
 	if !overButtonLock:
 		overButton = false
 	cursorState = ""
-	#print("unlocked")
 
 func _cusorStopFollowing():
 	self.get_node("Cursor").followMouse = false
@@ -897,3 +851,29 @@ func _on_AcceptDialog_confirmed():
 #user clicked X
 func _on_AcceptDialog_hide():
 	self.get_node("Camera2D/Control").mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+func _on_customButtonFileDialog_file_selected(path):
+	var objectInstance = image.duplicate()
+	objectInstance.visible = true
+	#get file
+	var tex = ImageTexture.new()
+	var img = Image.new()
+	print (self.get_node("CanvasLayer/customButtonFileDialog").current_path)
+	img.load(self.get_node("CanvasLayer/customButtonFileDialog").current_path)
+	tex.create_from_image(img)
+	objectInstance.get_node("TextureRect").set_texture(tex)
+	var offset = objectInstance.get_node("TextureRect").rect_size/2
+	print ("offset: " + str(offset))
+	#change mouse location to center object with cursor 
+	var mosLoc = self.get_global_mouse_position()
+	print(mosLoc)
+	mosLoc.x -= offset.x
+	mosLoc.y += offset.y
+	print (str(mosLoc))
+	objectInstance.global_position = mosLoc
+	
+	#give the copy a name 
+	objectInstance.set_name(currentObject + str(objectIndex))
+	self.get_node(currentObject + "List").add_child(objectInstance)
+	objectInstance.set_owner(self)
+	objectIndex += 1

@@ -110,7 +110,7 @@ func stunned():
 func check_alive():
 	if (hp <= 0):
 		#kill self
-		get_parent().queue_free()
+		pass#get_parent().queue_free()
 		#gameover scene
 		#var _changeSceneErr = get_tree().change_scene("res://Scenes/GameOver.xml")
 

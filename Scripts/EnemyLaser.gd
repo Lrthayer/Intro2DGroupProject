@@ -44,6 +44,9 @@ func _physics_process(_delta):
 	else:
 		var collisionInfo = get_node("KinematicBody2D").move_and_collide(-vector * speed)
 		if collisionInfo:
+			otherCollider = collisionInfo.collider
+			if otherCollider.has_method("collided"):
+				otherCollider.collided(dmg)
 			print(collisionInfo.collider.get("laser"))
 			if !collisionInfo.collider.get("laser"):
 				self.global_position = Vector2(10000, 10000)

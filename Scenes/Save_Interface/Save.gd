@@ -37,4 +37,5 @@ func _on_SaveButton2_pressed():
 		directory.open("user://Playlists/")
 		directory.make_dir(GLOBALS.current_playlist_name)
 		
+		GLOBALS.new_playest = true
 		get_tree().change_scene("res://Scenes/Save_Interface/Save3.tscn")

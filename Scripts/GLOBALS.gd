@@ -15,6 +15,7 @@ var last_scene = "initial"
 var saved_scene = null
 var saved_subscene = null
 var changed_scene = false
+var new_playest = false
 
 #file editing
 var current_playlist_name = "Default"
@@ -24,6 +25,7 @@ var next_level = ""
 
 var isSaving = false
 var isLoading = false
+var isPlaying = false
 var PressedCancelButton = false
 
 # Event tracking
@@ -116,27 +118,3 @@ func reset():
 	g_turret_rate_turn = 0
 	g_turret_dmg = 3
 	g_base_hp = 100
-#-----------------------------------------
-
-# Scene Pseudo Semaphores:
-#-----------------------------------------
-# saves current scene and loads a temporary scene
-func P( interrupter ):
-	# save scene and remove it from the tree,
-	#	ultimately locking it's functionality
-	GLOBALS.saved_scene = get_tree().get_current_scene()
-	get_tree().get_root().remove_child( GLOBALS.saved_scene )
-	# interrupt current scene
-	var s = load(interrupter).instance()
-	get_tree().get_root().add_child( s )
-	get_tree().set_current_scene( s )
-
-# loads the saved scene
-func V():
-	if GLOBALS.saved_scene != null:
-		 # free interrupting scene
-		get_tree().get_current_scene().queue_free()
-		# loadd saved scene back to the tree
-		get_tree().get_root().add_child(GLOBALS.saved_scene)
-		get_tree().set_current_scene( GLOBALS.saved_scene )
-		GLOBALS.saved_scene = null

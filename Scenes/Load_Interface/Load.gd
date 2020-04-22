@@ -19,10 +19,14 @@ func _ready():
 	
 	while (file != ""):
 		
-		dropdown.add_item(file,id_num)
-		playlist.append(file)
-		id_num+=1
-		file = directory.get_next()
+		if file == "PlaylistInfo.json":
+			file = directory.get_next()
+		else:
+				
+			dropdown.add_item(file,id_num)
+			playlist.append(file)
+			id_num+=1
+			file = directory.get_next()
 		
 	
 	directory.list_dir_end ( )

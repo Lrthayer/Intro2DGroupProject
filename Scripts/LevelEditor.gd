@@ -73,6 +73,7 @@ func _ready():
 			loading_level("res://Scenes/temp.json")
 		
 	GLOBALS.isSaving = false
+	GLOBALS.isLoading = false
 	
 	set_process(true)
 		#create laserObject pool
@@ -98,7 +99,16 @@ func _ready():
 	currentObject = "Turrent"
 
 func loading_level(directory):
-	
+	#user is playing the level, take out camera and other related items
+	if GLOBALS.isPlaying:
+		self.get_node("Camera2D").hide()
+		self.get_node("Cursor").hide()
+		self.get_node("TurretArea").queue_free()
+		self.get_node("TurretRayArea").queue_free()
+		self.get_node("MoverArea").queue_free()
+		self.get_node("Base12D").queue_free()
+		self.get_node("Base22D").queue_free()
+		self.get_node("Base32D").queue_free()
 	#open json file
 	data = {}
 	var file = File.new()
@@ -464,24 +474,25 @@ func getLaser():
 	return laserObjectPool[laserObjectIndex-1]
 	
 func _on_Button_button_down(type):
-	if type == "Base":
-		currentObject = "Base"
-	elif type == "Base2":
-		currentObject = "Base2"
-	elif type == "Base3":
-		currentObject = "Base3"
-	elif type == "Mover":
-		currentObject = "Mover"
-	elif type == "Turrent":
-		currentObject = "Turrent"
-	elif type == "Attacker":
-		currentObject = "Attacker"
-	elif type == "Defender":
-		currentObject = "Defender"
-	elif type == "Laser":
-		currentObject = "Laser"
-	elif type == "Image":
-		currentObject = "Image"
+	if GLOBALS.isPlaying == false:
+		if type == "Base":
+			currentObject = "Base"
+		elif type == "Base2":
+			currentObject = "Base2"
+		elif type == "Base3":
+			currentObject = "Base3"
+		elif type == "Mover":
+			currentObject = "Mover"
+		elif type == "Turrent":
+			currentObject = "Turrent"
+		elif type == "Attacker":
+			currentObject = "Attacker"
+		elif type == "Defender":
+			currentObject = "Defender"
+		elif type == "Laser":
+			currentObject = "Laser"
+		elif type == "Image":
+			currentObject = "Image"
 
 func set_hovering(state):
 	if !overButtonLock:
@@ -805,17 +816,19 @@ func _on_Save_Button_pressed():
 	
 	#save the temp scene
 	saving_level()
-	
 	var directory = Directory.new()
+	if !directory.dir_exists("res://Playlists"):
+		directory.make_dir("res://Playlists")
+
 	directory.open("user://Playlists/")
 	
 	directory.list_dir_begin(true,true)
-	var _file = directory.get_next()
+	var file = directory.get_next()
 	directory.list_dir_end()
 	
 	GLOBALS.changed_scene = true
 	
-	if GLOBALS.current_level_name == "Default":
+	if file == "" ||  GLOBALS.current_level_name == "Default":
 		var _changeSceneErr = get_tree().change_scene("res://Scenes/Save_Interface/Save.tscn")
 	else:
 		var _changeSceneErr = get_tree().change_scene("res://Scenes/Save_Interface/Save2.tscn")

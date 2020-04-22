@@ -19,7 +19,7 @@ func _ready():
 	while (file != ""):
 
 		#user is saving it to different playlist
-		if(file != GLOBALS.current_playlist_name):
+		if(file != GLOBALS.current_playlist_name || file != "PlaylistInfo.json"):
 
 			dropdown.add_item(file,id_num)
 			id_num+=1

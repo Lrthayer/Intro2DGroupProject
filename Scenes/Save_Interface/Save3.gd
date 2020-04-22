@@ -57,10 +57,10 @@ func _on_SaveButton_pressed():
 	
 	if GLOBALS.current_level_name == "":
 		self.get_node("./AcceptDialog").popup()
-	elif directory.dir_exists("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level) + "/"):
+	elif directory.dir_exists("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level) + "/"):
 		self.get_node("./ConfirmationDialog").popup()
 	else:
-		directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/")
+		directory.open("res://Playlists/" + GLOBALS.current_playlist_name + "/")
 		directory.make_dir(str(level))
 		GLOBALS.g_current_level = level
 		GLOBALS.isSaving = true
@@ -109,7 +109,7 @@ func _on_ConfirmationDialog_confirmed():
 	var directory = Directory.new()
 	
 	#go to level directory
-	directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level))
+	directory.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(level))
 	
 	#start going down the list of files
 	directory.list_dir_begin(true,true)

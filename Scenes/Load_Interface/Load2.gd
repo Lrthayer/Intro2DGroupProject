@@ -15,7 +15,7 @@ func _ready():
 	var directory = Directory.new()
 	var directory2 = Directory.new()
 	
-	directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
+	directory.open("res://Playlists/" + GLOBALS.current_playlist_name)
 	
 	directory.list_dir_begin(true,true)
 	
@@ -31,7 +31,7 @@ func _ready():
 	while (levelNum != ""):
 		
 		num.append(levelNum)
-		directory2.open("user://Playlists/" + GLOBALS.current_playlist_name + "/" + levelNum)
+		directory2.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + levelNum)
 		directory2.list_dir_begin(true,true)
 		directory2.get_next()
 		levelName = directory2.get_next()

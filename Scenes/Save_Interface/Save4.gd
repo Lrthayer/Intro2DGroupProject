@@ -9,7 +9,7 @@ func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
 	var directory = Directory.new()
-	directory.open("user://Playlists/")
+	directory.open("res://Playlists/")
 
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()

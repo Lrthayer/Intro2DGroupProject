@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Save_Interface/Save2.gd" type="Script" id=1]
-[ext_resource path="res://myPanel.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/myPanel.gd" type="Script" id=2]
+
 
 [node name="Control" type="Control"]
 

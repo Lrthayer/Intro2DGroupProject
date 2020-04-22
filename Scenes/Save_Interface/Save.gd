@@ -29,12 +29,12 @@ func _on_SaveButton2_pressed():
 	
 	if tempName == "":
 		get_node("AcceptDialog").popup()
-	elif directory.dir_exists("user://Playlists/" + tempName + "/"):
+	elif directory.dir_exists("res://Playlists/" + tempName + "/"):
 		get_node("AcceptDialog2").popup()
 	else:
 		GLOBALS.current_playlist_name = tempName
 		
-		directory.open("user://Playlists/")
+		directory.open("res://Playlists/")
 		directory.make_dir(GLOBALS.current_playlist_name)
 		
 		GLOBALS.new_playest = true

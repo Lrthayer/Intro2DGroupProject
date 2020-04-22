@@ -24,7 +24,7 @@ func _on_SaveButton_pressed():
 		var directory = Directory.new()
 		
 		#go to level directory
-		directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level))
+		directory.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + str(GLOBALS.g_current_level))
 		
 		#start going down the list of files
 		directory.list_dir_begin(true,true)

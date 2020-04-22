@@ -10,7 +10,7 @@ func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
 	var directory = Directory.new()
-	directory.open("user://Playlists/")
+	directory.open("res://Playlists/")
 
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()
@@ -49,7 +49,7 @@ func _on_LoadButton_pressed():
 	var id = dropdown.get_selected_id()
 	GLOBALS.current_playlist_name = playlist[id]
 	var directory = Directory.new()
-	directory.open("user://Playlists/" + GLOBALS.current_playlist_name)
+	directory.open("res://Playlists/" + GLOBALS.current_playlist_name)
 	var levelName = ""
 	var index = 0
 	
@@ -58,7 +58,7 @@ func _on_LoadButton_pressed():
 	GLOBALS.g_current_level = file
 	directory.list_dir_end ( )
 	
-	directory.open("user://Playlists/" + GLOBALS.current_playlist_name + "/" + file)
+	directory.open("res://Playlists/" + GLOBALS.current_playlist_name + "/" + file)
 	
 	directory.list_dir_begin(true,true)
 	

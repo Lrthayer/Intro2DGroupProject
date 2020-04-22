@@ -820,7 +820,7 @@ func _on_Save_Button_pressed():
 	if !directory.dir_exists("res://Playlists"):
 		directory.make_dir("res://Playlists")
 
-	directory.open("user://Playlists/")
+	directory.open("res://Playlists/")
 	
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()
@@ -841,7 +841,7 @@ func _on_Load_Button_pressed():
 	if !directory.dir_exists("res://Playlists"):
 		directory.make_dir("res://Playlists")
 		
-	directory.open("user://Playlists/")
+	directory.open("res://Playlists/")
 	
 	directory.list_dir_begin(true,true)
 	var file = directory.get_next()
@@ -855,7 +855,7 @@ func _on_Load_Button_pressed():
 	else:
 		GLOBALS.changed_scene = true
 		saving_level()
-		var _sceneChangeErr = get_tree().change_scene("res://Scenes/Load_Interface/load.tscn")
+		var _sceneChangeErr = get_tree().change_scene("res://Scenes/Load_Interface/Load.tscn")
 
 #user clicked okay
 func _on_AcceptDialog_confirmed():

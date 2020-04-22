@@ -1,207 +1,82 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Load_Interface/Load.gd" type="Script" id=1]
-[ext_resource path="res://myPanel.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/myPanel.gd" type="Script" id=2]
 
 [node name="Control" type="Control"]
-
 pause_mode = 2
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 1026.0
 margin_bottom = 602.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
-_sections_unfolded = [ "Pause", "Rect" ]
 dropdown_path = NodePath("MyDialog/dropdown")
 
-[node name="MyDialog" type="Panel" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="MyDialog" type="Panel" parent="."]
 margin_left = 229.0
 margin_top = 220.0
 margin_right = 804.0
 margin_bottom = 374.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
-[node name="topPanel" type="Panel" parent="MyDialog" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="topPanel" type="Panel" parent="MyDialog"]
 margin_top = -19.0
 margin_right = 575.0
 margin_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="MyDialog" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Label" type="Label" parent="MyDialog"]
 margin_left = 279.0
 margin_top = -15.0
 margin_right = 313.0
 margin_bottom = -1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Load"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
-[node name="Label2" type="Label" parent="MyDialog" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Label2" type="Label" parent="MyDialog"]
 margin_left = 36.0
 margin_top = 3.0
 margin_right = 128.0
 margin_bottom = 17.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Current Playlists"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
-[node name="CancelButton" type="Button" parent="MyDialog" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="CancelButton" type="Button" parent="MyDialog"]
 margin_left = 36.0
 margin_top = 101.0
 margin_right = 551.0
 margin_bottom = 134.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Cancel"
-flat = false
-align = 1
 
-[node name="LoadButton" type="Button" parent="MyDialog" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="LoadButton" type="Button" parent="MyDialog"]
 margin_left = 36.0
 margin_top = 61.0
 margin_right = 551.0
 margin_bottom = 94.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Load Playlist"
-flat = false
-align = 1
 
-[node name="dropdown" type="OptionButton" parent="MyDialog" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="dropdown" type="OptionButton" parent="MyDialog"]
 margin_left = 36.0
 margin_top = 22.0
 margin_right = 552.0
 margin_bottom = 53.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = false
-align = 0
-items = [  ]
-selected = -1
 
-[node name="AcceptDialog" type="AcceptDialog" parent="." index="1"]
-
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
 margin_left = 430.0
 margin_top = 278.0
 margin_right = 644.0
 margin_bottom = 336.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-popup_exclusive = false
 window_title = "Message"
-resizable = false
 dialog_text = "            No Blank Playlist"
-dialog_hide_on_ok = true
-_sections_unfolded = [ "Dialog" ]
-
 [connection signal="pressed" from="MyDialog/CancelButton" to="." method="_on_CancelButton_pressed"]
-
 [connection signal="pressed" from="MyDialog/LoadButton" to="." method="_on_LoadButton_pressed"]
-
-
